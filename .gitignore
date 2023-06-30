@@ -1,5 +1,7 @@
-﻿/.idea/.idea.iso/.idea/
+﻿/.idea/
 /Library/
 /Logs/
 /Temp/
 /UserSettings/
+/obj/Debug/
+*.csproj
