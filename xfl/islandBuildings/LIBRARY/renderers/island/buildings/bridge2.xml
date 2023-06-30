@@ -1,0 +1,483 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="renderers/island/buildings/bridge2" itemID="5cd57be0-000002c1" lastModified="1563871893">
+  <timeline>
+    <DOMTimeline name="bridge2">
+      <layers>
+        <DOMLayer name="_butterfly" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="6" objectHeight="7" x="-15.5" y="-142" lockFlag="true">
+                  <matrix>
+                    <Matrix tx="-4" ty="64.4"/>
+                  </matrix>
+                  <stroke>
+                    <SolidStroke scaleMode="normal">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </SolidStroke>
+                  </stroke>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_shape" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <strokes>
+                    <StrokeStyle index="1">
+                      <SolidStroke scaleMode="normal">
+                        <fill>
+                          <SolidColor color="#000099"/>
+                        </fill>
+                      </SolidStroke>
+                    </StrokeStyle>
+                  </strokes>
+                  <edges>
+                    <Edge strokeStyle="1" edges="!558 -1905/1211 -698!1211 -698/0 0!0 0/-2720 -2097!-2720 -2097/-2721 -2584!-2721 -2584/-1446 -3028!-1446 -3028/558 -1905"/>
+                    <Edge cubics="!-1446 -3028(;-1446,-3028 558,-1905 558,-1905q-1446 -3028 558 -1905);"/>
+                    <Edge cubics="!1211 -698(;1211,-698 0,0 0,0q1211 -698 0 0);"/>
+                    <Edge cubics="!0 0(;0,0 -2720,-2097 -2720,-2097q0 0 -2720 -2097);"/>
+                    <Edge cubics="!-2720 -2097(;-2720,-2097 -2721,-2584 -2721,-2584q-2720 -2097 -2721 -2584);"/>
+                    <Edge cubics="!-2721 -2584(;-2721,-2584 -1446,-3028 -1446,-3028q-2721 -2584 -1446 -3028);"/>
+                    <Edge cubics="!558 -1905(;558,-1905 1211,-698 1211,-698q558 -1905 1211 -698);"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="group2" color="#009999" autoNamed="false" open="false" layerType="folder"/>
+        <DOMLayer name="fence8" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar1.png">
+                  <matrix>
+                    <Matrix a="0.374847412109375" d="0.374526977539063" tx="47" ty="-68"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence7" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar1.png">
+                  <matrix>
+                    <Matrix a="0.374847412109375" d="0.374526977539063" tx="6" ty="-43"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence7" color="#669900" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence6" color="#FF0000" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="plant4" color="#669900" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePlants2.png">
+                  <matrix>
+                    <Matrix a="0.3768310546875" d="0.376800537109375" tx="13" ty="-95"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="plant5" color="#FF4F4F" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePlants3.png">
+                  <matrix>
+                    <Matrix a="0.3572998046875" b="0.161956787109375" c="-0.162673950195313" d="0.355819702148438" tx="32.75" ty="-81.9"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="plant6" color="#00FFFF" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePlants4.png">
+                  <matrix>
+                    <Matrix a="-0.2901611328125" b="-0.0749969482421875" c="-0.074981689453125" d="0.29010009765625" tx="20.3" ty="-86.75"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="50.35" y="12.5"/>
+                  </transformationPoint>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope4" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope.png">
+                  <matrix>
+                    <Matrix a="0.116180419921875" b="0.124252319335938" c="-0.125350952148438" d="0.117355346679688" tx="-12.3" ty="-60.65"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope11" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope.png">
+                  <matrix>
+                    <Matrix a="0.133651733398438" b="0.105239868164063" c="-0.106155395507813" d="0.134979248046875" tx="26.9" ty="-82.5"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="knot2" color="#FF4FFF" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceKnot1.png">
+                  <matrix>
+                    <Matrix a="0.195648193359375" d="0.195236206054688" tx="-13" ty="-68"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="knot1" color="#FF4FFF" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceKnot2.png">
+                  <matrix>
+                    <Matrix a="0.199737548828125" d="0.199676513671875" tx="27" ty="-90"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence5" color="#FF0000" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar2.png">
+                  <matrix>
+                    <Matrix a="0.358978271484375" d="0.358871459960938" tx="-22" ty="-76"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="plant3" color="#00FFFF" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePlants4.png">
+                  <matrix>
+                    <Matrix a="0.291473388671875" b="0.209503173828125" c="-0.209640502929688" d="0.29119873046875" tx="-91.75" ty="-106.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="49.65" y="12.5"/>
+                  </transformationPoint>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="plant1" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePlants1.png">
+                  <matrix>
+                    <Matrix a="0.35040283203125" d="0.350067138671875" tx="-118" ty="-122"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="plant2" color="#00FFFF" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePlants4.png">
+                  <matrix>
+                    <Matrix a="0.263961791992188" b="0.243240356445313" c="-0.24334716796875" d="0.263671875" tx="-105.95" ty="-122.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="49.6" y="12.5"/>
+                  </transformationPoint>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence6" color="#FF0000" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar2.png">
+                  <matrix>
+                    <Matrix a="0.358978271484375" d="0.358871459960938" tx="18" ty="-98"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope9" color="#9933CC" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope2.png">
+                  <matrix>
+                    <Matrix a="0.324981689453125" b="0.189605712890625" c="-0.189544677734375" d="0.325119018554688" tx="-69.7" ty="-115.2"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence4" color="#669900" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar3.png">
+                  <matrix>
+                    <Matrix a="0.368423461914063" d="0.3682861328125" tx="-78" ty="-149"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope14" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope3.png">
+                  <matrix>
+                    <Matrix a="0.302261352539063" b="-0.0234832763671875" c="0.0234832763671875" d="0.302261352539063" tx="-2.65" ty="-88.7"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope13" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope3.png">
+                  <matrix>
+                    <Matrix a="0.302261352539063" b="-0.0234832763671875" c="0.0234832763671875" d="0.302261352539063" tx="-36.05" ty="-104.5"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope12" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope3.png">
+                  <matrix>
+                    <Matrix a="0.302261352539063" b="-0.0234832763671875" c="0.0234832763671875" d="0.302261352539063" tx="-62.6" ty="-126.8"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope10" color="#9933CC" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope2.png">
+                  <matrix>
+                    <Matrix a="0.325103759765625" b="0.189422607421875" c="-0.189376831054688" d="0.325241088867188" tx="-71.05" ty="-138.65"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope3" color="#9933CC" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope2.png">
+                  <matrix>
+                    <Matrix a="0.320709228515625" b="0.196731567382813" c="-0.196670532226563" d="0.320846557617188" tx="-104.7" ty="-99"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope7" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope3.png">
+                  <matrix>
+                    <Matrix a="0.302261352539063" b="-0.0234832763671875" c="0.0234832763671875" d="0.302261352539063" tx="-38.85" ty="-71.45"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope6" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope3.png">
+                  <matrix>
+                    <Matrix a="0.302261352539063" b="-0.0234832763671875" c="0.0234832763671875" d="0.302261352539063" tx="-68.65" ty="-85.3"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope5" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope3.png">
+                  <matrix>
+                    <Matrix a="0.302261352539063" b="-0.0234832763671875" c="0.0234832763671875" d="0.302261352539063" tx="-91.5" ty="-104.75"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope2" color="#9933CC" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope2.png">
+                  <matrix>
+                    <Matrix a="0.321746826171875" b="0.195068359375" c="-0.195022583007813" d="0.321884155273438" tx="-106.5" ty="-123.1"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence3" color="#FF0000" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar2.png">
+                  <matrix>
+                    <Matrix a="0.358505249023438" d="0.358688354492188" tx="-114" ty="-132"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope8" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope.png">
+                  <matrix>
+                    <Matrix a="0.169677734375" b="-0.01251220703125" c="0.0127410888671875" d="0.171279907226563" tx="-104.15" ty="-140.3"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="rope1" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_pierceRope.png">
+                  <matrix>
+                    <Matrix a="0.169677734375" b="-0.01251220703125" c="0.0127410888671875" d="0.171279907226563" tx="-134.15" ty="-122.3"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence2" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar1.png">
+                  <matrix>
+                    <Matrix a="0.374847412109375" d="0.374526977539063" tx="-108" ty="-149"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fence1" color="#FF800A" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_bridgePillar1.png">
+                  <matrix>
+                    <Matrix a="0.374847412109375" d="0.374526977539063" tx="-137" ty="-131"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_grid" color="#4F80FF" locked="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="include/grid_8x8.png">
+                  <matrix>
+                    <Matrix tx="-232" ty="-248.5"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

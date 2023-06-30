@@ -1,0 +1,129 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/cluster_0" itemID="5cd97ccd-00000d0a" lastModified="1561299161">
+  <timeline>
+    <DOMTimeline name="cluster_0">
+      <layers>
+        <DOMLayer name="fill" color="#FF800A" autoNamed="false" layerType="folder"/>
+        <DOMLayer name="blue" color="#009999" parentLayerIndex="0" autoNamed="false" layerType="folder"/>
+        <DOMLayer name="Layer_22" color="#009999" parentLayerIndex="1" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="2.02915954589844" d="2.02813720703125" tx="637.7" ty="287.25"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.15" y="-28"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_21" color="#009999" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="1.66667175292969" d="1.6661376953125" tx="744.35" ty="383.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.1" y="-27.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_10" color="#9933CC" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_9" color="#00FFFF" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="2.11666870117188" d="2.11576843261719" tx="561.35" ty="378.05"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.05" y="-27.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_8" color="#FF4F4F" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="2.11666870117188" d="2.11576843261719" tx="440.6" ty="444.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.05" y="-27.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_7" color="#669900" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="2.11666870117188" d="2.11576843261719" tx="317.95" ty="511.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.05" y="-27.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_6" color="#FF0000" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="2.11666870117188" d="2.11576843261719" tx="161.55" ty="463.05"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.05" y="-27.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer_2" color="#9933CC" parentLayerIndex="1">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix a="0.0041656494140625" d="0.0079193115234375" tx="382.25" ty="431.15"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-18.95"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

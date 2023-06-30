@@ -1,0 +1,27 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/tile_water" itemID="5c8ba360-00001427" lastModified="1561301308">
+  <timeline>
+    <DOMTimeline name="tile_water">
+      <layers>
+        <DOMLayer name="tileTint" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_tint">
+                  <matrix>
+                    <Matrix a="3.36662292480469" d="3.36723327636719"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="15.6"/>
+                  </transformationPoint>
+                  <color>
+                    <Color tintMultiplier="1" tintColor="#33AEE9"/>
+                  </color>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

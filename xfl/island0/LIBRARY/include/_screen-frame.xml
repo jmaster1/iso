@@ -1,0 +1,28 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/_screen-frame" itemID="54080f76-0000001d" lastModified="1554894171">
+  <timeline>
+    <DOMTimeline name="_screen-frame">
+      <layers>
+        <DOMLayer name="_frame" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="1920" objectHeight="1080" x="-19" y="0" lockFlag="true">
+                  <matrix>
+                    <Matrix tx="19" ty="-1080"/>
+                  </matrix>
+                  <stroke>
+                    <DashedStroke scaleMode="normal" weight="5">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </DashedStroke>
+                  </stroke>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

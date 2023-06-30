@@ -1,0 +1,159 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="renderers/island/buildings/clinicgarden1" itemID="5cf68589-000005c7" lastModified="1560870084">
+  <timeline>
+    <DOMTimeline name="clinicgarden1">
+      <layers>
+        <DOMLayer name="_butterfly" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="6" objectHeight="7" x="-15.5" y="-142" lockFlag="true">
+                  <matrix>
+                    <Matrix tx="-10.4" ty="-135"/>
+                  </matrix>
+                  <stroke>
+                    <SolidStroke scaleMode="normal">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </SolidStroke>
+                  </stroke>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_shape" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <strokes>
+                    <StrokeStyle index="1">
+                      <SolidStroke scaleMode="normal">
+                        <fill>
+                          <SolidColor color="#000099"/>
+                        </fill>
+                      </SolidStroke>
+                    </StrokeStyle>
+                  </strokes>
+                  <edges>
+                    <Edge strokeStyle="1" edges="!0 -5777/4576 -2464!4576 -2464/0 0!0 0/-4608 -2464!-4608 -2464/0 -5777"/>
+                    <Edge cubics="!4576 -2464(;4576,-2464 0,0 0,0q4576 -2464 0 0);"/>
+                    <Edge cubics="!0 0(;0,0 -4608,-2464 -4608,-2464q0 0 -4608 -2464);"/>
+                    <Edge cubics="!-4608 -2464(;-4608,-2464 0,-5777 0,-5777q-4608 -2464 0 -5777);"/>
+                    <Edge cubics="!0 -5777(;0,-5777 4576,-2464 4576,-2464q0 -5777 4576 -2464);"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="gardenGroup" color="#9933CC" autoNamed="false" open="false" layerType="folder"/>
+        <DOMLayer name="stone4" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenStone3.png">
+                  <matrix>
+                    <Matrix a="0.543701171875" d="0.543624877929688" tx="-235" ty="-191"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone3" color="#FF4F4F" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenStone4.png">
+                  <matrix>
+                    <Matrix a="0.527450561523438" d="0.5272216796875" tx="-72" ty="-65"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone2" color="#669900" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenStone2.png">
+                  <matrix>
+                    <Matrix a="0.339111328125" d="0.338760375976563" tx="51" ty="-77"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="pond" color="#009999" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenPond1.png">
+                  <matrix>
+                    <Matrix a="0.505523681640625" d="0.505538940429688" tx="-148" ty="-249"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone1" color="#FF0000" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenStone1.png">
+                  <matrix>
+                    <Matrix a="0.534271240234375" d="0.5340576171875" tx="98" ty="-182"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="snag" color="#FF4FFF" parentLayerIndex="2" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenSnag1.png">
+                  <matrix>
+                    <Matrix a="0.517257690429688" d="0.517318725585938" tx="-103" ty="-309"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="base" color="#FF800A" parentLayerIndex="2" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/gardenBase.png">
+                  <matrix>
+                    <Matrix a="0.360443115234375" b="-0.1942138671875" c="0.360443115234375" d="0.1942138671875" tx="-254.6" ty="-129.2"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_grid" color="#4F80FF" locked="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="include/grid_8x8.png">
+                  <matrix>
+                    <Matrix tx="-232" ty="-248.5"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

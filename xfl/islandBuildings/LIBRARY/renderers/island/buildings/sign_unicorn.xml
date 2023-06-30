@@ -1,0 +1,64 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="renderers/island/buildings/sign_unicorn" itemID="5d302308-00000115" lastModified="1563435784">
+  <timeline>
+    <DOMTimeline name="sign_unicorn">
+      <layers>
+        <DOMLayer name="_shape" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <strokes>
+                    <StrokeStyle index="1">
+                      <SolidStroke scaleMode="normal">
+                        <fill>
+                          <SolidColor color="#000099"/>
+                        </fill>
+                      </SolidStroke>
+                    </StrokeStyle>
+                  </strokes>
+                  <edges>
+                    <Edge strokeStyle="1" edges="!-104 -2185/-94 -902!-94 -902/547 -315!547 -315/0 0!0 0/-1160 -640!-1160 -640/-870 -834!-870 -834/-791 -2630!-791 -2630/-398 -2680!-398 -2680/-104 -2185"/>
+                    <Edge cubics="!-398 -2680(;-398,-2680 -104,-2185 -104,-2185q-398 -2680 -104 -2185);"/>
+                    <Edge cubics="!547 -315(;547,-315 0,0 0,0q547 -315 0 0);"/>
+                    <Edge cubics="!0 0(;0,0 -1160,-640 -1160,-640q0 0 -1160 -640);"/>
+                    <Edge cubics="!-1160 -640(;-1160,-640 -870,-834 -870,-834q-1160 -640 -870 -834);"/>
+                    <Edge cubics="!-870 -834(;-870,-834 -791,-2630 -791,-2630q-870 -834 -791 -2630);"/>
+                    <Edge cubics="!-791 -2630(;-791,-2630 -398,-2680 -398,-2680q-791 -2630 -398 -2680);"/>
+                    <Edge cubics="!-104 -2185(;-104,-2185 -94,-902 -94,-902q-104 -2185 -94 -902);"/>
+                    <Edge cubics="!-94 -902(;-94,-902 547,-315 547,-315q-94 -902 547 -315);"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="bitmap" color="#009999" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/buildings3/islands_pointer.png">
+                  <matrix>
+                    <Matrix a="0.424850463867188" d="0.425003051757813" tx="-53" ty="-135"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_grid" color="#4F80FF" locked="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="include/grid_8x8.png">
+                  <matrix>
+                    <Matrix tx="-232" ty="-248.5"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

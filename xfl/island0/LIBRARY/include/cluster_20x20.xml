@@ -1,0 +1,2994 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/cluster_20x20" itemID="5c9b8dd7-00000970" lastModified="1556790012">
+  <timeline>
+    <DOMTimeline name="cluster_20x20">
+      <layers>
+        <DOMLayer name="descriprion" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMStaticText width="418.2" height="87.6" isSelectable="false">
+                  <matrix>
+                    <Matrix tx="466" ty="-353.8"/>
+                  </matrix>
+                  <textRuns>
+                    <DOMTextRun>
+                      <characters>name: cluster 2&#xD;size: 20x20</characters>
+                      <textAttrs>
+                        <DOMTextAttrs aliasText="false" lineSpacing="-6" lineHeight="54.3" size="36" face="SputnikDisplay-Bold"/>
+                      </textAttrs>
+                    </DOMTextRun>
+                  </textRuns>
+                </DOMStaticText>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="decorations" color="#9933CC" locked="true" autoNamed="false" visible="false" open="false" layerType="folder"/>
+        <DOMLayer name="flower21" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix a="0.692306518554688" d="-0.691299438476563" tx="190.95" ty="-196"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.65" y="5.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower20" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower2">
+                  <matrix>
+                    <Matrix tx="197" ty="-485"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6" y="4.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower19" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix tx="167.5" ty="-517.25"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="5.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower18" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix a="0.692306518554688" d="-0.691299438476563" tx="155.35" ty="-230.85"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.65" y="5.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower17" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower2">
+                  <matrix>
+                    <Matrix tx="139" ty="-252.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6" y="4.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower16" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower3">
+                  <matrix>
+                    <Matrix tx="138" ty="-237.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7" y="5.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower15" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix tx="196.5" ty="-563.75"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="5.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower14" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower2">
+                  <matrix>
+                    <Matrix tx="197" ty="-577.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6" y="4.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower13" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix a="0.692306518554688" d="-0.691299438476563" tx="166.45" ty="-569.75"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.65" y="5.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower8" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower3">
+                  <matrix>
+                    <Matrix tx="167" ty="-206.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7" y="5.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower12" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower3">
+                  <matrix>
+                    <Matrix tx="51" ty="-423.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7" y="5.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower11" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower2">
+                  <matrix>
+                    <Matrix tx="81" ty="-410.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6" y="4.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower10" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix a="0.692306518554688" d="-0.691299438476563" tx="196.1" ty="-256.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.65" y="5.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower9" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower3">
+                  <matrix>
+                    <Matrix tx="141" ty="-199.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7" y="5.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone40" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="314" ty="-438.8"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone39" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix tx="-7.5" ty="-380.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.5" y="4.1"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone38" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone4">
+                  <matrix>
+                    <Matrix tx="137" ty="-424"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="8" y="5.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone37" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone5">
+                  <matrix>
+                    <Matrix tx="283.5" ty="-453.65"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone36" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone4">
+                  <matrix>
+                    <Matrix tx="137" ty="-434.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="8" y="5.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone35" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone5">
+                  <matrix>
+                    <Matrix tx="167.5" ty="-469.15"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone34" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix a="0.818161010742188" d="0.81756591796875" tx="48.05" ty="-286.05"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="10.7" y="7.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone33" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="62.2" ty="-297.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone32" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="-39.2" ty="-404.1"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone31" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix tx="277" ty="-444.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.5" y="4.1"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone30" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix tx="22" ty="-283.85"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="11" y="7.65"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone29" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix a="1.79998779296875" d="1.79998779296875" tx="74.05" ty="-305.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.2" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone28" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix a="0.818161010742188" d="0.81756591796875" tx="-72.95" ty="-398.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="10.7" y="7.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone27" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix a="1.79998779296875" d="1.79998779296875" tx="-66.95" ty="-413.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.2" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone26" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix tx="366" ty="-472.65"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="11" y="7.65"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone25" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix tx="306.3" ty="-119.4"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.5" y="4.1"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone24" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="140" ty="-361.3"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone23" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix tx="9.1" ty="-271.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.5" y="4.1"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone22" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="-22.1" ty="-197"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone21" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="-71.4" ty="-165"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone20" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix tx="-62.2" ty="-169.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="11" y="7.65"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone19" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone5">
+                  <matrix>
+                    <Matrix tx="-141" ty="-237.15"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone18" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone4">
+                  <matrix>
+                    <Matrix tx="-155" ty="-244.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="8" y="5.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone17" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix a="1.79998779296875" d="1.79998779296875" tx="335.05" ty="-139.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.2" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone16" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix a="1.79998779296875" d="1.79998779296875" tx="-8.55" ty="-207.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.2" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone15" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix tx="-132.6" ty="-317.65"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="11" y="7.65"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone14" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix a="0.818161010742188" d="0.81756591796875" tx="139.25" ty="-283.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="10.7" y="7.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone13" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone4">
+                  <matrix>
+                    <Matrix tx="169" ty="-264.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="8" y="5.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone12" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone5">
+                  <matrix>
+                    <Matrix tx="167.5" ty="-252.15"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone11" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix a="0.818161010742188" d="0.81756591796875" tx="368.25" ty="-393.85"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="10.7" y="7.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower7" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix a="0.692306518554688" d="-0.691299438476563" tx="242.35" ty="-292.85"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.65" y="5.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower6" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower2">
+                  <matrix>
+                    <Matrix tx="371" ty="-268"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6" y="4.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower5" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower3">
+                  <matrix>
+                    <Matrix tx="225" ty="-299.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7" y="5.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone10" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone5">
+                  <matrix>
+                    <Matrix tx="320.1" ty="-314.15"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone9" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone4">
+                  <matrix>
+                    <Matrix tx="311" ty="-300"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="8" y="5.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone8" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="244.8" ty="-278.9"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone7" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix a="1.79998779296875" d="1.79998779296875" tx="247.75" ty="-273.05"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.2" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone6" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix a="0.818161010742188" d="0.81756591796875" tx="262.25" ty="-285.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="10.7" y="7.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone5" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone5">
+                  <matrix>
+                    <Matrix tx="-6.2" ty="-192.05"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="4.15"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone3" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone4">
+                  <matrix>
+                    <Matrix tx="307.8" ty="-191.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="8" y="5.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone4" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone3">
+                  <matrix>
+                    <Matrix tx="323.05" ty="-183.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="5" y="4.8"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower4" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix tx="58.75" ty="-199.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6.5" y="5.75"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone2" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone1">
+                  <matrix>
+                    <Matrix tx="42.5" ty="-210.15"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="11" y="7.65"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="stone1" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/stone2">
+                  <matrix>
+                    <Matrix tx="58.35" ty="-210.05"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.5" y="4.1"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower3" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower1">
+                  <matrix>
+                    <Matrix a="0.692306518554688" d="-0.691299438476563" tx="95.1" ty="-214.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7.65" y="5.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower2" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower2">
+                  <matrix>
+                    <Matrix tx="64.05" ty="-219.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="6" y="4.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flower1" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/flower3">
+                  <matrix>
+                    <Matrix tx="167" ty="-144.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="7" y="5.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand16" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand4">
+                  <matrix>
+                    <Matrix tx="262.5" ty="-232.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="56.5" y="31"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand15" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand7">
+                  <matrix>
+                    <Matrix tx="-56.6" ty="-407.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="30" y="19.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand14" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand4">
+                  <matrix>
+                    <Matrix tx="204.5" ty="-449.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="56.5" y="31"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand13" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand3">
+                  <matrix>
+                    <Matrix tx="0.5" ty="-186"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="28.5" y="15.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand12" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand7">
+                  <matrix>
+                    <Matrix tx="347" ty="-174.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="30" y="19.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand11" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand4">
+                  <matrix>
+                    <Matrix tx="-87.4" ty="-199.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="56.5" y="31"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand10" color="#669900" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand2">
+                  <matrix>
+                    <Matrix tx="225" ty="-475"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="36" y="25.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand9" color="#FF0000" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand4">
+                  <matrix>
+                    <Matrix tx="320.5" ty="-511.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="56.5" y="31"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand8" color="#009999" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand6">
+                  <matrix>
+                    <Matrix tx="85.5" ty="-496.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="85.5" y="62.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand7" color="#FF4FFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand6" color="#FF800A" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand7">
+                  <matrix>
+                    <Matrix tx="260" ty="-391.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="30" y="19.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand5" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand2">
+                  <matrix>
+                    <Matrix tx="255" ty="-176.75"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="36" y="25.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand4" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand1">
+                  <matrix>
+                    <Matrix tx="-102" ty="-391.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="131" y="50.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand3" color="#FF4F4F" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand6">
+                  <matrix>
+                    <Matrix tx="-85.5" ty="-310.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="85.5" y="62.5"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand2" color="#9933CC" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand4">
+                  <matrix>
+                    <Matrix a="0.557525634765625" d="0.5572509765625" tx="200.5" ty="-156.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="56.5" y="30.85"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand1" color="#00FFFF" parentLayerIndex="1" locked="true" autoNamed="false" visible="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/sand5">
+                  <matrix>
+                    <Matrix a="0.7066650390625" d="0.70635986328125" tx="285.75" ty="-149.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="75.05" y="27.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="fill" color="#9933CC" autoNamed="false" open="false" layerType="folder"/>
+        <DOMLayer name="coast04" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass_2x2">
+                  <matrix>
+                    <Matrix tx="174" ty="-98.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-1.25" y="-18.35"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast00" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass_2x2">
+                  <matrix>
+                    <Matrix tx="58.1" ty="-98.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-1.25" y="-18.35"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast01" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_sand_2x2">
+                  <matrix>
+                    <Matrix tx="348.1" ty="-67.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.5" y="-15.6"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast25" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass0_2x1">
+                  <matrix>
+                    <Matrix tx="406.05" ty="-129.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14" y="5.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast29" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass0_2x1">
+                  <matrix>
+                    <Matrix tx="464.15" ty="-160.75"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14" y="5.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass93" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="348.25" ty="-129.4"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass92" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="232.1" ty="-129.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass91" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="406.25" ty="-160.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass88" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="290.2" ty="-160.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass87" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="348.15" ty="-191.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass78" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="116" ty="-129.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass77" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="174" ty="-160.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast23" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass1_2x1">
+                  <matrix>
+                    <Matrix tx="406.1" ty="-253.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-15" y="6.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass83" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="232.3" ty="-191.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass82" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="290.25" ty="-222.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass86" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="348.05" ty="-253.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass72" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast06" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass_2x2">
+                  <matrix>
+                    <Matrix tx="0.1" ty="-129.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-1.25" y="-18.35"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass71" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="57.85" ty="-160.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass70" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="115.85" ty="-191.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass76" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="58" ty="-222.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass65" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass64" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="174" ty="-222.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass63" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="232" ty="-253.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass75" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="116" ty="-253.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass81" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="290" ty="-284.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast02" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass1_2x1">
+                  <matrix>
+                    <Matrix tx="347.95" ty="-346.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-15" y="6.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast03" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass0_2x1">
+                  <matrix>
+                    <Matrix tx="405.95" ty="-377.85"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14" y="5.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass74" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="173.95" ty="-284.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass73" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="232.45" ty="-315.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass90" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="290.1" ty="-346.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass69" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="116" ty="-315.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass68" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="173.85" ty="-346.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass62" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="58.1" ty="-346.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass61" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="115.95" ty="-377.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass89" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="347.7" ty="-377.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-15.25"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass58" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass57" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass53" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast30" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass0_2x1">
+                  <matrix>
+                    <Matrix tx="405.7" ty="-440"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14" y="5.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast28" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass0_2x1">
+                  <matrix>
+                    <Matrix tx="464" ty="-470.8"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14" y="5.7"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass52" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass51" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass47" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass46" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass45" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass44" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass43" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast8" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_sand_2x2">
+                  <matrix>
+                    <Matrix tx="289.85" ty="-98.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="0.5" y="-15.6"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass42" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass41" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass40" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass39" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass38" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass37" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass36" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass35" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass34" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass33" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass32" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass31" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass30" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass29" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass28" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix ty="-377.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand16" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_ground">
+                  <matrix>
+                    <Matrix a="2.06890869140625" d="2.06622314453125" tx="-88.5" ty="-360"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.5" y="-14.85"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast07" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass_2x2">
+                  <matrix>
+                    <Matrix tx="-58.3" ty="-408.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-1.25" y="-18.35"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass25" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass24" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass23" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass22" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass21" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass20" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass17" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass85" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="232.2" ty="-377.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass84" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="290.1" ty="-408.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass80" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="174.05" ty="-408.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass67" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="348.1" ty="-439.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass66" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="406.1" ty="-470.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass79" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="231.95" ty="-439.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass60" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="289.9" ty="-470.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass27" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="58" ty="-408.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass26" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="115.9" ty="-439.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass59" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="347.9" ty="-501.6"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass56" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="174.05" ty="-470.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass55" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="232" ty="-501.25"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass16" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass19" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="-0.15" ty="-439.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass18" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="57.75" ty="-470.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass15" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass14" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass13" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass12" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass11" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass10" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass9" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass8" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass7" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass6" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass5" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="290.15" ty="-532.65"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass4" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass3" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass2" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass1" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass50" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="115.85" ty="-501.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="grass49" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_grass">
+                  <matrix>
+                    <Matrix tx="173.8" ty="-532.25"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.75" y="-31.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand15" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_ground">
+                  <matrix>
+                    <Matrix a="2.06890869140625" d="2.06622314453125" tx="-146.4" ty="-328.8"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.55" y="-14.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand14" color="#FF800A" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand13" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand12" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand11" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand10" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand9" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand8" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_ground">
+                  <matrix>
+                    <Matrix a="2.06890869140625" d="2.06622314453125" tx="-145.5" ty="-268.55"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.5" y="-14.9"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand7" color="#FF4FFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_ground">
+                  <matrix>
+                    <Matrix a="3.96549987792969" d="3.96453857421875" tx="-58.45" ty="-283.9"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.5" y="-14.85"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand6" color="#FF800A" parentLayerIndex="79" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_ground">
+                  <matrix>
+                    <Matrix a="3.96551513671875" d="3.96450805664063" tx="-115.75" ty="-191.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-0.5" y="-14.85"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand5" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand4" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand3" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand2" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="sand1" color="#FF0000" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast05" color="#009999" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast12" color="#669900" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_sand0_2x1">
+                  <matrix>
+                    <Matrix a="-1" tx="-115.8" ty="-160.65"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14.5" y="8.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast13" color="#FF4F4F" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_sand1_2x1">
+                  <matrix>
+                    <Matrix a="-1" tx="-173.8" ty="-191.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14.5" y="8.35"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast15" color="#9933CC" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_sand_2x2">
+                  <matrix>
+                    <Matrix tx="-173.75" ty="-222.8"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-15.45"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="coast14" color="#00FFFF" parentLayerIndex="79" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_sand0_2x1">
+                  <matrix>
+                    <Matrix a="-1" tx="-173.85" ty="-315.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="-14.5" y="8.4"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue" color="#FF4FFF" autoNamed="false" open="false" layerType="folder"/>
+        <DOMLayer name="blue26" color="#669900" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="378.8" ty="-392.45"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue25" color="#FF0000" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="380" ty="-331.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue24" color="#009999" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue23" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="438.05" ty="-424.4"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue22" color="#FF800A" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="386.2" ty="-80.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue21" color="#9933CC" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="442.7" ty="-111.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue20" color="#00FFFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="379.9" ty="-206.85"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue11" color="#FF4F4F" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="-144.55" ty="-144.8"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue10" color="#669900" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="322.5" ty="-300"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue9" color="#FF0000" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="-174.5" ty="-191.4"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue8" color="#FF0000" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="-145.75" ty="-268.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue7" color="#009999" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="-86.2" ty="-113.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue6" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="-57.95" ty="-377.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue5" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="347.55" ty="-36.95"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue4" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix ty="-98.2"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue3" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="173.85" ty="-67.3"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue2" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="290.6" ty="-68"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="blue1" color="#FF4FFF" parentLayerIndex="205" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_blue">
+                  <matrix>
+                    <Matrix tx="58" ty="-65.7"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="-28.2"/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

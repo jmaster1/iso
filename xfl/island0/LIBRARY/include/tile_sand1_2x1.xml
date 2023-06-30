@@ -1,0 +1,70 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/tile_sand1_2x1" itemID="5c94c5b3-000000dd" lastModified="1553258029">
+  <timeline>
+    <DOMTimeline name="tile_sand1_2x1">
+      <layers>
+        <DOMLayer name="_dot" color="#FF800A" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMOvalObject objectWidth="3.85" objectHeight="2.6" x="-3.85" y="-2.6" endAngle="0">
+                  <matrix>
+                    <Matrix a="1.02560424804688" d="1.53839111328125" tx="1.95" ty="2"/>
+                  </matrix>
+                  <fill>
+                    <SolidColor color="#FFFFFF" alpha="0"/>
+                  </fill>
+                  <stroke>
+                    <SolidStroke scaleMode="normal">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </SolidStroke>
+                  </stroke>
+                </DOMOvalObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_bounds" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <strokes>
+                    <StrokeStyle index="1">
+                      <SolidStroke scaleMode="normal">
+                        <fill>
+                          <SolidColor color="#000099"/>
+                        </fill>
+                      </SolidStroke>
+                    </StrokeStyle>
+                  </strokes>
+                  <edges>
+                    <Edge strokeStyle="1" edges="!-576 305/584 -319!584 -319/2 -622!2 -622/-1159 -7!-1159 -7/-576 305"/>
+                    <Edge cubics="!-576 305(;-576,305 584,-319 584,-319q-576 305 584 -319);"/>
+                    <Edge cubics="!584 -319(;584,-319 2,-622 2,-622q584 -319 2 -622);"/>
+                    <Edge cubics="!2 -622(;2,-622 -1159,-7 -1159,-7q2 -622 -1159 -7);"/>
+                    <Edge cubics="!-1159 -7(;-1159,-7 -576,305 -576,305q-1159 -7 -576 305);"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="bitmap" color="#00FFFF" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/islands/1x2_tile1.png">
+                  <matrix>
+                    <Matrix a="0.379165649414063" d="0.379104614257813" tx="-60" ty="-32"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

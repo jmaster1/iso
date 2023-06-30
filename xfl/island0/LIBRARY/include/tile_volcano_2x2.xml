@@ -1,0 +1,70 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/tile_volcano_2x2" itemID="5cffada0-00001298" lastModified="1560346523">
+  <timeline>
+    <DOMTimeline name="tile_volcano_2x2">
+      <layers>
+        <DOMLayer name="_dot" color="#FF800A" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMOvalObject objectWidth="3.85" objectHeight="2.6" x="-3.85" y="-2.6" endAngle="0">
+                  <matrix>
+                    <Matrix a="1.02560424804688" d="1.53839111328125" tx="1.95" ty="2"/>
+                  </matrix>
+                  <fill>
+                    <SolidColor color="#FFFFFF" alpha="0"/>
+                  </fill>
+                  <stroke>
+                    <SolidStroke scaleMode="normal">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </SolidStroke>
+                  </stroke>
+                </DOMOvalObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_bounds" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <strokes>
+                    <StrokeStyle index="1">
+                      <SolidStroke scaleMode="normal">
+                        <fill>
+                          <SolidColor color="#000099"/>
+                        </fill>
+                      </SolidStroke>
+                    </StrokeStyle>
+                  </strokes>
+                  <edges>
+                    <Edge strokeStyle="1" edges="!-4 1/1156 -623!1156 -623/-1 -1237!-1 -1237/-1162 -622!-1162 -622/-4 1"/>
+                    <Edge cubics="!-4 1(;-4,1 1156,-623 1156,-623q-4 1 1156 -623);"/>
+                    <Edge cubics="!1156 -623(;1156,-623 -1,-1237 -1,-1237q1156 -623 -1 -1237);"/>
+                    <Edge cubics="!-1 -1237(;-1,-1237 -1162,-622 -1162,-622q-1 -1237 -1162 -622);"/>
+                    <Edge cubics="!-1162 -622(;-1162,-622 -4,1 -4,1q-1162 -622 -4 1);"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="bitmap" color="#00FFFF" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/islands/2x2_volcano2.png">
+                  <matrix>
+                    <Matrix a="0.50408935546875" d="0.504226684570313" tx="-64" ty="-62"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

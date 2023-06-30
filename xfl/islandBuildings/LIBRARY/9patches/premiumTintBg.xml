@@ -1,0 +1,106 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="9patches/premiumTintBg" itemID="57f603ea-0000451c" lastModified="1516981274">
+  <timeline>
+    <DOMTimeline name="premiumTintBg">
+      <layers>
+        <DOMLayer name="beautySlotBg_bmp" color="#4FFF4F" autoNamed="false" visible="false" layerType="guide">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/ui-habitat/beautySlotBg.png"/>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="beautySlotBg_slices" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="17.1" objectHeight="15.75" x="0" y="0" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="5.2" objectHeight="15.75" x="17.1" y="0" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="14.7" objectHeight="15.75" x="22.3" y="0" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="17.1" objectHeight="3.3" x="0" y="15.8" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="5.2" objectHeight="3.3" x="17.1" y="15.8" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="14.7" objectHeight="3.3" x="22.3" y="15.8" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="17.1" objectHeight="15.9" x="0" y="19.1" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="5.2" objectHeight="15.9" x="17.1" y="19.1" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+                <DOMRectangleObject objectWidth="14.7" objectHeight="15.9" x="22.3" y="19.1" lockFlag="true">
+                  <fill>
+                    <BitmapFill bitmapPath="atlases/ui-habitat/beautySlotBg.png">
+                      <matrix>
+                        <Matrix a="20" d="20"/>
+                      </matrix>
+                    </BitmapFill>
+                  </fill>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

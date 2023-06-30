@@ -1,0 +1,27 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/tile_ground" itemID="5c8ba355-0000141b" lastModified="1556789854">
+  <timeline>
+    <DOMTimeline name="tile_ground">
+      <layers>
+        <DOMLayer name="tileTint" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="include/tile_tint" selected="true">
+                  <matrix>
+                    <Matrix a="0.483322143554688" b="0.258331298828125" c="-0.483322143554688" d="0.258331298828125" tx="14.5" ty="-7.75"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point y="15.3"/>
+                  </transformationPoint>
+                  <color>
+                    <Color tintMultiplier="1" tintColor="#FFE78D"/>
+                  </color>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

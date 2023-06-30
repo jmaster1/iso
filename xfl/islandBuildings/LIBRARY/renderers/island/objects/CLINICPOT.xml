@@ -1,0 +1,62 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="renderers/island/objects/CLINICPOT" itemID="5cfe165c-000005c2" lastModified="1560155740">
+  <timeline>
+    <DOMTimeline name="CLINICPOT">
+      <layers>
+        <DOMLayer name="_shape" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMShape>
+                  <strokes>
+                    <StrokeStyle index="1">
+                      <SolidStroke scaleMode="normal">
+                        <fill>
+                          <SolidColor color="#000099"/>
+                        </fill>
+                      </SolidStroke>
+                    </StrokeStyle>
+                  </strokes>
+                  <edges>
+                    <Edge strokeStyle="1" edges="!550 -1200/458 -477!458 -477/0 0!0 0/-419 -507!-419 -507/-633 -1069!-633 -1069/-180 -1396!-180 -1396/550 -1200"/>
+                    <Edge cubics="!-180 -1396(;-180,-1396 550,-1200 550,-1200q-180 -1396 550 -1200);"/>
+                    <Edge cubics="!458 -477(;458,-477 0,0 0,0q458 -477 0 0);"/>
+                    <Edge cubics="!0 0(;0,0 -419,-507 -419,-507q0 0 -419 -507);"/>
+                    <Edge cubics="!-419 -507(;-419,-507 -633,-1069 -633,-1069q-419 -507 -633 -1069);"/>
+                    <Edge cubics="!-633 -1069(;-633,-1069 -180,-1396 -180,-1396q-633 -1069 -180 -1396);"/>
+                    <Edge cubics="!550 -1200(;550,-1200 458,-477 458,-477q550 -1200 458 -477);"/>
+                  </edges>
+                </DOMShape>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="bitmap" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="atlases/buildings3/island_clinicpot.png">
+                  <matrix>
+                    <Matrix a="0.210784912109375" d="0.210723876953125" tx="-32" ty="-70"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_grid" color="#4F80FF" locked="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance libraryItemName="include/grid_8x8.png">
+                  <matrix>
+                    <Matrix tx="-232" ty="-248.5"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

@@ -1,0 +1,67 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="include/tile_grass_8х8" itemID="5cda7902-00001a3e" lastModified="1557823829">
+  <timeline>
+    <DOMTimeline name="tile_grass_8х8">
+      <layers>
+        <DOMLayer name="_dot" color="#FF800A" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMOvalObject objectWidth="3.85" objectHeight="2.6" x="-3.85" y="-2.6" endAngle="0">
+                  <matrix>
+                    <Matrix a="1.02560424804688" d="1.53839111328125" tx="1.95" ty="2"/>
+                  </matrix>
+                  <fill>
+                    <SolidColor color="#FFFFFF" alpha="0"/>
+                  </fill>
+                  <stroke>
+                    <SolidStroke scaleMode="normal">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </SolidStroke>
+                  </stroke>
+                </DOMOvalObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="_bounds" color="#9933CC" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="26.75" objectHeight="26.75" x="-50.95" y="-46" lockFlag="true">
+                  <matrix>
+                    <Matrix a="8.63604736328125" b="4.61228942871094" c="-8.63592529296875" d="4.61241149902344" tx="42.75" ty="200.4"/>
+                  </matrix>
+                  <fill>
+                    <SolidColor color="#FFFFFF" alpha="0"/>
+                  </fill>
+                  <stroke>
+                    <SolidStroke scaleMode="normal">
+                      <fill>
+                        <SolidColor color="#000099"/>
+                      </fill>
+                    </SolidStroke>
+                  </stroke>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="bitmap" color="#00FFFF" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="atlases/islands/8x8_grass_tile0.png">
+                  <matrix>
+                    <Matrix a="0.311233520507813" b="-0.1689453125" c="0.311233520507813" d="0.1689453125" tx="-246.6" ty="-121.75"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
