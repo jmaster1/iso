@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Sea
+    uniqueID: 2201891755
+    locked: 0
+  - name: Ground
+    uniqueID: 3070975871
+    locked: 0
+  - name: Roads
+    uniqueID: 1096371259
+    locked: 0
+  - name: Objects
+    uniqueID: 2326316881
+    locked: 0
+  - name: Sky
+    uniqueID: 1319082955
+    locked: 0
