@@ -3,6 +3,6 @@
 /Logs/
 /Temp/
 /UserSettings/
-/obj/Debug/
+/obj/
 *.csproj
 *.sln
