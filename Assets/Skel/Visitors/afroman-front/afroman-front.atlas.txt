@@ -1,0 +1,87 @@
+afroman-front.png
+size:768,521
+filter:Linear,Linear
+pma:true
+visitor-man06-xmasHat
+bounds:2,112,282,407
+offsets:1,6,285,413
+visitor-man08-front-Layer 10
+bounds:522,35,56,52
+offsets:1,1,58,54
+visitor-man08-front-Layer 11
+bounds:483,336,219,183
+offsets:0,6,219,189
+visitor-man08-front-Layer 12
+bounds:704,343,60,36
+visitor-man08-front-Layer 13
+bounds:722,73,75,40
+rotate:90
+visitor-man08-front-Layer 14
+bounds:286,109,161,93
+visitor-man08-front-Layer 15
+bounds:706,150,59,31
+rotate:90
+visitor-man08-front-Layer 16
+bounds:521,6,30,27
+offsets:1,1,32,29
+visitor-man08-front-Layer 17
+bounds:449,15,66,70
+offsets:1,1,68,72
+rotate:90
+visitor-man08-front-Layer 18
+bounds:595,81,42,122
+visitor-man08-front-Layer 19
+bounds:689,10,56,24
+offsets:1,1,58,26
+rotate:90
+visitor-man08-front-Layer 20
+bounds:580,29,50,55
+rotate:90
+visitor-man08-front-Layer 21
+bounds:637,15,50,50
+visitor-man08-front-Layer 22
+bounds:724,216,31,19
+offsets:1,1,33,21
+visitor-man08-front-Layer 23
+bounds:639,150,65,59
+visitor-man08-front-Layer 24
+bounds:449,83,71,119
+visitor-man08-front-Layer 25
+bounds:522,89,71,114
+visitor-man08-front-Layer 26
+bounds:639,67,43,81
+visitor-man08-front-Layer 27
+bounds:483,288,46,131
+rotate:90
+visitor-man08-front-Layer 28
+bounds:2,2,108,251
+rotate:90
+visitor-man08-front-Layer 29
+bounds:286,204,80,233
+rotate:90
+visitor-man08-front-Layer 3
+bounds:255,8,114,99
+visitor-man08-front-Layer 4
+bounds:521,205,81,113
+rotate:90
+visitor-man08-front-Layer 5
+bounds:616,291,111,43
+visitor-man08-front-Layer 5 copy
+bounds:371,15,92,76
+rotate:90
+visitor-man08-front-Layer 6
+bounds:704,381,61,138
+visitor-man08-front-Layer 7
+bounds:636,237,52,130
+rotate:90
+visitor-man08-front-Layer 8
+bounds:286,286,195,233
+visitor-man08-front-Layer 9
+bounds:636,211,86,24
+visitor-man08-frontEllipse 1 copy
+bounds:684,68,80,36
+offsets:1,1,82,38
+rotate:90
+visitor-man08-frontzrachok
+bounds:729,307,34,34
+offsets:1,1,36,36
