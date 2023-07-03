@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
+using Iso.Buildings;
 
 namespace Iso.Cells
 {
@@ -70,6 +73,46 @@ namespace Iso.Cells
             Events.Fire(CellsEvent.CellRemoved, cell);
             CellList.Remove(cell);
             _cells[x, y] = null;
+        }
+
+        /// <summary>
+        /// fill target list with cells in given range
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="allowNullCells"></param>
+        public void Fill(List<Cell> target, int x, int y, int w, int h, bool allowNullCells = false)
+        {
+            var x1 = x + w;
+            var y1 = y + h;
+            for (var xi = x; x <= x1; x++)
+            {
+                for (var yi = y; y <= y1; y++)
+                {
+                    target.Add(allowNullCells ? Find(x, y) : Get(x, y));
+                }
+            }
+        }
+
+        public void ForEach(int x, int y, int w, int h, Action<Cell> action)
+        {
+            var x1 = x + w;
+            var y1 = y + h;
+            for (var xi = x; x <= x1; x++)
+            {
+                for (var yi = y; y <= y1; y++)
+                {
+                    action(Find(x, y));
+                }
+            }
+        }
+
+        public void ForEach(Cell cell, BuildingInfo info, bool flip, Action<Cell> action)
+        {
+            ForEach(cell.x, cell.y, flip ? info.height : info.width, flip ? info.width : info.height, action);
         }
     }
 }
