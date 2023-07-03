@@ -4,6 +4,6 @@ namespace Iso.Cells
     {
         public int x, y;
 
-        public CellType cellType;
+        internal CellType cellType;
     }
 }
