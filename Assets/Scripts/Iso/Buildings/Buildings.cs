@@ -1,4 +1,3 @@
-using Common.Api.Pool;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Iso.Cells;
@@ -13,9 +12,7 @@ namespace Iso.Buildings
         /// <summary>
         /// list of existing buildings
         /// </summary>
-        public readonly ObsList<Building> List = new();
-
-        private Pool<Building> pool = new();
+        public readonly PooledObsList<Building> List = new();
         
         /// <summary>
         /// build 
@@ -27,20 +24,18 @@ namespace Iso.Buildings
         public Building Build(BuildingInfo info, Cell cell, bool flip = false)
         {
             Cells.ForEach(cell, info, flip, e => Validate(e.IsBuildable()));
-            var building = pool.Get();
-            building.Info = info;
-            building.Cell = cell;
-            Cells.ForEach(cell, info, flip,e => e.Building = building);
-            List.Add(building);
-            return building;
+            return List.Add(building =>
+            {
+                building.Info = info;
+                building.Cell = cell;
+                Cells.ForEach(cell, info, flip,e => e.Building = building);
+            });
         }
 
         public void Remove(Building building)
         {
-            Validate(List.Contains(building));
-            List.Remove(building);
+            List.PooledRemove(building);
             building.ForEachCell(Cells, e => e.Building = null);
-            pool.Put(building);
         }
     }
 }
