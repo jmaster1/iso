@@ -17,6 +17,8 @@ namespace Common.Util.Math
 
     public static class DirEx
     {
+        public static readonly int POSITIVE = 1;
+        public static readonly int NEGATIVE = -1;
         public static readonly Dir[] Primary = {Dir.N, Dir.E, Dir.S, Dir.W};
         public static readonly Dir[] Secondary = {Dir.NE, Dir.SE, Dir.SW, Dir.NW};
         public static readonly Dir[] Around = {Dir.N, Dir.NE, Dir.E, Dir.SE, 
@@ -24,54 +26,56 @@ namespace Common.Util.Math
     
         public static int X(this Dir e)
         {
-            switch (e)
+            return e switch
             {
-                case Dir.C:
-                    return 0;
-                case Dir.N:
-                    return 0;
-                case Dir.E:
-                    return 1;
-                case Dir.S:
-                    return 0;
-                case Dir.W:
-                    return -1;
-                case Dir.NE:
-                    return 1;
-                case Dir.SE:
-                    return 1;
-                case Dir.SW:
-                    return -1;
-                case Dir.NW:
-                    return -1;
-            }
-            return default;
+                Dir.C => 0,
+                Dir.N => 0,
+                Dir.E => 1,
+                Dir.S => 0,
+                Dir.W => -1,
+                Dir.NE => 1,
+                Dir.SE => 1,
+                Dir.SW => -1,
+                Dir.NW => -1,
+                _ => default
+            };
+        }
+        
+        public static bool IsRight(this Dir e)
+        {
+            return e.X() == 1;
+        }
+        
+        public static bool IsLeft(this Dir e)
+        {
+            return e.X() == -1;
+        }
+        
+        public static bool IsUp(this Dir e)
+        {
+            return e.Y() == 1;
+        }
+        
+        public static bool IsDown(this Dir e)
+        {
+            return e.Y() == -1;
         }
     
         public static int Y(this Dir e)
         {
-            switch (e)
+            return e switch
             {
-                case Dir.C:
-                    return 0;
-                case Dir.N:
-                    return 1;
-                case Dir.E:
-                    return 0;
-                case Dir.S:
-                    return -1;
-                case Dir.W:
-                    return 0;
-                case Dir.NE:
-                    return 1;
-                case Dir.SE:
-                    return -1;
-                case Dir.SW:
-                    return -1;
-                case Dir.NW:
-                    return 1;
-            }
-            return default;
+                Dir.C => 0,
+                Dir.N => 1,
+                Dir.E => 0,
+                Dir.S => -1,
+                Dir.W => 0,
+                Dir.NE => 1,
+                Dir.SE => -1,
+                Dir.SW => -1,
+                Dir.NW => 1,
+                _ => default
+            };
         }
 
         public static Vector2Int Vector2Int(this Dir e)
@@ -163,6 +167,31 @@ namespace Common.Util.Math
         public static bool IsHorz(this Dir dir)
         {
             return dir.X() != 0;
+        }
+
+        public static Dir valueOf(int dx, int dy)
+        {
+            return dx switch
+            {
+                > 0 => dy switch
+                {
+                    > 0 => Dir.NE,
+                    < 0 => Dir.SE,
+                    _ => Dir.E
+                },
+                < 0 => dy switch
+                {
+                    > 0 => Dir.NW,
+                    < 0 => Dir.SW,
+                    _ => Dir.W
+                },
+                _ => dy switch
+                {
+                    > 0 => Dir.N,
+                    < 0 => Dir.S,
+                    _ => Dir.C
+                }
+            };
         }
     }
 }

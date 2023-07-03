@@ -228,5 +228,9 @@ namespace Common.Util.Math
         {
             return new RectInt((int)v.x, (int)v.y, rc.width, rc.height);
         }
+        
+        public static float Lerp(float min, float max, float scale) {
+            return min + (max - min) * scale;
+        }
     }
 }

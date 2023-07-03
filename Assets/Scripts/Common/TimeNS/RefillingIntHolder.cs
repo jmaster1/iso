@@ -97,8 +97,8 @@ namespace Common.TimeNS
                 {
                     var timeLeftSec = (float) timeLeft.TotalSeconds;
                     var recovered = -timeLeftSec / RecoveryTime + 1;
-                    var add = (int) Math.Floor(recovered);
-                    add = Math.Min(add, Remaining);
+                    var add = (int) System.Math.Floor(recovered);
+                    add = System.Math.Min(add, Remaining);
                     Add(add, true);
                     //
                     // re-schedule task if needed
