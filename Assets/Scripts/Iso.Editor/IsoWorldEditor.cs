@@ -1,8 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-public class IsoMapEditor {
-    /*
+namespace Iso.Editor.World
+{
+    public class IsoWorldEditor {
+        /*
 //You can see this under GameObject/UI
 //Grouped together with the UI components
     [MenuItem("GameObject/UI/Text Area", false, 10)]
@@ -28,20 +30,21 @@ public class IsoMapEditor {
     }
  */
     
-    [MenuItem("GameObject/-----------------To front", false, 10)]
-    public static void ToFront() {
-        var obj = Selection.activeGameObject;
-        var sr = obj.GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            sr.sortingOrder += 1;
+        [MenuItem("GameObject/-----------------To front", false, 10)]
+        public static void ToFront() {
+            var obj = Selection.activeGameObject;
+            var sr = obj.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.sortingOrder += 1;
+            }
+            var sa = obj.GetComponent<MeshRenderer>();
+            if (sa != null)
+            {
+                sa.sortingOrder += 1;
+            }
+            Debug.Log(obj.name);
         }
-        var sa = obj.GetComponent<MeshRenderer>();
-        if (sa != null)
-        {
-            sa.sortingOrder += 1;
-        }
-        Debug.Log(obj.name);
     }
 }
 
