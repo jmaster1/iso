@@ -6,15 +6,27 @@ namespace Iso.Buildings
 {
     public class Building : AbstractEntity
     {
+        public Buildings buildings;
+
+        Cells.Cells Cells => buildings.Cells;
+        
         public BuildingInfo Info;
 
         public Cell Cell;
 
         public bool Flipped;
 
-        public void ForEachCell(Cells.Cells cells, Action<Cell> action)
+        public int X => Cell.X;
+        
+        public int Y => Cell.Y;
+
+        public int Width => Flipped ? Info.height : Info.width;
+        
+        public int Height => Flipped ? Info.width : Info.height;
+
+        public void ForEachCell(Action<Cell> action)
         {
-            cells.ForEach(Cell, Info, Flipped, action);
+            Cells.ForEach(Cell, Info, Flipped, action);
         }
     }
 }

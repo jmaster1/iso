@@ -8,7 +8,7 @@ namespace Common.Lang.Observable
     {
         private readonly Pool<T> pool = new();
         
-        public T Add(Action<T> initializer)
+        public T PooledAdd(Action<T> initializer)
         {
             var e = pool.Get();
             initializer(e);

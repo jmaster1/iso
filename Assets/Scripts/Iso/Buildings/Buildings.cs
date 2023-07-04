@@ -24,9 +24,11 @@ namespace Iso.Buildings
         public Building Build(BuildingInfo info, Cell cell, bool flip = false)
         {
             Cells.ForEach(cell, info, flip, e => Validate(e.IsBuildable()));
-            return List.Add(building =>
+            return List.PooledAdd(building =>
             {
+                building.buildings = this;
                 building.Info = info;
+                building.Flipped = flip;
                 building.Cell = cell;
                 Cells.ForEach(cell, info, flip,e => e.Building = building);
             });
@@ -35,7 +37,7 @@ namespace Iso.Buildings
         public void Remove(Building building)
         {
             List.PooledRemove(building);
-            building.ForEachCell(Cells, e => e.Building = null);
+            building.ForEachCell(e => e.Building = null);
         }
     }
 }
