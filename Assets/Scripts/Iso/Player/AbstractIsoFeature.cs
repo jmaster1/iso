@@ -1,7 +1,6 @@
 ﻿using Common.Player;
-using Iso.Player;
 
-namespace Sample.Player
+namespace Iso.Player
 {
     public abstract class AbstractIsoFeature : AbstractFeature
     {
