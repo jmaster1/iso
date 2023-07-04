@@ -25,7 +25,7 @@ namespace Common.Util.Math
          * @param y test point y
          * @param target will receive function result, must be not null
          */
-        void findClosestEdgePos(float x, float y, PointFloat target);
+        void findClosestEdgePos(float x, float y, Vector2DFloat target);
         
         /**
          * retrieve random point inside shape

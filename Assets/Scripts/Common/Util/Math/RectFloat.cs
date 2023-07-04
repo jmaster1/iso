@@ -20,9 +20,9 @@ namespace Math {
 		 * initialize array of 4 points that match rectangle corners
 		 * @return array of points, use PT_?_? constants to access points
 		 */
-		public static PointFloat[] getRectPoints(float x, float y, float w, float h, PointFloat[] target) {
+		public static Vector2DFloat[] getRectPoints(float x, float y, float w, float h, Vector2DFloat[] target) {
 			if(target == null) {
-				target = PointFloat.CreatePoints(4);
+				target = Vector2DFloat.CreatePoints(4);
 			}
 			target[PT_LEFT_BOTTOM].Set(x, y);
 			target[PT_RIGHT_BOTTOM].Set(x + w, y);
@@ -63,8 +63,8 @@ namespace Math {
 	    /**
 	     * constructor with 2 points defining diagonal
 	     */
-	    public RectFloat(PointFloat pt0, PointFloat pt1) {
-    		setDiagonal(pt0.x, pt0.y, pt1.x, pt1.y);
+	    public RectFloat(Vector2DFloat pt0, Vector2DFloat pt1) {
+    		setDiagonal(pt0.X, pt0.Y, pt1.X, pt1.Y);
 		}
 
 	    /**
@@ -114,8 +114,8 @@ namespace Math {
 	        return result;
 	    }
 	    
-	    public bool add(PointFloat pt) {
-	        return add(pt.x, pt.y);
+	    public bool add(Vector2DFloat pt) {
+	        return add(pt.X, pt.Y);
 	    }
 
 	    /**
@@ -360,8 +360,8 @@ namespace Math {
 	        return this;
 	    }
 	    
-	    public RectFloat moveCenterTo(PointFloat pos) {
-    		return moveCenterTo(pos.x, pos.y);
+	    public RectFloat moveCenterTo(Vector2DFloat pos) {
+    		return moveCenterTo(pos.X, pos.Y);
 	    }
 	    
 	    public RectFloat moveCenterTo(RectFloat rc) {
@@ -381,8 +381,8 @@ namespace Math {
 	    }
 	    
 
-		public RectFloat setDiagonal(PointFloat pt0, PointFloat pt1) {
-			return setDiagonal(pt0.x, pt0.y, pt1.x, pt1.y);
+		public RectFloat setDiagonal(Vector2DFloat pt0, Vector2DFloat pt1) {
+			return setDiagonal(pt0.X, pt0.Y, pt1.X, pt1.Y);
 		}
 
 	    public RectFloat setX(float x) {
@@ -572,9 +572,9 @@ namespace Math {
 		/**
 		 * translate rectangle so its center is at specified point
 		 */
-		public RectFloat setCenter(PointFloat c) {
-			x = c.x - w / 2f; 
-			y = c.y - h / 2f;
+		public RectFloat setCenter(Vector2DFloat c) {
+			x = c.X - w / 2f; 
+			y = c.Y - h / 2f;
 			return this;
 		}
 		
@@ -607,8 +607,8 @@ namespace Math {
 		/**
 		 * check whether this rectangle contains specified point
 		 */
-		public bool contains(PointFloat pt) {
-			return contains(pt.x, pt.y);
+		public bool contains(Vector2DFloat pt) {
+			return contains(pt.X, pt.Y);
 		}
 		
 		/**
@@ -715,9 +715,9 @@ namespace Math {
 		 * retrieve point on the edge or in the center of rectangle that matches direction
 		 * @param target point to reuse, may be null
 		 */
-		public PointFloat getPoint(Dir dir, PointFloat target) {
+		public Vector2DFloat getPoint(Dir dir, Vector2DFloat target) {
 			if(target == null) {
-				target = new PointFloat();
+				target = new Vector2DFloat();
 			}
 			target.Set(getX(dir), getY(dir));
 			return target;
@@ -833,8 +833,8 @@ namespace Math {
 			return this;
 		}
 
-		public RectFloat setPos(PointFloat pt) {
-			return setPos(pt.x, pt.y);
+		public RectFloat setPos(Vector2DFloat pt) {
+			return setPos(pt.X, pt.Y);
 		}
 
 		/**
@@ -909,14 +909,14 @@ namespace Math {
 			return (float) System.Math.Sqrt(w * w + h * h);
 		}
 
-		public RectFloat setSize(PointFloat size) {
+		public RectFloat setSize(Vector2DFloat size) {
 			w = size.X;
 			h = size.Y;
 			return this;
 		}
 
-		public RectFloat moveBy(PointFloat pt) {
-			return moveBy(pt.x, pt.y);
+		public RectFloat moveBy(Vector2DFloat pt) {
+			return moveBy(pt.X, pt.Y);
 		}
 		
 		/**
@@ -1007,7 +1007,7 @@ namespace Math {
 			return contains(tx, ty);
 		}
 
-		public void findClosestEdgePos(float x, float y, PointFloat target)
+		public void findClosestEdgePos(float x, float y, Vector2DFloat target)
 		{
 			throw new NotImplementedException();
 		}
