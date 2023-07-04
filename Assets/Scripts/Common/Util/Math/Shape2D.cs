@@ -17,7 +17,7 @@ namespace Common.Util.Math
          * @param y test point y
          * @return
          */
-        bool hitTest(float x, float y);
+        bool HitTest(float x, float y);
         
         /**
          * find point closest to specified on shape contour
@@ -25,7 +25,7 @@ namespace Common.Util.Math
          * @param y test point y
          * @param target will receive function result, must be not null
          */
-        void findClosestEdgePos(float x, float y, Vector2DFloat target);
+        void FindClosestEdgePos(float x, float y, Vector2DFloat target);
         
         /**
          * retrieve random point inside shape
@@ -37,6 +37,6 @@ namespace Common.Util.Math
          * retrieve axis aligned bounding box of this shape
          * @param target
          */
-        void getBounds(RectFloat target);
+        void GetBounds(RectFloat target);
     }
 }

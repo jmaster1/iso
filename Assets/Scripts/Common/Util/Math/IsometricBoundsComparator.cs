@@ -8,15 +8,15 @@ namespace Common.Util.Math
         public int Compare(RectFloat b1, RectFloat b2)
         {
             if (b1 == null || b2 == null) return 0;
-            var q = b1.getQuadrant(b2.x, b2.y, Dir.NE);
+            var q = b1.GetQuadrant(b2.x, b2.y, Dir.NE);
             var result = GetResult(q);
             if (result != 0) return result;
-            q = b1.getQuadrant(b2.getMaxX(), b2.getMaxY(), Dir.SW);
+            q = b1.GetQuadrant(b2.GetMaxX(), b2.GetMaxY(), Dir.SW);
             result = GetResult(q);
             return result;
         }
 
-        static int GetResult(Dir dir)
+        private static int GetResult(Dir dir)
         {
             return dir switch
             {

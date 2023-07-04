@@ -10,17 +10,16 @@ using Common.Util.Math;
 
 namespace Math {
 	public class RectFloat : Shape2D {
-		
-		public static readonly int PT_LEFT_BOTTOM = 0;
-		public static readonly int PT_RIGHT_BOTTOM = 1;
-		public static readonly int PT_RIGHT_TOP = 2;
-		public static readonly int PT_LEFT_TOP= 3;
-		
+		public const int PT_LEFT_BOTTOM = 0;
+		public const int PT_RIGHT_BOTTOM = 1;
+		public const int PT_RIGHT_TOP = 2;
+		public const int PT_LEFT_TOP = 3;
+
 		/**
 		 * initialize array of 4 points that match rectangle corners
 		 * @return array of points, use PT_?_? constants to access points
 		 */
-		public static Vector2DFloat[] getRectPoints(float x, float y, float w, float h, Vector2DFloat[] target) {
+		public static Vector2DFloat[] GetRectPoints(float x, float y, float w, float h, Vector2DFloat[] target) {
 			if(target == null) {
 				target = Vector2DFloat.CreatePoints(4);
 			}
@@ -64,21 +63,21 @@ namespace Math {
 	     * constructor with 2 points defining diagonal
 	     */
 	    public RectFloat(Vector2DFloat pt0, Vector2DFloat pt1) {
-    		setDiagonal(pt0.X, pt0.Y, pt1.X, pt1.Y);
+    		SetDiagonal(pt0.X, pt0.Y, pt1.X, pt1.Y);
 		}
 
 	    /**
 	     * copy constructor
 	     */
 		public RectFloat(RectFloat rc) {
-			set(rc);
+			Set(rc);
 		}
 
 	    /**
 	     * check if rectangle contains specified point
 	     * @return true if point is inside or on the edge
 	     */
-	    public bool contains(float px, float py) {
+	    public bool Contains(float px, float py) {
 	        return x <= px && y <= py && x + w >= px && y + h >= py;
 	    }
 
@@ -93,8 +92,8 @@ namespace Math {
 	     * @param y2
 	     * @return true if rectangle modified
 	     */
-	    public bool add(float x2, float y2) {
-	        bool result = false;
+	    public bool Add(float x2, float y2) {
+	        var result = false;
 	        if (x > x2) {
 	            w += x - x2;
 	            x = x2;
@@ -114,8 +113,8 @@ namespace Math {
 	        return result;
 	    }
 	    
-	    public bool add(Vector2DFloat pt) {
-	        return add(pt.X, pt.Y);
+	    public bool Add(Vector2DFloat pt) {
+	        return Add(pt.X, pt.Y);
 	    }
 
 	    /**
@@ -123,9 +122,9 @@ namespace Math {
 	     * 
 	     * @param bounds
 	     */
-	    public bool add(RectFloat bounds) {
-	        return add(bounds.x, bounds.y) |
-	                add(bounds.x + bounds.w, bounds.y + bounds.h);
+	    public bool Add(RectFloat bounds) {
+	        return Add(bounds.x, bounds.y) |
+	                Add(bounds.x + bounds.w, bounds.y + bounds.h);
 	    }
 	    
 	    /**
@@ -134,8 +133,8 @@ namespace Math {
 	     * @param y y-component of circle center
 	     * @param r circle radius
 	     */
-	    public bool add(float x, float y, float r) {
-	        return add(x - r, y - r) | add(x + r, y + r);
+	    public bool Add(float tx, float ty, float r) {
+	        return Add(tx - r, ty - r) | Add(tx + r, ty + r);
 	    }
 
 	    /**
@@ -147,11 +146,11 @@ namespace Math {
 	     * @param h
 	     * @return 
 	     */
-	    public RectFloat set(float x, float y, float w, float h) {
-	        this.x = x;
-	        this.y = y;
-	        this.w = w;
-	        this.h = h;
+	    public RectFloat Set(float tx, float ty, float tw, float th) {
+	        x = tx;
+	        y = ty;
+	        w = tw;
+	        h = th;
 	        return this;
 	    }
 	    
@@ -164,12 +163,12 @@ namespace Math {
 	     * @param otherAxisSize
 	     * @return
 	     */
-	    public RectFloat set(Axis2D axis, float axisPos, float otherAxisPos, float axisSize, float otherAxisSize)
+	    public RectFloat Set(Axis2D axis, float axisPos, float otherAxisPos, float axisSize, float otherAxisSize)
 	    {
 		    return axis switch
 		    {
-			    Axis2D.X => set(axisPos, otherAxisPos, axisSize, otherAxisSize),
-			    Axis2D.Y => set(otherAxisPos, axisPos, otherAxisSize, axisSize),
+			    Axis2D.X => Set(axisPos, otherAxisPos, axisSize, otherAxisSize),
+			    Axis2D.Y => Set(otherAxisPos, axisPos, otherAxisSize, axisSize),
 			    _ => this
 		    };
 	    }
@@ -178,7 +177,7 @@ namespace Math {
 	     * copy provided rectangle into this
 	     * @return 
 	     */
-	    public RectFloat set(RectFloat r) {
+	    public RectFloat Set(RectFloat r) {
 	        x = r.x;
 	        y = r.y;
 	        w = r.w;
@@ -189,61 +188,58 @@ namespace Math {
 	    /**
 	     * min x-coordinate retrieval
 	     */
-	    public float getMinX() {
+	    public float GetMinX() {
 	        return x;
 	    }
 
 	    /**
 	     * min y-coordinate retrieval
 	     */
-	    public float getMinY() {
+	    public float GetMinY() {
 	        return y;
 	    }
 	    
 	    /**
 	     * max x-coordinate retrieval
 	     */
-	    public float getMaxX() {
+	    public float GetMaxX() {
 	        return x + w;
 	    }
 
 	    /**
 	     * max y-coordinate retrieval
 	     */
-	    public float getMaxY() {
+	    public float GetMaxY() {
 	        return y + h;
 	    }
 
 	    /**
 	     * check if this rect intersects with specified (intersection area > 0)
 	     */
-	    public bool intersects(RectFloat r) {
-	        float x0 = System.Math.Max(x, r.x);
-	        float x1 = System.Math.Min(x + w, r.x + r.w);
-	        float dx = x1 - x0;
+	    public bool Intersects(RectFloat r) {
+	        var x0 = System.Math.Max(x, r.x);
+	        var x1 = System.Math.Min(x + w, r.x + r.w);
+	        var dx = x1 - x0;
 	        if(dx <= 0) {
 	            return false;
 	        }
-	        float y0 = System.Math.Max(y, r.y);
-	        float y1 = System.Math.Min(y + h, r.y + r.h);
-	        float dy = y1 - y0;
-	        if(dy <= 0) {
-	            return false;
-	        }
-	        return true;
+	        var y0 = System.Math.Max(y, r.y);
+	        var y1 = System.Math.Min(y + h, r.y + r.h);
+	        var dy = y1 - y0;
+	        return !(dy <= 0);
 	    }
 
 	    /**
 	     * check if rect is empty, i.e. have no area
 	     */
-	    public bool isEmpty() {
+	    public bool IsEmpty() {
 	        return w <= 0f || h <= 0f;
 	    }
 
 	    /**
 	     * reset all components to 0
 	     */
-	    public RectFloat reset() {
+	    public RectFloat Reset() {
 	        x = y = w = h = 0;
 	        return this;
 	    }
@@ -251,7 +247,7 @@ namespace Math {
 	    /**
 	     * move rectangle by dx, dy
 	     */
-	    public RectFloat moveBy(float dx, float dy) {
+	    public RectFloat MoveBy(float dx, float dy) {
 	        x += dx;
 	        y += dy;
 	        return this;
@@ -260,14 +256,14 @@ namespace Math {
 	    /**
 	     * x-coordinate of rectangle center retrieval
 	     */
-	    public float getCenterX() {
+	    public float GetCenterX() {
 	        return w == 0 ? x : x + w / 2f;
 	    }
 	    
 	    /**
 	     * y-coordinate of rectangle center retrieval
 	     */
-	    public float getCenterY() {
+	    public float GetCenterY() {
 	        return h == 0 ? y : y + h / 2f;
 	    }
 
@@ -276,14 +272,14 @@ namespace Math {
 	     * @param r
 	     * @return
 	     */
-	    public bool contains(RectFloat r) {
-	        return contains(r.x, r.y) && contains(r.x + r.w, r.y + r.h);
+	    public bool Contains(RectFloat r) {
+	        return Contains(r.x, r.y) && Contains(r.x + r.w, r.y + r.h);
 	    }
 
 	    /**
 	     * move rect to specified position
 	     */
-	    public RectFloat moveTo(float x2, float y2) {
+	    public RectFloat MoveTo(float x2, float y2) {
 	        x = x2;
 	        y = y2;
 	        return this;
@@ -292,7 +288,7 @@ namespace Math {
 	    /**
 	     * creates copy of this rect
 	     */
-	    public RectFloat copy() {
+	    public RectFloat Copy() {
 	        return new RectFloat().Set(this);
 	    }
 
@@ -301,7 +297,7 @@ namespace Math {
 	     * @param d
 	     * @return
 	     */
-	    public RectFloat expand(float d) {
+	    public RectFloat Expand(float d) {
 	        x -= d;
 	        y -= d;
 	        w += d * 2;
@@ -312,7 +308,7 @@ namespace Math {
 	    /**
 	     * expand bounds by given amount in each direction
 	     */
-	    public RectFloat expand(float dx, float dy) {
+	    public RectFloat Expand(float dx, float dy) {
 	        x -= dx;
 	        y -= dy;
 	        w += dx * 2;
@@ -343,7 +339,7 @@ namespace Math {
 	    /**
 	     * expand bounds by adding insets
 	     */
-	    public void expand(float top, float left, float bottom, float right) {
+	    public void Expand(float top, float left, float bottom, float right) {
 			x -= left;
 			y -= bottom;
 			w += right + left;
@@ -354,25 +350,25 @@ namespace Math {
 	     * move rect so its center is at (cx, cy)
 	     * @return 
 	     */
-	    public RectFloat moveCenterTo(float cx, float cy) {
+	    public RectFloat MoveCenterTo(float cx, float cy) {
 	        x = cx - w / 2f;
 	        y = cy - h / 2f;
 	        return this;
 	    }
 	    
-	    public RectFloat moveCenterTo(Vector2DFloat pos) {
-    		return moveCenterTo(pos.X, pos.Y);
+	    public RectFloat MoveCenterTo(Vector2DFloat pos) {
+    		return MoveCenterTo(pos.X, pos.Y);
 	    }
 	    
-	    public RectFloat moveCenterTo(RectFloat rc) {
-    		return moveCenterTo(rc.getCenterX(), rc.getCenterY());
+	    public RectFloat MoveCenterTo(RectFloat rc) {
+    		return MoveCenterTo(rc.GetCenterX(), rc.GetCenterY());
 	    }
 
 	    /**
 	     * set rectangle bounds from diagonal
 	     * @return this
 	     */
-	    public RectFloat setDiagonal(float x0, float y0, float x1, float y1) {
+	    public RectFloat SetDiagonal(float x0, float y0, float x1, float y1) {
 	        x = System.Math.Min(x0,  x1);
 	        y = System.Math.Min(y0,  y1);
 	        w = System.Math.Abs(x0 - x1);
@@ -381,29 +377,10 @@ namespace Math {
 	    }
 	    
 
-		public RectFloat setDiagonal(Vector2DFloat pt0, Vector2DFloat pt1) {
-			return setDiagonal(pt0.X, pt0.Y, pt1.X, pt1.Y);
+		public RectFloat SetDiagonal(Vector2DFloat pt0, Vector2DFloat pt1) {
+			return SetDiagonal(pt0.X, pt0.Y, pt1.X, pt1.Y);
 		}
-
-	    public RectFloat setX(float x) {
-	        this.x = x;
-	        return this;
-	    }
-
-	    public RectFloat setY(float y) {
-	        this.y = y;
-	        return this;
-	    }
-
-	    public RectFloat setW(float w) {
-	        this.w = w;
-	        return this;
-	    }
-
-	    public RectFloat setH(float h) {
-	        this.h = h;
-	        return this;
-	    }
+		
 	    /**
 	     * Support
 	     * rect transformation support class
@@ -446,15 +423,15 @@ namespace Math {
 	    /**
 	     * checks whether x <= px <= x + w
 	     */
-	    public bool containsX(float px) {
-	        return x <= px && px <= getMaxX();
+	    public bool ContainsX(float px) {
+	        return x <= px && px <= GetMaxX();
 	    }
 	    
 	    /**
 	     * checks whether y <= py <= y + h
 	     */
-	    public bool containsY(float py) {
-	        return y <= py && py <= getMaxY();
+	    public bool ContainsY(float py) {
+	        return y <= py && py <= GetMaxY();
 	    }
 
 	    /**
@@ -465,13 +442,13 @@ namespace Math {
 	     * @param maxAxis
 	     * @param maxOtherAxis
 	     */
-	    public void setDiagonal(Axis2D axis, float minAxis, float minOtherAxis, float maxAxis, float maxOtherAxis) {
+	    public void SetDiagonal(Axis2D axis, float minAxis, float minOtherAxis, float maxAxis, float maxOtherAxis) {
 	        switch(axis) {
 	        case Axis2D.X:
-	            setDiagonal(minAxis, minOtherAxis, maxAxis, maxOtherAxis);
+	            SetDiagonal(minAxis, minOtherAxis, maxAxis, maxOtherAxis);
 	            break;
 	        case Axis2D.Y:
-	            setDiagonal(minOtherAxis, minAxis, maxOtherAxis, maxAxis);
+	            SetDiagonal(minOtherAxis, minAxis, maxOtherAxis, maxAxis);
 	            break;
 	        }
 	    }
@@ -480,7 +457,7 @@ namespace Math {
 	     * multiply all rectangle components by f
 	     * @param f
 	     */
-	    public RectFloat mul(float f) {
+	    public RectFloat Mul(float f) {
 			x *= f;
 			y *= f;
 			w *= f;
@@ -488,7 +465,7 @@ namespace Math {
 			return this;
 		}
 	    
-	    public RectFloat mul(float f, float scalingCenterPercentX, float scalingCenterPercentY) {
+	    public RectFloat Mul(float f, float scalingCenterPercentX, float scalingCenterPercentY) {
 	        x = x + w * scalingCenterPercentX * (1 - f);
 	        y = y + h * scalingCenterPercentY * (1 - f);
 	        w *= f;
@@ -499,7 +476,7 @@ namespace Math {
 	    /**
 	     * scale using origin point
 	     */
-	    public RectFloat scale(float scale, float originX, float originY) {
+	    public RectFloat Scale(float scale, float originX, float originY) {
     		float f = 1f - scale;
     		x += (originX - x) * f;
     		y += (originY - y) * f;
@@ -508,7 +485,7 @@ namespace Math {
     		return this;
 	    }
 	    
-	    public RectFloat scale(float scaleX, float scaleY, float originX, float originY) {
+	    public RectFloat Scale(float scaleX, float scaleY, float originX, float originY) {
     		float fx = 1f - scaleX;
     		x += (originX - x) * fx;
     		float fy = 1f - scaleY;
@@ -521,14 +498,14 @@ namespace Math {
 		/**
 		 * scale rectangle so its center remains at same position and linear dimensions multiplied by specified factor
 		 */
-		public RectFloat scaleFromCenter(float s) {
-			return scaleFromCenter(s, s);
+		public RectFloat ScaleFromCenter(float s) {
+			return ScaleFromCenter(s, s);
 		}
 		
 		/**
 		 * scale rectangle so its center remains at same position and linear dimensions multiplied by specified factor
 		 */
-		public RectFloat scaleFromCenter(float sx, float sy) {
+		public RectFloat ScaleFromCenter(float sx, float sy) {
 			x -= (w * sx - w) / 2f;
 			y -= (h * sy - h) / 2f;
 			w *= sx;
@@ -539,7 +516,7 @@ namespace Math {
 		/**
 		 * normalize rectangle so width/height is not negative
 		 */
-		public RectFloat normalize() {
+		public RectFloat Normalize() {
 			if(w < 0) {
 				x += w;
 				w = -w;
@@ -554,7 +531,7 @@ namespace Math {
 		/**
 		 * multiply horizontally (x, w)
 		 */
-		public RectFloat mulHorz(float f) {
+		public RectFloat MulHorz(float f) {
 			x *= f;
 			w *= f;
 			return this;
@@ -563,7 +540,7 @@ namespace Math {
 		/**
 		 * multiply vertically (x, w)
 		 */
-		public RectFloat mulVert(float f) {
+		public RectFloat MulVert(float f) {
 			y *= f;
 			h *= f;
 			return this;
@@ -572,7 +549,7 @@ namespace Math {
 		/**
 		 * translate rectangle so its center is at specified point
 		 */
-		public RectFloat setCenter(Vector2DFloat c) {
+		public RectFloat SetCenter(Vector2DFloat c) {
 			x = c.X - w / 2f; 
 			y = c.Y - h / 2f;
 			return this;
@@ -581,7 +558,7 @@ namespace Math {
 		/**
 		 * translate rectangle so its center is at specified point
 		 */
-		public RectFloat setCenter(float cx, float cy) {
+		public RectFloat SetCenter(float cx, float cy) {
 			x = cx - w / 2f; 
 			y = cy - h / 2f;
 			return this;
@@ -590,15 +567,15 @@ namespace Math {
 		/**
 		 * translate/resize rectangle so its center is at specified point
 		 */
-		public void setCenter(float cx, float cy, float width, float height) {
-			setSize(width, height); 
-			setCenter(cx, cy);
+		public void SetCenter(float cx, float cy, float width, float height) {
+			SetSize(width, height); 
+			SetCenter(cx, cy);
 		}
 
 		/**
 		 * set rectangle size
 		 */
-		public RectFloat setSize(float width, float height) {
+		public RectFloat SetSize(float width, float height) {
 			w = width;
 			h = height;
 			return this;
@@ -607,14 +584,14 @@ namespace Math {
 		/**
 		 * check whether this rectangle contains specified point
 		 */
-		public bool contains(Vector2DFloat pt) {
-			return contains(pt.X, pt.Y);
+		public bool Contains(Vector2DFloat pt) {
+			return Contains(pt.X, pt.Y);
 		}
 		
 		/**
 		 * flip axis, i.e. change axis direction
 		 */
-		public RectFloat flipAxis(bool flipX, bool flipY) {
+		public RectFloat FlipAxis(bool flipX, bool flipY) {
 			if(flipX) {
 				x = -x - w;
 			}
@@ -679,9 +656,9 @@ namespace Math {
 		 * set position
 		 * @return 
 		 */
-		public RectFloat setPos(float x, float y) {
-			this.x = x;
-			this.y = y;
+		public RectFloat SetPos(float tx, float ty) {
+			x = tx;
+			y = ty;
 			return this;
 		}
 
@@ -689,7 +666,7 @@ namespace Math {
 		 * make this rectangle to be inside target, adjusting pos/size if necessary
 		 * @return 
 		 */
-		public RectFloat fit(RectFloat target) {
+		public RectFloat Fit(RectFloat target) {
 			if(w > target.w) {
 				w = target.w;
 			}
@@ -702,11 +679,11 @@ namespace Math {
 			if(y < target.y) {
 				y = target.y;
 			}
-			if(getMaxX() > target.getMaxX()) {
-				x = target.getMaxX() - w;
+			if(GetMaxX() > target.GetMaxX()) {
+				x = target.GetMaxX() - w;
 			}
-			if(getMaxY() > target.getMaxY()) {
-				y = target.getMaxY() - h;
+			if(GetMaxY() > target.GetMaxY()) {
+				y = target.GetMaxY() - h;
 			}
 			return this;
 		}
@@ -715,20 +692,20 @@ namespace Math {
 		 * retrieve point on the edge or in the center of rectangle that matches direction
 		 * @param target point to reuse, may be null
 		 */
-		public Vector2DFloat getPoint(Dir dir, Vector2DFloat target) {
+		public Vector2DFloat GetPoint(Dir dir, Vector2DFloat target) {
 			if(target == null) {
 				target = new Vector2DFloat();
 			}
-			target.Set(getX(dir), getY(dir));
+			target.Set(GetX(dir), GetY(dir));
 			return target;
 		}
 		
-		public float getX(Dir dir) {
-			return getCenterX() + w * dir.X() / 2f;
+		public float GetX(Dir dir) {
+			return GetCenterX() + w * dir.X() / 2f;
 		}
 		
-		public float getY(Dir dir) {
-			return getCenterY() + h * dir.Y() / 2f;
+		public float GetY(Dir dir) {
+			return GetCenterY() + h * dir.Y() / 2f;
 		}
 		
 		/**
@@ -737,7 +714,7 @@ namespace Math {
 		 * @param py
 		 * @return dir or null if point is not corner
 		 */
-		public Dir getCorner(float px, float py) {
+		public Dir GetCorner(float px, float py) {
 			if(px == x) {
 				if(py == y) {
 					return Dir.SW;
@@ -759,33 +736,32 @@ namespace Math {
 		 * @param correction if point is on quadrants border, 
 		 * then move by 0 in specified directory to determine proper quadrant
 		 */
-		public Dir getQuadrant(float x, float y, Dir correction) {
-			Dir result;
+		public Dir GetQuadrant(float tx, float ty, Dir correction) {
 			int dx = 0, dy = 0;
-			if(x < this.x) {
+			if(tx < x) {
 				dx = DirEx.NEGATIVE;
-			} else if(x > getMaxX()) {
+			} else if(tx > GetMaxX()) {
 				dx = DirEx.POSITIVE;
 			}
-			if(y < this.y) {
+			if(ty < y) {
 				dy = DirEx.NEGATIVE;
-			} else if(y > getMaxY()) {
+			} else if(ty > GetMaxY()) {
 				dy = DirEx.POSITIVE;
 			}
 			if(correction != null) {
-				if(((x == this.x && correction.X() < 0) || 
-						(correction.X() > 0 && x == getMaxX()))) {
+				if((tx == x && correction.X() < 0) || 
+				   (correction.X() > 0 && tx == GetMaxX())) {
 					dx = correction.X();
 				}
-				if(((y == this.y && correction.Y() < 0) || 
-						(correction.Y() > 0 && y == getMaxY()))) {
+				if((ty == y && correction.Y() < 0) || 
+				   (correction.Y() > 0 && ty == GetMaxY())) {
 					dy = correction.Y();
 				}
 			}
-			result = DirEx.valueOf(dx, dy);
+			var result = DirEx.valueOf(dx, dy);
 			return result;
 		}
-		
+
 		/**
 		 * retrieve transform that transforms this rect to target
 		 * @param target target rectangle
@@ -807,7 +783,7 @@ namespace Math {
 		/**
 		 * set aspect ratio (w/h) for this rectangle, this will shrink rectangle
 		 */
-		public void setAspectRatio(float r) {
+		public void SetAspectRatio(float r) {
 			float currentRatio = w / h;
 			if(currentRatio > r) {
 				w = h  * r;
@@ -819,29 +795,29 @@ namespace Math {
 		/**
 		 * align this rect to edge of anchor rect so this rect
 		 */
-		public RectFloat alignOutside(RectFloat anchor, Dir dir) {
+		public RectFloat AlignOutside(RectFloat anchor, Dir dir) {
 			if(dir.IsRight()) {
-				x = anchor.getMaxX();
+				x = anchor.GetMaxX();
 			} else if(dir.IsLeft()) {
-				x = anchor.getMinX() - w;
+				x = anchor.GetMinX() - w;
 			}
 			if(dir.IsUp()) {
-				y = anchor.getMaxY();
+				y = anchor.GetMaxY();
 			} else if(dir.IsDown()) {
-				y = anchor.getMinY() - h;
+				y = anchor.GetMinY() - h;
 			}
 			return this;
 		}
 
-		public RectFloat setPos(Vector2DFloat pt) {
-			return setPos(pt.X, pt.Y);
+		public RectFloat SetPos(Vector2DFloat pt) {
+			return SetPos(pt.X, pt.Y);
 		}
 
 		/**
 		 * return parameter or new instance if null passed
 		 */
-		public static RectFloat nvl(RectFloat bounds) {
-			return bounds == null ? new RectFloat() : bounds;
+		public static RectFloat Nvl(RectFloat bounds) {
+			return bounds ?? new RectFloat();
 		}
 		
 		public override bool Equals(object obj)
@@ -862,10 +838,8 @@ namespace Math {
 		/**
 		 * swap width/height
 		 */
-		public RectFloat swapSize() {
-			float tmp = w;
-			w = h;
-			h = tmp;
+		public RectFloat SwapSize() {
+			(w, h) = (h, w);
 			return this;
 		}
 
@@ -874,7 +848,7 @@ namespace Math {
 		 * @param f a ratio to set (width/height)
 		 * @param keepWidth if true, width remains unchanged, otherwise height
 		 */
-		public RectFloat setRatio(float f, bool keepWidth) {
+		public RectFloat SetRatio(float f, bool keepWidth) {
 			if(keepWidth) {
 				h = w / f;
 			} else {
@@ -886,14 +860,14 @@ namespace Math {
 		/**
 		 * ratio retrieval (width/height)
 		 */
-		public float getRatio() {
+		public float GetRatio() {
 			return w / h;
 		}
 
 		/**
 		 * set all components to nan
 		 */
-		public RectFloat setNaN() {
+		public RectFloat SetNaN() {
 			x = y = w = h = float.NaN;
 			return this;
 		}
@@ -901,32 +875,32 @@ namespace Math {
 		/**
 		 * check if any component is NaN
 		 */
-		public bool isNaN() {
+		public bool IsNaN() {
 			return float.IsNaN(x) || float.IsNaN(y) || float.IsNaN(w) || float.IsNaN(h);
 		}
 
-		public float getDiagonal() {
+		public float GetDiagonal() {
 			return (float) System.Math.Sqrt(w * w + h * h);
 		}
 
-		public RectFloat setSize(Vector2DFloat size) {
+		public RectFloat SetSize(Vector2DFloat size) {
 			w = size.X;
 			h = size.Y;
 			return this;
 		}
 
-		public RectFloat moveBy(Vector2DFloat pt) {
-			return moveBy(pt.X, pt.Y);
+		public RectFloat MoveBy(Vector2DFloat pt) {
+			return MoveBy(pt.X, pt.Y);
 		}
 		
 		/**
 		 * rotate by 90 degrees using center as anchor
 		 */
-		public RectFloat rot90() {
-			var cx = getCenterX();
-			var cy = getCenterY();
-			swapSize();
-			moveCenterTo(cx, cy);
+		public RectFloat Rot90() {
+			var cx = GetCenterX();
+			var cy = GetCenterY();
+			SwapSize();
+			MoveCenterTo(cx, cy);
 			return this;
 		}
 
@@ -936,29 +910,29 @@ namespace Math {
 		 * @param pos a new position of edge to set
 		 * @param keepOppositeEdge shows whether opposite edge should keep its position
 		 */
-		public void setEdgePos(Dir dir, float pos, bool keepOppositeEdge) {
+		public void SetEdgePos(Dir dir, float pos, bool keepOppositeEdge) {
 			LangHelper.Validate(dir.IsPrimary());
-			var current = getEdgePos(dir);
+			var current = GetEdgePos(dir);
 			var d = pos - current;
 			if(keepOppositeEdge) {
 				var invDir = dir.Invert();
-				var invEdgePos = getEdgePos(invDir);
-				setAxisBounds(pos, invEdgePos, dir.IsHorz());
+				var invEdgePos = GetEdgePos(invDir);
+				SetAxisBounds(pos, invEdgePos, dir.IsHorz());
 			} else {
 				var horz = dir.IsHorz();
 				var dx = horz ? d : 0;
 				var dy = horz ? 0 : d;
-				moveBy(dx, dy);
+				MoveBy(dx, dy);
 			}
 		}
 		
 		/**
 		 * move this rect by specified amount in given direction
 		 */
-		public void moveBy(float d, Dir dir) {
+		public void MoveBy(float d, Dir dir) {
 			var dx = dir.X() * d;
 			var dy = dir.Y() * d;
-			moveBy(dx, dy);
+			MoveBy(dx, dy);
 		}
 
 		/**
@@ -966,15 +940,15 @@ namespace Math {
 		 * @param dir
 		 * @return
 		 */
-		public float getEdgePos(Dir dir)
+		public float GetEdgePos(Dir dir)
 		{
-			LangHelper.Validate(dir.IsPrimary());
 			return dir switch
 			{
-				Dir.E => getMaxX(),
-				Dir.N => getMaxY(),
-				Dir.S => getMinY(),
-				Dir.W => getMinX()
+				Dir.E => GetMaxX(),
+				Dir.N => GetMaxY(),
+				Dir.S => GetMinY(),
+				Dir.W => GetMinX(),
+				_ => throw new ArgumentOutOfRangeException(nameof(dir), dir, null)
 			};
 		}
 		
@@ -984,7 +958,7 @@ namespace Math {
 		 * @param v1 second edge position
 		 * @param horz true if use horizontal (x) axis
 		 */
-		public void setAxisBounds(float v0, float v1, bool horz) {
+		public void SetAxisBounds(float v0, float v1, bool horz) {
 			if(horz) {
 				x = System.Math.Min(v0, v1);
 				w = System.Math.Abs(v0 - v1);
@@ -999,15 +973,15 @@ namespace Math {
 		 * @param horz
 		 * @return
 		 */
-		public float getSize(bool horz) {
+		public float GetSize(bool horz) {
 			return horz ? w : h;
 		}
 
-		public bool hitTest(float tx, float ty) {
-			return contains(tx, ty);
+		public bool HitTest(float tx, float ty) {
+			return Contains(tx, ty);
 		}
 
-		public void findClosestEdgePos(float x, float y, Vector2DFloat target)
+		public void FindClosestEdgePos(float x, float y, Vector2DFloat target)
 		{
 			throw new NotImplementedException();
 		}
@@ -1070,34 +1044,25 @@ namespace Math {
 		}
 		*/
 
-		public void getBounds(RectFloat target) {
+		public void GetBounds(RectFloat target) {
 			target.Set(this);
 		}
 
-		private RectFloat Set(RectFloat other)
-		{
-			x = other.x;
-			y = other.y;
-			w = other.w;
-			h = other.h;
-			return this;
-		}
-
-		public void setSize(Dir dir, float w, float h) {
-			var ox = getX(dir);
-			var oy = getY(dir);
-			var sx = w / this.w;
-			var sy = h / this.h;
-			scale(sx, sy, ox, oy);
+		public void SetSize(Dir dir, float tw, float th) {
+			var ox = GetX(dir);
+			var oy = GetY(dir);
+			var sx = tw / w;
+			var sy = th / h;
+			Scale(sx, sy, ox, oy);
 		}
 		
 		/**
 		 * align this rect horizontally using bounds and scale factor
 		 */
-		public RectFloat alignHorz(RectFloat bounds, float scale) {
+		public RectFloat AlignHorz(RectFloat bounds, float scale) {
 			var halfSize = w / 2f;
-			var min = bounds.getMinX() + halfSize;
-			var max = bounds.getMaxX() - halfSize;
+			var min = bounds.GetMinX() + halfSize;
+			var max = bounds.GetMaxX() - halfSize;
 			var c = MathHelper.Lerp(min, max, scale);
 			x = c - halfSize;
 			return this;
@@ -1106,10 +1071,10 @@ namespace Math {
 		/**
 		 * align this rect vertically using bounds and scale factor
 		 */
-		public RectFloat alignVert(RectFloat bounds, float scale) {
+		public RectFloat AlignVert(RectFloat bounds, float scale) {
 			var halfSize = h / 2f;
-			var min = bounds.getMinY() + halfSize;
-			var max = bounds.getMaxY() - halfSize;
+			var min = bounds.GetMinY() + halfSize;
+			var max = bounds.GetMaxY() - halfSize;
 			var c = MathHelper.Lerp(min, max, scale);
 			y = c - halfSize;
 			return this;
