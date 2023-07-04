@@ -1,0 +1,13 @@
+{
+    "name": "Iso.Tests",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "references":[ 
+        "Common",
+        "Iso"
+    ]
+}

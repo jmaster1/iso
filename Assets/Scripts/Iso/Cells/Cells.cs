@@ -1,45 +1,49 @@
 using System;
+using System.Collections.Generic;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
+using Common.Util.Math.Path.AStar;
 using Iso.Buildings;
 
 namespace Iso.Cells
 {
     public class Cells : GenericBean
     {
-        private int _width;
-        private int _height;
-
         /// <summary>
         /// cell 2d map, may contain nulls
         /// </summary>
-        private Cell[,] _cells;
+        private Cell[,] cells;
 
         /// <summary>
         /// list of existing (non-null) cells
         /// </summary>
         public readonly PooledObsList<Cell> CellList = new();
+        
+        private readonly AStarPathFinder<Cell> pathFinder = new();
+        
+        private readonly CellsGraph graph = new();
 
-        public int Width => _width;
-        public int Heigth => _height;
+        public int Width { get; private set; }
+
+        public int Heigth { get; private set; }
 
         public void Create(int w, int h)
         {
-            _cells = new Cell[_width = w, _height = h];
+            cells = new Cell[Width = w, Heigth = h];
         }
 
         public Cell Get(int x, int y)
         {
-            return _cells[x, y];
+            return cells[x, y];
         }
         
         public Cell Find(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= _width || y >= _height)
+            if (x < 0 || y < 0 || x >= Width || y >= Heigth)
             {
                 return null;
             }
-            return _cells[x, y];
+            return cells[x, y];
         }
 
         public void Set(int x, int y, CellType type)
@@ -47,8 +51,9 @@ namespace Iso.Cells
             var cell = Find(x, y);
             if (cell == null)
             {
-                _cells[x, y] = cell = CellList.Add(e =>
+                cells[x, y] = cell = CellList.Add(e =>
                 {
+                    e.cells = this;
                     e.x = x;
                     e.y = y;
                     e.cellType = type;
@@ -65,18 +70,18 @@ namespace Iso.Cells
             var cell = Find(x, y);
             if (cell == null) return;
             CellList.PooledRemove(cell);
-            _cells[x, y] = null;
+            cells[x, y] = null;
         }
 
         public void ForEach(int x, int y, int w, int h, Action<Cell> action)
         {
             var x1 = x + w;
             var y1 = y + h;
-            for (var xi = x; x <= x1; x++)
+            for (var xi = x; xi < x1; xi++)
             {
-                for (var yi = y; y <= y1; y++)
+                for (var yi = y; yi < y1; yi++)
                 {
-                    action(Find(x, y));
+                    action(Find(xi, yi));
                 }
             }
         }
@@ -84,6 +89,24 @@ namespace Iso.Cells
         public void ForEach(Cell cell, BuildingInfo info, bool flip, Action<Cell> action)
         {
             ForEach(cell.x, cell.y, flip ? info.height : info.width, flip ? info.width : info.height, action);
+        }
+        
+        public void ForEachPos(int x, int y, int w, int h, Action<int, int> action)
+        {
+            var x1 = x + w;
+            var y1 = y + h;
+            for (var xi = x; xi < x1; xi++)
+            {
+                for (var yi = y; yi < y1; yi++)
+                {
+                    action(xi, yi);
+                }
+            }
+        }
+
+        public List<Cell> FindPath(Cell from, Cell to)
+        {
+            return pathFinder.FindPath(graph, from, to);
         }
     }
 }

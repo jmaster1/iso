@@ -66,12 +66,11 @@ namespace Common.Util.Math.Path.AStar
                     Node<TC> nextNode = null;
                     if (open.Contains(nextCell)) {
                         nextNode = open.GetNode(nextCell);
-                        if (tentativeGScore < nextNode.G) {
-                            nextNode.CameFrom = node;
-                            nextNode.G = tentativeGScore;
-                            nextNode.H = H(nextNode.Cell, goal);
-                            open.SetF(nextNode, nextNode.G + nextNode.H);
-                        }
+                        if (tentativeGScore >= nextNode.G) continue;
+                        nextNode.CameFrom = node;
+                        nextNode.G = tentativeGScore;
+                        nextNode.H = H(nextNode.Cell, goal);
+                        open.SetF(nextNode, nextNode.G + nextNode.H);
                     } else {
                         nextNode = GetNode(nextCell, node);
                         nextNode.CameFrom = node;
