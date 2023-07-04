@@ -19,6 +19,7 @@ namespace Common.Util.Math
     {
         public static readonly int POSITIVE = 1;
         public static readonly int NEGATIVE = -1;
+        public static readonly int ZERO = 0;
         public static readonly Dir[] Primary = {Dir.N, Dir.E, Dir.S, Dir.W};
         public static readonly Dir[] Secondary = {Dir.NE, Dir.SE, Dir.SW, Dir.NW};
         public static readonly Dir[] Around = {Dir.N, Dir.NE, Dir.E, Dir.SE, 

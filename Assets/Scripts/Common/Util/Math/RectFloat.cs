@@ -179,10 +179,10 @@ namespace Math {
 	     * @return 
 	     */
 	    public RectFloat set(RectFloat r) {
-	        this.x = r.x;
-	        this.y = r.y;
-	        this.w = r.w;
-	        this.h = r.h;
+	        x = r.x;
+	        y = r.y;
+	        w = r.w;
+	        h = r.h;
 	        return this;
 	    }
 	    
