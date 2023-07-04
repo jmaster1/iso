@@ -1,0 +1,19 @@
+{
+    "name": "Common.Unity",
+    "references": [
+        "Common",
+        "Unity.TextMeshPro",
+        "UnityEngine",
+        "Unity.Notifications.Android",
+        "Unity.Notifications.iOS",
+        "LeanTween"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
