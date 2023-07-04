@@ -5,6 +5,7 @@ using Common.Bind;
 using Common.ContextNS;
 using Common.IO.Streams;
 using Common.Lang;
+using Common.Lang.Collections;
 
 namespace Common.Util.Http
 {

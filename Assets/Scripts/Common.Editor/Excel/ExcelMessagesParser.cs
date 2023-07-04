@@ -6,6 +6,7 @@ using NPOI.SS.UserModel;
 using Common.Api.Local;
 using Common.Api.Resource;
 using Common.IO.Streams;
+using Common.Lang.Collections;
 
 namespace Common.Editor.Excel
 {

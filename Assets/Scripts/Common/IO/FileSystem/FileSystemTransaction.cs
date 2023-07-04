@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Common.Lang;
+using Common.Lang.Collections;
 
 namespace Common.IO.FileSystem
 {

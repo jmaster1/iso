@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Util;
 
-namespace Common.Lang
+namespace Common.Lang.Collections
 {
     /// <summary>
     /// Dictionary extension that is more convenient to use

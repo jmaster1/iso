@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Util;
 
-namespace Common.Lang
+namespace Common.Lang.Collections.Tree
 {
     /// <summary>
     /// api for navigating tree of elements

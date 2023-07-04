@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common.Api.Info;
 using Common.Lang;
+using Common.Lang.Collections;
 using Common.Lang.Entity;
 using Common.Util;
 using Common.Util.Reflect;

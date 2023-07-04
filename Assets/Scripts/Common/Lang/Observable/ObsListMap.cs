@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Lang.Collections;
 
 namespace Common.Lang.Observable
 {

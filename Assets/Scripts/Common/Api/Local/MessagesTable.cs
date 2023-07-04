@@ -1,6 +1,7 @@
 ﻿using Common.IO.Serialize;
 using Common.IO.Streams;
 using Common.Lang;
+using Common.Lang.Collections;
 using Common.Lang.Entity;
 
 namespace Common.Api.Local

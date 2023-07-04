@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common.Api;
 using Common.IO.Streams;
 using Common.Lang;
+using Common.Lang.Collections;
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Util.Http;

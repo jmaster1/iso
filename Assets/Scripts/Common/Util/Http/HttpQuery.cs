@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using Common.IO.Streams;
 using Common.Lang;
+using Common.Lang.Collections;
 
 namespace Common.Util.Http
 {

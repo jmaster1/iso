@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Lang;
+using Common.Lang.Collections;
 using UnityEngine;
 
 namespace Common.Unity.Api.AppRun

@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Lang;
+using Common.Lang.Collections;
 using Common.Lang.Entity;
 using Common.Util;
 using Newtonsoft.Json.Serialization;

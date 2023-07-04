@@ -1,5 +1,5 @@
 ﻿using System;
-using Common.Lang;
+using Common.Lang.Collections;
 using Common.Lang.Entity;
 
 namespace Common.Util
@@ -7,21 +7,21 @@ namespace Common.Util
     /// <summary>
     /// simple cache with factory (optional, used on Get() miss)
     /// </summary>
-    /// <typeparam name="K">key type</typeparam>
-    /// <typeparam name="V">value type</typeparam>
-    public class Cache<K, V> : GenericBean
+    /// <typeparam name="TK">key type</typeparam>
+    /// <typeparam name="TV">value type</typeparam>
+    public class Cache<TK, TV> : GenericBean
     {
         /// <summary>
         /// factory for creating values
         /// </summary>
-        public Func<K, V> Factory;
+        public Func<TK, TV> Factory;
         
         /// <summary>
         /// cached objects map
         /// </summary>
-        readonly Map<K, V> map = new Map<K, V>();
+        readonly Map<TK, TV> map = new Map<TK, TV>();
 
-        public Cache(Func<K, V> factory = null)
+        public Cache(Func<TK, TV> factory = null)
         {
             Factory = factory;
         }
@@ -29,7 +29,7 @@ namespace Common.Util
         /// <summary>
         /// get value by key, will query factory if miss
         /// </summary>
-        public V Get(K key)
+        public TV Get(TK key)
         {
             var val = map.Find(key);
             if (val != null) return val;
@@ -41,7 +41,7 @@ namespace Common.Util
         /// <summary>
         /// explicitly add value
         /// </summary>
-        public void Put(K key, V val)
+        public void Put(TK key, TV val)
         {
             map.Add(key, val);
         }
@@ -49,13 +49,13 @@ namespace Common.Util
         /// <summary>
         /// find generic type value by key as out param without factory query on miss
         /// </summary>
-        public bool Find<T>(K key, out T val) where T: class
+        public bool Find<T>(TK key, out T val) where T: class
         {
             val = map.Find(key) as T;
             return val != null;
         }
         
-        public bool ContainsKey(K key)
+        public bool ContainsKey(TK key)
         {
             return map.ContainsKey(key);
         }

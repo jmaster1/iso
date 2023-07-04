@@ -1,6 +1,6 @@
 using System;
 
-namespace Common.Lang
+namespace Common.Lang.Collections
 {
     /// <summary>
     /// Map extension that queries factory to create values for missing keys on Get() method

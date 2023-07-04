@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Common.IO.Streams;
 using Common.Lang;
+using Common.Lang.Collections;
 
 namespace Common.IO.FileSystem
 {
