@@ -80,6 +80,11 @@ namespace Common.TimeNS
             Value += delta;
             Notify();
         }
+        
+        public void UpdateSec(float deltaSec)
+        {
+            Update(TimeSpan.FromSeconds(deltaSec));
+        }
 
         protected void Notify()
         {
@@ -90,5 +95,7 @@ namespace Common.TimeNS
             }
             listeners.End();
         }
+
+
     }
 }

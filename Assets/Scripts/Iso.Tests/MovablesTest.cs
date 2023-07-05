@@ -14,7 +14,7 @@ namespace Iso.Tests
             var cells = new Cells.Cells();
             var s = 4;
             cells.Create(s, s);
-            cells.ForEachPos(0, 0, s, s, (x, y) => cells.Set(x, y, CellType.Traversable));
+            cells.ForEachPos((x, y) => cells.Set(x, y, CellType.Traversable));
 
             var bi = new MovableInfo
             {

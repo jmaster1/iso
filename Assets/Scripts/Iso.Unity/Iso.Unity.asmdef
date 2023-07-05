@@ -5,7 +5,8 @@
 		"Common.Unity",
         "Iso",
         "Unity.ResourceManager",
-        "LeanTween"
+        "LeanTween",
+        "spine-unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

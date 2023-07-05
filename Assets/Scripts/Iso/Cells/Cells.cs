@@ -112,6 +112,11 @@ namespace Iso.Cells
             }
         }
 
+        public void ForEachPos(Action<int, int> action)
+        {
+            ForEachPos(0, 0, Width, Heigth, action);
+        }
+
         public List<Cell> FindPath(Cell from, Cell to)
         {
             return pathFinder.FindPath(graph, from, to);
