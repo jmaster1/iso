@@ -6,3 +6,4 @@
 /obj/
 *.csproj
 *.sln
+/iso.sln.DotSettings.user

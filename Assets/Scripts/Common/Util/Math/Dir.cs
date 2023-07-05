@@ -170,7 +170,7 @@ namespace Common.Util.Math
             return dir.X() != 0;
         }
 
-        public static Dir valueOf(int dx, int dy)
+        public static Dir ValueOf(int dx, int dy)
         {
             return dx switch
             {

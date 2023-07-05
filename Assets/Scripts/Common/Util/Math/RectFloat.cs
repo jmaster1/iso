@@ -758,7 +758,7 @@ namespace Math {
 					dy = correction.Y();
 				}
 			}
-			var result = DirEx.valueOf(dx, dy);
+			var result = DirEx.ValueOf(dx, dy);
 			return result;
 		}
 

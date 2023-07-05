@@ -12,7 +12,7 @@ namespace Common.Lang.Observable
         {
             Set(val);
         }
-
+        
         public void SetTrue()
         {
             Set(true);

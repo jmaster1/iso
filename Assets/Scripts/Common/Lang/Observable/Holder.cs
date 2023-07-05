@@ -15,6 +15,24 @@ namespace Common.Lang.Observable
             
         protected T value;
 
+        public T Value
+        {
+            get => value;
+            set
+            {
+                Set(value);
+            }
+        }
+
+        public Holder()
+        {
+        }
+        
+        public Holder(T value)
+        {
+            this.value = value;
+        }
+
         public bool Updating { get; private set; }
 
         /// <summary>
@@ -56,6 +74,10 @@ namespace Common.Lang.Observable
         /// <returns>new value</returns>
         public T Set(T v)
         {
+            if (Updating)
+            {
+                throw new InvalidOperationException();
+            }
             LangHelper.Validate(!listeners.Started, "Mutate in notification prohibited!");
             var oldVal = Get();
             if (Equals(v, oldVal))
