@@ -3,6 +3,10 @@ using Common.Api.Pool;
 
 namespace Common.Util.Math.Path.AStar
 {
+    /// <summary>
+    /// https://en.wikipedia.org/wiki/A*_search_algorithm
+    /// </summary>
+    /// <typeparam name="TC"></typeparam>
     public class AStarPathFinder<TC> : IPathFinder<TC> where TC : class
     {
         private readonly Pool<Node<TC>> nodePool = new();
