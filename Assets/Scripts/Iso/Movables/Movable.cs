@@ -66,6 +66,7 @@ namespace Iso.Movables
 
         public bool MoveTo(Cell target)
         {
+	        if (target == null) return false;
 	        var newPath = Cells.FindPath(cell, target);
 	        if (newPath.Count == 0) return false;
 	        path.Clear();
@@ -80,7 +81,7 @@ namespace Iso.Movables
 
         public bool MoveTo(int tx, int ty)
         {
-	        return MoveTo(Cells.Get(tx, ty));
+	        return MoveTo(Cells.Find(tx, ty));
         }
         
         public void update(float dt)

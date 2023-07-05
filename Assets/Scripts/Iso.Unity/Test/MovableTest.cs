@@ -1,4 +1,3 @@
-using System;
 using Iso.Cells;
 using Iso.Movables;
 using Iso.Unity.World;
@@ -40,6 +39,17 @@ namespace Iso.Unity.Test
             movable = movables.Add(bi, c1);
             view.Bind(movable);
             movable.MoveTo(cellsWidth - 1, cellsHeight - 1);
+        }
+
+        private void Update()
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                var mousePos = Input.mousePosition;
+                var modelPos = view.prj.View2Model(mousePos.x, mousePos.y);
+                Debug.Log("Mouse " + mousePos + " > " + modelPos);
+                movable.MoveTo((int)modelPos.x, (int)modelPos.y);
+            }
         }
 
         private void FixedUpdate()

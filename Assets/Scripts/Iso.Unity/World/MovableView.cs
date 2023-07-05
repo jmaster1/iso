@@ -1,4 +1,3 @@
-using System;
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
@@ -13,7 +12,7 @@ namespace Iso.Unity.World
         public const string ANIM_IDLE = "idle";
         
         public SkeletonAnimation spine;
-        private IsometricProjectorGrid prj;
+        public IsometricProjectorGrid prj;
 
         public override void OnBind()
         {

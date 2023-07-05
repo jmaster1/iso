@@ -160,7 +160,7 @@ MonoBehaviour:
   updateTiming: 1
   unscaledTime: 0
   _animationName: idle
-  loop: 0
+  loop: 1
   timeScale: 1
 --- !u!33 &4879832516581378473
 MeshFilter:

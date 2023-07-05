@@ -22,5 +22,12 @@ namespace Common.Unity.Util.Math
             var vy = projector.m2vy(modelPos.x, modelPos.y);
             view.transform.position = new Vector3(vx, vy, 0);
         }
+        
+        public Vector2 View2Model(float vx, float vy)
+        {
+            var mx = projector.v2mx(vx, vy);
+            var my = projector.v2my(vx, vy);
+            return new Vector2(mx, my);
+        }
     }
 }
