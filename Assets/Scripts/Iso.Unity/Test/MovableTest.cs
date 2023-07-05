@@ -46,8 +46,9 @@ namespace Iso.Unity.Test
             if (Input.GetButtonDown("Fire1"))
             {
                 var mousePos = Input.mousePosition;
-                var modelPos = view.prj.View2Model(mousePos.x, mousePos.y);
-                Debug.Log("Mouse " + mousePos + " > " + modelPos);
+                var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+                var modelPos = view.prj.View2Model(worldPos.x, worldPos.y);
+                Debug.Log("mousePos: " + mousePos + " > worldPos: " + worldPos + " > modelPos: " + modelPos);
                 movable.MoveTo((int)modelPos.x, (int)modelPos.y);
             }
         }

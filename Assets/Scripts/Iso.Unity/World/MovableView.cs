@@ -1,8 +1,11 @@
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
+using Common.Util.Math;
 using Iso.Movables;
+using Spine;
 using Spine.Unity;
+using UnityEngine;
 
 namespace Iso.Unity.World
 {
@@ -11,14 +14,39 @@ namespace Iso.Unity.World
         public const string ANIM_WALK = "walk";
         public const string ANIM_IDLE = "idle";
         
-        public SkeletonAnimation spine;
+        /// <summary>
+        /// front (face) animation of movable, should be heading South (right-bottom iso)   
+        /// </summary>
+        public SkeletonAnimation front;
+        
+        /// <summary>
+        /// back (rear) animation of movable, should be heading East (right-top iso)   
+        /// </summary>
+        public SkeletonAnimation back;
+        
         public IsometricProjectorGrid prj;
 
         public override void OnBind()
         {
             base.OnBind();
-            BindToHolder(Model.moving, moving => spine.AnimationName = moving ? ANIM_WALK : ANIM_IDLE);
-            prj = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
+            BindToHolder(Model.moving, moving =>
+            {
+                front.AnimationName = back.AnimationName = moving ? ANIM_WALK : ANIM_IDLE;
+                Debug.Log("moving=" + moving);
+            });
+            BindToHolder(Model.dir, dir =>
+            {
+                var fwd = dir is Dir.S or Dir.W;
+                var flip = dir is Dir.W or Dir.N;
+                Debug.Log("Dir=" + dir);
+                front.SetActive(fwd);
+                back.SetActive(!fwd);
+                transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
+            });
+            if (prj == null)
+            {
+                prj = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
+            }
         }
 
         private void Update()

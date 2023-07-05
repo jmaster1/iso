@@ -130,9 +130,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1212884859}
     m_Modifications:
+    - target: {fileID: 2861204452219811060, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4879832515654508662, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879832515654508662, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879832515654508662, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879832515654508662, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: m_LocalScale.z
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4879832515654508662, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
       propertyPath: m_LocalPosition.x
@@ -178,10 +194,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: afroman
       objectReference: {fileID: 0}
+    - target: {fileID: 4879832516581378470, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 166449b1fcce3254d8976d145d949b09, type: 2}
+    - target: {fileID: 4879832516581378471, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4eb2d2bd872099b4d9a9e31801c3b025, type: 2}
     - target: {fileID: 4879832516581378473, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5941550493222377543, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+      propertyPath: back
+      value: 
+      objectReference: {fileID: 1464737525}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
 --- !u!114 &239024768 stripped
@@ -280,6 +308,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1240056729}
+--- !u!114 &1464737525 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2112428890902048990, guid: f007d9d8ef8124c619310f4c27c2e530, type: 3}
+  m_PrefabInstance: {fileID: 239024767}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1978737014
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +373,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
