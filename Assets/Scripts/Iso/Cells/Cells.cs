@@ -71,6 +71,10 @@ namespace Iso.Cells
             if (cell == null) return;
             CellList.PooledRemove(cell);
             cells[x, y] = null;
+            cell.cells = null;
+            cell.Building = null;
+            cell.cellType = default;
+            cell.x = cell.y = 0;
         }
 
         public void ForEach(int x, int y, int w, int h, Action<Cell> action)

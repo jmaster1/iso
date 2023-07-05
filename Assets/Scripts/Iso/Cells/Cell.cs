@@ -33,5 +33,10 @@ namespace Iso.Cells
         {
             return Cells.Find(x + dir.X(), y + dir.Y());
         }
+
+        public override string ToString()
+        {
+            return "(" + x + ":" + y + ":" + cellType;
+        }
     }
 }

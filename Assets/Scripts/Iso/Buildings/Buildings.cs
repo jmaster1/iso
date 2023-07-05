@@ -38,6 +38,10 @@ namespace Iso.Buildings
         {
             List.PooledRemove(building);
             building.ForEachCell(e => e.Building = null);
+            building.buildings = default;
+            building.Info = default;
+            building.Flipped = default;
+            building.Cell = default;
         }
     }
 }
