@@ -26,7 +26,7 @@ namespace Iso.Buildings
 
         public void ForEachCell(Action<Cell> action)
         {
-            Cells.ForEach(Cell, Info, Flipped, action);
+            Cells.ForEachCell(Cell, Info, Flipped, action);
         }
     }
 }

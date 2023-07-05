@@ -77,7 +77,7 @@ namespace Iso.Cells
             cell.x = cell.y = 0;
         }
 
-        public void ForEach(int x, int y, int w, int h, Action<Cell> action)
+        public void ForEachCell(int x, int y, int w, int h, Action<Cell> action)
         {
             var x1 = x + w;
             var y1 = y + h;
@@ -85,14 +85,18 @@ namespace Iso.Cells
             {
                 for (var yi = y; yi < y1; yi++)
                 {
-                    action(Find(xi, yi));
+                    var cell = Find(xi, yi);
+                    if (cell != null)
+                    {
+                        action(cell);    
+                    }
                 }
             }
         }
 
-        public void ForEach(Cell cell, BuildingInfo info, bool flip, Action<Cell> action)
+        public void ForEachCell(Cell cell, BuildingInfo info, bool flip, Action<Cell> action)
         {
-            ForEach(cell.x, cell.y, flip ? info.height : info.width, flip ? info.width : info.height, action);
+            ForEachCell(cell.x, cell.y, flip ? info.height : info.width, flip ? info.width : info.height, action);
         }
         
         public void ForEachPos(int x, int y, int w, int h, Action<int, int> action)

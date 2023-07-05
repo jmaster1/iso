@@ -23,14 +23,14 @@ namespace Iso.Buildings
         /// <returns></returns>
         public Building Build(BuildingInfo info, Cell cell, bool flip = false)
         {
-            Cells.ForEach(cell, info, flip, e => Validate(e.IsBuildable()));
+            Cells.ForEachCell(cell, info, flip, e => Validate(e.IsBuildable()));
             return List.PooledAdd(building =>
             {
                 building.buildings = this;
                 building.Info = info;
                 building.Flipped = flip;
                 building.Cell = cell;
-                Cells.ForEach(cell, info, flip,e => e.Building = building);
+                Cells.ForEachCell(cell, info, flip,e => e.Building = building);
             });
         }
 
