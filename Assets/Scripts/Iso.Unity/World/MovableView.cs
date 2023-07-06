@@ -1,3 +1,4 @@
+using System;
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
@@ -41,27 +42,37 @@ namespace Iso.Unity.World
                         break;
                     case MovableEvent.teleportEnd:
                         break;
+                    case MovableEvent.dirChange:
+                        OnDirChange(Model.Dir);
+                        break;
+                    case MovableEvent.movingChange:
+                        OnMovingChange(Model.Moving);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(evt), evt, null);
                 }
                 Debug.Log("event=" + evt);
-            });
-            BindToHolder(Model.moving, moving =>
-            {
-                front.AnimationName = back.AnimationName = moving ? ANIM_WALK : ANIM_IDLE;
-                Debug.Log("moving=" + moving);
-            });
-            BindToHolder(Model.dir, dir =>
-            {
-                var fwd = dir is Dir.S or Dir.W;
-                var flip = dir is Dir.W or Dir.N;
-                Debug.Log("Dir=" + dir);
-                front.SetActive(fwd);
-                back.SetActive(!fwd);
-                transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
             });
             if (prj == null)
             {
                 prj = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
             }
+        }
+
+        private void OnMovingChange(bool moving)
+        {
+            front.AnimationName = back.AnimationName = moving ? ANIM_WALK : ANIM_IDLE;
+            Debug.Log("moving=" + moving);
+        }
+
+        private void OnDirChange(Dir dir)
+        {
+            var fwd = dir is Dir.S or Dir.W;
+            var flip = dir is Dir.W or Dir.N;
+            Debug.Log("Dir=" + dir);
+            front.SetActive(fwd);
+            back.SetActive(!fwd);
+            transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
         }
 
         private void Update()

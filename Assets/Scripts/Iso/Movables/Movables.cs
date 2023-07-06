@@ -39,9 +39,9 @@ namespace Iso.Movables
             {
                 obj.Movables = this;
                 obj.Info = info;
-                obj.dir.Value = dir;
+                obj.Dir = dir;
                 obj.cell = cell;
-                obj.moving.SetFalse();
+                obj.Moving = false;
                 obj.velocity = info.Velocity;
                 obj.pos.Set(cell.CX, cell.CY);
             });

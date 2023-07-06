@@ -30,7 +30,7 @@ namespace Iso.Tests
             var b1 = movables.Add(bi, c1);
             Assert.NotNull(b1);
             Assert.AreEqual(b1.cell, c1);
-            Assert.IsFalse(b1.moving.Value);
+            Assert.IsFalse(b1.Moving);
 
 
             var ok = b1.MoveTo(3, 3);

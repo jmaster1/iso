@@ -47,9 +47,32 @@ namespace Iso.Movables
         /// <summary>
         /// heading direction (primary only: NESW)
         /// </summary>
-        public Holder<Dir> dir = new(Dir.N);
+        private Dir dir;
+        
+        public Dir Dir
+        {
+	        get => dir;
+	        internal set
+	        {
+		        dir = value;
+		        FireEvent(MovableEvent.dirChange);
+	        }
+        }
 
-        public BoolHolder moving = new();
+        /// <summary>
+        /// shows whether object is moving or not
+        /// </summary>
+        private bool moving;
+
+        public bool Moving
+        {
+	        get => moving;
+	        internal set
+	        {
+		        moving = value;
+		        FireEvent(MovableEvent.movingChange);
+	        }
+        }
         
         /**
 		 * move linear base velocity
@@ -76,8 +99,8 @@ namespace Iso.Movables
 		    cellFrom = cell;
 		    cellToIndex = 1;
 		    cellTo = path[1];
-		    dir.Set(cellFrom.DirectionTo(cellTo));
-		    moving.SetTrue();
+		    Dir = cellFrom.DirectionTo(cellTo);
+		    Moving = true;
 		    return true;
         }
 
@@ -90,7 +113,7 @@ namespace Iso.Movables
         {
 	        //assert (int)pos.x == cell.getX();
 			//assert (int)pos.y == cell.getY();
-			if (!moving.Value) return;
+			if (!Moving) return;
 			//
 			// update speed from acceleration or velocity
 			if(acceleration != 0) {
@@ -106,8 +129,6 @@ namespace Iso.Movables
 			}
 			//
 			// update pos/cell
-			var dir = this.dir.Value;
-				
 			//if (!isTeleporting()) {
 			//    assert dir.isPrimary() : " dir " + dir + " cellTo " + cellTo + " obj.getUnitId " + obj.getUnitId();
 			//}
@@ -133,17 +154,17 @@ namespace Iso.Movables
 					cellTo = null;
 					cellToIndex = -1;
 					path.Clear();
-					moving.SetFalse();
+					Moving = false;
 					FireEvent(MovableEvent.pathEnd);
 					return;
-				} else {
-					//
-					// get next cell
-					cellFrom = cellTo;
-					cellTo = path[cellToIndex];
-					var dr = cellFrom.DirectionTo(cellTo);
-					this.dir.Set(dr);
 				}
+
+				//
+				// get next cell
+				cellFrom = cellTo;
+				cellTo = path[cellToIndex];
+				var dr = cellFrom.DirectionTo(cellTo);
+				this.Dir = dr;
 				//
 				// update more by remain dt
 				var remainDt = dt * System.Math.Abs(remain) / System.Math.Abs(d);
@@ -174,7 +195,7 @@ namespace Iso.Movables
 
         private void FireEvent(MovableEvent type)
         {
-	        Movables.FireEvent(type, this);
+	        Movables?.FireEvent(type, this);
         }
     }
 }
