@@ -6,28 +6,28 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class AutoZOrder : MonoBehaviour
 {
+    private int zOrder;
     private void Update()
     {
-        Debug.Log("Update");
+        zOrder = 0;
         var childCount = transform.childCount;
         for (int i = 0; i < childCount; i++)
         {
-            var currentChild = transform.GetChild(i);
-            var zOrder = transform.childCount - i;
-            currentChild.GetComponent<SpriteRenderer>().sortingOrder = zOrder;
+            var child = transform.GetChild(i);
+            SetZOrder(child);
         }
-        /*var childs = new List<Transform>();
-        for (int i = 0; i < childCount; i++)
+    }
+
+    private void SetZOrder(Transform obj)
+    {
+        if (obj.TryGetComponent(out SpriteRenderer sr))
         {
-            childs.Add(transform.GetChild(i));
+            sr.sortingOrder = zOrder--;
         }
-        
-        childs = childs.OrderBy(e => e.position.y).ToList();
-        
-        for (int i = 0; i < childCount; i++)
+
+        for (int i = 0; i < obj.childCount; i++)
         {
-            var zOrder = childCount - i;
-            childs[i].GetComponent<SpriteRenderer>().sortingOrder = zOrder;
-        }*/
+            SetZOrder(obj.GetChild(i));
+        }
     }
 }

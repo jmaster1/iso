@@ -3,7 +3,6 @@
 /Logs/
 /Temp/
 /UserSettings/
-/obj/
+/obj/Debug/
 *.csproj
 *.sln
-/iso.sln.DotSettings.user
