@@ -54,9 +54,11 @@ namespace Iso.Movables
             obj.Info = null;
         }
 
-        internal void FireEvent(Movable movable, MovableEventType type)
+        public Events<MovableEvent, Movable> Events = new();
+        
+        internal void FireEvent(MovableEvent type, Movable movable)
         {
-            //TODO:
+            Events.Fire(type, movable);
         }
     }
 }

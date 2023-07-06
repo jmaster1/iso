@@ -132,7 +132,7 @@ namespace Iso.Movables
 					cellToIndex = -1;
 					path.Clear();
 					moving.SetFalse();
-					FireEvent(MovableEventType.movablePathEnd);
+					FireEvent(MovableEvent.movablePathEnd);
 					return;
 				} else {
 					//
@@ -165,14 +165,14 @@ namespace Iso.Movables
 					var newCell = cell.Get(x, y);
 					//assert newCell != cell;
 					cell = newCell;
-					FireEvent(MovableEventType.movableCellChange);
+					FireEvent(MovableEvent.movableCellChange);
 				}
 			}
         }
 
-        private void FireEvent(MovableEventType type)
+        private void FireEvent(MovableEvent type)
         {
-	        Movables.FireEvent(this, type);
+	        Movables.FireEvent(type, this);
         }
     }
 }

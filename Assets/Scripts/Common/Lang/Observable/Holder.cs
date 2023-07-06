@@ -11,7 +11,7 @@ namespace Common.Lang.Observable
     /// <typeparam name="T">value type</typeparam>
     public class Holder<T> : HolderRaw
     {
-        private readonly Listeners<Action<Holder<T>, T, T>> listeners = new Listeners<Action<Holder<T>, T, T>>();
+        private readonly Listeners<Action<Holder<T>, T, T>> listeners = new();
             
         protected T value;
 

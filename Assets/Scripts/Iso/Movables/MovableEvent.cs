@@ -1,6 +1,6 @@
 namespace Iso.Movables
 {
-    public enum MovableEventType
+    public enum MovableEvent
     {
         movableCellChange,
         movablePathEnd,
