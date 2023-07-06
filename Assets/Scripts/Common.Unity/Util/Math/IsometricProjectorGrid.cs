@@ -9,18 +9,23 @@ namespace Common.Unity.Util.Math
 
         public IsometricProjector projector = new();
 
-        private void Start()
+        private void Awake()
         {
             var cellSize = grid.cellSize;
             projector.halfTileWidth = cellSize.x / 2f;
             projector.halfTileHeight = cellSize.y / 2f;
         }
 
+        public void Transform(GameObject view, float mx, float my)
+        {
+            var vx = projector.m2vx(mx, my);
+            var vy = projector.m2vy(mx, my);
+            view.transform.position = new Vector3(vx, vy, 0);
+        }
+        
         public void Transform(GameObject view, Vector2DFloat modelPos)
         {
-            var vx = projector.m2vx(modelPos.x, modelPos.y);
-            var vy = projector.m2vy(modelPos.x, modelPos.y);
-            view.transform.position = new Vector3(vx, vy, 0);
+            Transform(view, modelPos.x, modelPos.y);
         }
         
         public Vector2 View2Model(float vx, float vy)

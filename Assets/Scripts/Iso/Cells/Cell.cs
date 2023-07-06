@@ -23,7 +23,7 @@ namespace Iso.Cells
 
         public Cells Cells => cells;
 
-        internal CellType cellType;
+        public CellType cellType { get; internal set; }
         
         public Building Building;
 

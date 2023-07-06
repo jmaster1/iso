@@ -15,7 +15,7 @@ namespace Common.Unity.Bind
         /// <summary>
         /// adapter responsible for synchronizing model/view list
         /// </summary>
-        public ObsListAdapter<TM, TV> Adapter = new ObsListAdapter<TM, TV>();
+        public ObsListAdapter<TM, TV> Adapter = new();
         
         [Tooltip("Container for views, will use self if not set")]
         public Transform container;

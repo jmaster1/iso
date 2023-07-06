@@ -1,5 +1,6 @@
 using System;
 using Common.Bind;
+using Common.Lang.Collections;
 
 namespace Common.Lang.Observable
 {
@@ -13,7 +14,7 @@ namespace Common.Lang.Observable
         /// <summary>
         /// model > view map
         /// </summary>
-        public ObsList<TV> Views = new ObsList<TV>();
+        public ObsList<TV> Views = new();
 
         /// <summary>
         /// factory for creating views, this might return null
@@ -29,6 +30,8 @@ namespace Common.Lang.Observable
         /// action for desposing view objects
         /// </summary>
         public Action<TV> DisposeView;
+
+        private readonly Map<TM, TV> modelToView = new();
 
         protected override void OnBind()
         {
@@ -69,15 +72,36 @@ namespace Common.Lang.Observable
         protected virtual void OnRemove(TM element, int index)
         {
             var view = Views.RemoveAtGet(index);
+            modelToView[element] = default;
             DisposeView(view);       
         }
 
         protected virtual void OnAdd(TM element, int index)
         {
             var view = CreateView(element, index);
+            modelToView[element] = view;
             if (view == null) return;
             Views.Add(view);
             PostAdd?.Invoke(element, view);
+        }
+
+        public TV GetView(TM model)
+        {
+            return modelToView[model];
+        }
+
+        /// <summary>
+        /// recreate view for given model
+        /// </summary>
+        public void Recreate(TM el)
+        {
+            var view = GetView(el);
+            var index = Model.IndexOf(el);
+            if (view != null)
+            {
+                OnRemove(el, index);
+            }
+            OnAdd(el, index);
         }
     }
 }

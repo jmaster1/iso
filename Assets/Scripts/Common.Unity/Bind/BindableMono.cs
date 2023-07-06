@@ -16,7 +16,6 @@ using Common.Unity.Boot;
 using Common.Unity.Util;
 using Common.Util;
 using Common.Util.Http;
-using NPOI.SS.Formula.Functions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -411,6 +410,33 @@ namespace Common.Unity.Bind
         protected void BindEvents<TEvent, TPayload>(Events<TEvent, TPayload> events, Action<TEvent, TPayload> action) where TEvent : Enum
         {
             Bindable.BindEvents(events, action);
+        }
+        
+        protected void BindObsList<TE>(ObsList<TE> list, Action<TE, int> onAdd, Action<TE, int> onRemove, Action onClear)
+        {
+            void OnEvent(ObsListEvent evt, ObsListEventData<TE> payload)
+            {
+                switch (evt)
+                {
+                    case ObsListEvent.AddAfter:
+                        onAdd(payload.Element, payload.Index);
+                        break;
+                    case ObsListEvent.RemoveBefore:
+                        onRemove(payload.Element, payload.Index);
+                        break;
+                    case ObsListEvent.ClearBefore:
+                        onClear();
+                        break;
+                    case ObsListEvent.AddBefore:
+                    case ObsListEvent.RemoveAfter:
+                    case ObsListEvent.ClearAfter:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(evt), evt, null);
+                }
+            }
+            list.events.AddListener(OnEvent);
+            Bindable.AddUnbindAction(() => list.events.RemoveListener(OnEvent));
         }
         
         protected void BindModelEvents<TEvent>(Events<TEvent, T> events, Action<TEvent> action) where TEvent : Enum

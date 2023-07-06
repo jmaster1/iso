@@ -26,6 +26,13 @@ namespace Iso.Cells
         public int Width { get; private set; }
 
         public int Heigth { get; private set; }
+        
+        public Events<CellEvent, Cell> Events = new();
+        
+        internal void FireEvent(CellEvent type, Cell cell)
+        {
+            Events.Fire(type, cell);
+        }
 
         public void Create(int w, int h)
         {
@@ -62,6 +69,7 @@ namespace Iso.Cells
             else
             {
                 cell.cellType = type;
+                FireEvent(CellEvent.cellTypeChange, cell);
             }
         }
         
@@ -88,7 +96,7 @@ namespace Iso.Cells
                     var cell = Find(xi, yi);
                     if (cell != null)
                     {
-                        action(cell);    
+                        action(cell);
                     }
                 }
             }

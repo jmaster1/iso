@@ -490,6 +490,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97ff552b7c28b3b4f86c6eeab633c2b5, type: 3}
+--- !u!1 &1973416194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1973416195}
+  - component: {fileID: 1973416196}
+  m_Layer: 0
+  m_Name: cells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1973416195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973416194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1212884859}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1973416196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973416194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d19b8ec20ae4b84bdaff121eff04414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prj: {fileID: 1240056730}
+  cellBlocked: {fileID: 694308185072935182, guid: 41652b0f82a35bb4594f0398334bafec, type: 3}
+  cellTraversable: {fileID: 435580547650284731, guid: 97ff552b7c28b3b4f86c6eeab633c2b5, type: 3}
+  cellBuildable: {fileID: 551944615853214940, guid: 331482e8a45941148ae8a8d4de54abc2, type: 3}
 --- !u!1 &1978737014
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,6 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273d7018ee454805956101183cf98e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view: {fileID: 239024768}
+  cellsView: {fileID: 1973416196}
+  movableView: {fileID: 239024768}
   cellsWidth: 10
   cellsHeight: 10
