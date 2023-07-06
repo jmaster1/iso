@@ -66,5 +66,10 @@ namespace Iso.Cells
         {
             return x == tx && y == ty;
         }
+
+        public Cell Set(CellType type)
+        {
+            return cells.Set(this, type);
+        }
     }
 }

@@ -1035,14 +1035,14 @@ namespace Math {
 				}
 				target.Set(bestX, bestY);
 			}
-		}
+		}*/
 		
-		@Override
-		public void randomPointInside(Randomizer rnd, PointFloat target) {
-			target.x = x + rnd.randomFloat(w);
-			target.y = y + rnd.randomFloat(h);
+		public Vector2DFloat RandomPointInside(Rnd rnd, Vector2DFloat target = null) {
+			target ??= new();
+			target.X = x + rnd.RandomFloat(w);
+			target.Y = y + rnd.RandomFloat(h);
+			return target;
 		}
-		*/
 
 		public void GetBounds(RectFloat target) {
 			target.Set(this);
@@ -1078,6 +1078,14 @@ namespace Math {
 			var c = MathHelper.Lerp(min, max, scale);
 			y = c - halfSize;
 			return this;
+		}
+
+		public void Add(float dx, float dy, float dw, float dh)
+		{
+			x += dx;
+			y += dy;
+			w += dw;
+			h += dh;
 		}
 	}
 }

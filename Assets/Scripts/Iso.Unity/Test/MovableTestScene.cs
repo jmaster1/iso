@@ -1,13 +1,15 @@
+using Common.Util;
 using Iso.Cells;
 using Iso.Movables;
 using Iso.Unity.World;
+using Math;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Time = Common.TimeNS.Time;
 
 namespace Iso.Unity.Test
 {
-    public class MovableTest : MonoBehaviour
+    public class MovableTestScene : MonoBehaviour
     {
         public CellsView cellsView;
         
@@ -16,6 +18,8 @@ namespace Iso.Unity.Test
         public int cellsWidth = 20;
         
         public int cellsHeight = 20;
+        
+        public int blockedCells = 20;
 
         private Cells.Cells cells = new();
 
@@ -28,7 +32,19 @@ namespace Iso.Unity.Test
         private void Awake()
         {
             cells.Create(cellsWidth, cellsHeight);
-            cells.ForEachPos((x, y) => cells.Set(x, y, CellType.Traversable));
+            var rc = new RectFloat(0, 0, cellsWidth, cellsHeight);
+            cells.ForEachPos(rc, (x, y) => cells.Set(x, y, CellType.Traversable));
+
+            for (var i = 0; i < blockedCells; i++)
+            {
+                var pos = rc.RandomPointInside(Rnd.Instance);
+                var cell = cells.Set((int)pos.x, (int)pos.y, CellType.Blocked);
+                if (cell.Is(0, 0))
+                {
+                    cell.Set(CellType.Traversable);
+                }
+            }
+            
             cellsView.Bind(cells);
             
             movables.Cells = cells;
@@ -38,13 +54,13 @@ namespace Iso.Unity.Test
             var bi = new MovableInfo
             {
                 Id = "M1",
-                Velocity = 1
+                Velocity = 4
             };
             var c1 = cells.Get(0, 0);
             movable = movables.Add(bi, c1);
             
             movableView.Bind(movable);
-            movable.MoveTo(cellsWidth - 1, cellsHeight - 1);
+            //movable.MoveTo(cellsWidth - 1, cellsHeight - 1);
         }
 
         private void Update()

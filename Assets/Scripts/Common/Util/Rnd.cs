@@ -17,6 +17,8 @@ namespace Common.Util
         {
         }
 
+        public static Rnd Instance = new();
+
         /// <summary>
         /// random list element retrieval
         /// </summary>
@@ -82,8 +84,13 @@ namespace Common.Util
         /// </summary>
         public bool RandomBool(float chance)
         {
-            double val = NextDouble();
+            var val = NextDouble();
             return val <= chance;
+        }
+
+        public float RandomFloat(float max)
+        {
+            return (float)(NextDouble() * max);
         }
     }
 }

@@ -4,6 +4,7 @@ using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.Util.Math.Path.AStar;
 using Iso.Buildings;
+using Math;
 
 namespace Iso.Cells
 {
@@ -53,24 +54,24 @@ namespace Iso.Cells
             return cells[x, y];
         }
 
-        public void Set(int x, int y, CellType type)
+        public Cell Set(int x, int y, CellType type)
         {
             var cell = Find(x, y);
-            if (cell == null)
+            if (cell != null) return Set(cell, type);
+            return cells[x, y] = cell = CellList.PooledAdd(e =>
             {
-                cells[x, y] = cell = CellList.PooledAdd(e =>
-                {
-                    e.cells = this;
-                    e.x = x;
-                    e.y = y;
-                    e.cellType = type;
-                });
-            }
-            else
-            {
-                cell.cellType = type;
-                FireEvent(CellEvent.cellTypeChange, cell);
-            }
+                e.cells = this;
+                e.x = x;
+                e.y = y;
+                e.cellType = type;
+            });
+        }
+        
+        public Cell Set(Cell cell, CellType type)
+        {
+            cell.cellType = type;
+            FireEvent(CellEvent.cellTypeChange, cell);
+            return cell;
         }
         
         public void Clear(int x, int y)
@@ -128,6 +129,11 @@ namespace Iso.Cells
         public List<Cell> FindPath(Cell from, Cell to)
         {
             return pathFinder.FindPath(graph, from, to);
+        }
+
+        public void ForEachPos(RectFloat region, Action<int, int> action)
+        {
+            ForEachPos((int)region.x, (int)region.y, (int)region.w, (int)region.h, action);
         }
     }
 }
