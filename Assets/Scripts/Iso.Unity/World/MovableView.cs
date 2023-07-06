@@ -3,7 +3,6 @@ using Common.Unity.Util;
 using Common.Unity.Util.Math;
 using Common.Util.Math;
 using Iso.Movables;
-using Spine;
 using Spine.Unity;
 using UnityEngine;
 
@@ -26,9 +25,25 @@ namespace Iso.Unity.World
         
         public IsometricProjectorGrid prj;
 
+
         public override void OnBind()
         {
             base.OnBind();
+            BindModelEvents(Model.Events, evt =>
+            {
+                switch (evt)
+                {
+                    case MovableEvent.cellChange:
+                        break;
+                    case MovableEvent.pathEnd:
+                        break;
+                    case MovableEvent.teleportBegin:
+                        break;
+                    case MovableEvent.teleportEnd:
+                        break;
+                }
+                Debug.Log("event=" + evt);
+            });
             BindToHolder(Model.moving, moving =>
             {
                 front.AnimationName = back.AnimationName = moving ? ANIM_WALK : ANIM_IDLE;

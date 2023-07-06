@@ -10,6 +10,8 @@ namespace Iso.Movables
     {
         public Movables Movables;
 
+        public Events<MovableEvent, Movable> Events => Movables.Events;
+
         Cells.Cells Cells => Movables.Cells;
         
         public MovableInfo Info;
@@ -132,7 +134,7 @@ namespace Iso.Movables
 					cellToIndex = -1;
 					path.Clear();
 					moving.SetFalse();
-					FireEvent(MovableEvent.movablePathEnd);
+					FireEvent(MovableEvent.pathEnd);
 					return;
 				} else {
 					//
@@ -165,7 +167,7 @@ namespace Iso.Movables
 					var newCell = cell.Get(x, y);
 					//assert newCell != cell;
 					cell = newCell;
-					FireEvent(MovableEvent.movableCellChange);
+					FireEvent(MovableEvent.cellChange);
 				}
 			}
         }
