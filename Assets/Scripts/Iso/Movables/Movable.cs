@@ -93,7 +93,7 @@ namespace Iso.Movables
         {
 	        if (target == null) return false;
 	        var newPath = Cells.FindPath(cell, target);
-	        if (newPath.Count == 0) return false;
+	        if (newPath == null) return false;
 	        path.Clear();
 		    path.AddRange(newPath);
 		    cellFrom = cell;
