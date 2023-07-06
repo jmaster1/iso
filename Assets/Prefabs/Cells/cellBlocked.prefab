@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959084216970987108, guid: 29c1245953bbc41ff881ad5f1d854e98, type: 3}
       propertyPath: m_Name
-      value: baseCell
+      value: cellBlocked
       objectReference: {fileID: 0}
     - target: {fileID: 2959084216970987419, guid: 29c1245953bbc41ff881ad5f1d854e98, type: 3}
       propertyPath: m_RootOrder
@@ -37,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959084216970987419, guid: 29c1245953bbc41ff881ad5f1d854e98, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2959084216970987419, guid: 29c1245953bbc41ff881ad5f1d854e98, type: 3}
       propertyPath: m_LocalRotation.w
