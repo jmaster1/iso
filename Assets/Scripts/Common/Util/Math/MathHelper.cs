@@ -67,6 +67,11 @@ namespace Common.Util.Math
             return new Vector2Int(val.x.Round(), val.y.Round());
         }
         
+        public static Vector2Int Floor(this Vector2 val)
+        {
+            return new Vector2Int(val.x.Floor(), val.y.Floor());
+        }
+        
         public static float DistanceTo(this Vector2 val, Vector2 to)
         {
             return (val - to).Len();
