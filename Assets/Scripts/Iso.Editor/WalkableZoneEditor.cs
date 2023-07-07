@@ -1,7 +1,6 @@
 using Common.Unity.Util.Math;
 using Common.Util.Math;
 using Iso.Cells;
-using Unity.Mathematics;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
@@ -78,7 +77,7 @@ public class WalkableZoneEditor : EditorTool
          if (Cells.Find(orthoPosSnap.x, orthoPosSnap.y) == null)
          {
             Cells.Set(orthoPosSnap.x, orthoPosSnap.y, currentType);
-            var newSprite = Instantiate(sprite, isoPosSnap, quaternion.identity, grid.transform);
+            var newSprite = Instantiate(sprite, isoPosSnap, Quaternion.identity, grid.transform);
             newSprite.name = $"Cell({orthoPosSnap.x}, {orthoPosSnap.y})";
          }
       }
