@@ -62,14 +62,17 @@ public class WalkableZoneEditor : EditorTool
       }
       
       Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-      Vector3 worldMousePos = ray.GetPoint(10f);
+      var isoPos = ray.GetPoint(10f);
+      var orthoPos = isometricProjector.v2m(isoPos);
+      var orthoPosSnap = orthoPos.Floor();
+      var isoPosSnap = isometricProjector.m2v(orthoPosSnap);
       
-      var xM = isometricProjector.v2mx(worldMousePos.x, worldMousePos.y);
-      var yM = isometricProjector.v2my(worldMousePos.x, worldMousePos.y);
+      /*var xM = isometricProjector.v2mx(isoPos.x, isoPos.y);
+      var yM = isometricProjector.v2my(isoPos.x, isoPos.y);
       var xV = isometricProjector.m2vx(Mathf.FloorToInt(xM), Mathf.FloorToInt(yM));
       var yV = isometricProjector.m2vy(Mathf.FloorToInt(xM), Mathf.Floor(yM));
-      var roundedPos = new Vector3(xV, yV, 0);
-      sprite.transform.position = roundedPos;
+      var roundedPos = new Vector3(xV, yV, 0);*/
+      sprite.transform.position = isoPosSnap;
       
       
       
@@ -92,7 +95,7 @@ public class WalkableZoneEditor : EditorTool
                break;
          }
 
-         sprite.transform.position = roundedPos;
+         sprite.transform.position = isoPosSnap;
       }
 
       if (Event.current.type == EventType.KeyDown)
@@ -109,9 +112,9 @@ public class WalkableZoneEditor : EditorTool
       }
       if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
       {
-         if (cells.Get((int) xM, (int) yM) == null)
+         if (cells.Find(orthoPosSnap.x, orthoPosSnap.y) == null)
          {
-            cells.Set((int) xM, (int) yM, currentType);
+            cells.Set(orthoPosSnap.x, orthoPosSnap.y, currentType);
             var newSprite = Instantiate(sprite, roundedPos, quaternion.identity, grid.transform);
             newSprite.name = $"Cell(X:{roundedPos.x}, Y:{roundedPos.y})";
          }

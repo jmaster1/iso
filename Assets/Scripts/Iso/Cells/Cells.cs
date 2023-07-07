@@ -45,6 +45,11 @@ namespace Iso.Cells
             return cells[x, y];
         }
         
+        public Cell Get(float x, float y)
+        {
+            return cells[(int)x, (int)y];
+        }
+        
         public Cell Find(int x, int y)
         {
             if (x < 0 || y < 0 || x >= Width || y >= Heigth)
