@@ -63,7 +63,7 @@ namespace Iso.Cells
         {
             var cell = Find(x, y);
             if (cell != null) return Set(cell, type);
-            return cells[x, y] = cell = CellList.PooledAdd(e =>
+            return cells[x, y] = CellList.PooledAdd(e =>
             {
                 e.cells = this;
                 e.x = x;
