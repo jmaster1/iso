@@ -33,23 +33,34 @@ namespace Iso.Editor
             text = "MapEditor",
             tooltip = "Edit your map"
          };
-
-      public override void OnToolGUI(EditorWindow window)
+      // Called when the active tool is set to this tool instance. Global tools are persisted by the ToolManager,
+      // so usually you would use OnEnable and OnDisable to manage native resources, and OnActivated/OnWillBeDeactivated
+      // to set up state. See also `EditorTools.{ activeToolChanged, activeToolChanged }` events.
+      public override void OnActivated()
       {
          cellsView = FindObjectOfType<CellsView>();
-         if(cellsView == null) return;
-         
          gridPrj = FindObjectOfType<IsometricProjectorGrid>();
-         if(gridPrj == null) return;
+         if(cellsView == null || gridPrj == null) return;
+         
+         Cells.Create(mapWidth, mapHeigth);
+         cellsView.Bind(Cells);
+         SceneView.lastActiveSceneView.ShowNotification(new GUIContent("Entering Platform Tool"), .1f);
+      }
+
+      // Called before the active tool is changed, or destroyed. The exception to this rule is if you have manually
+      // destroyed this tool (ex, calling `Destroy(this)` will skip the OnWillBeDeactivated invocation).
+      public override void OnWillBeDeactivated()
+      {
+         SceneView.lastActiveSceneView.ShowNotification(new GUIContent("Exiting Platform Tool"), .1f);
+      }
+      
+      public override void OnToolGUI(EditorWindow window)
+      {
+         if(cellsView == null || gridPrj == null) return;
          
          if (sprite == null)
          {
             sprite = Instantiate(buildAble, ParentTransform);
-         }
-
-         if (Cells.Width == 0)
-         {
-            Cells.Create(mapWidth, mapHeigth);
          }
          var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
          var isoPos = ray.GetPoint(10f);

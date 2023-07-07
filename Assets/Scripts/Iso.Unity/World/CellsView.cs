@@ -1,3 +1,4 @@
+using System;
 using Common.Lang.Observable;
 using Common.Unity.Bind;
 using Common.Unity.Util;
@@ -19,12 +20,16 @@ namespace Iso.Unity.World
 
         public ObsListAdapter<Cell, GameObject> cellsAdapter;
 
-        private void Awake()
+        public Func<GameObject, GameObject> CellPrefabCloner;
+
+
+        public override void OnBind()
         {
-            prj = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
-            cellsAdapter = new()
+            base.OnBind();
+            prj ??= UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
+            cellsAdapter ??= new()
             {
-                CreateView = (cell, index) =>
+                CreateView = (cell, _) =>
                 {
                     var prefab = cell.cellType switch
                     {
@@ -33,17 +38,12 @@ namespace Iso.Unity.World
                         CellType.Traversable => cellTraversable,
                         _ => null
                     };
-                    var cellView = Instantiate(prefab, transform);
+                    var cellView = CellPrefabCloner == null ? Instantiate(prefab, transform) : CellPrefabCloner(prefab);
                     prj.Transform(cellView, cell.X, cell.Y);
                     return cellView;
                 },
                 DisposeView = cellView => Destroy(cellView)
             };
-        }
-
-        public override void OnBind()
-        {
-            base.OnBind();
             BindBindable(Model.CellList, cellsAdapter);
             BindEvents(Model.Events, OnCellEvent);
         }
