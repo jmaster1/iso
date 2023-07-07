@@ -5,7 +5,8 @@
         "Common.Unity",
         "Common.Editor",
         "Iso",
-        "Unity.ResourceManager"
+        "Unity.ResourceManager",
+        "Iso.Unity"
     ],
     "includePlatforms": [
         "Editor"

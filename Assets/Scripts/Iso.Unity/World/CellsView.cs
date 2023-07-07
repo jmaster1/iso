@@ -1,4 +1,3 @@
-using System;
 using Common.Lang.Observable;
 using Common.Unity.Bind;
 using Common.Unity.Util;
@@ -27,19 +26,13 @@ namespace Iso.Unity.World
             {
                 CreateView = (cell, index) =>
                 {
-                    GameObject prefab = null;
-                    switch (cell.cellType) 
+                    var prefab = cell.cellType switch
                     {
-                        case CellType.Blocked:
-                            prefab = cellBlocked;
-                            break;
-                        case CellType.Buildable:
-                            prefab = cellBuildable;
-                            break;
-                        case CellType.Traversable:
-                            prefab = cellTraversable;
-                            break;
-                    }
+                        CellType.Blocked => cellBlocked,
+                        CellType.Buildable => cellBuildable,
+                        CellType.Traversable => cellTraversable,
+                        _ => null
+                    };
                     var cellView = Instantiate(prefab, transform);
                     prj.Transform(cellView, cell.X, cell.Y);
                     return cellView;
@@ -62,8 +55,6 @@ namespace Iso.Unity.World
                 case CellEvent.cellTypeChange:
                     cellsAdapter.Recreate(cell);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
     }

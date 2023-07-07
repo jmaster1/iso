@@ -7,19 +7,24 @@ namespace Common.Unity.Util.Math
     {
         public Grid grid;
 
-        public IsometricProjector projector = new();
-
-        private void Awake()
+        private IsometricProjector projector;
+        
+        public IsometricProjector Projector
         {
-            var cellSize = grid.cellSize;
-            projector.halfTileWidth = cellSize.x / 2f;
-            projector.halfTileHeight = cellSize.y / 2f;
+            get
+            {
+                return projector ??= new()
+                {
+                    halfTileWidth = grid.cellSize.x / 2f,
+                    halfTileHeight = grid.cellSize.y / 2f
+                };
+            }
         }
 
         public void Transform(GameObject view, float mx, float my)
         {
-            var vx = projector.m2vx(mx, my);
-            var vy = projector.m2vy(mx, my);
+            var vx = Projector.m2vx(mx, my);
+            var vy = Projector.m2vy(mx, my);
             view.transform.position = new Vector3(vx, vy, 0);
         }
         
@@ -30,8 +35,8 @@ namespace Common.Unity.Util.Math
         
         public Vector2 View2Model(float vx, float vy)
         {
-            var mx = projector.v2mx(vx, vy);
-            var my = projector.v2my(vx, vy);
+            var mx = Projector.v2mx(vx, vy);
+            var my = Projector.v2my(vx, vy);
             return new Vector2(mx, my);
         }
     }
