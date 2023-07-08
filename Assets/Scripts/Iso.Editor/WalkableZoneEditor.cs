@@ -1,5 +1,6 @@
-using System.Collections.Generic;
+using System;
 using Common.Editor;
+using Common.Lang.Collections;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
 using Common.Util.Math;
@@ -15,6 +16,8 @@ namespace Iso.Editor
    public class WalkableZoneEditor : EditorTool
    {
    
+      const string CellPrefabPrefix = "cell";
+         
       public Texture2D icon;
 
       private int mapHeigth = 100, mapWidth = 100;
@@ -43,7 +46,12 @@ namespace Iso.Editor
       private readonly Cells.Cells Cells = new();
       
       private CellsView cellsView;
+      
       public Transform ParentTransform => cellsView.transform;
+
+      private Vector2 lastOrthoPosSnap;
+
+      private readonly Map<Cell, GameObject> existingCells = new();
 
       public override GUIContent toolbarIcon =>
          new()
@@ -65,10 +73,32 @@ namespace Iso.Editor
          if(cellsView == null || gridPrj == null) return;
          
          Cells.Create(mapWidth, mapHeigth);
-         cellsView.CellPrefabCloner = prefab => Instantiate(prefab, ParentTransform);
+         //
+         // build cells from game objects
+         for (var i = 0; i < ParentTransform.childCount; i++)
+         {
+            var obj = ParentTransform.GetChild(i);
+            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(obj);
+            if (prefab != null && prefab.name.StartsWith(CellPrefabPrefix) && 
+                Enum.TryParse(prefab.name.Substring(CellPrefabPrefix.Length), out CellType cellType))
+            {
+               var orthoPos = isoPrj.v2m(obj.transform.position);
+               var cell = Cells.Set((int)orthoPos.x, (int)orthoPos.y, cellType);
+               existingCells[cell] = obj.gameObject;
+            }
+         }
+         
+         cellsView.CellPrefabCloner = CreateCell;
          cellsView.Bind(Cells);
          UpdatePointer();
-         EditorHelper.ShowNotification("Entering Platform Tool");
+         EditorHelper.ShowNotification("Entering Cells Editor");
+      }
+
+      private GameObject CreateCell(Cell cell, GameObject cellPrefab)
+      {
+         var obj = existingCells[cell];
+         if(obj == null) obj = (GameObject)PrefabUtility.InstantiatePrefab(cellPrefab, ParentTransform);
+         return obj;
       }
 
       // Called before the active tool is changed, or destroyed.
@@ -77,7 +107,7 @@ namespace Iso.Editor
       public override void OnWillBeDeactivated()
       {
          ClearPointer();
-         EditorHelper.ShowNotification("Exiting Platform Tool");
+         EditorHelper.ShowNotification("Exiting Cells Editor");
       }
       
       public override void OnToolGUI(EditorWindow window)
@@ -89,8 +119,11 @@ namespace Iso.Editor
          var orthoPos = isoPrj.v2m(isoPos);
          var orthoPosSnap = orthoPos.Floor();
          var isoPosSnap = isoPrj.m2v(orthoPosSnap);
-         Debug.Log($"isoPos={isoPos}, orthoPos={orthoPos}, orthoPosSnap={orthoPosSnap}, isoPosSnap={isoPosSnap}");
-
+         if (lastOrthoPosSnap != orthoPosSnap)
+         {
+            lastOrthoPosSnap = orthoPosSnap;
+            Debug.Log($"orthoPosSnap={orthoPosSnap}");
+         }
 
          if (pointer != null)
          {
@@ -100,6 +133,7 @@ namespace Iso.Editor
          if (UnityHelper.IsMouseDownRight)
          {
             cellTypeIndex = (cellTypeIndex + 1) % cellTypes.Length;
+            Debug.Log($"currentType={currentType}");
             UpdatePointer();
          }
 

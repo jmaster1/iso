@@ -37,7 +37,15 @@ namespace Iso.Cells
 
         public void Create(int w, int h)
         {
+            Clear();
             cells = new Cell[Width = w, Heigth = h];
+        }
+
+        public void Clear()
+        {
+            CellList.Clear();
+            cells = null;
+            Width = Heigth = 0;
         }
 
         public Cell Get(int x, int y)

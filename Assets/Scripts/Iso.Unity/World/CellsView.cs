@@ -20,7 +20,10 @@ namespace Iso.Unity.World
 
         private ObsListAdapter<Cell, GameObject> cellsAdapter;
 
-        public Func<GameObject, GameObject> CellPrefabCloner;
+        /// <summary>
+        /// external cloner (optional)
+        /// </summary>
+        public Func<Cell, GameObject, GameObject> CellPrefabCloner;
         
         public override void OnBind()
         {
@@ -31,12 +34,12 @@ namespace Iso.Unity.World
                 CreateView = (cell, _) =>
                 {
                     var prefab = GetPrefab(cell.cellType);
-                    var cellView = CellPrefabCloner == null ? Instantiate(prefab, transform) : CellPrefabCloner(prefab);
+                    var cellView = CellPrefabCloner == null ? Instantiate(prefab, transform) : CellPrefabCloner(cell, prefab);
                     cellView.name = $"{cell.X:000} : {cell.Y:000}";
                     prj.Transform(cellView, cell.X, cell.Y);
                     return cellView;
                 },
-                DisposeView = cellView => Destroy(cellView)
+                DisposeView = cellView => DestroyImmediate(cellView)
             };
             BindBindable(Model.CellList, cellsAdapter);
             BindEvents(Model.Events, OnCellEvent);
