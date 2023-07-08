@@ -24,6 +24,8 @@ namespace Iso.Unity.World
         /// external cloner (optional)
         /// </summary>
         public Func<Cell, GameObject, GameObject> CellPrefabCloner;
+
+        public Action<GameObject> CellViewDestructor;
         
         public override void OnBind()
         {
@@ -39,7 +41,18 @@ namespace Iso.Unity.World
                     prj.Transform(cellView, cell.X, cell.Y);
                     return cellView;
                 },
-                DisposeView = cellView => DestroyImmediate(cellView)
+                DisposeView = cellView =>
+                {
+
+                    if (CellViewDestructor == null)
+                    {
+                        DestroyImmediate(cellView);
+                    }
+                    else
+                    {
+                        CellViewDestructor(cellView);
+                    }
+                }
             };
             BindBindable(Model.CellList, cellsAdapter);
             BindEvents(Model.Events, OnCellEvent);

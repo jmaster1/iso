@@ -15,8 +15,7 @@ namespace Iso.Editor
    [EditorTool("Cells Editor")]
    public class WalkableZoneEditor : EditorTool
    {
-   
-      const string CellPrefabPrefix = "cell";
+      private const string CellPrefabPrefix = "cell";
          
       public Texture2D icon;
 
@@ -37,13 +36,13 @@ namespace Iso.Editor
       /// </summary>
       private int cellTypeIndex = 1;
 
-      private CellType? currentType => cellTypes[cellTypeIndex];
+      private CellType? CurrentType => cellTypes[cellTypeIndex];
       
-      private IsometricProjector isoPrj => gridPrj.Projector;
+      private IsometricProjector IsoPrj => gridPrj.Projector;
 
       private IsometricProjectorGrid gridPrj;
       
-      private readonly Cells.Cells Cells = new();
+      private readonly Cells.Cells cells = new();
       
       private CellsView cellsView;
       
@@ -72,7 +71,7 @@ namespace Iso.Editor
          gridPrj = FindObjectOfType<IsometricProjectorGrid>();
          if(cellsView == null || gridPrj == null) return;
          
-         Cells.Create(mapWidth, mapHeigth);
+         cells.Create(mapWidth, mapHeigth);
          //
          // build cells from game objects
          for (var i = 0; i < ParentTransform.childCount; i++)
@@ -82,21 +81,22 @@ namespace Iso.Editor
             if (prefab != null && prefab.name.StartsWith(CellPrefabPrefix) && 
                 Enum.TryParse(prefab.name.Substring(CellPrefabPrefix.Length), out CellType cellType))
             {
-               var orthoPos = isoPrj.v2m(obj.transform.position);
-               var cell = Cells.Set((int)orthoPos.x, (int)orthoPos.y, cellType);
+               var orthoPos = IsoPrj.v2m(obj.transform.position);
+               var cell = cells.Set((int)orthoPos.x, (int)orthoPos.y, cellType);
                existingCells[cell] = obj.gameObject;
             }
          }
+         Debug.Log($"existingCells={existingCells.Count}");
          
          cellsView.CellPrefabCloner = CreateCell;
-         cellsView.Bind(Cells);
+         cellsView.Bind(cells);
          UpdatePointer();
          EditorHelper.ShowNotification("Entering Cells Editor");
       }
 
       private GameObject CreateCell(Cell cell, GameObject cellPrefab)
       {
-         var obj = existingCells[cell];
+         var obj = existingCells.Find(cell);
          if(obj == null) obj = (GameObject)PrefabUtility.InstantiatePrefab(cellPrefab, ParentTransform);
          return obj;
       }
@@ -107,6 +107,13 @@ namespace Iso.Editor
       public override void OnWillBeDeactivated()
       {
          ClearPointer();
+         existingCells.Clear();
+         //
+         // cells have to remain, provide null destructor
+         cellsView.CellViewDestructor = _ => {};
+         cellsView.Unbind();
+         cellsView.CellViewDestructor = null;
+         cells.Clear();
          EditorHelper.ShowNotification("Exiting Cells Editor");
       }
       
@@ -116,9 +123,9 @@ namespace Iso.Editor
          
          var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
          var isoPos = ray.GetPoint(10f);
-         var orthoPos = isoPrj.v2m(isoPos);
+         var orthoPos = IsoPrj.v2m(isoPos);
          var orthoPosSnap = orthoPos.Floor();
-         var isoPosSnap = isoPrj.m2v(orthoPosSnap);
+         var isoPosSnap = IsoPrj.m2v(orthoPosSnap);
          if (lastOrthoPosSnap != orthoPosSnap)
          {
             lastOrthoPosSnap = orthoPosSnap;
@@ -133,20 +140,20 @@ namespace Iso.Editor
          if (UnityHelper.IsMouseDownRight)
          {
             cellTypeIndex = (cellTypeIndex + 1) % cellTypes.Length;
-            Debug.Log($"currentType={currentType}");
+            Debug.Log($"currentType={CurrentType}");
             UpdatePointer();
          }
 
          if (UnityHelper.IsMouseDownLeft && 
              orthoPosSnap.x > 0 && orthoPosSnap.y >= 0)
          {
-            if (currentType == null)
+            if (CurrentType == null)
             {
-               Cells.Clear(orthoPosSnap.x, orthoPosSnap.y);
+               cells.Clear(orthoPosSnap.x, orthoPosSnap.y);
             }
             else
             {
-               Cells.Set(orthoPosSnap.x, orthoPosSnap.y, currentType.Value);
+               cells.Set(orthoPosSnap.x, orthoPosSnap.y, CurrentType.Value);
                UnityHelper.SortChildren(ParentTransform, GameObjectByNameComparator.Instance);
             }
          }
