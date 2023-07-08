@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Iso.Editor
 {
    [EditorTool("Cells Editor")]
-   public class ≈ : EditorTool
+   public class WalkableZoneEditor : EditorTool
    {
    
       public Texture2D icon;
