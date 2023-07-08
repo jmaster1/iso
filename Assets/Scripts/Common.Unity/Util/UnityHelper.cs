@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Common.IO.FileSystem;
 using Common.Util;
@@ -230,6 +231,33 @@ namespace Common.Unity.Util
         {
             var size = Vector2.Scale(transform.rect.size, transform.lossyScale);
             return new Rect((Vector2)transform.position - size * 0.5f, size);
+        }
+
+        public static void SortChildren(Transform parent, IComparer<GameObject> comparer)
+        {
+            var list = new List<GameObject>(parent.childCount);
+            for(var i = 0; i < parent.childCount; i++)
+            {
+                var c = parent.GetChild(i).gameObject;
+                list.Add(c);
+            }
+            list.Sort(comparer);
+            for (var i = 0; i < list.Count; i++)
+            {
+                var c = list[i];
+                c.transform.SetSiblingIndex(i);
+            }
+        }
+    }
+    
+    public class GameObjectByNameComparator : IComparer<GameObject>
+    {
+
+        public static readonly GameObjectByNameComparator Instance = new();
+        
+        public int Compare(GameObject x, GameObject y)
+        {
+            return x.name.CompareTo(y.name);
         }
     }
 }

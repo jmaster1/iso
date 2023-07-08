@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Common.Editor;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
@@ -10,8 +11,8 @@ using UnityEngine;
 
 namespace Iso.Editor
 {
-   [EditorTool("Map abilities editor")]
-   public class WalkableZoneEditor : EditorTool
+   [EditorTool("Cells Editor")]
+   public class ≈ : EditorTool
    {
    
       public Texture2D icon;
@@ -38,6 +39,7 @@ namespace Iso.Editor
       private IsometricProjector isoPrj => gridPrj.Projector;
 
       private IsometricProjectorGrid gridPrj;
+      
       private readonly Cells.Cells Cells = new();
       
       private CellsView cellsView;
@@ -47,11 +49,14 @@ namespace Iso.Editor
          new()
          {
             image = icon,
-            text = "MapEditor",
-            tooltip = "Edit your map"
+            text = "Cells Editor",
+            tooltip = "Cells Editor"
          };
-      // Called when the active tool is set to this tool instance. Global tools are persisted by the ToolManager,
-      // so usually you would use OnEnable and OnDisable to manage native resources, and OnActivated/OnWillBeDeactivated
+      
+      // Called when the active tool is set to this tool instance.
+      // Global tools are persisted by the ToolManager,
+      // so usually you would use OnEnable and OnDisable to manage native resources,
+      // and OnActivated/OnWillBeDeactivated
       // to set up state. See also `EditorTools.{ activeToolChanged, activeToolChanged }` events.
       public override void OnActivated()
       {
@@ -66,7 +71,8 @@ namespace Iso.Editor
          EditorHelper.ShowNotification("Entering Platform Tool");
       }
 
-      // Called before the active tool is changed, or destroyed. The exception to this rule is if you have manually
+      // Called before the active tool is changed, or destroyed.
+      // The exception to this rule is if you have manually
       // destroyed this tool (ex, calling `Destroy(this)` will skip the OnWillBeDeactivated invocation).
       public override void OnWillBeDeactivated()
       {
@@ -107,6 +113,7 @@ namespace Iso.Editor
             else
             {
                Cells.Set(orthoPosSnap.x, orthoPosSnap.y, currentType.Value);
+               UnityHelper.SortChildren(ParentTransform, GameObjectByNameComparator.Instance);
             }
          }
       }
@@ -127,6 +134,7 @@ namespace Iso.Editor
          if (cellType == null) return;
          var prefab = cellsView.GetPrefab(cellType.Value);
          pointer = Instantiate(prefab, ParentTransform);
+         pointer.transform.SetSiblingIndex(0);
          pointer.name = "_cursor";
       }
    }
