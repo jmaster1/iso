@@ -1,4 +1,5 @@
 using Common.Editor;
+using Common.Unity.Util;
 using Common.Unity.Util.Math;
 using Common.Util.Math;
 using Iso.Cells;
@@ -14,18 +15,33 @@ namespace Iso.Editor
    {
    
       public Texture2D icon;
-      [SerializeField] GameObject buildAble, walkAble, closed;
 
       private int mapHeigth = 100, mapWidth = 100;
-      private GameObject sprite;
-      private int colorIndex;
+      
+      /// <summary>
+      /// cell prefab under cursor
+      /// </summary>
+      private GameObject pointer;
+      
+      /// <summary>
+      /// array of cell type used as brush
+      /// </summary>
+      private readonly CellType?[] cellTypes = { null, CellType.Buildable, CellType.Traversable, CellType.Blocked };
+
+      /// <summary>
+      /// current index of cell type brush element
+      /// </summary>
+      private int cellTypeIndex = 1;
+
+      private CellType? currentType => cellTypes[cellTypeIndex];
       
       private IsometricProjector isoPrj => gridPrj.Projector;
 
       private IsometricProjectorGrid gridPrj;
       private readonly Cells.Cells Cells = new();
-      private CellType currentType = CellType.Buildable;
+      
       private CellsView cellsView;
+      public Transform ParentTransform => cellsView.transform;
 
       public override GUIContent toolbarIcon =>
          new()
@@ -44,7 +60,9 @@ namespace Iso.Editor
          if(cellsView == null || gridPrj == null) return;
          
          Cells.Create(mapWidth, mapHeigth);
+         cellsView.CellPrefabCloner = prefab => Instantiate(prefab, ParentTransform);
          cellsView.Bind(Cells);
+         UpdatePointer();
          EditorHelper.ShowNotification("Entering Platform Tool");
       }
 
@@ -52,6 +70,7 @@ namespace Iso.Editor
       // destroyed this tool (ex, calling `Destroy(this)` will skip the OnWillBeDeactivated invocation).
       public override void OnWillBeDeactivated()
       {
+         ClearPointer();
          EditorHelper.ShowNotification("Exiting Platform Tool");
       }
       
@@ -59,50 +78,56 @@ namespace Iso.Editor
       {
          if(cellsView == null || gridPrj == null) return;
          
-         if (sprite == null)
-         {
-            sprite = Instantiate(buildAble, ParentTransform);
-         }
          var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
          var isoPos = ray.GetPoint(10f);
          var orthoPos = isoPrj.v2m(isoPos);
          var orthoPosSnap = orthoPos.Floor();
          var isoPosSnap = isoPrj.m2v(orthoPosSnap);
-         //Debug.Log($"isoPos={isoPos}, orthoPos={orthoPos}, orthoPosSnap={orthoPosSnap}, isoPosSnap={isoPosSnap}");
-         
+         Debug.Log($"isoPos={isoPos}, orthoPos={orthoPos}, orthoPosSnap={orthoPosSnap}, isoPosSnap={isoPosSnap}");
 
-         sprite.transform.position = isoPosSnap;
-         if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
+
+         if (pointer != null)
          {
-            colorIndex = colorIndex >= 2 ? 0 : colorIndex + 1;
-            DestroyImmediate(sprite);
-            switch (colorIndex)
-            {
-               case 0: sprite = Instantiate(buildAble, ParentTransform);
-                  currentType = CellType.Buildable;
-                  break;
-               case 1: sprite = Instantiate(walkAble, ParentTransform);
-                  currentType = CellType.Traversable;
-                  break;
-               case 2: sprite =  Instantiate(closed, ParentTransform);
-                  currentType = CellType.Blocked;
-                  break;
-            }
-
-            sprite.transform.position = isoPosSnap;
+            pointer.transform.position = isoPosSnap;
          }
 
-         if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+         if (UnityHelper.IsMouseDownRight)
          {
-            if (Cells.Find(orthoPosSnap.x, orthoPosSnap.y) == null)
+            cellTypeIndex = (cellTypeIndex + 1) % cellTypes.Length;
+            UpdatePointer();
+         }
+
+         if (UnityHelper.IsMouseDownLeft && 
+             orthoPosSnap.x > 0 && orthoPosSnap.y >= 0)
+         {
+            if (currentType == null)
             {
-               Cells.Set(orthoPosSnap.x, orthoPosSnap.y, currentType);
-               var newSprite = Instantiate(sprite, isoPosSnap, Quaternion.identity, ParentTransform);
-               newSprite.name = $"{orthoPosSnap.x} : {orthoPosSnap.y}";
+               Cells.Clear(orthoPosSnap.x, orthoPosSnap.y);
+            }
+            else
+            {
+               Cells.Set(orthoPosSnap.x, orthoPosSnap.y, currentType.Value);
             }
          }
       }
 
-      public Transform ParentTransform => cellsView.transform;
+      private void ClearPointer()
+      {
+         if (pointer != null)
+         {
+            DestroyImmediate(pointer);
+            pointer = null;
+         }
+      }
+
+      private void UpdatePointer()
+      {
+         ClearPointer();
+         var cellType = cellTypes[cellTypeIndex];
+         if (cellType == null) return;
+         var prefab = cellsView.GetPrefab(cellType.Value);
+         pointer = Instantiate(prefab, ParentTransform);
+         pointer.name = "_cursor";
+      }
    }
 }

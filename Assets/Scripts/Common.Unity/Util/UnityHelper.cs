@@ -19,6 +19,8 @@ namespace Common.Unity.Util
         public static bool IsAndroid => Application.platform == RuntimePlatform.Android;
         
         public static bool IsIos => Application.platform == RuntimePlatform.IPhonePlayer;
+        public static bool IsMouseDownLeft => Event.current.type == EventType.MouseDown && Event.current.button == 0;
+        public static bool IsMouseDownRight => Event.current.type == EventType.MouseDown && Event.current.button == 1;
 
         /// <summary>
         /// this should be used to store application specific files

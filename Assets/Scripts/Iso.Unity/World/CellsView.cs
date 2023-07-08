@@ -18,11 +18,10 @@ namespace Iso.Unity.World
 
         public GameObject cellBuildable;
 
-        public ObsListAdapter<Cell, GameObject> cellsAdapter;
+        private ObsListAdapter<Cell, GameObject> cellsAdapter;
 
         public Func<GameObject, GameObject> CellPrefabCloner;
-
-
+        
         public override void OnBind()
         {
             base.OnBind();
@@ -31,14 +30,9 @@ namespace Iso.Unity.World
             {
                 CreateView = (cell, _) =>
                 {
-                    var prefab = cell.cellType switch
-                    {
-                        CellType.Blocked => cellBlocked,
-                        CellType.Buildable => cellBuildable,
-                        CellType.Traversable => cellTraversable,
-                        _ => null
-                    };
+                    var prefab = GetPrefab(cell.cellType);
                     var cellView = CellPrefabCloner == null ? Instantiate(prefab, transform) : CellPrefabCloner(prefab);
+                    cellView.name = $"{cell.X} : {cell.Y}";
                     prj.Transform(cellView, cell.X, cell.Y);
                     return cellView;
                 },
@@ -46,6 +40,17 @@ namespace Iso.Unity.World
             };
             BindBindable(Model.CellList, cellsAdapter);
             BindEvents(Model.Events, OnCellEvent);
+        }
+
+        public GameObject GetPrefab(CellType cellType)
+        {
+            return cellType switch
+            {
+                CellType.Blocked => cellBlocked,
+                CellType.Buildable => cellBuildable,
+                CellType.Traversable => cellTraversable,
+                _ => null
+            };
         }
 
         private void OnCellEvent(CellEvent type, Cell cell)
