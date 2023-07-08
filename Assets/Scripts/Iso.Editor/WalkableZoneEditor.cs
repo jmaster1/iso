@@ -129,7 +129,7 @@ namespace Iso.Editor
          if (lastOrthoPosSnap != orthoPosSnap)
          {
             lastOrthoPosSnap = orthoPosSnap;
-            Debug.Log($"orthoPosSnap={orthoPosSnap}");
+            //Debug.Log($"orthoPosSnap={orthoPosSnap}");
          }
 
          if (pointer != null)
@@ -170,10 +170,10 @@ namespace Iso.Editor
 
       private void UpdatePointer()
       {
+         Debug.Log($"UpdatePointer={CurrentType}");
          ClearPointer();
-         var cellType = cellTypes[cellTypeIndex];
-         if (cellType == null) return;
-         var prefab = cellsView.GetPrefab(cellType.Value);
+         if (CurrentType == null) return;
+         var prefab = cellsView.GetPrefab(CurrentType.Value);
          pointer = Instantiate(prefab, ParentTransform);
          pointer.transform.SetSiblingIndex(0);
          pointer.name = "_cursor";
