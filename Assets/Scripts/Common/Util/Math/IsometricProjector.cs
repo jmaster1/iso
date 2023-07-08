@@ -21,11 +21,11 @@ namespace Common.Util.Math
         public float halfTileHeight = 0.5f;
 
         public float m2vx(float x, float y) {
-            return x * halfTileWidth - y * halfTileWidth;
+            return (x - y) * halfTileWidth;
         }
 
         public float m2vy(float x, float y) {
-            return y * halfTileHeight + x * halfTileHeight;
+            return (x + y) * halfTileHeight;
         }
 
         public float v2mx(float x, float y) {

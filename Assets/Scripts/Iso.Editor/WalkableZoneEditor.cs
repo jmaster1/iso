@@ -1,3 +1,4 @@
+using Common.Editor;
 using Common.Unity.Util.Math;
 using Common.Util.Math;
 using Iso.Cells;
@@ -44,14 +45,14 @@ namespace Iso.Editor
          
          Cells.Create(mapWidth, mapHeigth);
          cellsView.Bind(Cells);
-         SceneView.lastActiveSceneView.ShowNotification(new GUIContent("Entering Platform Tool"), .1f);
+         EditorHelper.ShowNotification("Entering Platform Tool");
       }
 
       // Called before the active tool is changed, or destroyed. The exception to this rule is if you have manually
       // destroyed this tool (ex, calling `Destroy(this)` will skip the OnWillBeDeactivated invocation).
       public override void OnWillBeDeactivated()
       {
-         SceneView.lastActiveSceneView.ShowNotification(new GUIContent("Exiting Platform Tool"), .1f);
+         EditorHelper.ShowNotification("Exiting Platform Tool");
       }
       
       public override void OnToolGUI(EditorWindow window)
