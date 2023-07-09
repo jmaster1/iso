@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5090831665140745642}
   m_Layer: 0
-  m_Name: coastline
+  m_Name: coast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
