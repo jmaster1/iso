@@ -7,7 +7,7 @@ using Iso.Util;
 
 namespace Iso.Movables
 {
-    public class Movable2 : AbstractEntity
+    public class LinearMovable : AbstractEntity
     {
         public Movables Movables;
 
