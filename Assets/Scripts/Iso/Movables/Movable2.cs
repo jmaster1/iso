@@ -3,10 +3,11 @@ using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.Util.Math;
 using Iso.Cells;
+using Iso.Util;
 
 namespace Iso.Movables
 {
-    public class Movable : AbstractEntity
+    public class Movable2 : AbstractEntity
     {
         public Movables Movables;
 
@@ -17,54 +18,45 @@ namespace Iso.Movables
         public MovableInfo Info;
 
         /// <summary>
-        /// currently occupied cell
+        /// currently occupied cell (if any)
         /// </summary>
         public Cell cell;
-        
-        /// <summary>
-        /// current move source/target cells
-        /// </summary>
-        public Cell cellFrom, cellTo;
-
-        /// <summary>
-        /// current path
-        /// </summary>
-        public readonly List<Cell> path = new();
-        
-        /**
-		 * index of cellTo in a path, -1 if end of path reached
-		 */
-        public int cellToIndex = -1;
 
         /// <summary>
         /// actual position in the world
         /// </summary>
         public readonly Vector2DFloat pos = new();
+        
+        /// <summary>
+        /// target position in the world
+        /// </summary>
+        public readonly Vector2DFloat posTarget = new();
+        
+        /// <summary>
+        /// current speed
+        /// </summary>
+        public readonly Vector2DFloat speed = new();
+        
+        /**
+		 * move linear base velocity
+		 */
+        public float speedTarget;
+        
+        /**
+		 * acceleration
+		 */
+        public float acceleration;
 
         public float X => pos.X;
         
         public float Y => pos.Y;
 
         /// <summary>
-        /// heading direction (primary only: NESW)
-        /// </summary>
-        private Dir dir;
-        
-        public Dir Dir
-        {
-	        get => dir;
-	        internal set
-	        {
-		        if (dir == value) return;
-		        dir = value;
-		        FireEvent(MovableEvent.dirChange);
-	        }
-        }
-
-        /// <summary>
         /// shows whether object is moving or not
         /// </summary>
         private bool moving;
+        
+        readonly Vector2DFloat tmp = new();
 
         public bool Moving
         {
@@ -73,68 +65,36 @@ namespace Iso.Movables
 	        {
 		        if (moving == value) return;
 		        moving = value;
-		        FireEvent(MovableEvent.movingChange);
+		        //FireEvent(MovableEvent.movingChange);
 	        }
-        }
-        
-        /**
-		 * move linear base velocity
-		 */
-        public float velocity;
-	
-        /**
-		 * acceleration
-		 */
-        public float acceleration;
-	
-        /**
-		 * current velocity
-		 */
-        private float speed;
-
-        public bool MoveTo(Cell target)
-        {
-	        if (target == null) return false;
-	        var newPath = Cells.FindPath(cell, target);
-	        if (newPath == null) return false;
-	        path.Clear();
-		    path.AddRange(newPath);
-		    cellFrom = cell;
-		    cellToIndex = 1;
-		    cellTo = path[1];
-		    Dir = cellFrom.DirectionTo(cellTo);
-		    Moving = true;
-		    return true;
-        }
-
-        public bool MoveTo(int tx, int ty)
-        {
-	        return MoveTo(Cells.Find(tx, ty));
         }
         
         public void update(float dt)
         {
-	        //assert (int)pos.x == cell.getX();
-			//assert (int)pos.y == cell.getY();
 			if (!Moving) return;
 			//
-			// update speed from acceleration or velocity
-			if(acceleration != 0) {
-				if(speed != velocity) {
-					var ds = acceleration * dt;
-					speed += ds;
-					if(speed > velocity) {
-						speed = velocity;
-					}
+			// update speed
+			var speedLen = speed.Len();
+			if(!speedTarget.FloatEquals(speedLen)) {
+				var ds = acceleration * dt;
+				speedLen += ds;
+				if (speedLen > speedTarget)
+				{
+					speedLen = speedTarget;
 				}
-			} else {
-				speed = velocity;
+
+				speed.Set(posTarget).Sub(pos).SetLen(speedLen);
 			}
+			//
+			// update pos
+			
 			//
 			// update pos/cell
 			//if (!isTeleporting()) {
 			//    assert dir.isPrimary() : " dir " + dir + " cellTo " + cellTo + " obj.getUnitId " + obj.getUnitId();
 			//}
+			
+			/*
 			var hz = dir.IsHorz();
 			float v = hz ? dir.X() : dir.Y();
 			var lastCellPos = (int)(hz ? pos.x : pos.y);
@@ -193,11 +153,12 @@ namespace Iso.Movables
 					FireEvent(MovableEvent.cellChange);
 				}
 			}
+			*/
         }
 
         private void FireEvent(MovableEvent type)
         {
-	        Movables?.FireEvent(type, this);
+	        //Movables?.FireEvent(type, this);
         }
     }
 }

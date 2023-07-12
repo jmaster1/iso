@@ -1,11 +1,8 @@
-using System;
-
 namespace Common.Util.Math
 {
 	public class Vector2DFloat
 	{
 		public float X { get; set; }
-
 		public float Y { get; set; }
 		public float x => X;
 		public float y => Y;
@@ -16,8 +13,8 @@ namespace Common.Util.Math
 
 		public Vector2DFloat(float x, float y)
 		{
-			this.X = x;
-			this.Y = y;
+			X = x;
+			Y = y;
 		}
 
 		public Vector2DFloat Set(Vector2DFloat pt)
@@ -123,11 +120,6 @@ namespace Common.Util.Math
 			return X.Equals(other.X) && Y.Equals(other.Y);
 		}
 
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(X, Y);
-		}
-
 		public void MoveBy(float dx, float dy)
 		{
 			X += dx;
@@ -136,6 +128,8 @@ namespace Common.Util.Math
 
 		public float Len()
 		{
+			if (x == 0) return System.Math.Abs(y);
+			if (y == 0) return System.Math.Abs(x);
 			return (float)System.Math.Sqrt(X * X + Y * Y);
 		}
 
@@ -183,11 +177,26 @@ namespace Common.Util.Math
 		}
 
 		/**
-		 * Angle in degress between this and other vector
+		 * Angle in radians between this and other vector
 		 */
-		public float Angle(float x, float y)
+		public float Angle(float tx, float ty)
 		{
-			return (float)System.Math.Atan2(this.X * y - this.Y * x, this.X * x + this.Y * y);
+			return (float)System.Math.Atan2(X * ty - Y * tx, X * tx + Y * ty);
+		}
+		
+		/**
+		 * Angle in radians
+		 */
+		public float Angle()
+		{
+			return (float)System.Math.Atan2(Y, X);
+		}
+
+		public void SetLen(float len)
+		{
+			var angle = Angle();
+			X = (float)(len * System.Math.Cos(angle));
+			Y = (float)(len * System.Math.Sin(angle));
 		}
 	}
 }
