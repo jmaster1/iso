@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: pier_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
-  - {fileID: 11400000, guid: 879112e068bb3e847a0353d14e7a9cd1, type: 2}
+  - {fileID: 11400000, guid: 5b146cf6de87c444295d37685d81ebe9, type: 2}
   scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: a949ef956192b1349819785d33815543, type: 3}
+  skeletonJSON: {fileID: 4900000, guid: 398b62547ce1845b785c44534b60499f, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
     requiresBlendModeMaterials: 0
