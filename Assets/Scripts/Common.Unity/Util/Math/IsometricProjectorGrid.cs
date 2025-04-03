@@ -39,5 +39,11 @@ namespace Common.Unity.Util.Math
             var my = Projector.v2my(vx, vy);
             return new Vector2(mx, my);
         }
+
+        public Vector2 Screen2Model(Vector3 screenPos, Camera cam)
+        {
+            var worldPos = cam.ScreenToWorldPoint(screenPos);
+            return View2Model(worldPos.x, worldPos.y);
+        }
     }
 }

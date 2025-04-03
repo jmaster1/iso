@@ -35,11 +35,8 @@ namespace Iso.Unity.World
                 switch (evt)
                 {
                     case MovableEvent.cellChange:
-                        break;
                     case MovableEvent.pathEnd:
-                        break;
                     case MovableEvent.teleportBegin:
-                        break;
                     case MovableEvent.teleportEnd:
                         break;
                     case MovableEvent.dirChange:

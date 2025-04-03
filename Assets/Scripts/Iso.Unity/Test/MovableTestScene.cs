@@ -31,22 +31,12 @@ namespace Iso.Unity.Test
         
         private void Awake()
         {
-            cells.Create(cellsWidth, cellsHeight);
-            var rc = new RectFloat(0, 0, cellsWidth, cellsHeight);
-            cells.ForEachPos(rc, (x, y) => cells.Set(x, y, CellType.Traversable));
+            createCells();
+            createMovables();
+        }
 
-            for (var i = 0; i < blockedCells; i++)
-            {
-                var pos = rc.RandomPointInside(Rnd.Instance);
-                var cell = cells.Set((int)pos.x, (int)pos.y, CellType.Blocked);
-                if (cell.Is(0, 0))
-                {
-                    cell.Set(CellType.Traversable);
-                }
-            }
-            
-            cellsView.Bind(cells);
-            
+        private void createMovables()
+        {
             movables.Cells = cells;
             movables.Time = time;
             movables.Start();
@@ -63,14 +53,29 @@ namespace Iso.Unity.Test
             //movable.MoveTo(cellsWidth - 1, cellsHeight - 1);
         }
 
+        private void createCells()
+        {
+            cells.Create(cellsWidth, cellsHeight);
+            var rc = new RectFloat(0, 0, cellsWidth, cellsHeight);
+            cells.ForEachPos(rc, (x, y) => cells.Set(x, y, CellType.Traversable));
+
+            for (var i = 0; i < blockedCells; i++)
+            {
+                var pos = rc.RandomPointInside(Rnd.Instance);
+                var cell = cells.Set((int)pos.x, (int)pos.y, CellType.Blocked);
+                if (cell.Is(0, 0))
+                {
+                    cell.Set(CellType.Traversable);
+                }
+            }
+            cellsView.Bind(cells);
+        }
+
         private void Update()
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                var mousePos = Input.mousePosition;
-                var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-                var modelPos = movableView.prj.View2Model(worldPos.x, worldPos.y);
-                Debug.Log("mousePos: " + mousePos + " > worldPos: " + worldPos + " > modelPos: " + modelPos);
+                var modelPos = movableView.prj.Screen2Model(Input.mousePosition, Camera.main);
                 movable.MoveTo((int)modelPos.x, (int)modelPos.y);
             }
         }

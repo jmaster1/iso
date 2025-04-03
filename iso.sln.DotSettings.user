@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6e5531c9_002Dc23f_002D42a4_002Dbfc2_002Dd3945ef5cc16/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MoveTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::467D8EAC-7DDB-E116-DEFC-25C13DC93DC0::.NETFramework,Version=v4.7.1::Iso.Tests.MovablesTest.MoveTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::467D8EAC-7DDB-E116-DEFC-25C13DC93DC0::.NETFramework,Version=v4.7.1::Iso.Tests.CellsTest.FindPathTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f54aacaf_002D6a46_002D439d_002D9b21_002Dcff0f5753d1d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BuildTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::467D8EAC-7DDB-E116-DEFC-25C13DC93DC0::.NETFramework,Version=v4.7.1::Iso.Tests.BuildingsTest.BuildTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

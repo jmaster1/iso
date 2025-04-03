@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEditor;
 
 namespace Iso.Unity.World
 {
