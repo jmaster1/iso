@@ -4,6 +4,7 @@ using Common.Unity.Util;
 using Common.Unity.Util.Math;
 using Common.Util.Math;
 using Iso.Movables;
+using Spine;
 using Spine.Unity;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ namespace Iso.Unity.World
         /// back (rear) animation of movable, should be heading East (right-top iso)   
         /// </summary>
         public SkeletonAnimation back;
+        
+        SkeletonAnimation current => front.isActiveAndEnabled ? front : back;
         
         public IsometricProjectorGrid prj;
 
@@ -79,5 +82,14 @@ namespace Iso.Unity.World
                 prj.Transform(gameObject, Model.pos);
             }
         }
+        
+        private static SkeletonBounds bounds = new();
+
+        public bool hitTest(Vector3 worldPoint)
+        {
+            bounds.Update(current.skeleton, true);
+            return bounds.ContainsPoint(worldPoint.x, worldPoint.y) != null;
+        }
+
     }
 }

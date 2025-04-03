@@ -73,9 +73,14 @@ namespace Iso.Unity.Test
 
         private void Update()
         {
+            var prj = movableView.prj;
             if (Input.GetButtonDown("Fire1"))
             {
-                var modelPos = movableView.prj.Screen2Model(Input.mousePosition, Camera.main);
+                var viewPos = prj.Screen2View(Input.mousePosition, Camera.main);
+                var hit = movableView.hitTest(viewPos);
+                Debug.Log("hit=" + hit);
+
+                var modelPos = prj.Screen2Model(Input.mousePosition, Camera.main);
                 movable.MoveTo((int)modelPos.x, (int)modelPos.y);
             }
         }

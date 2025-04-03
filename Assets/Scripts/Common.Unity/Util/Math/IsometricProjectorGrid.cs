@@ -40,10 +40,16 @@ namespace Common.Unity.Util.Math
             return new Vector2(mx, my);
         }
 
+        public Vector2 Screen2View(Vector3 screenPos, Camera cam)
+        {
+            return cam.ScreenToWorldPoint(screenPos);
+        }
+        
+
         public Vector2 Screen2Model(Vector3 screenPos, Camera cam)
         {
-            var worldPos = cam.ScreenToWorldPoint(screenPos);
-            return View2Model(worldPos.x, worldPos.y);
+            var viewPos = Screen2View(screenPos, cam);
+            return View2Model(viewPos.x, viewPos.y);
         }
     }
 }
