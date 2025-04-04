@@ -37,7 +37,7 @@ namespace Iso.Movables
             Validate(cell.IsTraversable());
             return List.PooledAdd(obj =>
             {
-                obj.Movables = this;
+                obj.Manager = this;
                 obj.Info = info;
                 obj.Dir = dir;
                 obj.Cell = cell;
@@ -50,7 +50,7 @@ namespace Iso.Movables
         public void Remove(Movable obj)
         {
             List.PooledRemove(obj);
-            obj.Movables = null;
+            obj.Manager = null;
             obj.Info = null;
         }
 

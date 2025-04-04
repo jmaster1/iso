@@ -5,5 +5,7 @@ namespace Iso.Movables
     public class MovableInfo : AbstractEntityIdString
     {
         public float Velocity;
+        
+        
     }
 }

@@ -3,12 +3,13 @@ using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.Util.Math;
 using Iso.Cells;
+using Iso.Util;
 
 namespace Iso.Movables
 {
-    public class Movable : AbstractEntity
+    public class Movable : AbstractManagedEntity<Movables>
     {
-        public Movables Movables;
+        public Movables Movables => Manager;
 
         public Events<MovableEvent, Movable> Events => Movables.Events;
 
@@ -44,23 +45,25 @@ namespace Iso.Movables
         public float X => pos.X;
         
         public float Y => pos.Y;
-
+        
+        public bool IsCenteredInCell => X == Cell.CX && Y == Cell.CY;
+        
+        private void SetProperty<T>(ref T field, T value, MovableEvent eventType)
+        {
+	        if (EqualityComparer<T>.Default.Equals(field, value)) return;
+	        field = value;
+	        FireEvent(eventType);
+        }
+        
         /// <summary>
         /// heading direction (primary only: NESW)
         /// </summary>
         private Dir dir;
         
-        public bool IsCenteredInCell => X == Cell.CX && Y == Cell.CY;
-        
         public Dir Dir
         {
 	        get => dir;
-	        internal set
-	        {
-		        if (dir == value) return;
-		        dir = value;
-		        FireEvent(MovableEvent.dirChange);
-	        }
+	        internal set => SetProperty(ref dir, value, MovableEvent.dirChange);
         }
 
         /// <summary>
@@ -71,12 +74,7 @@ namespace Iso.Movables
         public bool Moving
         {
 	        get => moving;
-	        internal set
-	        {
-		        if (moving == value) return;
-		        moving = value;
-		        FireEvent(MovableEvent.movingChange);
-	        }
+	        internal set => SetProperty(ref moving, value, MovableEvent.movingChange);
         }
         
         /**
@@ -103,7 +101,6 @@ namespace Iso.Movables
 	        
 	        Path.Clear();
 		    Path.AddRange(newPath);
-		    
 		    
 		    cellFrom = Cell;
 		    cellToIndex = 1;
@@ -161,15 +158,12 @@ namespace Iso.Movables
 			var lastCellPos = (int)(hz ? pos.x : pos.y);
 			var togo = hz ? cellTo.CX - pos.X : cellTo.CY - pos.Y;
 			var d = v * speed * Cell.GetVelocityMultiplier() * dt;
-			//assert togo == 0 || Math.signum(togo) == Math.signum(d);
 			//
 			// check if finished cell-to-cell movement
 			var remain = togo - d;
 			var finished = System.Math.Sign(remain) != System.Math.Sign(v);
 			if(finished) {
 				pos.Set(cellTo.CX, cellTo.CY);
-				//obj.bounds.moveCenterTo(pos);
-				//obj.viewBounds.reset();
 				Cell = cellTo;
 				//
 				// check end of path
@@ -191,8 +185,6 @@ namespace Iso.Movables
 				//
 				// update more by remain dt
 				var remainDt = dt * System.Math.Abs(remain) / System.Math.Abs(d);
-				//assert remainDt >= 0;
-				//assert remainDt <= dt;
 				update(remainDt);
 			} else {
 				//
@@ -209,7 +201,6 @@ namespace Iso.Movables
 					var x = hz ? newCellPos : Cell.X;
 					var y = hz ? Cell.Y : newCellPos;
 					var newCell = Cell.Get(x, y);
-					//assert newCell != cell;
 					Cell = newCell;
 					FireEvent(MovableEvent.cellChange);
 				}
