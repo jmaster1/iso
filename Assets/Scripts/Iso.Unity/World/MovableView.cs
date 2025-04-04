@@ -20,6 +20,29 @@ namespace Iso.Unity.World
         /// </summary>
         public SkeletonAnimation front;
         
+        [SerializeField, Range(0f, 10f)]
+        private float _velocity;
+        
+        public float Velocity
+        {
+            get => _velocity;
+            set
+            {
+                _velocity = value;
+                if (Model != null)
+                {
+                    Model.velocity = _velocity;
+                }
+            }
+        }
+        
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            Velocity = _velocity; // Вызывает сеттер и обновляет Model.velocity
+        }
+#endif
+        
         /// <summary>
         /// back (rear) animation of movable, should be heading East (right-top iso)   
         /// </summary>
