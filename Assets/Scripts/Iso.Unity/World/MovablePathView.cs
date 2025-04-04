@@ -18,7 +18,7 @@ namespace Iso.Unity.World
             {
                 switch (evt)
                 {
-                    case MovableEvent.movingChange:
+                    case MovableEvent.pathChange:
                         UpdatePath();
                         break;
                 }

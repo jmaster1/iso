@@ -99,12 +99,18 @@ namespace Iso.Movables
 	        if (newPath == null) return false;
 	        path.Clear();
 		    path.AddRange(newPath);
+		    OnPathChange();
 		    cellFrom = cell;
 		    cellToIndex = 1;
 		    cellTo = path[1];
 		    Dir = cellFrom.DirectionTo(cellTo);
 		    Moving = true;
 		    return true;
+        }
+
+        private void OnPathChange()
+        {
+	        FireEvent(MovableEvent.pathChange);
         }
 
         public bool MoveTo(int tx, int ty)
@@ -157,6 +163,7 @@ namespace Iso.Movables
 					cellTo = null;
 					cellToIndex = -1;
 					path.Clear();
+					OnPathChange();
 					Moving = false;
 					return;
 				}
