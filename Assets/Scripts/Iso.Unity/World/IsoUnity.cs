@@ -1,4 +1,3 @@
-using System;
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
@@ -27,7 +26,7 @@ namespace Iso.Unity.World
 
         private static IsometricProjectorGrid _isometricProjectorGrid;
         
-        public static IsometricProjectorGrid GetIsoProjector(this BindableMonoRaw mono)
+        public static IsometricProjectorGrid GetIsoProjector(this MonoBehaviour mono)
         {
             if (!_isometricProjectorGrid)
             {
@@ -52,6 +51,16 @@ namespace Iso.Unity.World
         public static void ApplyTransform(this BindableMonoRaw mono, Vector2DFloat modelPos)
         {
             mono.GetIsoProjector().Transform(mono.gameObject, modelPos);
+        }
+        
+        public static Vector2 Screen2Model(this MonoBehaviour mono, Vector3 mousePosition, Camera camera)
+        {
+            return mono.GetIsoProjector().Screen2Model(mousePosition, camera);
+        }
+        
+        public static Vector2 Screen2View(this MonoBehaviour mono, Vector3 mousePosition, Camera camera)
+        {
+            return mono.GetIsoProjector().Screen2View(mousePosition, camera);
         }
     }
 }

@@ -45,8 +45,8 @@ namespace Iso.Unity.World
         /// back (rear) animation of movable, should be heading East (right-top iso)   
         /// </summary>
         public SkeletonAnimation back;
-        
-        SkeletonAnimation current => front.isActiveAndEnabled ? front : back;
+
+        private SkeletonAnimation CurrentAnimation => front.isActiveAndEnabled ? front : back;
 
         public override void OnBind()
         {
@@ -56,22 +56,25 @@ namespace Iso.Unity.World
                 switch (evt)
                 {
                     case MovableEvent.dirChange:
-                        OnDirChange(Model.Dir);
+                        OnDirChange();
                         break;
                     case MovableEvent.movingChange:
-                        OnMovingChange(Model.Moving);
+                        OnMovingChange();
                         break;
                 }
             });
+            OnDirChange();
+            OnMovingChange();
         }
 
-        private void OnMovingChange(bool moving)
+        private void OnMovingChange()
         {
-            front.AnimationName = back.AnimationName = moving ? ANIM_WALK : ANIM_IDLE;
+            front.AnimationName = back.AnimationName = Model.Moving ? ANIM_WALK : ANIM_IDLE;
         }
 
-        private void OnDirChange(Dir dir)
+        private void OnDirChange()
         {
+            var dir = Model.Dir;
             var fwd = dir is Dir.S or Dir.W;
             var flip = dir is Dir.W or Dir.N;
             front.SetActive(fwd);
@@ -91,7 +94,7 @@ namespace Iso.Unity.World
 
         public bool HitTest(Vector3 worldPoint)
         {
-            Bounds.Update(current.skeleton, true);
+            Bounds.Update(CurrentAnimation.skeleton, true);
             return Bounds.ContainsPoint(worldPoint.x, worldPoint.y) != null;
         }
 
