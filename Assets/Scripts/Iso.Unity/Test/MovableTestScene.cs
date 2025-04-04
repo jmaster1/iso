@@ -77,13 +77,18 @@ namespace Iso.Unity.Test
             var prj = movableView.prj;
             if (Input.GetButtonDown("Fire1"))
             {
-                var viewPos = prj.Screen2View(Input.mousePosition, Camera.main);
-                var hit = movableView.hitTest(viewPos);
+                var viewPos = Screen2View(Input.mousePosition, Camera.main);
+                var hit = movableView.HitTest(viewPos);
                 Debug.Log("hit=" + hit);
 
                 var modelPos = prj.Screen2Model(Input.mousePosition, Camera.main);
                 movable.MoveTo((int)modelPos.x, (int)modelPos.y);
             }
+        }
+
+        private Vector3 Screen2View(Vector3 mousePosition, Camera main)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void FixedUpdate()

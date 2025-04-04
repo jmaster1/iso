@@ -1,7 +1,5 @@
-using System;
 using Common.Unity.Bind;
 using Common.Unity.Util;
-using Common.Unity.Util.Math;
 using Common.Util.Math;
 using Iso.Movables;
 using Spine;
@@ -49,9 +47,6 @@ namespace Iso.Unity.World
         public SkeletonAnimation back;
         
         SkeletonAnimation current => front.isActiveAndEnabled ? front : back;
-        
-        public IsometricProjectorGrid prj;
-
 
         public override void OnBind()
         {
@@ -60,38 +55,25 @@ namespace Iso.Unity.World
             {
                 switch (evt)
                 {
-                    case MovableEvent.cellChange:
-                    case MovableEvent.teleportBegin:
-                    case MovableEvent.teleportEnd:
-                        break;
                     case MovableEvent.dirChange:
                         OnDirChange(Model.Dir);
                         break;
                     case MovableEvent.movingChange:
                         OnMovingChange(Model.Moving);
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(evt), evt, null);
                 }
-                Debug.Log("event=" + evt);
             });
-            if (prj == null)
-            {
-                prj = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
-            }
         }
 
         private void OnMovingChange(bool moving)
         {
             front.AnimationName = back.AnimationName = moving ? ANIM_WALK : ANIM_IDLE;
-            Debug.Log("moving=" + moving);
         }
 
         private void OnDirChange(Dir dir)
         {
             var fwd = dir is Dir.S or Dir.W;
             var flip = dir is Dir.W or Dir.N;
-            Debug.Log("Dir=" + dir);
             front.SetActive(fwd);
             back.SetActive(!fwd);
             transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
@@ -99,18 +81,18 @@ namespace Iso.Unity.World
 
         private void Update()
         {
-            if (Model != null)
+            if (IsBound())
             {
-                prj.Transform(gameObject, Model.pos);
+                this.ApplyTransform(Model.pos);
             }
         }
-        
-        private static SkeletonBounds bounds = new();
 
-        public bool hitTest(Vector3 worldPoint)
+        private static readonly SkeletonBounds Bounds = new();
+
+        public bool HitTest(Vector3 worldPoint)
         {
-            bounds.Update(current.skeleton, true);
-            return bounds.ContainsPoint(worldPoint.x, worldPoint.y) != null;
+            Bounds.Update(current.skeleton, true);
+            return Bounds.ContainsPoint(worldPoint.x, worldPoint.y) != null;
         }
 
     }

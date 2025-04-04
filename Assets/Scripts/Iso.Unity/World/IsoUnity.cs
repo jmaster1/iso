@@ -1,6 +1,8 @@
+using System;
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
+using Common.Util.Math;
 using Iso.Cells;
 using UnityEngine;
 
@@ -27,7 +29,7 @@ namespace Iso.Unity.World
         
         public static IsometricProjectorGrid GetIsoProjector(this BindableMonoRaw mono)
         {
-            if (_isometricProjectorGrid == null)
+            if (!_isometricProjectorGrid)
             {
                 _isometricProjectorGrid = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
             }
@@ -44,6 +46,12 @@ namespace Iso.Unity.World
         {
             var prj = mono.GetIsoProjector();
             prj.Transform(target, modelX, modelY);
+        }
+        
+        
+        public static void ApplyTransform(this BindableMonoRaw mono, Vector2DFloat modelPos)
+        {
+            mono.GetIsoProjector().Transform(mono.gameObject, modelPos);
         }
     }
 }
