@@ -158,7 +158,6 @@ namespace Iso.Movables
 					cellToIndex = -1;
 					path.Clear();
 					Moving = false;
-					FireEvent(MovableEvent.pathEnd);
 					return;
 				}
 

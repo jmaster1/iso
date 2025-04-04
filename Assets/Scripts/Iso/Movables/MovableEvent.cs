@@ -5,7 +5,6 @@ namespace Iso.Movables
         cellChange,
         dirChange,
         movingChange,
-        pathEnd,
         teleportBegin,
         teleportEnd
     }

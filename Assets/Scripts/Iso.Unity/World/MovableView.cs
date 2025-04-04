@@ -61,7 +61,6 @@ namespace Iso.Unity.World
                 switch (evt)
                 {
                     case MovableEvent.cellChange:
-                    case MovableEvent.pathEnd:
                     case MovableEvent.teleportBegin:
                     case MovableEvent.teleportEnd:
                         break;

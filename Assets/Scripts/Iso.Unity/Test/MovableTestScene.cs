@@ -13,7 +13,7 @@ namespace Iso.Unity.Test
     {
         public CellsView cellsView;
         
-        [FormerlySerializedAs("view")] public MovableView movableView;
+        public MovableView movableView;
 
         public int cellsWidth = 20;
         
@@ -50,6 +50,7 @@ namespace Iso.Unity.Test
             movable = movables.Add(bi, c1);
             
             movableView.Bind(movable);
+            movableView.GetComponent<MovablePathView>()?.Bind(movable);
             //movable.MoveTo(cellsWidth - 1, cellsHeight - 1);
         }
 
