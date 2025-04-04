@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using Common.Lang.Observable;
 using Common.Unity.Bind;
-using Common.Unity.Util;
-using Common.Unity.Util.Math;
-using Iso.Cells;
 using Iso.Movables;
 using UnityEngine;
 
@@ -11,13 +7,9 @@ namespace Iso.Unity.World
 {
     public class MovablePathView : BindableMono<Movable>
     {
-        public IsometricProjectorGrid prj;
-
         public GameObject pathElementViewTemplate;
         
-        private ObsListAdapter<Cell, GameObject> cellsAdapter;
-
-        private List<GameObject> pathElements = new();
+        private readonly List<GameObject> pathElements = new();
         
         public override void OnBind()
         {
@@ -27,17 +19,13 @@ namespace Iso.Unity.World
                 switch (evt)
                 {
                     case MovableEvent.movingChange:
-                        updatePath();
+                        UpdatePath();
                         break;
                 }
             });
-            if (prj == null)
-            {
-                prj = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
-            }
         }
 
-        private void updatePath()
+        private void UpdatePath()
         {
             foreach (var pathElement in pathElements)
             {
@@ -48,7 +36,7 @@ namespace Iso.Unity.World
             foreach (var cell in Model.path)
             {
                 var pathElement = Instantiate(pathElementViewTemplate);
-                prj.Transform(pathElement, cell.X, cell.Y);
+                this.ApplyTransform(pathElement, cell.X, cell.Y);
                 pathElements.Add(pathElement);
             }
         }
