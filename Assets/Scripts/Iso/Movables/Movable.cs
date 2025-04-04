@@ -12,24 +12,24 @@ namespace Iso.Movables
 
         public Events<MovableEvent, Movable> Events => Movables.Events;
 
-        Cells.Cells Cells => Movables.Cells;
+        private Cells.Cells Cells => Movables.Cells;
         
         public MovableInfo Info;
 
         /// <summary>
         /// currently occupied cell
         /// </summary>
-        public Cell cell;
+        public Cell Cell;
         
         /// <summary>
-        /// current move source/target cells
+        /// current move source/target cells, null if not moving
         /// </summary>
         public Cell cellFrom, cellTo;
 
         /// <summary>
         /// current path
         /// </summary>
-        public readonly List<Cell> path = new();
+        public readonly List<Cell> Path = new();
         
         /**
 		 * index of cellTo in a path, -1 if end of path reached
@@ -49,6 +49,8 @@ namespace Iso.Movables
         /// heading direction (primary only: NESW)
         /// </summary>
         private Dir dir;
+        
+        public bool IsCenteredInCell => X == Cell.CX && Y == Cell.CY;
         
         public Dir Dir
         {
@@ -95,15 +97,28 @@ namespace Iso.Movables
         public bool MoveTo(Cell target)
         {
 	        if (target == null) return false;
-	        var newPath = Cells.FindPath(cell, target);
+	        var newPath = Cells.FindPath(Cell, target);
 	        if (newPath == null) return false;
-	        path.Clear();
-		    path.AddRange(newPath);
-		    OnPathChange();
-		    cellFrom = cell;
+	        Assert(Cell == newPath[0]);
+	        
+	        Path.Clear();
+		    Path.AddRange(newPath);
+		    
+		    
+		    cellFrom = Cell;
 		    cellToIndex = 1;
-		    cellTo = path[1];
-		    Dir = cellFrom.DirectionTo(cellTo);
+		    cellTo = Path[1];
+		    
+		    var nextDir = cellFrom.DirectionTo(cellTo);
+		    if (!IsCenteredInCell && !nextDir.IsSameOrInverted(dir))
+		    {
+			    cellFrom = Cell.FindSibling(dir);
+			    Path.Insert(0, cellFrom);
+			    cellTo = Cell;
+			    nextDir = dir.Invert();
+		    }
+		    Dir = nextDir;
+		    OnPathChange();
 		    Moving = true;
 		    return true;
         }
@@ -145,7 +160,7 @@ namespace Iso.Movables
 			float v = hz ? dir.X() : dir.Y();
 			var lastCellPos = (int)(hz ? pos.x : pos.y);
 			var togo = hz ? cellTo.CX - pos.X : cellTo.CY - pos.Y;
-			var d = v * speed * cell.GetVelocityMultiplier() * dt;
+			var d = v * speed * Cell.GetVelocityMultiplier() * dt;
 			//assert togo == 0 || Math.signum(togo) == Math.signum(d);
 			//
 			// check if finished cell-to-cell movement
@@ -155,14 +170,14 @@ namespace Iso.Movables
 				pos.Set(cellTo.CX, cellTo.CY);
 				//obj.bounds.moveCenterTo(pos);
 				//obj.viewBounds.reset();
-				cell = cellTo;
+				Cell = cellTo;
 				//
 				// check end of path
-				if(++cellToIndex == path.Count) {
+				if(++cellToIndex == Path.Count) {
 					cellFrom = null;
 					cellTo = null;
 					cellToIndex = -1;
-					path.Clear();
+					Path.Clear();
 					OnPathChange();
 					Moving = false;
 					return;
@@ -171,7 +186,7 @@ namespace Iso.Movables
 				//
 				// get next cell
 				cellFrom = cellTo;
-				cellTo = path[cellToIndex];
+				cellTo = Path[cellToIndex];
 				Dir = cellFrom.DirectionTo(cellTo);
 				//
 				// update more by remain dt
@@ -191,11 +206,11 @@ namespace Iso.Movables
 				// check cell changed
 				var newCellPos = (int)(hz ? pos.x : pos.y);
 				if(lastCellPos != newCellPos) {
-					var x = hz ? newCellPos : cell.X;
-					var y = hz ? cell.Y : newCellPos;
-					var newCell = cell.Get(x, y);
+					var x = hz ? newCellPos : Cell.X;
+					var y = hz ? Cell.Y : newCellPos;
+					var newCell = Cell.Get(x, y);
 					//assert newCell != cell;
-					cell = newCell;
+					Cell = newCell;
 					FireEvent(MovableEvent.cellChange);
 				}
 			}

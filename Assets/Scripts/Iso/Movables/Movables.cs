@@ -40,7 +40,7 @@ namespace Iso.Movables
                 obj.Movables = this;
                 obj.Info = info;
                 obj.Dir = dir;
-                obj.cell = cell;
+                obj.Cell = cell;
                 obj.Moving = false;
                 obj.velocity = info.Velocity;
                 obj.pos.Set(cell.CX, cell.CY);

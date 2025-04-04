@@ -33,7 +33,7 @@ namespace Iso.Unity.World
             }
             pathElements.Clear();
 
-            foreach (var cell in Model.path)
+            foreach (var cell in Model.Path)
             {
                 var pathElement = Instantiate(pathElementViewTemplate);
                 this.ApplyTransform(pathElement, cell.X, cell.Y);

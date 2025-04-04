@@ -2,6 +2,7 @@
 
 namespace Common.Util.Math
 {
+    // ReSharper disable InconsistentNaming
     public enum Dir
     {
         C,
@@ -17,9 +18,9 @@ namespace Common.Util.Math
 
     public static class DirEx
     {
-        public static readonly int POSITIVE = 1;
-        public static readonly int NEGATIVE = -1;
-        public static readonly int ZERO = 0;
+        public const int POSITIVE = 1;
+        public const int NEGATIVE = -1;
+        public const int ZERO = 0;
         public static readonly Dir[] Primary = {Dir.N, Dir.E, Dir.S, Dir.W};
         public static readonly Dir[] Secondary = {Dir.NE, Dir.SE, Dir.SW, Dir.NW};
         public static readonly Dir[] Around = {Dir.N, Dir.NE, Dir.E, Dir.SE, 
@@ -38,7 +39,7 @@ namespace Common.Util.Math
                 Dir.SE => 1,
                 Dir.SW => -1,
                 Dir.NW => -1,
-                _ => default
+                _ => 0
             };
         }
         
@@ -75,7 +76,7 @@ namespace Common.Util.Math
                 Dir.SE => -1,
                 Dir.SW => -1,
                 Dir.NW => 1,
-                _ => default
+                _ => 0
             };
         }
 
@@ -168,6 +169,11 @@ namespace Common.Util.Math
         public static bool IsHorz(this Dir dir)
         {
             return dir.X() != 0;
+        }
+
+        public static bool IsSameOrInverted(this Dir dir, Dir that)
+        {
+            return dir == that || dir.Invert() == that;
         }
 
         public static Dir ValueOf(int dx, int dy)

@@ -29,7 +29,7 @@ namespace Iso.Tests
             var c1 = cells.Get(0, 0);
             var b1 = movables.Add(bi, c1);
             Assert.NotNull(b1);
-            Assert.AreEqual(b1.cell, c1);
+            Assert.AreEqual(b1.Cell, c1);
             Assert.IsFalse(b1.Moving);
 
 
@@ -44,7 +44,7 @@ namespace Iso.Tests
             {
                 t.Update(dt);
             }
-            Assert.IsTrue(b1.cell.Is(3, 3));
+            Assert.IsTrue(b1.Cell.Is(3, 3));
         }
     }
 }
