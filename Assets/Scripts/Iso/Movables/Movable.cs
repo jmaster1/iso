@@ -1,19 +1,13 @@
 using System.Collections.Generic;
-using Common.Lang.Entity;
-using Common.Lang.Observable;
 using Common.Util.Math;
 using Iso.Cells;
 using Iso.Util;
 
 namespace Iso.Movables
 {
-    public class Movable : AbstractManagedEntity<Movables>
+    public class Movable : AbstractManagedEntity<Movables, MovableEvent, Movable>
     {
-        public Movables Movables => Manager;
-
-        public Events<MovableEvent, Movable> Events => Movables.Events;
-
-        private Cells.Cells Cells => Movables.Cells;
+        private Cells.Cells Cells => Manager.Cells;
         
         public MovableInfo Info;
 
@@ -205,11 +199,6 @@ namespace Iso.Movables
 					FireEvent(MovableEvent.cellChange);
 				}
 			}
-        }
-
-        private void FireEvent(MovableEvent type)
-        {
-	        Movables?.FireEvent(type, this);
         }
     }
 }

@@ -1,9 +1,10 @@
 using Common.Util.Math;
 using Iso.Buildings;
+using Iso.Util;
 
 namespace Iso.Cells
 {
-    public class Cell
+    public class Cell : AbstractManagedEntity<Cells, CellEvent, Cell>
     {
         private static readonly float Size = 1;
 

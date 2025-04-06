@@ -1,14 +1,12 @@
 using System;
-using Common.Lang.Entity;
 using Iso.Cells;
+using Iso.Util;
 
 namespace Iso.Buildings
 {
-    public class Building : AbstractEntity
+    public class Building : AbstractManagedEntity<Buildings, BuildingEvent, Building>
     {
-        public Buildings buildings;
-
-        Cells.Cells Cells => buildings.Cells;
+        Cells.Cells Cells => Manager.Cells;
         
         public BuildingInfo Info;
 

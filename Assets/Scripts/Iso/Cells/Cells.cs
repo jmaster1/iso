@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.Util.Math.Path.AStar;
 using Iso.Buildings;
+using Iso.Util;
 using Math;
 
 namespace Iso.Cells
 {
-    public class Cells : GenericBean
+    public class Cells : AbstractManager<CellEvent, Cell>
     {
         /// <summary>
         /// cell 2d map, may contain nulls
@@ -27,13 +27,6 @@ namespace Iso.Cells
         public int Width { get; private set; }
 
         public int Heigth { get; private set; }
-        
-        public Events<CellEvent, Cell> Events = new();
-        
-        internal void FireEvent(CellEvent type, Cell cell)
-        {
-            Events.Fire(type, cell);
-        }
 
         public void Create(int w, int h)
         {

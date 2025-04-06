@@ -1,14 +1,13 @@
-using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.TimeNS;
 using Common.Util.Math;
 using Iso.Cells;
+using Iso.Util;
 
 namespace Iso.Movables
 {
-    public class Movables : GenericBean
+    public class Movables : AbstractManager<MovableEvent, Movable>
     {
-
         public Cells.Cells Cells;
 
         public Time Time;
@@ -52,13 +51,6 @@ namespace Iso.Movables
             List.PooledRemove(obj);
             obj.Manager = null;
             obj.Info = null;
-        }
-
-        public Events<MovableEvent, Movable> Events = new();
-        
-        internal void FireEvent(MovableEvent type, Movable movable)
-        {
-            Events.Fire(type, movable);
         }
     }
 }

@@ -1,12 +1,11 @@
-using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Iso.Cells;
+using Iso.Util;
 
 namespace Iso.Buildings
 {
-    public class Buildings : GenericBean
+    public class Buildings : AbstractManager<BuildingEvent, Building>
     {
-
         public Cells.Cells Cells;
         
         /// <summary>
@@ -26,7 +25,7 @@ namespace Iso.Buildings
             Cells.ForEachCell(cell, info, flip, e => Validate(e.IsBuildable()));
             return List.PooledAdd(building =>
             {
-                building.buildings = this;
+                building.Manager = this;
                 building.Info = info;
                 building.Flipped = flip;
                 building.Cell = cell;
@@ -38,7 +37,7 @@ namespace Iso.Buildings
         {
             List.PooledRemove(building);
             building.ForEachCell(e => e.Building = null);
-            building.buildings = default;
+            building.Manager = default;
             building.Info = default;
             building.Flipped = default;
             building.Cell = default;
