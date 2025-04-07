@@ -75,7 +75,8 @@ namespace Iso.Unity.Test
                 var c1 = Cells.Find(mpos.x, mpos.y);
                 if (c1 != null)
                 {
-                    Movables.Add(bi, c1);
+                    var movable = Movables.Add(bi, c1);
+                    movable.Select();
                 }
 
                 SortObjs();

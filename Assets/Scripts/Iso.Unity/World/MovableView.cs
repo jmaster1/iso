@@ -76,11 +76,16 @@ namespace Iso.Unity.World
             });
             OnDirChange();
             OnMovingChange();
+            OnSelectedChange();
         }
 
         private void OnSelectedChange()
         {
-            
+            var skinName = Model.Selected ? "XMAS" : "BASE";
+            front.skeleton.Skin = front.Skeleton.Data.FindSkin(skinName);
+            back.skeleton.Skin = back.Skeleton.Data.FindSkin(skinName);
+            back.skeleton.SetSlotsToSetupPose();
+            front.skeleton.SetSlotsToSetupPose();
         }
 
         private void OnMovingChange()
@@ -113,6 +118,5 @@ namespace Iso.Unity.World
             Bounds.Update(CurrentAnimation.skeleton, true);
             return Bounds.ContainsPoint(worldPoint.x, worldPoint.y) != null;
         }
-
     }
 }

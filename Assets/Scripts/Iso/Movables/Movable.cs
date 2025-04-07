@@ -217,5 +217,15 @@ namespace Iso.Movables
         {
 	        target.Set(pos.x - Cell.HalfSize, pos.y - Cell.HalfSize, Cell.Size, Cell.Size);
         }
+
+        public void Select()
+        {
+	        Manager.Select(this);
+        }
+        
+        internal void SetSelected(bool val)
+        {
+	        Selected = val;
+        }
     }
 }

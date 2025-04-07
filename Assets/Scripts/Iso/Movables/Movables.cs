@@ -53,5 +53,22 @@ namespace Iso.Movables
             obj.Manager = null;
             obj.Info = null;
         }
+
+        public void Select(Movable movable)
+        {
+            if (movable is {Selected: true})
+            {
+                return;
+            }
+
+            foreach (var e in List)
+            {
+                if (e.Selected)
+                {
+                    e.SetSelected(false);
+                }
+            }
+            movable.SetSelected(true);
+        }
     }
 }
