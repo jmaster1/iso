@@ -5,7 +5,7 @@ using Math;
 
 namespace Iso.Buildings
 {
-    public class Building : AbstractManagedEntity<Buildings, BuildingEvent, Building>
+    public class Building : AbstractManagedEntity<Buildings, BuildingEvent, Building>, IBoundsProvider
     {
         Cells.Cells Cells => Manager.Cells;
         
@@ -27,7 +27,7 @@ namespace Iso.Buildings
         {
             Cells.ForEachCell(Cell, Info, Flipped, action);
         }
-
+ 
         public void GetBounds(RectFloat target)
         {
             target.Set(X, Y, Flipped ? Height : Width, Flipped ? Width : Height);

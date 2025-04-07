@@ -6,9 +6,9 @@ namespace Iso.Cells
 {
     public class Cell : AbstractManagedEntity<Cells, CellEvent, Cell>
     {
-        private static readonly float Size = 1;
+        public const float Size = 1;
 
-        private static readonly float HalfSize = Size / 2f;
+        public const float HalfSize = Size / 2f;
         
         internal Cells cells;
         

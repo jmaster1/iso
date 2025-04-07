@@ -10,11 +10,13 @@ namespace Iso.Unity.World
     {
         public CellsView cellsView;
         public BuildingsView buildingsView;
+        public MovablesView movablesView;
 
         public override void OnBind()
         {
             BindBindable(Model.Cells, cellsView);
             BindBindable(Model.Buildings, buildingsView);
+            BindBindable(Model.Movables, movablesView);
         }
     }
 

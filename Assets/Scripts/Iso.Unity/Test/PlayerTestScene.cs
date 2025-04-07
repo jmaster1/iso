@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Common.Unity.Bind;
 using Common.Unity.Util.Math;
-using Common.Util;
 using Iso.Buildings;
 using Iso.Cells;
+using Iso.Movables;
 using Iso.Player;
 using Iso.Unity.World;
+using Iso.Util;
 using Math;
 using UnityEngine;
 
@@ -16,7 +18,9 @@ namespace Iso.Unity.Test
         
         public IsoPlayerView PlayerView;
         BuildingInfo bi = new();
+        Cells.Cells Cells => Player.Cells;
         Buildings.Buildings Buildings => Player.Buildings;
+        Movables.Movables Movables => Player.Movables;
         
         private void Awake()
         {
@@ -48,8 +52,6 @@ namespace Iso.Unity.Test
         
         private void Update()
         {
-            
-
             if (Input.GetButtonDown("Fire1"))
             {
                 var flip = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
@@ -58,26 +60,55 @@ namespace Iso.Unity.Test
                 {
                     Buildings.Build(bi, (int) mpos.x, (int)mpos.y, flip);
                 }
-                
-                var cmp = new IsometricBoundsComparator();
-                var list = new List<Building>(Player.Buildings.List.List);
-                var b1 = new RectFloat();
-                var b2 = new RectFloat();
-                var bcmp = Comparer<Building>.Create((a, b) =>
-                {
-                    a.GetBounds(b1);
-                    b.GetBounds(b2);
-                    return cmp.Compare(b1, b2);
-                });
-                list.Sort(bcmp);
 
-                for (var i = 0; i < list.Count; i++)
+                SortObjs();
+            }
+            
+            if (Input.GetButtonDown("Fire2"))
+            {
+                var mpos = this.Screen2Model(Input.mousePosition, Camera.main);
+                var bi = new MovableInfo
                 {
-                    var b = list[i];
-                    var bv = PlayerView.buildingsView.buildingListAdapter.Adapter.GetView(b);
-                    var pos = bv.transform.position;
-                    bv.transform.position = new Vector3(pos.x, pos.y, (float) (i / 10.0));
+                    Id = "M1",
+                    Velocity = 4
+                };
+                var c1 = Cells.Find(mpos.x, mpos.y);
+                if (c1 != null)
+                {
+                    Movables.Add(bi, c1);
                 }
+
+                SortObjs();
+            }
+        }
+
+        private void SortObjs()
+        {
+            var cmp = new IsometricBoundsComparator();
+            var list = new List<IBoundsProvider>(Player.Buildings.List.List);
+            list.AddRange(Player.Movables.List.List);
+            var b1 = new RectFloat();
+            var b2 = new RectFloat();
+            var bcmp = Comparer<IBoundsProvider>.Create((a, b) =>
+            {
+                a.GetBounds(b1);
+                b.GetBounds(b2);
+                return cmp.Compare(b1, b2);
+            });
+            list.Sort(bcmp);
+
+            for (var i = 0; i < list.Count; i++)
+            {
+                var e = list[i];
+                BindableMonoRaw view = e switch
+                {
+                    Building building => PlayerView.buildingsView.buildingListAdapter.Adapter.GetView(building),
+                    Movable movable => PlayerView.movablesView.listAdapter.Adapter.GetView(movable),
+                    _ => null
+                };
+                var tx = view!.transform;
+                var pos = tx.position;
+                tx.position = new Vector3(pos.x, pos.y, (float) (i / 10.0));
             }
         }
     }

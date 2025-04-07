@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using Common.Util.Math;
 using Iso.Cells;
 using Iso.Util;
+using Math;
 
 namespace Iso.Movables
 {
-    public class Movable : AbstractManagedEntity<Movables, MovableEvent, Movable>
+    public class Movable : AbstractManagedEntity<Movables, MovableEvent, Movable>, IBoundsProvider
     {
         private Cells.Cells Cells => Manager.Cells;
         
@@ -199,6 +200,11 @@ namespace Iso.Movables
 					FireEvent(MovableEvent.cellChange);
 				}
 			}
+        }
+
+        public void GetBounds(RectFloat target)
+        {
+	        target.Set(pos.x - Cell.HalfSize, pos.y - Cell.HalfSize, Cell.Size, Cell.Size);
         }
     }
 }

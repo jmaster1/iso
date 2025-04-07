@@ -61,6 +61,11 @@ namespace Iso.Cells
             return cells[x, y];
         }
 
+        public Cell Find(float x, float y)
+        {
+            return Find((int) x, (int) y);
+        }
+        
         public Cell Set(int x, int y, CellType type)
         {
             var cell = Find(x, y);
