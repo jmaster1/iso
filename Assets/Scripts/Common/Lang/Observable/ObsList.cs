@@ -25,18 +25,18 @@ namespace Common.Lang.Observable
     /// <typeparam name="T"></typeparam>
     public class ObsList<T> : ObsListBase, IList<T>, IList
     {
-        public readonly Events<ObsListEvent, ObsListEventData<T>> events = new Events<ObsListEvent, ObsListEventData<T>>();
+        public readonly Events<ObsListEvent, ObsListEventData<T>> Events = new();
 
-        private readonly ObsListEventData<T> eventData = new ObsListEventData<T>();
+        private readonly ObsListEventData<T> eventData = new();
         
-        private readonly List<T> list = new List<T>();
+        private readonly List<T> list = new();
         
         public IList<T> List => list;
 
         /// <summary>
         /// check if list is being modified at this time
         /// </summary>
-        public bool IsMutating => events.IsFiring;
+        public bool IsMutating => Events.IsFiring;
 
         public bool IsEmpty => Count == 0;
 
@@ -232,7 +232,7 @@ namespace Common.Lang.Observable
 
         public void AddListener(Action<ObsListEvent, ObsListEventData<T>> listener, bool notify = false)
         {
-            events.AddListener(listener);
+            Events.AddListener(listener);
             if (!notify) return;
             for (var i = 0; i < list.Count; i++)
             {
@@ -252,7 +252,7 @@ namespace Common.Lang.Observable
 
         public void RemoveListener(Action<ObsListEvent, ObsListEventData<T>> listener)
         {
-            events.RemoveListener(listener);
+            Events.RemoveListener(listener);
         }
 
         /// <summary>
@@ -260,12 +260,12 @@ namespace Common.Lang.Observable
         /// </summary>
         void Fire(ObsListEvent type, T item = default, int index = -1)
         {
-            LangHelper.Validate(!events.IsFiring, "Mutate in notification prohibited!");
+            LangHelper.Validate(!Events.IsFiring, "Mutate in notification prohibited!");
             eventData.Type = type;
             eventData.List = this;
             eventData.Element = item;
             eventData.Index = index;
-            events.Fire(type, eventData);
+            Events.Fire(type, eventData);
             eventData.Element = default;
             eventData.Type = default;
             eventData.Index = -1;

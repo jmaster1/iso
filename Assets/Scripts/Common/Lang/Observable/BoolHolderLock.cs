@@ -8,14 +8,14 @@ namespace Common.Lang.Observable
     /// </summary>
     public class BoolHolderLock : BoolHolder
     {
-        public readonly List<object> locks = new List<object>();
+        public readonly List<object> Locks = new();
 
         /// <summary>
         /// add lock object
         /// </summary>
         public void AddLock(object val)
         {
-            locks.Add(val);
+            Locks.Add(val);
             UpdateState();
         }
         
@@ -24,18 +24,18 @@ namespace Common.Lang.Observable
         /// </summary>
         public void RemoveLock(object val)
         {
-            locks.Remove(val);
+            Locks.Remove(val);
             UpdateState();
         }
 
         void UpdateState()
         {
-            Set(locks.Count > 0);
+            Set(Locks.Count > 0);
         }
 
         public override void Clear()
         {
-            locks.Clear();
+            Locks.Clear();
             base.Clear();
         }
         

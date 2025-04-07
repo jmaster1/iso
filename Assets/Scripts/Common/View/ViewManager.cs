@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Common.Api.Input;
 using Common.ContextNS;
 using Common.IO.Streams;
-using Common.Lang;
 using Common.Lang.Collections;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
@@ -29,9 +28,9 @@ namespace Common.View
         /// </summary>
         public readonly InputApi InputApi = Context.Get<InputApi>();
 
-        public ObsListMapString<ViewLayer> Layers = new ObsListMapString<ViewLayer>();
+        public ObsListMapString<ViewLayer> Layers = new();
 
-        private static readonly Map<Type, string> TypeToViewId = new Map<Type, string>();
+        private static readonly Map<Type, string> TypeToViewId = new();
         
         /// <summary>
         /// resolve view id from its' type
@@ -41,8 +40,8 @@ namespace Common.View
             var viewId = TypeToViewId.Find(viewType);
             if (viewId != null) return viewId;
             var ns = viewType.Namespace;
-            var index = ns.IndexOf("UI.", StringComparison.InvariantCulture);
-            viewId = TypeToViewId[viewType] = ns.Substring(index).Replace('.', '/') + "/" + viewType.Name;
+            var index = ns!.IndexOf("UI.", StringComparison.InvariantCulture);
+            viewId = TypeToViewId[viewType] = ns[index..].Replace('.', '/') + "/" + viewType.Name;
             return viewId;
         }
 

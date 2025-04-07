@@ -435,8 +435,8 @@ namespace Common.Unity.Bind
                         throw new ArgumentOutOfRangeException(nameof(evt), evt, null);
                 }
             }
-            list.events.AddListener(OnEvent);
-            Bindable.AddUnbindAction(() => list.events.RemoveListener(OnEvent));
+            list.Events.AddListener(OnEvent);
+            Bindable.AddUnbindAction(() => list.Events.RemoveListener(OnEvent));
         }
         
         protected void BindModelEvents<TEvent>(Events<TEvent, T> events, Action<TEvent> action) where TEvent : Enum

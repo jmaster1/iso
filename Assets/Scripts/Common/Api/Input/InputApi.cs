@@ -31,7 +31,7 @@ namespace Common.Api.Input
         {
             html.h3("Lock");
             html.tableHeader("#", "lock");
-            foreach (var e in Lock.locks)
+            foreach (var e in Lock.Locks)
             {
                 html.tr().tdRowNum().td(e).endTr();
             }

@@ -15,7 +15,7 @@ namespace Common.Api.Pool
         /// <summary>
         /// pool cache mapped by type
         /// </summary>
-        private readonly Map<Type, object> pools = new Map<Type, object>();
+        private readonly Map<Type, object> pools = new();
 
         private Pool<object> GetPool<T>() where T : class
         {
@@ -42,7 +42,7 @@ namespace Common.Api.Pool
         public void Put(object obj)
         {
             Assert(obj != null);
-            var type = obj.GetType();
+            var type = obj!.GetType();
             var pool = GetPool(type);
             pool.Put(obj);
         }

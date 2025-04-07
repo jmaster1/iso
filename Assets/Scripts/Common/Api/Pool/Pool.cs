@@ -12,17 +12,17 @@ namespace Common.Api.Pool
     /// <typeparam name="T"></typeparam>
     public class Pool<T> : IIdAware<Type>, IClearable where T : class
     {
-        public List<T> FreeObjects { get; } = new List<T>();
+        public List<T> FreeObjects { get; } = new();
 
         /// <summary>
         /// element type
         /// </summary>
-        private Type type;
+        private readonly Type type;
         
         /// <summary>
         /// element factory, use reflection to instantiate if not provided
         /// </summary>
-        private Func<T> factory;
+        private readonly Func<T> factory;
 
         /// <summary>
         /// pool size retrieval (free objects)
