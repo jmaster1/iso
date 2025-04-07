@@ -1,12 +1,13 @@
 ﻿using System;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
+using Iso.Player;
 
 namespace Iso.Util
 {
 
     public class AbstractManagedEntity<TManager, TEvent, TEntity> : AbstractEntity 
-        where TManager : AbstractManager<TEvent, TEntity>
+        where TManager : AbstractIsoFeature<TEvent, TEntity>
         where TEvent : Enum
         where TEntity : AbstractManagedEntity<TManager, TEvent, TEntity>
     {

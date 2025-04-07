@@ -2,11 +2,11 @@ using Common.Lang.Observable;
 using Common.TimeNS;
 using Common.Util.Math;
 using Iso.Cells;
-using Iso.Util;
+using Iso.Player;
 
 namespace Iso.Movables
 {
-    public class Movables : AbstractManager<MovableEvent, Movable>
+    public class Movables : AbstractIsoFeature<MovableEvent, Movable>
     {
         public Cells.Cells Cells;
 
@@ -17,8 +17,9 @@ namespace Iso.Movables
         /// </summary>
         public readonly PooledObsList<Movable> List = new();
 
-        public void Start()
+        public override void Start()
         {
+            
             Time.AddListener(TimeListener);
         }
 

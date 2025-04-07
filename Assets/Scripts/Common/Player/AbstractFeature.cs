@@ -114,7 +114,7 @@ namespace Common.Player
         /// </summary>
         internal void RunNextTime(Action action)
         {
-            AbstractPlayer.TaskManagerSystem.ScheduleAfterSec(action, 0);
+            TaskManagerSystem.ScheduleAfterSec(action, 0);
         }
         
         /// <summary>

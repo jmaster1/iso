@@ -1,10 +1,10 @@
 using Common.Lang.Observable;
 using Iso.Cells;
-using Iso.Util;
+using Iso.Player;
 
 namespace Iso.Buildings
 {
-    public class Buildings : AbstractManager<BuildingEvent, Building>
+    public class Buildings : AbstractIsoFeature<BuildingEvent, Building>
     {
         public Cells.Cells Cells;
         

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Common.Lang.Observable;
 using Common.Util.Math.Path.AStar;
 using Iso.Buildings;
-using Iso.Util;
+using Iso.Player;
 using Math;
 
 namespace Iso.Cells
 {
-    public class Cells : AbstractManager<CellEvent, Cell>
+    public class Cells : AbstractIsoFeature<CellEvent, Cell>
     {
         /// <summary>
         /// cell 2d map, may contain nulls

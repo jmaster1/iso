@@ -9,16 +9,23 @@ namespace Iso.Player
     /// </summary>
     public class IsoPlayer : AbstractPlayer
     {
-        public readonly PlayerInfo PlayerInfo = Context.GetInfo<PlayerInfo>();
-            
+        //public readonly PlayerInfo PlayerInfo = Context.GetInfo<PlayerInfo>();
 
+        public readonly Cells.Cells Cells = new();
+        
+        public readonly Buildings.Buildings Buildings = new();
+        
+        public readonly Movables.Movables Movables = new();
+        
         protected override IEnumerable<AbstractFeature> GetFeatures()
         {
             //
             // the order is important
             return new AbstractFeature[]
             {
-            
+                Cells,
+                Buildings,
+                Movables
             };
         }
     }

@@ -14,7 +14,7 @@ namespace Common.Api.Input
         /// <summary>
         /// global input lock
         /// </summary>
-        public readonly BoolHolderLock Lock = new BoolHolderLock();
+        public readonly BoolHolderLock Lock = new();
 
         public IDisposable InputLockAdd(object val)
         {

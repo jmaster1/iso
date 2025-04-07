@@ -10,8 +10,6 @@ namespace Iso.Unity.World
 {
     public class CellsView : BindableMono<Cells.Cells>
     {
-        public IsometricProjectorGrid prj;
-
         public GameObject cellBlocked;
             
         public GameObject cellTraversable;
@@ -30,8 +28,9 @@ namespace Iso.Unity.World
         public override void OnBind()
         {
             base.OnBind();
+            var prj = this.GetIsoProjector();
             prj ??= UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
-            cellsAdapter ??= new()
+            cellsAdapter ??= new ObsListAdapter<Cell, GameObject>
             {
                 CreateView = (cell, _) =>
                 {
