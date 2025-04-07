@@ -15,7 +15,10 @@ namespace Iso.Buildings
         
         public bool IsBuildable(BuildingInfo info, Cell cell, bool flip = false)
         {
-            return Cells.ForEachPos(cell.x, cell.y, 
+            return Cells.CheckBounds(cell.x, cell.y, 
+                flip ? info.height : info.width, 
+                flip ? info.width : info.height) &&
+                Cells.ForEachPos(cell.x, cell.y, 
                 flip ? info.height : info.width, 
                 flip ? info.width : info.height, 
                 (x, y) =>

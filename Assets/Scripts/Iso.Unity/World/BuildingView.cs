@@ -12,7 +12,11 @@ namespace Iso.Unity.World
             base.OnBind();
             var path = "Buildings/" + Model.Info.Id;
             var prefab = Resources.Load<GameObject>(path);
-            Instantiate(prefab, transform);
+            var obj = Instantiate(prefab, transform);
+            if (Model.Flipped)
+            {
+                obj.transform.localScale = new Vector3(-1, 1);
+            }
         }
 
         private void Update()

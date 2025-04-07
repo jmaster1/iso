@@ -24,7 +24,8 @@ namespace Iso.Unity.Test
             var buildings = Player.Buildings;
             var bi = new BuildingInfo();
             bi.Id = "rock1x4";
-            bi.width = bi.height = 2;
+            bi.width = 4;
+            bi.height = 1;
 
             for (var i = 0; i < 100; i++)
             {

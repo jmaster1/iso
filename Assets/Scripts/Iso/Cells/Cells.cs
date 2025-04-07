@@ -163,5 +163,10 @@ namespace Iso.Cells
         {
             ForEachPos((int)region.x, (int)region.y, (int)region.w, (int)region.h, action);
         }
+
+        public bool CheckBounds(int x, int y, int w, int h)
+        {
+            return x >= 0 && y >= 0 && x + w <= Width && y + h <= Heigth;
+        }
     }
 }
