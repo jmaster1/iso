@@ -88,9 +88,9 @@ namespace Common.Util
         }
 
         /// <summary>
-        /// retrieve random bool using probability [0..1]
+        /// retrieve random bool using probability [0..1] for true
         /// </summary>
-        public bool RandomBool(float chance)
+        public bool RandomBool(double chance = 0.5)
         {
             var val = NextDouble();
             return val <= chance;
