@@ -53,6 +53,11 @@ namespace Iso.Unity.World
             mono.GetIsoProjector().Transform(mono.gameObject, modelPos);
         }
         
+        public static void ApplyTransform(this BindableMonoRaw mono, float modelX, float modelY)
+        {
+            mono.GetIsoProjector().Transform(mono.gameObject, modelX, modelY);
+        }
+        
         public static Vector2 Screen2Model(this MonoBehaviour mono, Vector3 mousePosition, Camera camera)
         {
             return mono.GetIsoProjector().Screen2Model(mousePosition, camera);

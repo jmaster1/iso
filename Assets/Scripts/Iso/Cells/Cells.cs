@@ -34,8 +34,9 @@ namespace Iso.Cells
             cells = new Cell[Width = w, Heigth = h];
         }
 
-        public void Clear()
+        public override void Clear()
         {
+            base.Clear();
             CellList.Clear();
             cells = null;
             Width = Heigth = 0;
@@ -111,7 +112,10 @@ namespace Iso.Cells
 
         public void ForEachCell(Cell cell, BuildingInfo info, bool flip, Action<Cell> action)
         {
-            ForEachCell(cell.x, cell.y, flip ? info.height : info.width, flip ? info.width : info.height, action);
+            ForEachCell(cell.x, cell.y, 
+                flip ? info.height : info.width, 
+                flip ? info.width : info.height,
+                action);
         }
         
         public void ForEachPos(int x, int y, int w, int h, Action<int, int> action)
@@ -125,6 +129,24 @@ namespace Iso.Cells
                     action(xi, yi);
                 }
             }
+        }
+        
+        public bool ForEachPos(int x, int y, int w, int h, Func<int, int, bool> action)
+        {
+            var x1 = x + w;
+            var y1 = y + h;
+            for (var xi = x; xi < x1; xi++)
+            {
+                for (var yi = y; yi < y1; yi++)
+                {
+                    if (!action(xi, yi))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         public void ForEachPos(Action<int, int> action)

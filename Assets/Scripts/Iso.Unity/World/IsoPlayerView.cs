@@ -9,10 +9,12 @@ namespace Iso.Unity.World
     public class IsoPlayerView : BindableMono<IsoPlayer>
     {
         public CellsView cellsView;
+        public BuildingsView buildingsView;
 
         public override void OnBind()
         {
             BindBindable(Model.Cells, cellsView);
+            BindBindable(Model.Buildings, buildingsView);
         }
     }
 

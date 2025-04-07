@@ -17,7 +17,7 @@ namespace Iso.Player
         
         public readonly Movables.Movables Movables = new();
         
-        protected override IEnumerable<AbstractFeature> GetFeatures()
+        protected override IEnumerable<AbstractFeature> InitFeatures()
         {
             //
             // the order is important

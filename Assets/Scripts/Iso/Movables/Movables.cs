@@ -8,7 +8,7 @@ namespace Iso.Movables
 {
     public class Movables : AbstractIsoFeature<MovableEvent, Movable>
     {
-        public Cells.Cells Cells;
+        public Cells.Cells Cells => Player.Cells;
 
         public Time Time;
         

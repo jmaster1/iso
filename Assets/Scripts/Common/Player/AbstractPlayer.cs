@@ -65,11 +65,11 @@ namespace Common.Player
         /// <summary>
         /// subclasses should return array of its' features, order is important
         /// </summary>
-        protected abstract IEnumerable<AbstractFeature> GetFeatures();
+        protected abstract IEnumerable<AbstractFeature> InitFeatures();
 
         protected AbstractPlayer()
         {
-            var feats = GetFeatures();
+            var feats = InitFeatures();
             foreach (var e in feats)
             {
                 e.AbstractPlayer = this;

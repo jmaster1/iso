@@ -6,12 +6,24 @@ namespace Iso.Buildings
 {
     public class Buildings : AbstractIsoFeature<BuildingEvent, Building>
     {
-        public Cells.Cells Cells;
+        public Cells.Cells Cells => Player.Cells;
         
         /// <summary>
         /// list of existing buildings
         /// </summary>
         public readonly PooledObsList<Building> List = new();
+        
+        public bool IsBuildable(BuildingInfo info, Cell cell, bool flip = false)
+        {
+            return Cells.ForEachPos(cell.x, cell.y, 
+                flip ? info.height : info.width, 
+                flip ? info.width : info.height, 
+                (x, y) =>
+            {
+                var e = Cells.Get(x, y);
+                return e != null && e.IsBuildable();
+            });
+        }
         
         /// <summary>
         /// build 

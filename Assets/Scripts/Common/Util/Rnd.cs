@@ -59,7 +59,7 @@ namespace Common.Util
         public T RandomElement<T>(T[] array)
         {
             if (array == null || array.Length == 0) return default;
-            int index = Next(array.Length);
+            var index = Next(array.Length);
             return array[index];
         }
 
@@ -75,8 +75,16 @@ namespace Common.Util
         /// </summary>
         public int RandomIntIncl(int min, int max)
         {
-            if (max <= min) return min;
-            return Next(min, max + 1);
+            return max <= min ? min : Next(min, max + 1);
+        }
+        
+        /// <summary>
+        /// retrieve random int using interval (excluding max)
+        /// if max is less that min, then min returned
+        /// </summary>
+        public int RandomInt(int min, int max)
+        {
+            return max <= min ? min : Next(min, max);
         }
 
         /// <summary>

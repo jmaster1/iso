@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Common.Api;
 using Common.IO.Streams;
-using Common.Lang;
 using Common.Lang.Collections;
 using Common.Unity.Bind;
 using Common.Unity.Util;
@@ -31,7 +30,7 @@ namespace Common.Unity.Api.ViewPool
         /// <summary>
         /// used to localise newly created views, set to null to bypass localisation
         /// </summary>
-        public ViewLocaliser Localiser = new ViewLocaliser();
+        public ViewLocaliser Localiser = new();
 
         /// <summary>
         /// get or create pool for specified type

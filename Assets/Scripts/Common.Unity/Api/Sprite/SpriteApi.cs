@@ -16,7 +16,7 @@ namespace Common.Unity.Api.Sprite
     {
         public const char PathSeparator = '/';
         
-        Map<int, UnityEngine.Sprite> cache = new Map<int, UnityEngine.Sprite>();
+        Map<int, UnityEngine.Sprite> cache = new();
 
         /// <summary>
         /// texture path resolver for entity type/id,

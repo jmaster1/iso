@@ -119,6 +119,35 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &59675532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6071975795013536885, guid: 1bcb2a813c288474eb2963f02b9eeb51, type: 3}
+  m_PrefabInstance: {fileID: 374030403}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &59675534 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7582661121888675604, guid: 1bcb2a813c288474eb2963f02b9eeb51, type: 3}
+  m_PrefabInstance: {fileID: 374030403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59675532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f437f9e68f83497d9047b3c66f0ce084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &59675535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59675532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7fdfa4aa12c48b79ff3f58bee266320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  container: {fileID: 0}
 --- !u!1 &129264010
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellsView: {fileID: 374030405}
+  buildingsView: {fileID: 59675534}
 --- !u!4 &129264012
 Transform:
   m_ObjectHideFlags: 0
@@ -217,10 +247,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
+    - target: {fileID: 7582661121888675604, guid: 1bcb2a813c288474eb2963f02b9eeb51, type: 3}
+      propertyPath: buildingListAdapter
+      value: 
+      objectReference: {fileID: 59675535}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6071975795013536885, guid: 1bcb2a813c288474eb2963f02b9eeb51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 59675535}
   m_SourcePrefab: {fileID: 100100000, guid: 1bcb2a813c288474eb2963f02b9eeb51, type: 3}
 --- !u!4 &374030404 stripped
 Transform:

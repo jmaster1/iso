@@ -41,7 +41,7 @@ namespace Common.View
             if (viewId != null) return viewId;
             var ns = viewType.Namespace;
             var index = ns!.IndexOf("UI.", StringComparison.InvariantCulture);
-            viewId = TypeToViewId[viewType] = ns[index..].Replace('.', '/') + "/" + viewType.Name;
+            viewId = TypeToViewId[viewType] = (index == -1 ? ns : ns[index..]).Replace('.', '/') + "/" + viewType.Name;
             return viewId;
         }
 

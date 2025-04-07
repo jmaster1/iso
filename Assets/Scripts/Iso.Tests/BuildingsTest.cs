@@ -4,15 +4,14 @@ using NUnit.Framework;
 
 namespace Iso.Tests
 {
-    public class BuildingsTest
+    public class BuildingsTest : AbstractPlayerTest
     {
         [Test]
         public void BuildTest()
         {
-            var cells = new Cells.Cells();
-            var s = 4;
-            cells.Create(s, s);
-            cells.ForEachPos((x, y) => cells.Set(x, y, CellType.Buildable));
+            const int s = 4;
+            Cells.Create(s, s);
+            Cells.ForEachPos((x, y) => Cells.Set(x, y, CellType.Buildable));
 
             var bi = new BuildingInfo
             {
@@ -20,13 +19,9 @@ namespace Iso.Tests
                 width = 1,
                 height = 2
             };
-            var buildings = new Buildings.Buildings
-            {
-                Cells = cells
-            };
 
-            var c1 = cells.Get(0, 0);
-            var b1 = buildings.Build(bi, c1);
+            var c1 = Cells.Get(0, 0);
+            var b1 = Buildings.Build(bi, c1);
             Assert.NotNull(b1);
             Assert.AreEqual(b1.Cell, c1);
             Assert.IsFalse(b1.Flipped);
@@ -34,8 +29,8 @@ namespace Iso.Tests
             Assert.AreEqual(b1.Height, bi.height);
             b1.ForEachCell(c => Assert.AreEqual(c.Building, b1));
             
-            var c2 = cells.Get(2, 0);
-            var b2 = buildings.Build(bi, c2, true);
+            var c2 = Cells.Get(2, 0);
+            var b2 = Buildings.Build(bi, c2, true);
             Assert.NotNull(b2);
             Assert.AreEqual(b2.Cell, c2);
             Assert.IsTrue(b2.Flipped);

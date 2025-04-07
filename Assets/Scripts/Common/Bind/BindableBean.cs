@@ -119,12 +119,12 @@ namespace Common.Bind
             Validate(view != null);
             if (model != null)
             {
-                view.Bind(model);
-                AddUnbindAction(() => view.Unbind());
+                view!.Bind(model);
+                AddUnbindAction(view.Unbind);
             }
             else
             {
-                view.Unbind();
+                view!.Unbind();
             }
         }
         

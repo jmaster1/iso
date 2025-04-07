@@ -6,28 +6,23 @@ using NUnit.Framework;
 
 namespace Iso.Tests
 {
-    public class MovablesTest
+    public class MovablesTest : AbstractPlayerTest
     {
         [Test]
         public void MoveTest()
         {
-            var cells = new Cells.Cells();
-            var s = 4;
-            cells.Create(s, s);
-            cells.ForEachPos((x, y) => cells.Set(x, y, CellType.Traversable));
+            const int s = 4;
+            Cells.Create(s, s);
+            Cells.ForEachPos((x, y) => Cells.Set(x, y, CellType.Traversable));
 
             var bi = new MovableInfo
             {
                 Id = "M1",
                 Velocity = 1
             };
-            var movables = new Movables.Movables
-            {
-                Cells = cells
-            };
 
-            var c1 = cells.Get(0, 0);
-            var b1 = movables.Add(bi, c1);
+            var c1 = Cells.Get(0, 0);
+            var b1 = Movables.Add(bi, c1);
             Assert.NotNull(b1);
             Assert.AreEqual(b1.Cell, c1);
             Assert.IsFalse(b1.Moving);
@@ -36,8 +31,8 @@ namespace Iso.Tests
             var ok = b1.MoveTo(3, 3);
             Assert.IsTrue(ok);
 
-            var t = movables.Time = new Time();
-            movables.Start();
+            var t = Movables.Time = new Time();
+            Movables.Start();
             var dt = TimeSpan.FromMilliseconds(50);
 
             while (t.Value.Second < 8)

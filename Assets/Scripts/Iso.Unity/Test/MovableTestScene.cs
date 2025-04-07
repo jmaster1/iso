@@ -1,6 +1,7 @@
 using Common.Util;
 using Iso.Cells;
 using Iso.Movables;
+using Iso.Player;
 using Iso.Unity.World;
 using Math;
 using UnityEngine;
@@ -20,9 +21,10 @@ namespace Iso.Unity.Test
         
         public int blockedCells = 20;
 
-        private Cells.Cells cells = new();
-
-        private Movables.Movables movables = new();
+        public readonly IsoPlayer Player = new();
+        public Cells.Cells cells => Player.Cells;
+        public Buildings.Buildings buildings => Player.Buildings;
+        public Movables.Movables movables => Player.Movables;
             
         private Movable movable;
 
@@ -36,7 +38,6 @@ namespace Iso.Unity.Test
 
         private void CreateMovables()
         {
-            movables.Cells = cells;
             movables.Time = time;
             movables.Start();
             

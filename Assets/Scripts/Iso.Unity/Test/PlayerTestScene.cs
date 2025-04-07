@@ -1,3 +1,5 @@
+using Common.Util;
+using Iso.Buildings;
 using Iso.Cells;
 using Iso.Player;
 using Iso.Unity.World;
@@ -14,30 +16,27 @@ namespace Iso.Unity.Test
         private void Awake()
         {
             var cells = Player.Cells;
-            cells.Create(20, 20);
-            cells.ForEachPos(0, 0, 20, 20, (x, y) => cells.Set(x, y, CellType.Traversable));
+            var w = 20;
+            var h = 20;
+            cells.Create(w, h);
+            cells.ForEachPos(0, 0, w, h, (x, y) => cells.Set(x, y, CellType.Buildable));
+
+            var buildings = Player.Buildings;
+            var bi = new BuildingInfo();
+            bi.Id = "feuerwerk";
+            bi.width = bi.height = 2;
+
+            for (var i = 0; i < 100; i++)
+            {
+                var x = Rnd.Instance.RandomIntIncl(0, w - bi.width);
+                var y = Rnd.Instance.RandomIntIncl(0, h - bi.height);
+                var cell = cells.Get(x, y);
+                if (buildings.IsBuildable(bi, cell))
+                {
+                    buildings.Build(bi, cell);
+                }
+            }
             PlayerView.Bind(Player);
         }
-
-        
-/*
-        private void Update()
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                var viewPos = this.Screen2View(Input.mousePosition, Camera.main);
-                var hit = movableView.HitTest(viewPos);
-                Debug.Log("hit=" + hit);
-
-                var modelPos = this.Screen2Model(Input.mousePosition, Camera.main);
-                movable.MoveTo((int)modelPos.x, (int)modelPos.y);
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            time.UpdateSec(UnityEngine.Time.fixedDeltaTime);
-        }
-            */
     }
 }
