@@ -7,6 +7,7 @@ namespace Iso.Movables
         movingChange,
         pathChange,
         teleportBegin,
-        teleportEnd
+        teleportEnd,
+        selectedChange
     }
 }

@@ -69,10 +69,18 @@ namespace Iso.Unity.World
                     case MovableEvent.movingChange:
                         OnMovingChange();
                         break;
+                    case MovableEvent.selectedChange:
+                        OnSelectedChange();
+                        break;
                 }
             });
             OnDirChange();
             OnMovingChange();
+        }
+
+        private void OnSelectedChange()
+        {
+            
         }
 
         private void OnMovingChange()

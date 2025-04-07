@@ -72,6 +72,17 @@ namespace Iso.Movables
 	        internal set => SetProperty(ref moving, value, MovableEvent.movingChange);
         }
         
+        /// <summary>
+        /// slected flag
+        /// </summary>
+        private bool selected;
+        
+        public bool Selected
+        {
+	        get => selected;
+	        internal set => SetProperty(ref selected, value, MovableEvent.selectedChange);
+        }
+        
         /**
 		 * move linear base velocity
 		 */
