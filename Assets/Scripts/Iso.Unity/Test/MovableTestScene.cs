@@ -30,11 +30,11 @@ namespace Iso.Unity.Test
         
         private void Awake()
         {
-            createCells();
-            createMovables();
+            CreateCells();
+            CreateMovables();
         }
 
-        private void createMovables()
+        private void CreateMovables()
         {
             movables.Cells = cells;
             movables.Time = time;
@@ -53,7 +53,7 @@ namespace Iso.Unity.Test
             //movable.MoveTo(cellsWidth - 1, cellsHeight - 1);
         }
 
-        private void createCells()
+        private void CreateCells()
         {
             cells.Create(cellsWidth, cellsHeight);
             var rc = new RectFloat(0, 0, cellsWidth, cellsHeight);

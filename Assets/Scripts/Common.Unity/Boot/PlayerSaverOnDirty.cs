@@ -15,12 +15,12 @@ namespace Common.Unity.Boot
         /// <summary>
         /// used in main thread to write persistent data
         /// </summary>
-        private readonly MemoryFileSystem memoryFileSystem = new MemoryFileSystem();
+        private readonly MemoryFileSystem memoryFileSystem = new();
 
         /// <summary>
         /// local private file system, we write here in background thread using transaction
         /// </summary>
-        private readonly FileSystemTransaction localFileSystem = new FileSystemTransaction(UnityHelper.PrivateFileSystem);
+        private readonly FileSystemTransaction localFileSystem = new(UnityHelper.PrivateFileSystem);
 
         private bool saveScheduled;
         

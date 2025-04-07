@@ -13,7 +13,7 @@ namespace Common.Unity.Boot
         
         public string Label;
 
-        public readonly BoolHolder selected = new BoolHolder();
+        public readonly BoolHolder Selected = new();
 
         public void Select()
         {

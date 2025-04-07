@@ -41,12 +41,12 @@ namespace Common.Unity.Boot
         /// <summary>
         /// list of tabs in DebugView
         /// </summary>
-        public readonly ObsList<DebugTab> tabs = new ObsList<DebugTab>();
+        public readonly ObsList<DebugTab> Tabs = new();
         
-        public readonly SingleSelection<DebugTab> tabSelection = new SingleSelection<DebugTab>
+        public readonly SingleSelection<DebugTab> TabSelection = new()
         {
             Autoselect = true,
-            HolderFunc = e => e.selected
+            HolderFunc = e => e.Selected
         };
 
         protected override void OnBind()
@@ -65,7 +65,7 @@ namespace Common.Unity.Boot
             // http debug
             HttpDebug = new HttpDebug();
             HttpDebug.Bind(Context.GetCurrent());
-            BindBindable(tabs, tabSelection);
+            BindBindable(Tabs, TabSelection);
             //
             // replace handler
             HttpDebug.Server.QueryHandler = HandleQuery;
@@ -93,7 +93,7 @@ namespace Common.Unity.Boot
                 ViewType = typeof(TView),
                 Label = label
             };
-            tabs.Add(tab);
+            Tabs.Add(tab);
         }
 
         /// <summary>
@@ -104,21 +104,21 @@ namespace Common.Unity.Boot
         {
             var processed = false;
 
+            Unicom.RunInMain(Run);
+            Thread.Sleep(1000);
+            Run();
+
             void Run()
             {
                 if (processed) return;
                 processed = true;
                 HttpDebug.Router.HandleQuery(query);
             }
-
-            Unicom.RunInMain(Run);
-            Thread.Sleep(1000);
-            Run();
         }
 
         public void Select(DebugTab tab)
         {
-            tabSelection.Select(tab);
+            TabSelection.Select(tab);
         }
     }
 }

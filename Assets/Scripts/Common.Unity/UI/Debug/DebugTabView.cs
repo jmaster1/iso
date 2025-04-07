@@ -24,7 +24,7 @@ namespace Common.Unity.UI.Debug
         {
             button.SetText(Model.Label);
             BindClick(button, Model.Select);
-            BindInteractable(Model.selected, button, true);
+            BindInteractable(Model.Selected, button, true);
         }
     }
 }

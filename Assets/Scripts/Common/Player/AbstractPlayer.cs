@@ -5,7 +5,6 @@ using Common.Api.Input;
 using Common.Bind;
 using Common.ContextNS;
 using Common.IO.Streams;
-using Common.Lang;
 using Common.Lang.Collections;
 using Common.TimeNS;
 using Common.Util;
@@ -29,27 +28,27 @@ namespace Common.Player
             
         public readonly Time TimeSystem = new SystemTime();
         
-        public readonly Time TimeGame = new Time();
+        public readonly Time TimeGame = new();
         
         /// <summary>
         /// system time task manager
         /// </summary>
-        public readonly TaskManager TaskManagerSystem = new TaskManager();
+        public readonly TaskManager TaskManagerSystem = new();
         
         /// <summary>
         /// game time task manager
         /// </summary>
-        public readonly TaskManager TaskManagerGame = new TaskManager();
+        public readonly TaskManager TaskManagerGame = new();
         
         /// <summary>
         /// randomizer to be used by features
         /// </summary>
-        public readonly Rnd Rnd = new Rnd();
+        public readonly Rnd Rnd = new();
         
         /// <summary>
         /// all the player features
         /// </summary>
-        public readonly List<AbstractFeature> features = new List<AbstractFeature>();
+        public readonly List<AbstractFeature> Features = new();
 
         public bool Loading;
 
@@ -61,7 +60,7 @@ namespace Common.Player
         /// <summary>
         /// cached view controllers
         /// </summary>
-        protected readonly Map<Type, IViewController> ViewCache = new Map<Type, IViewController>();
+        protected readonly Map<Type, IViewController> ViewCache = new();
 
         /// <summary>
         /// subclasses should return array of its' features, order is important
@@ -74,9 +73,9 @@ namespace Common.Player
             foreach (var e in feats)
             {
                 e.AbstractPlayer = this;
-                features.Add(e);
+                Features.Add(e);
             }
-            foreach (var e in features)
+            foreach (var e in Features)
             {
                 e.Init();
             }
@@ -85,7 +84,7 @@ namespace Common.Player
         public override void Clear()
         {
             ViewManager.HideAll();
-            foreach (var feature in features)
+            foreach (var feature in Features)
             {
                 feature.Clear();
             }
@@ -114,7 +113,7 @@ namespace Common.Player
             Loading = true;
             try
             {
-                foreach (var e in features.Where(
+                foreach (var e in Features.Where(
                     e => e.IsPersistent && !e.IsDisabled))
                 {
                     featureLoader(e);
@@ -135,7 +134,7 @@ namespace Common.Player
         public int Save(bool dirtyOnly, Action<AbstractFeature> featureSaver)
         {
             var savedCount = 0;
-            foreach (var e in features.Where(
+            foreach (var e in Features.Where(
                 e => e.IsPersistent 
                      && !e.IsDisabled 
                      && (!dirtyOnly || e.Dirty)))
@@ -151,7 +150,7 @@ namespace Common.Player
         public void Start()
         {
             Validate(IsBound(), "Must be bound before Start");
-            foreach (var e in features.Where(e => !e.IsDisabled))
+            foreach (var e in Features.Where(e => !e.IsDisabled))
             {
                 e.Start();
             }
@@ -163,7 +162,7 @@ namespace Common.Player
         public void RegisterHttpDebug(HttpRouter httpRouter)
         {
             httpRouter.AddHandler(this);
-            foreach (var e in features)
+            foreach (var e in Features)
             {
                 e.RegisterHttpDebug(httpRouter);
             }
@@ -173,7 +172,7 @@ namespace Common.Player
         {
             html.h3("Features");
             html.tableHeader("#", "name", "persistent", "disabled", "dirty");
-            foreach (var e in features)
+            foreach (var e in Features)
             {
                 html.tr()
                     .tdRowNum()

@@ -20,7 +20,7 @@ namespace Common.Player
         ///  disabled flag, debug purposes, disabled adapter won't start
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
-        public readonly BoolHolder Disabled = new BoolHolder();
+        public readonly BoolHolder Disabled = new();
 
         public bool IsDisabled => Disabled.Get();
         

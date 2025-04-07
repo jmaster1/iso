@@ -33,8 +33,8 @@ namespace Common.Unity.UI.Debug
         public override void OnBind()
         {
             BindClick(closeButton, () => Model.DebugView.Hide());
-            BindBindable(Model.tabs, tabs);
-            BindToHolder(Model.tabSelection.Selected, tab =>
+            BindBindable(Model.Tabs, tabs);
+            BindToHolder(Model.TabSelection.Selected, tab =>
             {
                 currentView?.SetActive(false);
                 var tabView = tabs.FindView(tab);

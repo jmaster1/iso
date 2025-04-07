@@ -31,7 +31,7 @@ namespace Common.Unity.Boot
         /// <summary>
         /// default filesystem for player persistence
         /// </summary>
-        protected FileSystemTransaction filesystem;
+        protected FileSystemTransaction Filesystem;
 
         /// <summary>
         /// request for reload player from persistence

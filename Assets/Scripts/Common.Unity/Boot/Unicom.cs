@@ -56,27 +56,27 @@ namespace Common.Unity.Boot
         /// <summary>
         /// list of actions to execute on next Update() call
         /// </summary>
-        private static readonly List<Action> UpdateActions = new List<Action>();
+        private static readonly List<Action> UpdateActions = new();
 
-        private static readonly List<Action> UpdateActionsSnapshot = new List<Action>();
+        private static readonly List<Action> UpdateActionsSnapshot = new();
         
         /// <summary>
         /// system time - updated each frame, matches system clock
         /// </summary>
-        public static readonly SystemTime SystemTime = new SystemTime();
+        public static readonly SystemTime SystemTime = new();
 
-        public static readonly TaskManager SystemTimeTaskManager = new TaskManager();
+        public static readonly TaskManager SystemTimeTaskManager = new();
         
         /// <summary>
         /// in-game time - updated each frame, starts with game 
         /// </summary>
-        public static readonly Time GameTime = new Time();
+        public static readonly Time GameTime = new();
 
-        public static readonly TaskManager GameTimeTaskManager = new TaskManager();
+        public static readonly TaskManager GameTimeTaskManager = new();
         
         public static ViewManager ViewManager { get; private set; }
         
-        public static readonly UnityInputAdapter UnityInputAdapter = new UnityInputAdapter();
+        public static readonly UnityInputAdapter UnityInputAdapter = new();
 
         /// <summary>
         /// player bootstrap component reference
