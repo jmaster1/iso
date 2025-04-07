@@ -69,7 +69,7 @@ namespace Iso.Unity.Test
                 var mpos = this.Screen2Model(Input.mousePosition, Camera.main);
                 var bi = new MovableInfo
                 {
-                    Id = "M1",
+                    Id = "afroman",
                     Velocity = 4
                 };
                 var c1 = Cells.Find(mpos.x, mpos.y);

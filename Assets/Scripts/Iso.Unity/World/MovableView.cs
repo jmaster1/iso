@@ -51,6 +51,14 @@ namespace Iso.Unity.World
         public override void OnBind()
         {
             base.OnBind();
+            if (front == null && back == null)
+            {
+                var path = "Visitors/" + Model.Info.Id;
+                var prefab = Resources.Load<MovableView>(path);
+                var obj = Instantiate(prefab, transform);
+                front = obj.front;
+                back = obj.back;
+            }
             BindModelEvents(Model.Events, evt =>
             {
                 switch (evt)
