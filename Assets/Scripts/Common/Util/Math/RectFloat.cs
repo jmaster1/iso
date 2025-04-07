@@ -1,6 +1,7 @@
 using System;
 using Common.Util;
 using Common.Util.Math;
+using UnityEngine;
 
 /**
  * RectFloat rectangle with float type components
@@ -1086,6 +1087,36 @@ namespace Math {
 			y += dy;
 			w += dw;
 			h += dh;
+		}
+
+		/**
+	 * retrieve quadrant direction of point relative to this rectangle
+	 * @param correction if point is on quadrants border,
+	 * then move by 0 in specified directory to determine proper quadrant
+	 */
+		public Dir getQuadrant(float tx, float ty, Dir correction) {
+			int dx = 0, dy = 0;
+			if(tx < x) {
+				dx = DirEx.NEGATIVE;
+			} else if(tx > GetMaxX()) {
+				dx = DirEx.POSITIVE;
+			}
+			if(ty < y) {
+				dy = DirEx.NEGATIVE;
+			} else if(ty > GetMaxY()) {
+				dy = DirEx.POSITIVE;
+			}
+			if(correction != null) {
+				if(((tx == x && correction.X() < 0) || 
+				    (correction.X() > 0 && tx == GetMaxX()))) {
+					dx = correction.X();
+				}
+				if(((ty == y && correction.Y() < 0) || 
+				    (correction.Y() > 0 && ty == GetMaxY()))) {
+					dy = correction.Y();
+				}
+			}
+			return DirEx.Resolve(new Vector2(dx, dy));
 		}
 	}
 }

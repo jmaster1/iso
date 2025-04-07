@@ -15,7 +15,8 @@ namespace Iso.Buildings
         
         public bool IsBuildable(BuildingInfo info, Cell cell, bool flip = false)
         {
-            return Cells.CheckBounds(cell.x, cell.y, 
+            return cell != null && 
+                   Cells.CheckBounds(cell.x, cell.y, 
                 flip ? info.height : info.width, 
                 flip ? info.width : info.height) &&
                 Cells.ForEachPos(cell.x, cell.y, 
@@ -27,7 +28,12 @@ namespace Iso.Buildings
                 return e != null && e.IsBuildable();
             });
         }
-        
+
+        public bool IsBuildable(BuildingInfo info, int x, int y, bool flip = false)
+        {
+            return IsBuildable(info, Cells.Find(x, y), flip);
+        }
+
         /// <summary>
         /// build 
         /// </summary>
@@ -46,6 +52,11 @@ namespace Iso.Buildings
                 building.Cell = cell;
                 Cells.ForEachCell(cell, info, flip,e => e.Building = building);
             });
+        }
+
+        public Building Build(BuildingInfo info, int x, int y, bool flip = false)
+        {
+            return Build(info, Cells.Get(x, y), flip);
         }
 
         public void Remove(Building building)

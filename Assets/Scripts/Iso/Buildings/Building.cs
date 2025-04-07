@@ -1,6 +1,7 @@
 using System;
 using Iso.Cells;
 using Iso.Util;
+using Math;
 
 namespace Iso.Buildings
 {
@@ -25,6 +26,11 @@ namespace Iso.Buildings
         public void ForEachCell(Action<Cell> action)
         {
             Cells.ForEachCell(Cell, Info, Flipped, action);
+        }
+
+        public void GetBounds(RectFloat target)
+        {
+            target.Set(X, Y, Flipped ? Height : Width, Flipped ? Width : Height);
         }
     }
 }

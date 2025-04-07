@@ -25,7 +25,8 @@ namespace Common.Unity.Util.Math
         {
             var vx = Projector.m2vx(mx, my);
             var vy = Projector.m2vy(mx, my);
-            view.transform.position = new Vector3(vx, vy, 0);
+            var z = view.transform.position.z;
+            view.transform.position = new Vector3(vx, vy, z);
         }
         
         public void Transform(GameObject view, Vector2DFloat modelPos)
