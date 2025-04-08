@@ -1,7 +1,6 @@
 using System;
 using Common.Unity.Bind;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Iso.Unity.World
 {

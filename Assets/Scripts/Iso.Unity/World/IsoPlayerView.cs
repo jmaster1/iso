@@ -42,7 +42,7 @@ namespace Iso.Unity.World
             SortObjs();
         }
         
-        // TODO:
+        // TODO: opt
         private void SortObjs()
         {
             var list = new List<IBoundsProvider>(Model.Buildings.List);

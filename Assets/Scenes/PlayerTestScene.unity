@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 1978737016}
   - component: {fileID: 1978737015}
   - component: {fileID: 1978737019}
+  - component: {fileID: 1978737020}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -236,6 +237,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerView: {fileID: 129264011}
+--- !u!114 &1978737020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978737014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c006c691d3c54e4d9b521f5b343579af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistanceForTap: 40
+  maxDurationForTap: 0.4
+  useMouse: 1
+  mouseScrollSpeed: 2
+  controlCamera: 1
+  cam: {fileID: 1978737016}
+  ignoreUI: 0
+  useBounds: 1
+  boundMinX: -40
+  boundMaxX: 50
+  boundMinY: -10
+  boundMaxY: 50
 --- !u!1001 &3770570371003696372
 PrefabInstance:
   m_ObjectHideFlags: 0
