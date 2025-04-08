@@ -97,9 +97,19 @@ namespace Common.Player
         {
             base.OnBind();
             BindBindable(Model, TimeGame);
+            TimeGame.AddListener(TimeListener);
             BindBindable(TimeGame, TaskManagerGame);
             BindBindable(Model, TimeSystem);
             BindBindable(TimeSystem, TaskManagerSystem);
+        }
+        
+        private void TimeListener(Time obj)
+        {
+            var dt = (float)obj.Delta.TotalSeconds;
+            foreach (var e in Features.Where(e => !e.IsDisabled))
+            {
+                e.OnGameTimeUpdate(dt);
+            }
         }
 
         /// <summary>

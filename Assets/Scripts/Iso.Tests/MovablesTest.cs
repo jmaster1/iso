@@ -1,5 +1,3 @@
-using System;
-using Common.TimeNS;
 using Iso.Cells;
 using Iso.Movables;
 using NUnit.Framework;
@@ -31,14 +29,7 @@ namespace Iso.Tests
             var ok = b1.MoveTo(3, 3);
             Assert.IsTrue(ok);
 
-            var t = Movables.Time = new Time();
-            Movables.Start();
-            var dt = TimeSpan.FromMilliseconds(50);
-
-            while (t.Value.Second < 8)
-            {
-                t.Update(dt);
-            }
+            UpdateTime(8);
             Assert.IsTrue(b1.Cell.Is(3, 3));
         }
     }

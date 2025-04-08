@@ -165,5 +165,9 @@ namespace Common.Player
             model ??= this as TM;
             return AbstractPlayer.GetView<T, TM>(model);
         }
+
+        public virtual void OnGameTimeUpdate(float dt)
+        {
+        }
     }
 }

@@ -11,7 +11,6 @@ namespace Iso.Unity.Test
 {
     public class MovableTestScene : MonoBehaviour
     {
-        public CellsView cellsView;
         
         public MovableView movableView;
 
@@ -38,9 +37,6 @@ namespace Iso.Unity.Test
 
         private void CreateMovables()
         {
-            movables.Time = time;
-            movables.Start();
-            
             var bi = new MovableInfo
             {
                 Id = "M1",
@@ -69,7 +65,7 @@ namespace Iso.Unity.Test
                     cell.Set(CellType.Traversable);
                 }
             }
-            cellsView.Bind(cells);
+            //cellsView.Bind(cells);
         }
 
         private void Update()

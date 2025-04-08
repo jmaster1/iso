@@ -1,5 +1,4 @@
 using Common.Lang.Observable;
-using Common.TimeNS;
 using Common.Util.Math;
 using Iso.Cells;
 using Iso.Player;
@@ -9,23 +8,14 @@ namespace Iso.Movables
     public class Movables : AbstractIsoFeature<MovableEvent, Movable>
     {
         public Cells.Cells Cells => Player.Cells;
-
-        public Time Time;
         
         /// <summary>
         /// list of existing buildings
         /// </summary>
         public readonly PooledObsList<Movable> List = new();
 
-        public override void Start()
+        public override void OnGameTimeUpdate(float dt)
         {
-            
-            Time.AddListener(TimeListener);
-        }
-
-        private void TimeListener(Time obj)
-        {
-            var dt = (float)obj.Delta.TotalSeconds;
             foreach (var movable in List)
             {
                 movable.update(dt);
@@ -69,6 +59,11 @@ namespace Iso.Movables
                 }
             }
             movable.SetSelected(true);
+        }
+
+        public Movable FindSelected()
+        {
+            return List.FindFirst(e => e.Selected);
         }
     }
 }

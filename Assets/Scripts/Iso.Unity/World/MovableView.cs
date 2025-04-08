@@ -113,10 +113,12 @@ namespace Iso.Unity.World
 
         private static readonly SkeletonBounds Bounds = new();
 
-        public bool HitTest(Vector3 worldPoint)
+        public bool HitTest(Vector2 worldPoint)
         {
             Bounds.Update(CurrentAnimation.skeleton, true);
-            return Bounds.ContainsPoint(worldPoint.x, worldPoint.y) != null;
+            //Debug.Log(Bounds.MinX + " : " + Bounds.MinY + ", " + Bounds.Width + " x " + Bounds.Height);
+            var localPoint = CurrentAnimation.transform.InverseTransformPoint(worldPoint);
+            return Bounds.ContainsPoint(localPoint.x, localPoint.y) != null;
         }
     }
 }

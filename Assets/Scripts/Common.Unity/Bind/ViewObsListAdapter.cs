@@ -19,6 +19,8 @@ namespace Common.Unity.Bind
         
         [Tooltip("Container for views, will use self if not set")]
         public Transform container;
+        
+        public ObsList<TV> Views => Adapter.Views;
 
         private Transform Content => container == null ? transform : container;
         

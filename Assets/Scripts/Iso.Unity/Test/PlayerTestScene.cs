@@ -45,41 +45,58 @@ namespace Iso.Unity.Test
             //         buildings.Build(bi, cell, flip);
             //     }
             // }
-            Buildings.Build(bi, 0, 0);
-            Buildings.Build(bi, 1, 1, true);
+            // Buildings.Build(bi, 0, 0);
+            // Buildings.Build(bi, 1, 1, true);
             PlayerView.Bind(Player);
+            PlayerView.BindPlayerTime();
         }
         
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1"))
+            var mpos = this.Screen2Model(Input.mousePosition, Camera.main);
+            var viewPos = this.Screen2View(Input.mousePosition, Camera.main);
+            var ctrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+            var shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            if (Input.GetMouseButtonDown(0))
             {
-                var flip = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-                var mpos = this.Screen2Model(Input.mousePosition, Camera.main);
-                if (Buildings.IsBuildable(bi, (int) mpos.x, (int)mpos.y, flip))
+                if (Buildings.IsBuildable(bi, (int) mpos.x, (int)mpos.y, shift))
                 {
-                    Buildings.Build(bi, (int) mpos.x, (int)mpos.y, flip);
+                    Buildings.Build(bi, (int) mpos.x, (int)mpos.y, shift);
                 }
-
                 SortObjs();
             }
             
-            if (Input.GetButtonDown("Fire2"))
+            if (Input.GetMouseButtonDown(1))
             {
-                var mpos = this.Screen2Model(Input.mousePosition, Camera.main);
-                var bi = new MovableInfo
+                var hit = PlayerView.movablesView.HitTest(viewPos, view =>
                 {
-                    Id = "afroman",
-                    Velocity = 4
-                };
-                var c1 = Cells.Find(mpos.x, mpos.y);
-                if (c1 != null)
+                    view.Model.Select();
+                    return false;
+                });
+                
+                if(!hit && ctrl)
                 {
-                    var movable = Movables.Add(bi, c1);
-                    movable.Select();
+                    var bi = new MovableInfo
+                    {
+                        Id = "afroman",
+                        Velocity = 4
+                    };
+                    var c1 = Cells.Find(mpos.x, mpos.y);
+                    if (c1 != null)
+                    {
+                        var movable = Movables.Add(bi, c1);
+                        movable.Select();
+                    }
+
+                    SortObjs();
                 }
 
-                SortObjs();
+
+                var selected = Movables.FindSelected();
+                if (!hit && selected != null && !ctrl)
+                {
+                    selected.MoveTo(mpos);
+                }
             }
         }
 
