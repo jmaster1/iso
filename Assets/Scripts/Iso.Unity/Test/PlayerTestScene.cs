@@ -1,13 +1,8 @@
-using System.Collections.Generic;
-using Common.Unity.Bind;
-using Common.Unity.Util.Math;
 using Iso.Buildings;
 using Iso.Cells;
 using Iso.Movables;
 using Iso.Player;
 using Iso.Unity.World;
-using Iso.Util;
-using Math;
 using UnityEngine;
 
 namespace Iso.Unity.Test
@@ -63,7 +58,6 @@ namespace Iso.Unity.Test
                 {
                     Buildings.Build(bi, (int) mpos.x, (int)mpos.y, shift);
                 }
-                SortObjs();
             }
             
             if (Input.GetMouseButtonDown(1))
@@ -87,8 +81,6 @@ namespace Iso.Unity.Test
                         var movable = Movables.Add(bi, c1);
                         movable.Select();
                     }
-
-                    SortObjs();
                 }
 
 
@@ -97,36 +89,6 @@ namespace Iso.Unity.Test
                 {
                     selected.MoveTo(mpos);
                 }
-            }
-        }
-
-        private void SortObjs()
-        {
-            var cmp = new IsometricBoundsComparator();
-            var list = new List<IBoundsProvider>(Player.Buildings.List.List);
-            list.AddRange(Player.Movables.List.List);
-            var b1 = new RectFloat();
-            var b2 = new RectFloat();
-            var bcmp = Comparer<IBoundsProvider>.Create((a, b) =>
-            {
-                a.GetBounds(b1);
-                b.GetBounds(b2);
-                return cmp.Compare(b1, b2);
-            });
-            list.Sort(bcmp);
-
-            for (var i = 0; i < list.Count; i++)
-            {
-                var e = list[i];
-                BindableMonoRaw view = e switch
-                {
-                    Building building => PlayerView.buildingsView.buildingListAdapter.Adapter.GetView(building),
-                    Movable movable => PlayerView.movablesView.listAdapter.Adapter.GetView(movable),
-                    _ => null
-                };
-                var tx = view!.transform;
-                var pos = tx.position;
-                tx.position = new Vector3(pos.x, pos.y, (float) (i / 10.0));
             }
         }
     }

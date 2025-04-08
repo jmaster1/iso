@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94aa18c3d32846b080c02a8c19966c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listAdapter: {fileID: 3770570371003696375}
+  movableListAdapter: {fileID: 3770570371003696375}
 --- !u!114 &3770570371003696375
 MonoBehaviour:
   m_ObjectHideFlags: 0
