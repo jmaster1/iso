@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace Common.Api.Notification
 {
@@ -11,6 +10,6 @@ namespace Common.Api.Notification
         public string SmallIcon;
         public TimeSpan? RepeatInterval;
         public string LargeIcon;
-        public Color? Color;
+        //public Color? Color;
     }
 }
