@@ -9,7 +9,7 @@ using Common.Util;
 using Common.Util.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
 namespace Common.Player
 {
