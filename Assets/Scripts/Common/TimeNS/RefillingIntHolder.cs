@@ -3,7 +3,6 @@ using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.Util.Http;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace Common.TimeNS
 {
@@ -118,7 +117,8 @@ namespace Common.TimeNS
         /// <returns>[0..1]</returns>
         public float GetProgress()
         {
-            return Mathf.Clamp01(CurrentAmount / (float) Max.Get());
+            var ratio = CurrentAmount / (float)Max.Get();
+            return ratio < 0f ? 0f : ratio > 1f ? 1f : ratio;
         }
 
         private bool SyncRecoveryTask() {
