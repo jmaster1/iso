@@ -1,7 +1,6 @@
 using System;
 using Common.Util;
 using Common.Util.Math;
-using UnityEngine;
 
 /**
  * RectFloat rectangle with float type components
@@ -1116,7 +1115,8 @@ namespace Math {
 					dy = correction.Y();
 				}
 			}
-			return DirEx.Resolve(new Vector2(dx, dy));
+
+			return DirEx.Resolve(dx, dy);
 		}
 	}
 }

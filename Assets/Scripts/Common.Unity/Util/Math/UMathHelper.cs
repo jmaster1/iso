@@ -46,7 +46,7 @@ namespace Common.Util.Math
         
         public static Dir Dir(this Vector2 val)
         {
-            return DirEx.Resolve(val);
+            return DirEx.Resolve(val.x, val.y);
         }
         
         public static bool IsZero(this Vector2 val)

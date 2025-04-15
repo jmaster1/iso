@@ -66,7 +66,7 @@ namespace Common.Unity.Util
             var rt = tx as RectTransform;
             var screenRect = rt.ToScreenSpace();
             var posShow = tx.position;
-            var delta = screenRect.size * dirOut.Vector2();
+            var delta = screenRect.size * new Vector2(dirOut.X(), dirOut.Y());
             var posHide = posShow + new Vector3(delta.x, delta.y, 0);
             var posTo = posHide;
             var ease = EaseHide;

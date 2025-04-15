@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Common.Util.Math
+﻿namespace Common.Util.Math
 {
     // ReSharper disable InconsistentNaming
     public enum Dir
@@ -80,23 +78,13 @@ namespace Common.Util.Math
             };
         }
 
-        public static Vector2Int Vector2Int(this Dir e)
-        {
-            return new Vector2Int(e.X(), e.Y());
-        }
-    
-        public static Vector2 Vector2(this Dir e)
-        {
-            return new Vector2(e.X(), e.Y());
-        }
-
         /// <summary>
         /// resolve direction from vector
         /// </summary>
-        public static Dir Resolve(Vector2 v2)
+        public static Dir Resolve(float x, float y)
         {
-            var dx = System.Math.Sign(v2.x);
-            var dy = System.Math.Sign(v2.y);
+            var dx = System.Math.Sign(x);
+            var dy = System.Math.Sign(y);
             if(dx == 0 && dy == 0) {
                 return Dir.C;
             }
