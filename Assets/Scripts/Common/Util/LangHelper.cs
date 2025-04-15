@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.Lang;
 using Common.Lang.Entity;
-using UnityEngine;
 
 namespace Common.Util
 {
@@ -109,8 +108,6 @@ namespace Common.Util
         /// </summary>
         public static void AddSorted<T>(this LinkedList<T> list, T e) where T: IComparable<T>
         {
-            Debug.Assert(list != null);
-            Debug.Assert(e != null);
             if (list.Count == 0)
             {
                 list.AddFirst(e);
@@ -138,8 +135,6 @@ namespace Common.Util
         /// </summary>
         public static void AddSorted<T>(this LinkedList<T> list, T e, Func<T, int> comparator)
         {
-            Debug.Assert(list != null);
-            Debug.Assert(e != null);
             if (list.Count == 0)
             {
                 list.AddFirst(e);
@@ -316,24 +311,9 @@ namespace Common.Util
             return array.Any(t => comparer.Equals(t, element));
         }
 
-        public static float Delta(this float f1, float f2)
-        {
-            return Mathf.Max(f1, f2) - Mathf.Min(f1, f2);
-        }
-
         public static bool Equals<T>(T v0, T v1)
         {
             return EqualityComparer<T>.Default.Equals(v0, v1);
-        }
-
-        public static bool EqualsByEpsilon(this float f1, float f2)
-        {
-            return f1.EqualsByCustomEpsilon(f2, Mathf.Epsilon);
-        }
-
-        public static bool EqualsByCustomEpsilon(this float f1, float f2, float epsilon)
-        {
-            return f1.Delta(f2) < epsilon;
         }
         
         public static bool IsNotEmpty(this Array objects)
