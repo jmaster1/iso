@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Iso.Unity.World
+namespace Iso.Editor
 {
     [ExecuteInEditMode]
     public class CellsEditor : MonoBehaviour
