@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace Common.Util.Threading
 {
@@ -44,7 +43,7 @@ namespace Common.Util.Threading
                     }
                     catch (Exception e)
                     {
-                        Debug.Log(e);
+                        throw e;
                     }
                 }
             }
