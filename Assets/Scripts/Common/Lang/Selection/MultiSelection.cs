@@ -1,5 +1,4 @@
 ﻿using Common.Lang.Observable;
-using UnityEngine;
 
 namespace Common.Lang.Selection
 {
@@ -20,7 +19,6 @@ namespace Common.Lang.Selection
 
         protected override void SelectInternal(T element, bool select)
         {
-            Debug.Assert(select ? !Selected.Contains(element) : Selected.Contains(element));
             if (select)
             {
                 Selected.Add(element);
