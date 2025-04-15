@@ -87,7 +87,7 @@ namespace Iso.Unity.Test
                 var selected = Movables.FindSelected();
                 if (!hit && selected != null && !ctrl)
                 {
-                    selected.MoveTo(mpos);
+                    selected.MoveTo((int)mpos.x, (int)mpos.y);
                 }
             }
         }

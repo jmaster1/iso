@@ -3,7 +3,6 @@ using Common.Util.Math;
 using Iso.Cells;
 using Iso.Util;
 using Math;
-using UnityEngine;
 
 namespace Iso.Movables
 {
@@ -136,12 +135,7 @@ namespace Iso.Movables
         {
 	        return MoveTo(Cells.Find(tx, ty));
         }
-        
-        public bool MoveTo(Vector2 target)
-        {
-	        return MoveTo((int)target.x, (int)target.y);
-        }
-        
+
         public void update(float dt)
         {
 	        //assert (int)pos.x == cell.getX();
