@@ -42,7 +42,6 @@ namespace Common.Lang.Observable
             switch (type)
             {
                 case ObsListEvent.AddAfter:
-                    UnityEngine.Debug.Assert(i == List.Count);
                     S s = Factory(t);
                     List.Add(s);
                     break;
