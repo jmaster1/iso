@@ -21,8 +21,8 @@ namespace Iso.Tests
 
             var c1 = Cells.Get(0, 0);
             var b1 = Movables.Add(bi, c1);
-            Assert.NotNull(b1);
-            Assert.AreEqual(b1.Cell, c1);
+            Assert.That(b1, Is.Not.Null);
+            Assert.That(c1, Is.EqualTo(b1.Cell));
             Assert.IsFalse(b1.Moving);
 
 

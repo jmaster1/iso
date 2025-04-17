@@ -1,6 +1,8 @@
 ﻿using System;
 using Common.Bind;
 using Common.Lang.Observable;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Common.TimeNS
 {
@@ -33,6 +35,13 @@ namespace Common.TimeNS
         /// offset to add to system time
         /// </summary>
         public TimeSpan Offset = TimeSpan.Zero;
+        
+        /// <summary>
+        /// number of Update() calls made so far
+        /// </summary>
+        public int Frame { get; protected set; }
+
+        private Timer? _timer;
 
         public void AddListener(Action<Time> e)
         {
@@ -76,6 +85,7 @@ namespace Common.TimeNS
         
         public void Update(TimeSpan delta)
         {
+            Frame++;
             Delta = delta;
             Value += delta;
             Notify();
@@ -96,6 +106,22 @@ namespace Common.TimeNS
             listeners.End();
         }
 
+        public void StartTimer(TimeSpan delta)
+        {
+            _timer = new Timer(delta.TotalMilliseconds);
+            _timer.Elapsed += (sender, e) =>
+            {
+                Update(delta);
+            };
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+        }
 
+        public void StopTimer()
+        {
+            _timer?.Stop();
+            _timer?.Dispose();
+            _timer = null;
+        }
     }
 }

@@ -4,7 +4,7 @@ using Iso.Player;
 
 namespace Iso.Buildings
 {
-    public class Buildings : AbstractIsoFeature<BuildingEvent, Building>
+    public class Buildings : AbstractIsoFeature<BuildingEvent, Building>, IBuildingsApi
     {
         public Cells.Cells Cells => Player.Cells;
         
