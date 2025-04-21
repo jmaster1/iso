@@ -12,6 +12,7 @@ namespace Iso.Unity.Test
         private ClientWebSocket? _webSocket;
         private CancellationTokenSource _cts;
         private Action<string> _onMessageReceived;
+        private bool x;
 
         public async Task Connect(string serverUrl, Action<string> onMessageReceived)
         {
