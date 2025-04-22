@@ -4,5 +4,5 @@
 /Temp/
 /UserSettings/
 /obj/Debug/
-*.csproj
-*.sln
+/*.csproj
+/*.sln
