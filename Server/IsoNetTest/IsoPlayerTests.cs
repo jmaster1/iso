@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Common.TimeNS;
-using Common.Util.Reflect;
+using Iso.Buildings;
 using Iso.Cells;
 using IsoNet.Client.WebSocket;
 using IsoNet.Core.IO.Codec;
@@ -70,27 +70,39 @@ public class IsoPlayerTests : AbstractTests
         // create cells
         const int width = 11;
         const int height = 12;
-        var cellsTcs = new TaskCompletionSource<CellEvent>();
-        client.Player.Cells.Events.AddListener((cellEvent, _) =>
-        {
-            switch (cellEvent)
-            {
-                case CellEvent.cellsCreated:
-                    cellsTcs.TrySetResult(cellEvent);
-                    break;
-            }
-        });
+        var cellsCreatedTcs = CreateTaskCompletionSource(
+            client.Player.Cells.Events, CellEvent.CellsCreated);
         client.RemoteApi.CreateCells(width, height);
-        await AwaitResult(cellsTcs);
+        await AwaitResult(cellsCreatedTcs);
         Assert.That(client.Player.Cells.Width, Is.EqualTo(width));
         Assert.That(client.Player.Cells.Heigth, Is.EqualTo(height));
         Assert.That(remoteClient.Player.Cells.Width, Is.EqualTo(width));
         Assert.That(remoteClient.Player.Cells.Heigth, Is.EqualTo(height));
         
         //
+        // start
+        client.RemoteApi.Start();
+        Thread.Sleep(555);
+        
+        //
+        // build
+        var buildingCreatedTcs = CreateTaskCompletionSource(
+            client.Player.Buildings.Events, BuildingEvent.BuildingRemoved);
+        var buildingInfo = new BuildingInfo
+        {
+            Id = "b0",
+            width = 2,
+            height = 2
+        };
+        client.RemoteApi.Build(buildingInfo, client.Player.Cells.Get(0, 0));
+        await AwaitResult(buildingCreatedTcs);
+        
+        //
         // dispose
         await clientTransport.Disconnect();
         serverTransport.Stop();
     }
+
+
 }
 

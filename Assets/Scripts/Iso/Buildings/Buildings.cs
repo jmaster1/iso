@@ -44,7 +44,7 @@ namespace Iso.Buildings
         public Building Build(BuildingInfo info, Cell cell, bool flip = false)
         {
             Cells.ForEachCell(cell, info, flip, e => Validate(e.IsBuildable()));
-            return List.PooledAdd(building =>
+            var building = List.PooledAdd(building =>
             {
                 building.Manager = this;
                 building.Info = info;
@@ -52,6 +52,8 @@ namespace Iso.Buildings
                 building.Cell = cell;
                 Cells.ForEachCell(cell, info, flip,e => e.Building = building);
             });
+            FireEvent(BuildingEvent.BuildingCreated, building);
+            return building;
         }
 
         public Building Build(BuildingInfo info, int x, int y, bool flip = false)

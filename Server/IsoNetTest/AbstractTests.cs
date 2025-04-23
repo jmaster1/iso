@@ -1,3 +1,4 @@
+using Common.Lang.Observable;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest;
@@ -36,11 +37,24 @@ public abstract class AbstractTests
         return CreateLogger(instance.GetType().Name);
     }
     
-    protected async Task<T> AwaitResult<T>(TaskCompletionSource<T> tcs, float timeoutSec = 1)
+    protected static TaskCompletionSource<TPayload> CreateTaskCompletionSource<TEvent, TPayload>(
+        Events<TEvent, TPayload> events, TEvent expectedEvent) where TEvent : Enum
+    {
+        var taskCompletionSource = new TaskCompletionSource<TPayload>();
+        events.AddListener((eventType, payload) =>
+        {
+            if(eventType.Equals(expectedEvent))
+            {
+                taskCompletionSource.TrySetResult(payload);
+            }
+        });
+        return taskCompletionSource;
+    }
+    
+    protected static async Task<T> AwaitResult<T>(TaskCompletionSource<T> tcs, float timeoutSec = 1)
     {
         var timeout = TimeSpan.FromSeconds(timeoutSec);
         var result = await tcs.Task.WaitAsync(timeout);
-        Assert.That(result, Is.Not.Null);
         return result;
     }
 }

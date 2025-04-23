@@ -28,11 +28,12 @@ namespace Iso.Cells
 
         public int Heigth { get; private set; }
 
-        public void Create(int w, int h)
+        public void Create(int w, int h, Action? init = null)
         {
             Clear();
             _cells = new Cell[Width = w, Heigth = h];
-            FireEvent(CellEvent.cellsCreated);
+            init?.Invoke();
+            FireEvent(CellEvent.CellsCreated);
         }
 
         public override void Clear()
@@ -83,7 +84,7 @@ namespace Iso.Cells
         public Cell? Set(Cell? cell, CellType type)
         {
             cell.cellType = type;
-            FireEvent(CellEvent.cellTypeChange, cell);
+            FireEvent(CellEvent.CellTypeChange, cell);
             return cell;
         }
         

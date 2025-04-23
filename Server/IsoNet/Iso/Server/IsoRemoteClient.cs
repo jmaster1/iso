@@ -14,8 +14,6 @@ public class IsoRemoteClient(
     ICodec<MethodCall> codec, 
     IsoPlayer player) : IIsoServerApi
 {
-    private static readonly TimeSpan Delta = TimeSpan.FromMilliseconds(20);
-    
     public IsoPlayer Player => player;
     
     private readonly Time _time = new();
@@ -34,14 +32,17 @@ public class IsoRemoteClient(
 
     public void CreateCells(int width, int height)
     {
-        player.Cells.Create(width, height);
+        Player.Cells.Create(width, height, () =>
+        {
+            Player.Cells.ForEachPos((x, y) => Player.Cells.Set(x, y, CellType.Buildable));    
+        });
         _remoteApi.CreateCells(width, height);
     }
 
     public void Start()
     {
         player.Bind(_time);
-        _time.StartTimer(Delta);
+        _time.StartTimer(IsoCommon.Delta);
         _remoteApi.Start();
     }
 

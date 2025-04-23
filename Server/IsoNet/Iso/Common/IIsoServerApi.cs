@@ -9,5 +9,5 @@ public interface IIsoServerApi
     
     void Start();
     
-    void Build(BuildingInfo buildingInfo, Cell cell, bool flip);
+    void Build(BuildingInfo buildingInfo, Cell cell, bool flip = false);
 }

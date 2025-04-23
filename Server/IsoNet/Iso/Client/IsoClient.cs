@@ -1,3 +1,4 @@
+using Common.TimeNS;
 using Iso.Buildings;
 using Iso.Cells;
 using Iso.Player;
@@ -11,6 +12,8 @@ namespace IsoNet.Iso.Client;
 public class IsoClient(AbstractTransport transport, ICodec<MethodCall> codec) : IIsoClientApi
 {
     public readonly IsoPlayer Player = new();
+    
+    private readonly Time _time = new();
     
     private IIsoServerApi _remoteApi = null!;
     
@@ -28,16 +31,20 @@ public class IsoClient(AbstractTransport transport, ICodec<MethodCall> codec) : 
 
     public void CreateCells(int width, int height)
     {
-        Player.Cells.Create(width, height);
+        Player.Cells.Create(width, height, () =>
+        {
+            Player.Cells.ForEachPos((x, y) => Player.Cells.Set(x, y, CellType.Buildable));    
+        });
     }
 
     public void Start()
     {
-        throw new NotImplementedException();
+        Player.Bind(_time);
+        _time.StartTimer(IsoCommon.Delta);
     }
 
     public void Build(int frame, BuildingInfo buildingInfo, Cell cell, bool flip)
     {
-        throw new NotImplementedException();
+        Player.Buildings.Build(buildingInfo, cell, flip);
     }
 }
