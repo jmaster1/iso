@@ -2,11 +2,11 @@ namespace IsoNet.Core.Proxy;
 
 public class MethodInvoker
 {
-    Dictionary<Type, object> _targets = new();
+    private readonly Dictionary<Type, object> _targets = new();
 
     public void Register<T>(T target)
     {
-        _targets[typeof(T)] = target;        
+        _targets[typeof(T)] = target!;        
     }
 
     public void Invoke(MethodCall call)

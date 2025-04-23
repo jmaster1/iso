@@ -13,16 +13,16 @@ namespace Iso.Cells
         /// <summary>
         /// cell 2d map, may contain nulls
         /// </summary>
-        private Cell[,] cells;
+        private Cell?[,]? _cells;
 
         /// <summary>
         /// list of existing (non-null) cells
         /// </summary>
         public readonly PooledObsList<Cell> CellList = new();
         
-        private readonly AStarPathFinder<Cell> pathFinder = new();
+        private readonly AStarPathFinder<Cell> _pathFinder = new();
         
-        private readonly CellsGraph graph = new();
+        private readonly CellsGraph _graph = new();
 
         public int Width { get; private set; }
 
@@ -31,46 +31,47 @@ namespace Iso.Cells
         public void Create(int w, int h)
         {
             Clear();
-            cells = new Cell[Width = w, Heigth = h];
+            _cells = new Cell[Width = w, Heigth = h];
+            FireEvent(CellEvent.cellsCreated);
         }
 
         public override void Clear()
         {
             base.Clear();
             CellList.Clear();
-            cells = null;
+            _cells = null;
             Width = Heigth = 0;
         }
 
         public Cell Get(int x, int y)
         {
-            return cells[x, y];
+            return _cells![x, y]!;
         }
         
         public Cell Get(float x, float y)
         {
-            return cells[(int)x, (int)y];
+            return _cells![(int)x, (int)y]!;
         }
         
-        public Cell Find(int x, int y)
+        public Cell? Find(int x, int y)
         {
             if (x < 0 || y < 0 || x >= Width || y >= Heigth)
             {
                 return null;
             }
-            return cells[x, y];
+            return _cells![x, y];
         }
 
-        public Cell Find(float x, float y)
+        public Cell? Find(float x, float y)
         {
             return Find((int) x, (int) y);
         }
         
-        public Cell Set(int x, int y, CellType type)
+        public Cell? Set(int x, int y, CellType type)
         {
             var cell = Find(x, y);
             if (cell != null) return Set(cell, type);
-            return cells[x, y] = CellList.PooledAdd(e =>
+            return _cells![x, y] = CellList.PooledAdd(e =>
             {
                 e.cells = this;
                 e.x = x;
@@ -79,7 +80,7 @@ namespace Iso.Cells
             });
         }
         
-        public Cell Set(Cell cell, CellType type)
+        public Cell? Set(Cell? cell, CellType type)
         {
             cell.cellType = type;
             FireEvent(CellEvent.cellTypeChange, cell);
@@ -91,9 +92,9 @@ namespace Iso.Cells
             var cell = Find(x, y);
             if (cell == null) return;
             CellList.PooledRemove(cell);
-            cells[x, y] = null;
-            cell.cells = null;
-            cell.Building = null;
+            _cells![x, y] = null;
+            cell.cells = null!;
+            cell.Building = null!;
             cell.cellType = default;
             cell.x = cell.y = 0;
         }
@@ -161,7 +162,7 @@ namespace Iso.Cells
 
         public List<Cell> FindPath(Cell from, Cell to)
         {
-            return pathFinder.FindPath(graph, from, to);
+            return _pathFinder.FindPath(_graph, from, to);
         }
 
         public void ForEachPos(RectFloat region, Action<int, int> action)

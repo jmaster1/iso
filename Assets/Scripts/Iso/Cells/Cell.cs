@@ -38,7 +38,7 @@ namespace Iso.Cells
             return cellType is CellType.Buildable or CellType.Traversable && Building == null;
         }
 
-        public Cell FindSibling(Dir dir)
+        public Cell? FindSibling(Dir dir)
         {
             return Cells.Find(x + dir.X(), y + dir.Y());
         }
@@ -53,12 +53,12 @@ namespace Iso.Cells
             return 1;
         }
 
-        public Cell Get(int tx, int ty)
+        public Cell? Get(int tx, int ty)
         {
             return Cells.Get(tx, ty);
         }
 
-        public Dir DirectionTo(Cell target)
+        public Dir DirectionTo(Cell? target)
         {
             return DirEx.ValueOf(target.X - X, target.Y - Y);
         }
@@ -68,7 +68,7 @@ namespace Iso.Cells
             return x == tx && y == ty;
         }
 
-        public Cell Set(CellType type)
+        public Cell? Set(CellType type)
         {
             return cells.Set(this, type);
         }

@@ -22,7 +22,7 @@ namespace Iso.Movables
             }
         }
 
-        public Movable Add(MovableInfo info, Cell cell, Dir dir = Dir.N)
+        public Movable Add(MovableInfo info, Cell? cell, Dir dir = Dir.N)
         {
             Validate(cell.IsTraversable());
             return List.PooledAdd(obj =>

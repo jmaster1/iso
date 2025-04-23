@@ -12,11 +12,11 @@ namespace Common.Lang.Observable
     /// <typeparam name="TPayload"></typeparam>
     public class Events<TType, TPayload> where TType: Enum
     {
-        private readonly Listeners<Action<TType, TPayload>> listeners = new Listeners<Action<TType, TPayload>>();
+        private readonly Listeners<Action<TType, TPayload>> _listeners = new();
 
-        public int Size => listeners.Size;
+        public int Size => _listeners.Size;
 
-        public bool IsFiring => listeners.Started;
+        public bool IsFiring => _listeners.Started;
         
         /// <summary>
         /// publish event to subscribers
@@ -25,23 +25,23 @@ namespace Common.Lang.Observable
         /// <param name="payload"></param>
         public void Fire(TType type, TPayload payload)
         {
-            int i = 0, n = listeners.Begin();
+            int i = 0, n = _listeners.Begin();
             for(; i < n; i++)
             {
-                var listener = listeners.Get(i);
+                var listener = _listeners.Get(i);
                 listener(type, payload);
             }
-            listeners.End();
+            _listeners.End();
         }
 
         public void AddListener(Action<TType, TPayload> e)
         {
-            listeners.Add(e);
+            _listeners.Add(e);
         }
         
         public void RemoveListener(Action<TType, TPayload> e)
         {
-            listeners.Remove(e);
+            _listeners.Remove(e);
         }
     }
 }

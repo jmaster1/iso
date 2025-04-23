@@ -15,17 +15,22 @@ namespace Iso.Movables
         /// <summary>
         /// currently occupied cell
         /// </summary>
-        public Cell Cell;
-        
+        public Cell? Cell;
+
         /// <summary>
         /// current move source/target cells, null if not moving
         /// </summary>
-        public Cell cellFrom, cellTo;
+        public Cell? cellFrom;
+
+        /// <summary>
+        /// current move source/target cells, null if not moving
+        /// </summary>
+        public Cell? cellTo;
 
         /// <summary>
         /// current path
         /// </summary>
-        public readonly List<Cell> Path = new();
+        public readonly List<Cell?> Path = new();
         
         /**
 		 * index of cellTo in a path, -1 if end of path reached
@@ -98,7 +103,7 @@ namespace Iso.Movables
 		 */
         private float speed;
 
-        public bool MoveTo(Cell target)
+        public bool MoveTo(Cell? target)
         {
 	        if (target == null || target == Cell) return false;
 	        var newPath = Cells.FindPath(Cell, target);

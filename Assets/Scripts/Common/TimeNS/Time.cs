@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Bind;
 using Common.Lang.Observable;
-using System.Timers;
+using Common.Lang.Collections;
 using Timer = System.Timers.Timer;
 
 namespace Common.TimeNS
@@ -14,7 +14,7 @@ namespace Common.TimeNS
         /// <summary>
         /// time listeners
         /// </summary>
-        private readonly Listeners<Action<Time>> listeners = new Listeners<Action<Time>>();
+        private readonly Listeners<Action<Time>> _listeners = new();
 
         /// <summary>
         /// current value (ms)
@@ -39,28 +39,30 @@ namespace Common.TimeNS
         /// <summary>
         /// number of Update() calls made so far
         /// </summary>
-        public int Frame { get; protected set; }
+        public int Frame { get; private set; }
 
         private Timer? _timer;
+        
+        private readonly ThreadSafeBuffer<Action> _runOnUpdate = new();
 
         public void AddListener(Action<Time> e)
         {
-            listeners.Add(e);
+            _listeners.Add(e);
         }
         
         public void AddListenerSafe(Action<Time> e)
         {
-            listeners.AddSafe(e);
+            _listeners.AddSafe(e);
         }
 
         public void RemoveListener(Action<Time> e)
         {
-            listeners.Remove(e);
+            _listeners.Remove(e);
         }
         
         public bool ContainsListener(Action<Time> e)
         {
-            return listeners.Contains(e);
+            return _listeners.Contains(e);
         }
 
         protected override void OnBind()
@@ -73,7 +75,7 @@ namespace Common.TimeNS
             Model.RemoveListener(OnTimeUpdate);
         }
 
-        protected void OnTimeUpdate(Time parent)
+        private void OnTimeUpdate(Time parent)
         {
             Update();
         }
@@ -88,6 +90,7 @@ namespace Common.TimeNS
             Frame++;
             Delta = delta;
             Value += delta;
+            _runOnUpdate.Flush(action => action());
             Notify();
         }
         
@@ -98,16 +101,20 @@ namespace Common.TimeNS
 
         protected void Notify()
         {
-            for(int i = 0, n = listeners.Begin(); i < n; i++)
+            for(int i = 0, n = _listeners.Begin(); i < n; i++)
             {
-                var listener = listeners.Get(i);
+                var listener = _listeners.Get(i);
                 listener(this);
             }
-            listeners.End();
+            _listeners.End();
         }
 
         public void StartTimer(TimeSpan delta)
         {
+            if (IsTimerRunning())
+            {
+                StopTimer();
+            }
             _timer = new Timer(delta.TotalMilliseconds);
             _timer.Elapsed += (sender, e) =>
             {
@@ -122,6 +129,17 @@ namespace Common.TimeNS
             _timer?.Stop();
             _timer?.Dispose();
             _timer = null;
+        }
+
+        public bool IsTimerRunning()
+        {
+            return _timer is { Enabled: true };
+        }
+        
+
+        public void RunOnUpdate(Action action)
+        {
+            _runOnUpdate.Add(action);
         }
     }
 }

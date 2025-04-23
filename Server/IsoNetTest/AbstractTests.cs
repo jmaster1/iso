@@ -35,4 +35,12 @@ public abstract class AbstractTests
     {
         return CreateLogger(instance.GetType().Name);
     }
+    
+    protected async Task<T> AwaitResult<T>(TaskCompletionSource<T> tcs, float timeoutSec = 1)
+    {
+        var timeout = TimeSpan.FromSeconds(timeoutSec);
+        var result = await tcs.Task.WaitAsync(timeout);
+        Assert.That(result, Is.Not.Null);
+        return result;
+    }
 }

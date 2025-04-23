@@ -19,30 +19,30 @@ namespace Common.Lang.Observable
         /// <summary>
         /// list of active listeners
         /// </summary>
-        private readonly List<T> list = new List<T>(4);
+        private readonly List<T> _list = new(4);
 
         /// <summary>
         /// listeners being added/removed between Begin/End calls
         /// </summary>
-        private List<T> added, removed;
+        private List<T>? _added, _removed;
         
-        public int Size => list.Count;
+        public int Size => _list.Count;
 
-        private int started;
+        private int _started;
 
         /// <summary>
         /// shows whether notification is in progress
         /// </summary>
-        public bool Started => started > 0;
+        public bool Started => _started > 0;
 
         /// <summary>
         /// check if given listener is added
         /// </summary>
         public bool Contains(T listener)
         {
-            if (removed != null && removed.Contains(listener)) return false;
-            if (added != null && added.Contains(listener)) return true;
-            return list.Contains(listener);
+            if (_removed != null && _removed.Contains(listener)) return false;
+            if (_added != null && _added.Contains(listener)) return true;
+            return _list.Contains(listener);
         }
 
         /// <summary>
@@ -53,12 +53,12 @@ namespace Common.Lang.Observable
             LangHelper.Validate(!Contains(e));
             if (Started)
             {
-                added ??= new List<T>(2);
-                added.Add(e);
+                _added ??= new(2);
+                _added.Add(e);
             }
             else
             {
-                list.Add(e);
+                _list.Add(e);
             }
         }
         
@@ -74,12 +74,12 @@ namespace Common.Lang.Observable
         {
             if (Started)
             {
-                removed ??= new List<T>(2);
-                removed.Add(e);
+                _removed ??= new List<T>(2);
+                _removed.Add(e);
             }
             else
             {
-                list.Remove(e);
+                _list.Remove(e);
             }
         }
 
@@ -89,47 +89,47 @@ namespace Common.Lang.Observable
         /// <returns>number of listeners</returns>
         public int Begin()
         {
-            started++;
-            return list.Count;
+            _started++;
+            return _list.Count;
         }
         
         public void End()
         {
-            started--;
+            _started--;
             //
             // apply updates
             if (Started) return;
-            if (removed != null && removed.Count > 0)
+            if (_removed != null && _removed.Count > 0)
             {
-                foreach (var e in removed)
+                foreach (var e in _removed)
                 {
-                    list.Remove(e);
+                    _list.Remove(e);
                 }
 
-                removed.Clear();
+                _removed.Clear();
             }
 
-            if (added != null && added.Count > 0)
+            if (_added != null && _added.Count > 0)
             {
-                foreach (var e in added)
+                foreach (var e in _added)
                 {
-                    list.Add(e);
+                    _list.Add(e);
                 }
 
-                added.Clear();
+                _added.Clear();
             }
         }
 
         public T Get(int index)
         {
-            return list[index];
+            return _list[index];
         }
 
         public void Clear()
         {
-            added.Clear();
-            removed.Clear();
-            list.Clear();
+            _added?.Clear();
+            _removed?.Clear();
+            _list.Clear();
         }
     }
 }

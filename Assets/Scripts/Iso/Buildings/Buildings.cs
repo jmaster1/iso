@@ -13,7 +13,7 @@ namespace Iso.Buildings
         /// </summary>
         public readonly PooledObsList<Building> List = new();
         
-        public bool IsBuildable(BuildingInfo info, Cell cell, bool flip = false)
+        public bool IsBuildable(BuildingInfo info, Cell? cell, bool flip = false)
         {
             return cell != null && 
                    Cells.CheckBounds(cell.x, cell.y, 
@@ -24,7 +24,7 @@ namespace Iso.Buildings
                 flip ? info.width : info.height, 
                 (x, y) =>
             {
-                var e = Cells.Get(x, y);
+                var e = Cells.Find(x, y);
                 return e != null && e.IsBuildable();
             });
         }
@@ -62,11 +62,11 @@ namespace Iso.Buildings
         public void Remove(Building building)
         {
             List.PooledRemove(building);
-            building.ForEachCell(e => e.Building = null);
-            building.Manager = default;
-            building.Info = default;
-            building.Flipped = default;
-            building.Cell = default;
+            building.ForEachCell(e => e.Building = null!);
+            building.Manager = null!;
+            building.Info = null!;
+            building.Flipped = false;
+            building.Cell = null!;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Iso.Player
 
         //public PlayerInfo PlayerInfo => Player.PlayerInfo;
         
-        public Events<TEvent, TEntity> Events = new();
+        public Events<TEvent, TEntity?> Events = new();
         
-        internal void FireEvent(TEvent type, TEntity entity)
+        internal void FireEvent(TEvent type, TEntity? entity = default)
         {
             Events.Fire(type, entity);
         }
