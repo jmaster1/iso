@@ -41,8 +41,6 @@ public class IsoPlayerTests : AbstractTests
     [Test]
     public async Task TestClientServer()
     {
-        //var codec = MethodCallJsonConverter.Codec;
-
         //
         // server
         var serverTransport = new WebSocketServer("http://localhost:7000/ws/")
@@ -52,10 +50,10 @@ public class IsoPlayerTests : AbstractTests
         serverTransport.Start();
         var server = new IsoServer(serverTransport).Init();
 
-        var remoteClientTcs = new TaskCompletionSource<IsoRemoteClient>();
+        var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
         server.OnClientConnected += client =>
         {
-            remoteClientTcs.TrySetResult(client);
+            remoteClientCreated.TrySetResult(client);
         };
 
         //
@@ -68,16 +66,17 @@ public class IsoPlayerTests : AbstractTests
         var clientCodec = IsoJsonCodecFactory.CreateCodec(clientPlayer).WrapLogging(clientTransport.Logger);
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
-        var remoteClient = await AwaitResult(remoteClientTcs);
-        
+        var remoteClient = await AwaitResult(remoteClientCreated);
+
         //
         // create cells
         const int width = 11;
         const int height = 12;
-        var cellsCreatedTcs = CreateTaskCompletionSource(
-            client.Player.Cells.Events, CellEvent.CellsCreated);
+        var clientCellsCreated = CreateTaskCompletionSource(client.Player.Cells.Events, CellEvent.CellsCreated);
+        var serverCellsCreated = CreateTaskCompletionSource(remoteClient.Player.Cells.Events, CellEvent.CellsCreated);
         client.RemoteApi.CreateCells(width, height);
-        await AwaitResult(cellsCreatedTcs);
+        await AwaitResult(clientCellsCreated);
+        await AwaitResult(serverCellsCreated);
         Assert.That(client.Player.Cells.Width, Is.EqualTo(width));
         Assert.That(client.Player.Cells.Heigth, Is.EqualTo(height));
         Assert.That(remoteClient.Player.Cells.Width, Is.EqualTo(width));
@@ -93,7 +92,9 @@ public class IsoPlayerTests : AbstractTests
         
         //
         // build
-        var buildingCreatedTcs = CreateTaskCompletionSource(
+        var serverBuildingCreated = CreateTaskCompletionSource(
+            remoteClient.Player.Buildings.Events, BuildingEvent.BuildingCreated);
+        var clientBuildingCreated = CreateTaskCompletionSource(
             client.Player.Buildings.Events, BuildingEvent.BuildingCreated);
         var buildingInfo = new BuildingInfo
         {
@@ -101,8 +102,15 @@ public class IsoPlayerTests : AbstractTests
             width = 2,
             height = 2
         };
-        client.RemoteApi.Build(buildingInfo, client.Player.Cells.Get(0, 0));
-        await AwaitResult(buildingCreatedTcs);
+        const int buildingX = 1;
+        const int buildingY = 2;
+        client.RemoteApi.Build(buildingInfo, client.Player.Cells.Get(buildingX, buildingY));
+        var serverBuilding = await AwaitResult(serverBuildingCreated);
+        Assert.That(serverBuilding.X, Is.EqualTo(buildingX));
+        Assert.That(serverBuilding.Y, Is.EqualTo(buildingY));
+        var clientBuilding = await AwaitResult(clientBuildingCreated);
+        Assert.That(clientBuilding.X, Is.EqualTo(buildingX));
+        Assert.That(clientBuilding.Y, Is.EqualTo(buildingY));
         
         //
         // dispose
@@ -110,4 +118,3 @@ public class IsoPlayerTests : AbstractTests
         serverTransport.Stop();
     }
 }
-
