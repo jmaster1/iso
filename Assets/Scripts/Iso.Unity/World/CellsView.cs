@@ -72,7 +72,7 @@ namespace Iso.Unity.World
         {
             switch (type)
             {
-                case CellEvent.cellTypeChange:
+                case CellEvent.CellTypeChange:
                     cellsAdapter.Recreate(cell);
                     break;
             }
