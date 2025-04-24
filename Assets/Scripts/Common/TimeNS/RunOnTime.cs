@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Common.Bind;
-using Common.Lang.Observable;
 using Common.Lang.Collections;
-using Timer = System.Timers.Timer;
 
 namespace Common.TimeNS
 {
     public class RunOnTime : BindableBean<Time>
     {
         private readonly ThreadSafeBuffer<Action> _actions = new();
+
+        private readonly SortedSet<FrameAction> _frameActions = new();
         
         protected override void OnBind()
         {
@@ -20,14 +21,53 @@ namespace Common.TimeNS
             Model.RemoveListener(OnTimeUpdate);
         }
 
-        private void OnTimeUpdate(Time parent)
+        private void OnTimeUpdate(Time time)
         {
             _actions.Flush(action => action());
+            lock (_frameActions)
+            {
+                while (true)
+                {
+                    if (_frameActions.Count == 0 || _frameActions.Min.Frame > time.Frame)
+                        break;
+
+                    var next = _frameActions.Min;
+                    _frameActions.Remove(next);
+                    Validate(next.Frame == time.Frame);
+                    next.Action();
+                }
+            }
         }
 
         public void AddAction(Action action)
         {
             _actions.Add(action);
+        }
+        
+        public void AddAction(int frame, Action action)
+        {
+            lock (_frameActions)
+            {
+                _frameActions.Add(new FrameAction(frame, action));
+            }
+        }
+    }
+
+    internal class FrameAction : IComparable<FrameAction>
+    {
+        public int Frame { get; }
+
+        public Action Action { get; }
+
+        public FrameAction(int frame, Action action)
+        {
+            Frame = frame;
+            Action = action;
+        }
+
+        public int CompareTo(FrameAction other)
+        {
+            return Frame - other.Frame;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Common.Lang.Collections
         
         private ConcurrentQueue<T> _queueB = new();
         
-        private volatile ConcurrentQueue<T> _current = null!;
+        private volatile ConcurrentQueue<T> _current;
 
         public ThreadSafeBuffer()
         {
