@@ -3,12 +3,12 @@ using Common.TimeNS;
 using Iso.Buildings;
 using Iso.Cells;
 using Iso.Player;
-using IsoNet.Client.WebSocket;
 using IsoNet.Core.IO.Codec;
+using IsoNet.Core.Transport.Server.WebSocket;
+using IsoNet.Core.Transport.WebSocket;
 using IsoNet.Iso.Client;
 using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
-using IsoNet.Server.WebSocket;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 

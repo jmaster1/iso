@@ -3,7 +3,7 @@ using System.Net.WebSockets;
 using IsoNet.Core.Transport.WebSocket;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Server.WebSocket;
+namespace IsoNet.Core.Transport.Server.WebSocket;
 
 public class WebSocketServer : AbstractServer
 {

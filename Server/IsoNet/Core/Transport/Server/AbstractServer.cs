@@ -1,8 +1,6 @@
-using IsoNet.Core;
-using IsoNet.Core.Transport;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Server;
+namespace IsoNet.Core.Transport.Server;
 
 public abstract class AbstractServer : LogAware
 {

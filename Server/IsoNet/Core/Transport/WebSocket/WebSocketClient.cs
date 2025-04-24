@@ -1,12 +1,11 @@
 using System.Net.WebSockets;
-using IsoNet.Core.Transport.WebSocket;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Client.WebSocket;
+namespace IsoNet.Core.Transport.WebSocket;
 
 public class WebSocketClient : WebSocketTransport
 {
-    private CancellationTokenSource _cts;
+    private CancellationTokenSource _cts = null!;
 
     public async Task Connect(string serverUrl)
     {
