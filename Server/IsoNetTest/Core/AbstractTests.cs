@@ -1,3 +1,4 @@
+using Common.Bind;
 using Common.Lang.Observable;
 using Microsoft.Extensions.Logging;
 
@@ -47,6 +48,16 @@ public abstract class AbstractTests
             {
                 taskCompletionSource.TrySetResult(payload);
             }
+        });
+        return taskCompletionSource;
+    }
+    
+    protected static TaskCompletionSource<TValue> CreateTaskCompletionSource<TValue>(BindableBean<TValue> bindable)
+    {
+        var taskCompletionSource = new TaskCompletionSource<TValue>();
+        bindable.ModelHolder.AddListener((_, _, newVal) =>
+        {
+            taskCompletionSource.TrySetResult(newVal);
         });
         return taskCompletionSource;
     }

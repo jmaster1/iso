@@ -5,7 +5,6 @@ using Iso.Cells;
 using Iso.Player;
 using IsoNet.Client.WebSocket;
 using IsoNet.Core.IO.Codec;
-using IsoNet.Core.Proxy;
 using IsoNet.Iso.Client;
 using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
@@ -13,7 +12,7 @@ using IsoNet.Server.WebSocket;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest;
+namespace IsoNetTest.Iso;
 
 public class IsoPlayerTests : AbstractTests
 {
@@ -31,9 +30,10 @@ public class IsoPlayerTests : AbstractTests
             lastUpdate = DateTime.Now;
         });
         //player.Bind(time);
-        time.StartTimer(TimeSpan.FromMilliseconds(20));
+        var timer = new TimeTimer();
+        timer.Start(time, TimeSpan.FromMilliseconds(20));
         Thread.Sleep(10000);
-        time.StopTimer();
+        timer.Stop();
         stopwatch.Stop();
         Logger.LogInformation("Updates: {updates}, time: {time} ms", time.Frame, stopwatch.Elapsed.TotalMilliseconds.ToString("0.000"));
     }
@@ -68,7 +68,6 @@ public class IsoPlayerTests : AbstractTests
         var clientCodec = IsoJsonCodecFactory.CreateCodec(clientPlayer).WrapLogging(clientTransport.Logger);
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
-        
         var remoteClient = await AwaitResult(remoteClientTcs);
         
         //
@@ -86,13 +85,16 @@ public class IsoPlayerTests : AbstractTests
         
         //
         // start
+        var serverPlayerStarted = CreateTaskCompletionSource(remoteClient.Player);
+        var clientPlayerStarted = CreateTaskCompletionSource(client.Player);
         client.RemoteApi.Start();
-        Thread.Sleep(555);
+        await AwaitResult(serverPlayerStarted);
+        await AwaitResult(clientPlayerStarted);
         
         //
         // build
         var buildingCreatedTcs = CreateTaskCompletionSource(
-            client.Player.Buildings.Events, BuildingEvent.BuildingRemoved);
+            client.Player.Buildings.Events, BuildingEvent.BuildingCreated);
         var buildingInfo = new BuildingInfo
         {
             Id = "b0",
@@ -107,7 +109,5 @@ public class IsoPlayerTests : AbstractTests
         await clientTransport.Disconnect();
         serverTransport.Stop();
     }
-
-
 }
 

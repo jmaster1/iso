@@ -1,8 +1,6 @@
 ﻿using System;
 using Common.Bind;
 using Common.Lang.Observable;
-using Common.Lang.Collections;
-using Timer = System.Timers.Timer;
 
 namespace Common.TimeNS
 {
@@ -40,10 +38,6 @@ namespace Common.TimeNS
         /// number of Update() calls made so far
         /// </summary>
         public int Frame { get; private set; }
-
-        private Timer? _timer;
-        
-        private readonly ThreadSafeBuffer<Action> _runOnUpdate = new();
 
         public void AddListener(Action<Time> e)
         {
@@ -90,7 +84,6 @@ namespace Common.TimeNS
             Frame++;
             Delta = delta;
             Value += delta;
-            _runOnUpdate.Flush(action => action());
             Notify();
         }
         
@@ -107,39 +100,6 @@ namespace Common.TimeNS
                 listener(this);
             }
             _listeners.End();
-        }
-
-        public void StartTimer(TimeSpan delta)
-        {
-            if (IsTimerRunning())
-            {
-                StopTimer();
-            }
-            _timer = new Timer(delta.TotalMilliseconds);
-            _timer.Elapsed += (sender, e) =>
-            {
-                Update(delta);
-            };
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
-        }
-
-        public void StopTimer()
-        {
-            _timer?.Stop();
-            _timer?.Dispose();
-            _timer = null;
-        }
-
-        public bool IsTimerRunning()
-        {
-            return _timer is { Enabled: true };
-        }
-        
-
-        public void RunOnUpdate(Action action)
-        {
-            _runOnUpdate.Add(action);
         }
     }
 }

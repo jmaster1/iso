@@ -6,24 +6,29 @@ namespace Common.Lang.Collections
 {
     public class ThreadSafeBuffer<T>
     {
-        private ConcurrentQueue<T> _queue = new();
+        private ConcurrentQueue<T> _queueA = new();
         
-        private ConcurrentQueue<T> _queueBac = new();
+        private ConcurrentQueue<T> _queueB = new();
+        
+        private volatile ConcurrentQueue<T> _current = null!;
 
+        public ThreadSafeBuffer()
+        {
+            _current = _queueA;
+        }
+        
         public void Add(T item)
         {
-            _queue.Enqueue(item);
+            _current.Enqueue(item);
         }
 
         public void Flush(Action<T> consumer)
         {
-            _queueBac = Interlocked.Exchange(ref _queue, _queueBac);
-            if (_queueBac.IsEmpty) return;
-            foreach (var e in _queueBac)
+            var previous = Interlocked.Exchange(ref _current, _current == _queueA ? _queueB : _queueA);
+            while (previous.TryDequeue(out var item))
             {
-                consumer(e); 
+                consumer(item);
             }
-            _queueBac.Clear();
         }
     }
 }

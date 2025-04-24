@@ -15,6 +15,8 @@ public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<Met
     
     private readonly Time _time = new();
     
+    private readonly TimeTimer _timeTimer = new();
+    
     private IIsoServerApi _remoteApi = null!;
     
     public IIsoServerApi RemoteApi => _remoteApi;
@@ -40,7 +42,7 @@ public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<Met
     public void Start()
     {
         Player.Bind(_time);
-        _time.StartTimer(IsoCommon.Delta);
+        _timeTimer.Start(_time, IsoCommon.Delta);
     }
 
     public void Build(int frame, BuildingInfo buildingInfo, Cell cell, bool flip)

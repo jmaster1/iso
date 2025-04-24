@@ -25,12 +25,12 @@ namespace Common.Bind
         /// <summary>
         /// model observable container
         /// </summary>
-        public readonly Holder<T> ModelHolder = new Holder<T>();
+        public readonly Holder<T> ModelHolder = new();
         
         /// <summary>
         /// actions to invoke on unbind
         /// </summary>
-        public readonly List<Action> unbindActions = new List<Action>();
+        public readonly List<Action> unbindActions = new();
 
         public BindableState GetBindableState()
         {

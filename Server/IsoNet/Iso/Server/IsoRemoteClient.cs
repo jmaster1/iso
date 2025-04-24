@@ -18,6 +18,10 @@ public class IsoRemoteClient(
     
     private readonly Time _time = new();
     
+    private readonly TimeTimer _timeTimer = new();
+    
+    private readonly RunOnTime _runOnTime = new();
+    
     private IIsoClientApi _remoteApi = null!;
 
     private TransportInvoker _invoker = null!;
@@ -42,13 +46,14 @@ public class IsoRemoteClient(
     public void Start()
     {
         player.Bind(_time);
-        _time.StartTimer(IsoCommon.Delta);
+        _runOnTime.Bind(_time);
+        _timeTimer.Start(_time, IsoCommon.Delta);
         _remoteApi.Start();
     }
 
     public void Build(BuildingInfo buildingInfo, Cell cell, bool flip)
     {
-        _time.RunOnUpdate(() =>
+        _runOnTime.AddAction(() =>
         {
             player.Buildings.Build(buildingInfo, cell, flip);
             _remoteApi.Build(_time.Frame, buildingInfo, cell, flip);
