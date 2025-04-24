@@ -16,6 +16,29 @@ namespace IsoNetTest.Iso;
 
 public class IsoPlayerTests : AbstractTests
 {
+    private class ClientServerPlayers(IsoPlayer clientPlayer, IsoPlayer serverPlayer)
+    {
+        public ClientServerTaskCompletionsSources<T> CreateTaskCompletionSource<T>(Func<IsoPlayer, TaskCompletionSource<T>> func)
+        {
+            return new ClientServerTaskCompletionsSources<T>(
+                clientPlayer, func(clientPlayer), 
+                serverPlayer, func(serverPlayer));
+        }
+    }
+
+    private class ClientServerTaskCompletionsSources<T>(
+        IsoPlayer clientPlayer, TaskCompletionSource<T> clientTcs, 
+        IsoPlayer serverPlayer, TaskCompletionSource<T> serverTcs)
+    {
+        public async Task AwaitResults(Action<IsoPlayer, T>? action = null)
+        {
+            var clientResult = await AwaitResult(clientTcs);
+            action?.Invoke(clientPlayer, clientResult);
+            var serverResult = await AwaitResult(serverTcs);
+            action?.Invoke(serverPlayer, serverResult);
+        }
+    }
+    
     [Test]
     public void Test()
     {
@@ -67,35 +90,31 @@ public class IsoPlayerTests : AbstractTests
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
         var remoteClient = await AwaitResult(remoteClientCreated);
-
+        var cs = new ClientServerPlayers(client.Player, remoteClient.Player);
+        
         //
         // create cells
         const int width = 11;
         const int height = 12;
-        var clientCellsCreated = CreateTaskCompletionSource(client.Player.Cells.Events, CellEvent.CellsCreated);
-        var serverCellsCreated = CreateTaskCompletionSource(remoteClient.Player.Cells.Events, CellEvent.CellsCreated);
+        var cellsCreated = cs.CreateTaskCompletionSource(player => 
+            CreateTaskCompletionSource(player.Cells.Events, CellEvent.CellsCreated));
         client.RemoteApi.CreateCells(width, height);
-        await AwaitResult(clientCellsCreated);
-        await AwaitResult(serverCellsCreated);
-        Assert.That(client.Player.Cells.Width, Is.EqualTo(width));
-        Assert.That(client.Player.Cells.Heigth, Is.EqualTo(height));
-        Assert.That(remoteClient.Player.Cells.Width, Is.EqualTo(width));
-        Assert.That(remoteClient.Player.Cells.Heigth, Is.EqualTo(height));
+        await cellsCreated.AwaitResults((player, _) =>
+        {
+            Assert.That(player.Cells.Width, Is.EqualTo(width));
+            Assert.That(player.Cells.Heigth, Is.EqualTo(height));    
+        });
         
         //
         // start
-        var serverPlayerStarted = CreateTaskCompletionSource(remoteClient.Player);
-        var clientPlayerStarted = CreateTaskCompletionSource(client.Player);
+        var playerStarted = cs.CreateTaskCompletionSource(CreateTaskCompletionSource);
         client.RemoteApi.Start();
-        await AwaitResult(serverPlayerStarted);
-        await AwaitResult(clientPlayerStarted);
+        await playerStarted.AwaitResults();
         
         //
         // build
-        var serverBuildingCreated = CreateTaskCompletionSource(
-            remoteClient.Player.Buildings.Events, BuildingEvent.BuildingCreated);
-        var clientBuildingCreated = CreateTaskCompletionSource(
-            client.Player.Buildings.Events, BuildingEvent.BuildingCreated);
+        var buildingCreated = cs.CreateTaskCompletionSource(player => 
+            CreateTaskCompletionSource(player.Buildings.Events, BuildingEvent.BuildingCreated));
         var buildingInfo = new BuildingInfo
         {
             Id = "b0",
@@ -105,12 +124,11 @@ public class IsoPlayerTests : AbstractTests
         const int buildingX = 1;
         const int buildingY = 2;
         client.RemoteApi.Build(buildingInfo, client.Player.Cells.Get(buildingX, buildingY));
-        var serverBuilding = await AwaitResult(serverBuildingCreated);
-        Assert.That(serverBuilding.X, Is.EqualTo(buildingX));
-        Assert.That(serverBuilding.Y, Is.EqualTo(buildingY));
-        var clientBuilding = await AwaitResult(clientBuildingCreated);
-        Assert.That(clientBuilding.X, Is.EqualTo(buildingX));
-        Assert.That(clientBuilding.Y, Is.EqualTo(buildingY));
+        await buildingCreated.AwaitResults((_, building) =>
+        {
+            Assert.That(building.X, Is.EqualTo(buildingX));
+            Assert.That(building.Y, Is.EqualTo(buildingY));    
+        });
         
         //
         // dispose
