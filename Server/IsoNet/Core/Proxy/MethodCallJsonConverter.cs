@@ -7,19 +7,22 @@ namespace IsoNet.Core.Proxy;
 public class MethodCallJsonConverter : JsonConverter
 {
     public static JsonCodec<MethodCall> Codec { get; } = CreateCodec();
-    public static JsonCodec<MethodCall> CreateCodec()
+    
+    public static JsonCodec<MethodCall> CreateCodec(Action<JsonSerializerSettings>? settingsConfigurer = null)
     {
+        var settings = new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter>
+            {
+                new MethodCallJsonConverter()
+            },
+            Formatting = Formatting.None,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+        };
+        settingsConfigurer?.Invoke(settings);
         return new JsonCodec<MethodCall>
         {
-            Serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
-            {
-                Converters = new List<JsonConverter>
-                {
-                    new MethodCallJsonConverter()
-                },
-                Formatting = Formatting.None,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-            })
+            Serializer = JsonSerializer.CreateDefault(settings)
         };
     }
     

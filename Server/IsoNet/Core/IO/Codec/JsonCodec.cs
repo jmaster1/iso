@@ -9,8 +9,16 @@ public class JsonCodec<T> : AbstractTextCodec<T>
     protected override void Write(T item, TextWriter writer)
     {
         using var jsonWriter = new JsonTextWriter(writer);
-        Serializer.Serialize(jsonWriter, item);
-        jsonWriter.Flush();
+        try
+        {
+            Serializer.Serialize(jsonWriter, item);
+            jsonWriter.Flush();
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to write json for: {item}", e);
+        }
+        
     }
 
     protected override T Read(TextReader reader)

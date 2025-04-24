@@ -1,12 +1,12 @@
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
-using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
+using IsoNet.Iso.Common.Json;
 using IsoNet.Server;
 
 namespace IsoNet.Iso.Server;
 
-public class IsoServer(AbstractServer server, ICodec<MethodCall> codec)
+public class IsoServer(AbstractServer server)
 {
     public event Action<IsoRemoteClient>? OnClientConnected;
     
@@ -18,7 +18,9 @@ public class IsoServer(AbstractServer server, ICodec<MethodCall> codec)
 
     private void InitTransport(AbstractTransport transport)
     {
-        var client = new IsoRemoteClient(transport, codec, new IsoPlayer()).Init();
+        var player = new IsoPlayer();
+        var codec = IsoJsonCodecFactory.CreateCodec(player).WrapLogging(transport.Logger);
+        var client = new IsoRemoteClient(transport, codec, player).Init();
         OnClientConnected?.Invoke(client);
     }
 }

@@ -2,10 +2,12 @@ using System.Diagnostics;
 using Common.TimeNS;
 using Iso.Buildings;
 using Iso.Cells;
+using Iso.Player;
 using IsoNet.Client.WebSocket;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Iso.Client;
+using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
 using IsoNet.Server.WebSocket;
 using Microsoft.Extensions.Logging;
@@ -38,7 +40,7 @@ public class IsoPlayerTests : AbstractTests
     [Test]
     public async Task TestClientServer()
     {
-        var codec = MethodCallJsonConverter.Codec;
+        //var codec = MethodCallJsonConverter.Codec;
 
         //
         // server
@@ -47,7 +49,7 @@ public class IsoPlayerTests : AbstractTests
             Logger = CreateLogger("server")
         };
         serverTransport.Start();
-        var server = new IsoServer(serverTransport, codec.WrapLogging(serverTransport.Logger)).Init();
+        var server = new IsoServer(serverTransport).Init();
 
         var remoteClientTcs = new TaskCompletionSource<IsoRemoteClient>();
         server.OnClientConnected += client =>
@@ -61,7 +63,9 @@ public class IsoPlayerTests : AbstractTests
         {
             Logger = CreateLogger("client")
         };
-        var client = new IsoClient(clientTransport, codec.WrapLogging(clientTransport.Logger)).Init();
+        var clientPlayer = new IsoPlayer();
+        var clientCodec = IsoJsonCodecFactory.CreateCodec(clientPlayer).WrapLogging(clientTransport.Logger);
+        var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
         
         var remoteClient = await AwaitResult(remoteClientTcs);

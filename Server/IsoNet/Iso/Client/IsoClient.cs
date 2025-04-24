@@ -9,9 +9,9 @@ using IsoNet.Iso.Common;
 
 namespace IsoNet.Iso.Client;
 
-public class IsoClient(AbstractTransport transport, ICodec<MethodCall> codec) : IIsoClientApi
+public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<MethodCall> codec) : IIsoClientApi
 {
-    public readonly IsoPlayer Player = new();
+    public IsoPlayer Player => player;
     
     private readonly Time _time = new();
     
