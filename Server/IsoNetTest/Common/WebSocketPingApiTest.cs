@@ -5,9 +5,10 @@ using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Server.WebSocket;
+using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest;
+namespace IsoNetTest.Common;
 
 internal interface IPingApi
 {

@@ -1,7 +1,8 @@
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
+using IsoNetTest.Core;
 
-namespace IsoNetTest;
+namespace IsoNetTest.Common;
 
 internal class MethodInv
 {

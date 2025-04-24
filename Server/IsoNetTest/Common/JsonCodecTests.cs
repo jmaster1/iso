@@ -1,10 +1,11 @@
 using System.Text;
 using IsoNet.Core.IO.Codec;
+using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace IsoNetTest;
+namespace IsoNetTest.Common;
 
 public class JsonCodecTests : AbstractTests
 {

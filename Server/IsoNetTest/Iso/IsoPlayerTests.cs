@@ -10,6 +10,7 @@ using IsoNet.Iso.Client;
 using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
 using IsoNet.Server.WebSocket;
+using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest;

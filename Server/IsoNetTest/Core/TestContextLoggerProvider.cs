@@ -1,6 +1,6 @@
-namespace IsoNetTest;
-
 using Microsoft.Extensions.Logging;
+
+namespace IsoNetTest.Core;
 
 public class TestContextLoggerProvider : ILoggerProvider
 {
@@ -14,15 +14,8 @@ public class TestContextLoggerProvider : ILoggerProvider
     }
 }
 
-internal class TestContextLogger : ILogger
+internal class TestContextLogger(string category) : ILogger
 {
-    private readonly string category;
-
-    public TestContextLogger(string category)
-    {
-        this.category = category;
-    }
-
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         var msg = $"[{DateTime.Now:HH:mm:ss.fff}] [{logLevel}] [{category}] [{Thread.CurrentThread.Name} @ {Environment.CurrentManagedThreadId} ] {formatter(state, exception)}";

@@ -1,7 +1,7 @@
 using Common.Lang.Observable;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest;
+namespace IsoNetTest.Core;
 
 public abstract class AbstractTests
 {

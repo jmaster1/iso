@@ -1,7 +1,8 @@
 using IsoNet.Core.IO;
+using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest;
+namespace IsoNetTest.Common;
 
 public class IoTests : AbstractTests
 {
