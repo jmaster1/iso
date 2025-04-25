@@ -4,8 +4,7 @@ namespace IsoNet.Core.Proxy;
 
 public class MethodCall
 {
-    
-    public MethodInfo MethodInfo;
+    public MethodInfo MethodInfo = null!;
     
     public object?[]? Args;
 }

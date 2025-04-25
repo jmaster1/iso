@@ -3,7 +3,6 @@ using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Server;
 using IsoNet.Iso.Common.Json;
-using IsoNet.Server;
 
 namespace IsoNet.Iso.Server;
 
