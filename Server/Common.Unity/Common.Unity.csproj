@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Assets/Scripts/Common.Unity/**/*.cs" Link="Common.Unity/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity3D.UnityEngine" Version="2018.3.5.1" />
+    <PackageReference Include="Unity3D.UnityEngine.UI" Version="2018.3.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+  
+	<ItemGroup>
+	  <Reference Include="Unity.TextMeshPro">
+		<HintPath>../dll/Unity.TextMeshPro.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="LeanTween">
+		<HintPath>../dll/LeanTween.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+</Project>

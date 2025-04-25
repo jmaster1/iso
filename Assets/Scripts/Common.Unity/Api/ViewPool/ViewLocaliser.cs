@@ -5,6 +5,7 @@ using Common.Lang.Collections.Tree;
 using Common.Unity.Util;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Common.Unity.Api.ViewPool
 {
