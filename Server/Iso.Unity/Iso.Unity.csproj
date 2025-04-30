@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+  <ItemGroup>
+	<Compile Include="../../Assets/Scripts/Iso.Unity/**/*.cs" Link="Iso.Unity/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Unity\Common.Unity.csproj" />
+    <ProjectReference Include="..\Iso\Iso.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Spine.Csharp">
+		<HintPath>../dll/spine-csharp.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="Spine.Unity">
+		<HintPath>../dll/spine-unity.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+</Project>
