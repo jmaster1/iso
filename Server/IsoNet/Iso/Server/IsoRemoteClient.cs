@@ -12,7 +12,7 @@ namespace IsoNet.Iso.Server;
 public class IsoRemoteClient(
     AbstractTransport transport, 
     ICodec<MethodCall> codec, 
-    IsoPlayer player) : IIsoServerApi
+    IsoPlayer player)
 {
     public IsoPlayer Player => player;
     
@@ -22,15 +22,19 @@ public class IsoRemoteClient(
     
     private readonly RunOnTime _runOnTime = new();
     
-    private IIsoClientApi _remoteApi = null!;
+    private IIsoApi _remoteApi = null!;
 
     private TransportInvoker _invoker = null!;
 
     internal IsoRemoteClient Init()
     {
-        _invoker = new TransportInvoker(transport, codec).Init();
-        _invoker.RegisterLocal<IIsoServerApi>(this);
-        _remoteApi = _invoker.CreateRemote<IIsoClientApi>();
+        IsoApi local = new IsoApi(player, _time);
+        _invoker = new TransportInvoker(transport, codec).Init(call =>
+        {
+            _runOnTime.AddAction(() => _invoker.Invoke(call));
+        });
+        _invoker.RegisterLocal<IIsoApi>(this);
+        _remoteApi = _invoker.CreateRemote<IIsoApi>();
         return this;
     }
 

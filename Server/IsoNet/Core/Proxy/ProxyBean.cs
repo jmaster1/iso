@@ -10,12 +10,15 @@ public class ProxyBean<T> : DispatchProxy where T : class
     
     protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
     {
-        var methodCall = new MethodCall
+        if (OnInvoke != null)
         {
-            MethodInfo = targetMethod!,
-            Args = args
-        };
-        OnInvoke?.Invoke(methodCall);
+            var methodCall = new MethodCall
+            {
+                MethodInfo = targetMethod!,
+                Args = args
+            };
+            OnInvoke.Invoke(methodCall);
+        }
 
         if (Target != null)
         {

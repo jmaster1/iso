@@ -3,19 +3,17 @@ using IsoNet.Core.Proxy;
 
 namespace IsoNet.Core.Transport;
 
-public class TransportInvoker(AbstractTransport transport, ICodec<MethodCall> codec)
+public class TransportInvoker(AbstractTransport transport, ICodec<MethodCall> codec) : MethodInvoker
 {
-    private readonly MethodInvoker _invoker = new();
-
-    public TransportInvoker Init()
+    public TransportInvoker Init(Action<MethodCall> handler = null)
     {
-        transport.SetMessageHandler(msg => _invoker.Invoke(msg), codec);
+        transport.SetMessageHandler(Invoke, codec);
         return this;
     }
     
     public void RegisterLocal<T>(T target)
     {
-        _invoker.Register(target);
+        Register(target);
     }
 
     public T CreateRemote<T>() where T : class

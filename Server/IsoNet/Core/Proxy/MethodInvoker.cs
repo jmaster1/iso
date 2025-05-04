@@ -17,6 +17,11 @@ public class MethodInvoker
         {
             throw new Exception("Target is null for type: " + type!.FullName);
         }
+        InvokeInternal(call, target);
+    }
+
+    protected virtual void InvokeInternal(MethodCall call, object target)
+    {
         call.MethodInfo.Invoke(target, call.Args);
     }
 }

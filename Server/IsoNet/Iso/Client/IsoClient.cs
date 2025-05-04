@@ -9,7 +9,7 @@ using IsoNet.Iso.Common;
 
 namespace IsoNet.Iso.Client;
 
-public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<MethodCall> codec) : IIsoClientApi
+public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<MethodCall> codec)
 {
     public IsoPlayer Player => player;
     
@@ -18,18 +18,16 @@ public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<Met
     private readonly TimeTimer _timeTimer = new();
     
     private readonly RunOnTime _runOnTime = new();
-    
-    private IIsoServerApi _remoteApi = null!;
-    
-    public IIsoServerApi RemoteApi => _remoteApi;
+
+    public IIsoApi RemoteApi { get; private set; } = null!;
 
     private TransportInvoker _invoker = null!;
     
     public IsoClient Init()
     {
         _invoker = new TransportInvoker(transport, codec).Init();
-        _invoker.RegisterLocal<IIsoClientApi>(this);
-        _remoteApi = _invoker.CreateRemote<IIsoServerApi>();
+        _invoker.RegisterLocal<IIsoApi>(this);
+        RemoteApi = _invoker.CreateRemote<IIsoApi>();
         return this;
     }
 

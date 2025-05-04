@@ -3,11 +3,11 @@ using Iso.Cells;
 
 namespace IsoNet.Iso.Common;
 
-public interface IIsoClientApi
+public interface IIsoApi
 {
     void CreateCells(int width, int height);
     
     void Start();
     
-    void Build(int frame, BuildingInfo buildingInfo, Cell cell, bool flip);
+    void Build(BuildingInfo buildingInfo, Cell cell, bool flip = false);
 }
