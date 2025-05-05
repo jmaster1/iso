@@ -39,6 +39,8 @@ public class MethodCallJsonConverter : JsonConverter
         writer.WriteValue(custom.MethodInfo.Name);
         writer.WritePropertyName("args");
         serializer.Serialize(writer, custom.Args);
+        writer.WritePropertyName("attrs");
+        serializer.Serialize(writer, custom.Attrs);
         writer.WriteEndObject();
     }
 
@@ -51,6 +53,8 @@ public class MethodCallJsonConverter : JsonConverter
         var typeName = jo["type"]?.ToString();
         var methodName = jo["method"]?.ToString();
         var argsToken = jo["args"];
+        var attrsToken = jo["attrs"];
+        
 
         if (typeName == null || methodName == null || argsToken == null)
             throw new JsonSerializationException("Missing fields in MethodCall JSON.");
@@ -68,12 +72,13 @@ public class MethodCallJsonConverter : JsonConverter
         {
             args[i] = argsToken[i]?.ToObject(parameters[i].ParameterType, serializer);
         }
-        
-        return new MethodCall
+
+        var mc = new MethodCall
         {
-            MethodInfo = method,
-            Args = args
+            MethodInfo = method, Args = args,
+            AttrGetter = (name, type) => attrsToken?[name]?.ToObject(type, serializer)
         };
+        return mc;
     }
 
     public override bool CanConvert(Type objectType)

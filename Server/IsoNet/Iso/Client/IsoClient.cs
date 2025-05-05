@@ -1,6 +1,4 @@
 using Common.TimeNS;
-using Iso.Buildings;
-using Iso.Cells;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
@@ -14,10 +12,10 @@ public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<Met
     public IsoPlayer Player => player;
     
     private readonly Time _time = new();
-    
-    private readonly TimeTimer _timeTimer = new();
-    
-    private readonly RunOnTime _runOnTime = new();
+    //
+    // private readonly TimeTimer _timeTimer = new();
+    //
+     private readonly RunOnTime _runOnTime = new();
 
     public IIsoApi RemoteApi { get; private set; } = null!;
 
@@ -25,32 +23,20 @@ public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<Met
     
     public IsoClient Init()
     {
-        _invoker = new TransportInvoker(transport, codec).Init();
-        _invoker.RegisterLocal<IIsoApi>(this);
+        _invoker = new TransportInvoker(transport, codec).Init(call =>
+        {
+            var frame = call.GetAttr<int>(IsoCommon.AttrFrame);
+            if (frame == Time.FrameUndefined)
+            {
+                _runOnTime.AddAction(() => _invoker.Invoke(call));
+            }
+            else
+            {
+                _runOnTime.AddAction(frame, () => _invoker.Invoke(call));    
+            }
+        });
         RemoteApi = _invoker.CreateRemote<IIsoApi>();
+        _invoker.RegisterLocal<IIsoApi>(new IsoApi(player, _time));
         return this;
-    }
-
-    public void CreateCells(int width, int height)
-    {
-        Player.Cells.Create(width, height, () =>
-        {
-            Player.Cells.ForEachPos((x, y) => Player.Cells.Set(x, y, CellType.Buildable));    
-        });
-    }
-
-    public void Start()
-    {
-        Player.Bind(_time);
-        _runOnTime.Bind(_time);
-        _timeTimer.Start(_time, IsoCommon.Delta);
-    }
-
-    public void Build(int frame, BuildingInfo buildingInfo, Cell cell, bool flip)
-    {
-        _runOnTime.AddAction(frame, () =>
-        {
-            Player.Buildings.Build(buildingInfo, cell, flip);    
-        });
     }
 }

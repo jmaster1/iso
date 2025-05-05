@@ -7,7 +7,7 @@ namespace IsoNet.Iso.Common;
 
 public class IsoApi(IsoPlayer player, Time time) : IIsoApi
 {
-    private IsoPlayer Player => player;
+    public IsoPlayer Player => player;
     
     public void CreateCells(int width, int height)
     {

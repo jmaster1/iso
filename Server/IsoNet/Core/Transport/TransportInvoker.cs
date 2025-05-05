@@ -5,9 +5,9 @@ namespace IsoNet.Core.Transport;
 
 public class TransportInvoker(AbstractTransport transport, ICodec<MethodCall> codec) : MethodInvoker
 {
-    public TransportInvoker Init(Action<MethodCall> handler = null)
+    public TransportInvoker Init(Action<MethodCall>? handler = null)
     {
-        transport.SetMessageHandler(Invoke, codec);
+        transport.SetMessageHandler(handler ?? Invoke, codec);
         return this;
     }
     
@@ -16,9 +16,13 @@ public class TransportInvoker(AbstractTransport transport, ICodec<MethodCall> co
         Register(target);
     }
 
-    public T CreateRemote<T>() where T : class
+    public T CreateRemote<T>(Action<MethodCall>? filter = null) where T : class
     {
-        var (remoteApi, _) = Proxy.Proxy.Create<T>(call => transport.SendMessage(call, codec));
+        var (remoteApi, _) = Proxy.Proxy.Create<T>(call =>
+        {
+            filter?.Invoke(call);
+            transport.SendMessage(call, codec);
+        });
         return remoteApi;
     }
 }

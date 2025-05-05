@@ -93,8 +93,7 @@ public class WebSocketTransport : AbstractTransport
                 }
                 catch (Exception ex)
                 {
-                    Logger?.LogInformation("Error during message received: " + ex.Message);
-                    //TODO: await Disconnect();
+                    Logger?.LogError(ex, "Message processing error");
                     throw;
                 }
             }

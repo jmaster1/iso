@@ -9,6 +9,7 @@ namespace Common.TimeNS
     /// </summary>
     public class Time : BindableBean<Time>
     {
+        public const int FrameUndefined = -1;
         /// <summary>
         /// time listeners
         /// </summary>
@@ -33,11 +34,11 @@ namespace Common.TimeNS
         /// offset to add to system time
         /// </summary>
         public TimeSpan Offset = TimeSpan.Zero;
-        
+
         /// <summary>
         /// number of Update() calls made so far
         /// </summary>
-        public int Frame { get; private set; }
+        public int Frame { get; private set; } = FrameUndefined;
 
         public void AddListener(Action<Time> e)
         {

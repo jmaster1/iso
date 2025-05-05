@@ -1,6 +1,4 @@
 using Common.TimeNS;
-using Iso.Buildings;
-using Iso.Cells;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
@@ -16,6 +14,8 @@ public class IsoRemoteClient(
 {
     public IsoPlayer Player => player;
     
+    public Time Time => player.TimeGame;
+    
     private readonly Time _time = new();
     
     private readonly TimeTimer _timeTimer = new();
@@ -26,41 +26,27 @@ public class IsoRemoteClient(
 
     private TransportInvoker _invoker = null!;
 
+    private readonly MethodInvoker _remoteInvoker = new();
+
     internal IsoRemoteClient Init()
     {
-        IsoApi local = new IsoApi(player, _time);
+        _timeTimer.Start(_time, IsoCommon.Delta);
+        _runOnTime.Bind(_time);
+        var local = new IsoApi(player, _time);
         _invoker = new TransportInvoker(transport, codec).Init(call =>
         {
-            _runOnTime.AddAction(() => _invoker.Invoke(call));
+            _runOnTime.AddAction(() =>
+            {
+                _invoker.Invoke(call);
+                _remoteInvoker.Invoke(call);
+            });
         });
-        _invoker.RegisterLocal<IIsoApi>(this);
-        _remoteApi = _invoker.CreateRemote<IIsoApi>();
+        _invoker.RegisterLocal<IIsoApi>(local);
+        _remoteApi = _invoker.CreateRemote<IIsoApi>(call =>
+        {
+            call.SetAttr(IsoCommon.AttrFrame, Time.Frame);
+        });
+        _remoteInvoker.Register(_remoteApi);
         return this;
-    }
-
-    public void CreateCells(int width, int height)
-    {
-        Player.Cells.Create(width, height, () =>
-        {
-            Player.Cells.ForEachPos((x, y) => Player.Cells.Set(x, y, CellType.Buildable));    
-        });
-        _remoteApi.CreateCells(width, height);
-    }
-
-    public void Start()
-    {
-        player.Bind(_time);
-        _runOnTime.Bind(_time);
-        _timeTimer.Start(_time, IsoCommon.Delta);
-        _remoteApi.Start();
-    }
-
-    public void Build(BuildingInfo buildingInfo, Cell cell, bool flip)
-    {
-        _runOnTime.AddAction(() =>
-        {
-            player.Buildings.Build(buildingInfo, cell, flip);
-            _remoteApi.Build(_time.Frame, buildingInfo, cell, flip);
-        });
     }
 }

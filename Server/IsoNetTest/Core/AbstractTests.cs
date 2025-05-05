@@ -64,8 +64,39 @@ public abstract class AbstractTests
     
     protected static async Task<T> AwaitResult<T>(TaskCompletionSource<T> tcs, float timeoutSec = 1)
     {
+        /* this code doesnt work with debug breakpoints
         var timeout = TimeSpan.FromSeconds(timeoutSec);
         var result = await tcs.Task.WaitAsync(timeout);
         return result;
+        */
+        double accumulatedTimeMs = 0;
+        var timeoutMs = timeoutSec * 1000;
+        var intervalMs = 50;
+
+        var timer = new System.Timers.Timer(intervalMs);
+        timer.AutoReset = true;
+        timer.Elapsed += (s, e) =>
+        {
+            accumulatedTimeMs += intervalMs;
+        };
+        timer.Start();
+
+        try
+        {
+            while (!tcs.Task.IsCompleted)
+            {
+                await Task.Delay(intervalMs);
+
+                if (accumulatedTimeMs >= timeoutMs)
+                    throw new TimeoutException("Operation timed out.");
+            }
+
+            return await tcs.Task;
+        }
+        finally
+        {
+            timer.Stop();
+            timer.Dispose();
+        }
     }
 }
