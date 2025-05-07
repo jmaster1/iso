@@ -10,7 +10,7 @@ public class MethodCall
 
     public Dictionary<string, object>? Attrs;
     
-    public Func<string, Type, object?>? AttrGetter;
+    public Func<string, Type, object?, object?>? AttrGetter;
 
     public void SetAttr(string name, int timeFrame)
     {
@@ -18,8 +18,8 @@ public class MethodCall
         Attrs[name] = timeFrame;
     }
 
-    public T? GetAttr<T>(string name)
+    public T? GetAttr<T>(string name, T defaultValue = default!)
     {
-        return (T?)(AttrGetter == null ? Attrs?[name] : AttrGetter(name, typeof(T)));
+        return (T?)(AttrGetter == null ? Attrs?[name] : AttrGetter(name, typeof(T), defaultValue));
     }
 }

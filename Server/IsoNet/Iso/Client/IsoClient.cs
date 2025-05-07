@@ -20,6 +20,8 @@ public class IsoClient(
     private readonly RunOnTime _runOnTime = new();
 
     public IIsoApi RemoteApi { get; private set; } = null!;
+    
+    public IIsoServerApi ServerApi { get; private set; } = null!;
 
     private TransportInvoker _invoker = null!;
     
@@ -36,7 +38,7 @@ public class IsoClient(
         _runOnTime.Bind(_time);
         _invoker = new TransportInvoker(transport, codec).Init(call =>
         {
-            var frame = call.GetAttr<int>(IsoCommon.AttrFrame);
+            var frame = call.GetAttr(IsoCommon.AttrFrame, Time.FrameUndefined);
             if (frame == Time.FrameUndefined)
             {
                 _runOnTime.AddAction(() => _invoker.Invoke(call));
@@ -49,6 +51,7 @@ public class IsoClient(
             }
         });
         RemoteApi = _invoker.CreateRemote<IIsoApi>();
+        ServerApi = _invoker.CreateRemote<IIsoServerApi>();
         _invoker.RegisterLocal<IIsoApi>(new IsoApi("client", player, _time));
         return this;
     }

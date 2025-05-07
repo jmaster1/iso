@@ -5,9 +5,14 @@ namespace IsoNet.Iso.Common;
 
 public interface IIsoApi
 {
+    [Replay]
     void CreateCells(int width, int height);
     
     void Start();
     
     void Build(BuildingInfo buildingInfo, Cell cell, bool flip = false);
+}
+
+public class ReplayAttribute : Attribute
+{
 }

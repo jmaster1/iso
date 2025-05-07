@@ -1,16 +1,19 @@
+using System.Reflection;
 using Common.TimeNS;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Iso.Common;
+using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
 
 namespace IsoNet.Iso.Server;
 
 public class IsoRemoteClient(
+    IsoServer server,
     AbstractTransport transport, 
     ICodec<MethodCall> codec, 
-    IsoPlayer player)
+    IsoPlayer player) : IIsoServerApi
 {
     public IsoPlayer Player => player;
     
@@ -27,6 +30,10 @@ public class IsoRemoteClient(
     private TransportInvoker _invoker = null!;
 
     private readonly MethodInvoker _remoteInvoker = new();
+    
+    private IIsoClientApi _clientApi = null!;
+
+    private IsoPlayer _world;
 
     internal IsoRemoteClient Init()
     {
@@ -38,15 +45,31 @@ public class IsoRemoteClient(
             _runOnTime.AddAction(() =>
             {
                 _invoker.Invoke(call);
-                _remoteInvoker.Invoke(call);
+                if (call.MethodInfo.GetCustomAttribute<ReplayAttribute>() != null)
+                {
+                    _remoteInvoker.Invoke(call);
+                }
             });
         });
         _invoker.RegisterLocal<IIsoApi>(local);
+        _invoker.RegisterLocal<IIsoServerApi>(this);
         _remoteApi = _invoker.CreateRemote<IIsoApi>(call =>
         {
             call.SetAttr(IsoCommon.AttrFrame, Time.Frame);
         });
+        _clientApi = _invoker.CreateRemote<IIsoClientApi>();
         _remoteInvoker.Register(_remoteApi);
         return this;
+    }
+
+    public void CreateWorld()
+    {
+        _world = server.CreateWorld();
+        _clientApi.WorldCreated(_world.Guid);
+    }
+
+    public void JoinWorld(string worldId)
+    {
+        throw new NotImplementedException();
     }
 }

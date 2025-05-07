@@ -37,6 +37,14 @@ public abstract class AbstractTests
     {
         return CreateLogger(instance.GetType().Name);
     }
+
+    protected static TaskCompletionSource<TPayload> CreateTaskCompletionSource<TPayload>(
+        Action<TaskCompletionSource<TPayload>> setTaskCompletionAction)
+    {
+        var taskCompletionSource = new TaskCompletionSource<TPayload>();
+        setTaskCompletionAction.Invoke(taskCompletionSource);
+        return taskCompletionSource;
+    }
     
     protected static TaskCompletionSource<TPayload> CreateTaskCompletionSource<TEvent, TPayload>(
         Events<TEvent, TPayload> events, TEvent expectedEvent) where TEvent : Enum

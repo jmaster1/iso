@@ -76,7 +76,16 @@ public class MethodCallJsonConverter : JsonConverter
         var mc = new MethodCall
         {
             MethodInfo = method, Args = args,
-            AttrGetter = (name, type) => attrsToken?[name]?.ToObject(type, serializer)
+            AttrGetter = (name, type, defaultValue) =>
+            {
+                if (attrsToken is not JObject attrsObj)
+                    return defaultValue;
+                var token = attrsObj[name];
+                return token != null && token.Type != JTokenType.Null
+                    ? token.ToObject(type, serializer)
+                    : defaultValue;
+            }
+                
         };
         return mc;
     }
