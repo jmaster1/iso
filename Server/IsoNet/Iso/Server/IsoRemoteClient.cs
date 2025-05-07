@@ -32,7 +32,7 @@ public class IsoRemoteClient(
     {
         _timeTimer.Start(_time, IsoCommon.Delta);
         _runOnTime.Bind(_time);
-        var local = new IsoApi(player, _time);
+        var local = new IsoApi("server", player, _time);
         _invoker = new TransportInvoker(transport, codec).Init(call =>
         {
             _runOnTime.AddAction(() =>

@@ -1,28 +1,39 @@
 using Common.TimeNS;
 using Iso.Player;
+using IsoNet.Core;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Iso.Common;
+using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Iso.Client;
 
-public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<MethodCall> codec)
+public class IsoClient(
+    IsoPlayer player, 
+    AbstractTransport transport, 
+    ICodec<MethodCall> codec, 
+    Time? time = null) : LogAware
 {
     public IsoPlayer Player => player;
     
-    private readonly Time _time = new();
-    //
-    // private readonly TimeTimer _timeTimer = new();
-    //
-     private readonly RunOnTime _runOnTime = new();
+    private readonly RunOnTime _runOnTime = new();
 
     public IIsoApi RemoteApi { get; private set; } = null!;
 
     private TransportInvoker _invoker = null!;
     
+    private Time? _time = time;
+
     public IsoClient Init()
     {
+        if (_time == null)
+        {
+            _time = new Time();
+            new TimeTimer().Start(_time, IsoCommon.Delta);
+        }
+        _runOnTime.FrameSupplier = () => Player.TimeGame.Frame;
+        _runOnTime.Bind(_time);
         _invoker = new TransportInvoker(transport, codec).Init(call =>
         {
             var frame = call.GetAttr<int>(IsoCommon.AttrFrame);
@@ -32,11 +43,13 @@ public class IsoClient(IsoPlayer player, AbstractTransport transport, ICodec<Met
             }
             else
             {
+                Logger?.LogInformation("Add call, frame={frame}, currentFrame={currentFrame}", 
+                    frame, _runOnTime.Model.Frame);
                 _runOnTime.AddAction(frame, () => _invoker.Invoke(call));    
             }
         });
         RemoteApi = _invoker.CreateRemote<IIsoApi>();
-        _invoker.RegisterLocal<IIsoApi>(new IsoApi(player, _time));
+        _invoker.RegisterLocal<IIsoApi>(new IsoApi("client", player, _time));
         return this;
     }
 }

@@ -10,6 +10,8 @@ namespace Common.TimeNS
         private readonly ThreadSafeBuffer<Action> _actions = new();
 
         private readonly SortedSet<FrameAction> _frameActions = new();
+
+        public Func<int>? FrameSupplier = null;
         
         protected override void OnBind()
         {
@@ -24,16 +26,17 @@ namespace Common.TimeNS
         private void OnTimeUpdate(Time time)
         {
             _actions.Flush(action => action());
+            var frame = FrameSupplier == null ? time.Frame : FrameSupplier?.Invoke();
             lock (_frameActions)
             {
                 while (true)
                 {
-                    if (_frameActions.Count == 0 || _frameActions.Min.Frame > time.Frame)
+                    if (_frameActions.Count == 0 || _frameActions.Min.Frame > frame)
                         break;
 
                     var next = _frameActions.Min;
                     _frameActions.Remove(next);
-                    Validate(next.Frame == time.Frame);
+                    Validate(next.Frame == frame);
                     next.Action();
                 }
             }

@@ -15,6 +15,10 @@ public abstract class AbstractTransport : LogAware
     public int MessageCountSent { get; private set; }
     
     public int MessageCountReceived { get; private set; }
+
+    public bool LogMessagesIn;
+    
+    public bool LogMessagesOut;
     
     /// <summary>
     /// should be invoked by subclasses when transport is closed
@@ -31,7 +35,7 @@ public abstract class AbstractTransport : LogAware
         {
             var msg = codec.Read(stream);
             MessageCountReceived++;
-            Logger?.LogInformation("<< {msg}", msg);
+            if(LogMessagesIn) Logger?.LogInformation("<< {msg}", msg);
             handler(msg);
         };
     }
@@ -42,7 +46,7 @@ public abstract class AbstractTransport : LogAware
         {
             codec.Write(msg, stream);
             MessageCountSent++;
-            Logger?.LogInformation(">> {msg}", msg);
+            if(LogMessagesOut) Logger?.LogInformation(">> {msg}", msg);
         });
     }
 
