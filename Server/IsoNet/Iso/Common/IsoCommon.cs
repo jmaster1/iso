@@ -1,7 +1,7 @@
 namespace IsoNet.Iso.Common;
 
-public class IsoCommon
+public static class IsoCommon
 {
     public static readonly TimeSpan Delta = TimeSpan.FromMilliseconds(20);
-    public static readonly string AttrFrame = "frame";
+    public const string AttrFrame = "frame";
 }

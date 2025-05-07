@@ -16,29 +16,6 @@ namespace IsoNetTest.Iso;
 
 public class IsoPlayerTests : AbstractTests
 {
-    private class ClientServerPlayers(IsoPlayer clientPlayer, IsoPlayer serverPlayer)
-    {
-        public ClientServerTaskCompletionsSources<T> CreateTaskCompletionSource<T>(Func<IsoPlayer, TaskCompletionSource<T>> func)
-        {
-            return new ClientServerTaskCompletionsSources<T>(
-                clientPlayer, func(clientPlayer), 
-                serverPlayer, func(serverPlayer));
-        }
-    }
-
-    private class ClientServerTaskCompletionsSources<T>(
-        IsoPlayer clientPlayer, TaskCompletionSource<T> clientTcs, 
-        IsoPlayer serverPlayer, TaskCompletionSource<T> serverTcs)
-    {
-        public async Task AwaitResults(Action<IsoPlayer, T>? action = null)
-        {
-            var clientResult = await AwaitResult(clientTcs);
-            action?.Invoke(clientPlayer, clientResult);
-            var serverResult = await AwaitResult(serverTcs);
-            action?.Invoke(serverPlayer, serverResult);
-        }
-    }
-    
     [Test]
     public void Test()
     {
@@ -90,16 +67,17 @@ public class IsoPlayerTests : AbstractTests
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
         var remoteClient = await AwaitResult(remoteClientCreated);
-        var cs = new ClientServerPlayers(client.Player, remoteClient.Player);
+        
+        var cs2 = new MultiSource<IsoPlayer>(client.Player, remoteClient.Player);
         
         //
         // create cells
         const int width = 11;
         const int height = 12;
-        var cellsCreated = cs.CreateTaskCompletionSource(player => 
+        var cellsCreated2 = cs2.CreateTaskCompletionSource(player => 
             CreateTaskCompletionSource(player.Cells.Events, CellEvent.CellsCreated));
         client.RemoteApi.CreateCells(width, height);
-        await cellsCreated.AwaitResults((player, _) =>
+        await cellsCreated2.AwaitResults((player, _) =>
         {
             Assert.That(player.Cells.Width, Is.EqualTo(width));
             Assert.That(player.Cells.Heigth, Is.EqualTo(height));    
@@ -107,13 +85,13 @@ public class IsoPlayerTests : AbstractTests
         
         //
         // start
-        var playerStarted = cs.CreateTaskCompletionSource(CreateTaskCompletionSource);
+        var playerStarted = cs2.CreateTaskCompletionSource(CreateTaskCompletionSource);
         client.RemoteApi.Start();
         await playerStarted.AwaitResults();
         
         //
         // build
-        var buildingCreated = cs.CreateTaskCompletionSource(player => 
+        var buildingCreated = cs2.CreateTaskCompletionSource(player => 
             CreateTaskCompletionSource(player.Buildings.Events, BuildingEvent.BuildingCreated));
         var buildingInfo = new BuildingInfo
         {

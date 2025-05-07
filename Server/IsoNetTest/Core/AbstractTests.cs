@@ -99,4 +99,32 @@ public abstract class AbstractTests
             timer.Dispose();
         }
     }
+    
+    public class MultiSource<TSource>(params TSource[] sources)
+    {
+        public MultiTaskCompletionSource<TSource, TResult> CreateTaskCompletionSource<TResult>(
+            Func<TSource, TaskCompletionSource<TResult>> func)
+        {
+            var sourceTasks = new List<Tuple<TSource, TaskCompletionSource<TResult>>>();
+            foreach (var source in sources)
+            {
+                var taskCompletionSource = func(source);
+                sourceTasks.Add(new Tuple<TSource, TaskCompletionSource<TResult>>(source, taskCompletionSource));
+            }
+            return new MultiTaskCompletionSource<TSource, TResult>(sourceTasks);
+        }
+    }
+
+    public class MultiTaskCompletionSource<TSource, TResult>(
+        List<Tuple<TSource, TaskCompletionSource<TResult>>> sourceTasks)
+    {
+        public async Task AwaitResults(Action<TSource, TResult>? action = null)
+        {
+            foreach (var sourceTask in sourceTasks)
+            {
+                var result = await AwaitResult(sourceTask.Item2);
+                action?.Invoke(sourceTask.Item1, result);
+            }
+        }
+    }
 }
