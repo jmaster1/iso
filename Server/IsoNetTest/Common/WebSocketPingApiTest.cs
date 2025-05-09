@@ -99,7 +99,11 @@ public class WebSocketPingApiTest : AbstractTests
         
         //
         // setup remote api proxy this will send message
-        var (remoteApi, _) = Proxy.Create<IPingApi>(call => transport.SendMessage(call, codec));
+        var (remoteApi, _) = Proxy.Create<IPingApi>(call =>
+        {
+            transport.SendMessage(call, codec);
+            return null!;
+        });
         
         //
         // handle incoming messages

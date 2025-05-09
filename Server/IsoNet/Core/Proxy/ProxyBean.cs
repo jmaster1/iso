@@ -4,7 +4,7 @@ namespace IsoNet.Core.Proxy;
 
 public class ProxyBean<T> : DispatchProxy where T : class
 {
-    public event Action<MethodCall>? OnInvoke;
+    public Func<MethodCall, object?>? OnInvoke;
     
     public T? Target { get; set; }
     
@@ -17,12 +17,12 @@ public class ProxyBean<T> : DispatchProxy where T : class
                 MethodInfo = targetMethod!,
                 Args = args
             };
-            OnInvoke.Invoke(methodCall);
+            return OnInvoke.Invoke(methodCall);
         }
 
         if (Target != null)
         {
-            targetMethod!.Invoke(Target, args);
+            return targetMethod!.Invoke(Target, args);
         }
 
         return null;
@@ -31,7 +31,7 @@ public class ProxyBean<T> : DispatchProxy where T : class
 
 public static class Proxy
 {
-    public static (T Proxy, ProxyBean<T> Bean) Create<T>(Action<MethodCall>? handler = null, T? target = null) where T : class
+    public static (T Proxy, ProxyBean<T> Bean) Create<T>(Func<MethodCall, Task<object?>>? handler = null, T? target = null) where T : class
     {
         if (!typeof(T).IsInterface)
             throw new InvalidOperationException($"{typeof(T).Name} must be an interface");
@@ -41,7 +41,7 @@ public static class Proxy
         bean.Target = target;
         if (handler != null)
         {
-            bean.OnInvoke += handler;
+            bean.OnInvoke = handler;
         }
         return (proxy, bean);
     }

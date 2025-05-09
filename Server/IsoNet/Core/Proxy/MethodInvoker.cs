@@ -9,7 +9,7 @@ public class MethodInvoker
         _targets[typeof(T)] = target!;        
     }
 
-    public void Invoke(MethodCall call)
+    public object? Invoke(MethodCall call)
     {
         var type = call.MethodInfo.ReflectedType;
         var target = _targets[type!];
@@ -17,11 +17,6 @@ public class MethodInvoker
         {
             throw new Exception("Target is null for type: " + type!.FullName);
         }
-        InvokeInternal(call, target);
-    }
-
-    protected virtual void InvokeInternal(MethodCall call, object target)
-    {
-        call.MethodInfo.Invoke(target, call.Args);
+        return call.MethodInfo.Invoke(target, call.Args);
     }
 }

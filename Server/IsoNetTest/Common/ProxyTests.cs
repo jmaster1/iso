@@ -63,13 +63,13 @@ public class ProxyTests : AbstractTests
         var invoker = new MethodInvoker();
         invoker.Register<ITestApi>(apiImpl);
         
-        var (api, _) = Proxy.Create<ITestApi>((call =>
+        var (api, _) = Proxy.Create<ITestApi>((async call =>
         {
             using var stream = new MemoryStream();
             codec.Write(call, stream);
             stream.Position = 0;
             var result = codec.Read(stream);
-            invoker.Invoke(result);
+            return invoker.Invoke(result);
         }));
         
         api.Method1();

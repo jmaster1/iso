@@ -49,6 +49,24 @@ public abstract class AbstractTransport : LogAware
             if(LogMessagesOut) Logger?.LogInformation(">> {msg}", msg);
         });
     }
+    
+    public void SetMessageHandler(Action<Stream> messageReader)
+    {
+        MessageReceived = stream =>
+        {
+            messageReader(stream);
+            MessageCountReceived++;
+        };
+    }
+    
+    public void SendMessage(Action<Stream> messageWriter)
+    {
+        DoWithOutput(stream =>
+        {
+            messageWriter(stream);
+            MessageCountSent++;
+        });
+    }
 
     /// <summary>
     /// subclasses should implement this method in order to initiate outgoing message output stream
