@@ -8,4 +8,9 @@ public static class CodecExtensions
     {
         return new LoggingCodec<T>(codec, logger);
     }
+    
+    public static LoggingCodec<T> WrapLogging<T>(this ICodec<T> codec, ILogger? logger)
+    {
+        return new LoggingCodec<T>(codec, logger);
+    }
 }

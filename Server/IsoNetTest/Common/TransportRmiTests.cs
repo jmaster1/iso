@@ -1,5 +1,6 @@
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
+using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNetTest.Core;
 
@@ -13,7 +14,7 @@ public class TransportRmiTests : AbstractTests
         void CallMethod();
 
         [Query]
-        String RequestMethod();
+        string RequestMethod();
     }
 
     private class TestApiImpl : ITestApi
@@ -32,6 +33,11 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public void Test()
     {
+        var (transportCln, transportSrv) = LocalTransport.CreatePair();
+        
+        var rmiSrv = new TransportRmi(transportSrv, MethodCallJsonConverter.Codec.WrapLogging(Logger), )
+        
+        
         var codec = MethodCallJsonConverter.Codec.WrapLogging(Logger);
 
         var apiImpl = new TestApiImpl();

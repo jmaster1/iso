@@ -14,14 +14,14 @@ public class LocalTransportTest : AbstractTests
         var (messengerA, tcsA) = CreateMessenger(transportA);
         var (messengerB, tcsB) = CreateMessenger(transportB);
         const string messageA = "hello from A";
-        messengerA.SendMessage(messageA);
         const string messageB = "hello from B";
+        messengerA.SendMessage(messageA);
         messengerB.SendMessage(messageB);
         await CheckResult(tcsA, messageB);
         await CheckResult(tcsB, messageA);
     }
 
-    private (CodecMessenger<string>, TaskCompletionSource<string>) CreateMessenger(LocalTransport transport)
+    private static (CodecMessenger<string>, TaskCompletionSource<string>) CreateMessenger(AbstractTransport transport)
     {
         var codec = new StringCodec();
         var tcs = new TaskCompletionSource<string>();

@@ -8,8 +8,7 @@ namespace IsoNet.Core.Transport.Rmi;
 
 public class TransportRmi(
     AbstractTransport transport, 
-    ICodec<MethodCall> methodCallCodec,
-    ICodec<object?> responseCodec,
+    ICodec2 codec,
     MethodInvoker invoker)
 {
     private int _requestIdSeq;
@@ -32,19 +31,19 @@ public class TransportRmi(
             {
                 case MessageType.Request:
                     var requestId = reader.ReadInt32();
-                    var methodCall = methodCallCodec.Read(stream);
+                    var methodCall = codec.Read<MethodCall>(stream);
                     var result = invoker.Invoke(methodCall);
                     transport.SendMessage(responseStream =>
                     {
                         var writer = new BinaryWriter(stream);
                         writer.Write((byte)MessageType.Response);
                         writer.Write(requestId);
-                        responseCodec.Write(result, responseStream);
+                        codec.Write(result, responseStream);
                     });
                     break;
                 case MessageType.Response:
                     requestId = reader.ReadInt32();
-                    result = responseCodec.Read(stream);
+                    result = codec.Read<object>(stream);
                     if (_pendingRequests.TryRemove(requestId, out var tcs))
                     {
                         tcs.SetResult(result);
@@ -76,7 +75,7 @@ public class TransportRmi(
                 }
                 writer.Write((byte)messageType);
                 writer.Write(requestId);
-                methodCallCodec.Write(call, stream);
+                codec.Write(call, stream);
             });
             return tcs == null ? null : await tcs.Task;
         });
