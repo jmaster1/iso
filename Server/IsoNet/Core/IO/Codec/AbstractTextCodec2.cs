@@ -2,19 +2,19 @@ namespace IsoNet.Core.IO.Codec;
 
 public abstract class AbstractTextCodec2 : ICodec2
 {
-    protected abstract void Write<T>(T item, TextWriter writer);
+    protected abstract void Write(object? item, TextWriter writer);
 
-    protected abstract T Read<T>(TextReader reader);
+    protected abstract object? Read(TextReader reader, Type type);
     
-    public void Write<T>(T item, Stream target)
+    public void Write(object? item, Stream target)
     {
         using var writer = new StreamWriter(target, leaveOpen: true);
         Write(item, writer);
     }
 
-    public T Read<T>(Stream source)
+    public object? Read(Stream source, Type type)
     {
         using var reader = new StreamReader(source, leaveOpen: true);
-        return Read<T>(reader);
+        return Read(reader, type);
     }
 }

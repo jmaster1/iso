@@ -3,11 +3,10 @@ using IsoNet.Core.IO.Codec;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace IsoNetTest.Common;
 
-public class JsonCodecTests : AbstractTests
+public class JsonCodec2Tests : AbstractTests
 {
     private class CustomClass
     {
@@ -32,7 +31,7 @@ public class JsonCodecTests : AbstractTests
         }
     }
 
-    class CustomClassJsonConverter : JsonConverter
+    private class CustomClassJsonConverter : JsonConverter
     {
         public int WriteCount, ReadCount;
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
@@ -78,25 +77,8 @@ public class JsonCodecTests : AbstractTests
     [Test]
     public void Test()
     {
-        var codec = new JsonCodec<object>();
-        var test = new Action<object>(msg =>
-        {
-            using var stream = new MemoryStream();
-            codec.Write(msg, stream);
-            
-            var str = Encoding.UTF8.GetString(stream.ToArray());
-            Logger.LogInformation("Written json: {str}", str);
-            
-            stream.Position = 0;
-            var result = codec.Read(stream);
-            
-            if (result is JToken jtoken)
-            {
-                result = jtoken.ToObject(msg.GetType());
-            }
-            
-            Assert.That(result, Is.EqualTo(msg));
-        });
+        var codec = new JsonCodec2();
+        var test = CreateTestAction(codec);
         test(new CustomClass
         {
             Str = "hello",
@@ -114,18 +96,20 @@ public class JsonCodecTests : AbstractTests
     public void TestCustomSerializer()
     {
         var converter = new CustomClassJsonConverter();
-        var codec = new JsonCodec<CustomClass>
+        var codec = new JsonCodec2().AddConverter(converter);
+        var test = CreateTestAction(codec);
+        test(new CustomClass
         {
-            Serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
-            {
-                Converters = new List<JsonConverter>
-                {
-                    converter
-                }
-            })
-        };
-        
-        var test = new Action<CustomClass>(msg =>
+            Str = "hello",
+            N = 123
+        });
+        Assert.That(converter.WriteCount, Is.EqualTo(1));
+        Assert.That(converter.ReadCount, Is.EqualTo(1));
+    }
+
+    private Action<object> CreateTestAction(ICodec2 codec)
+    {
+        return msg =>
         {
             using var stream = new MemoryStream();
             codec.Write(msg, stream);
@@ -134,16 +118,8 @@ public class JsonCodecTests : AbstractTests
             Logger.LogInformation("Written json: {str}", str);
             
             stream.Position = 0;
-            var result = codec.Read(stream);
+            var result = codec.Read(stream, msg == null ? null : msg.GetType());
             Assert.That(result, Is.EqualTo(msg));
-        });
-        test(new CustomClass
-        {
-            Str = "hello",
-            N = 123
-        });
-        Assert.That(converter.WriteCount, Is.EqualTo(1));
-        Assert.That(converter.ReadCount, Is.EqualTo(1));
-        
+        };
     }
 }

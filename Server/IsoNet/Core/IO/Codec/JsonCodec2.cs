@@ -6,7 +6,7 @@ public class JsonCodec2 : AbstractTextCodec2
 {
     public JsonSerializer Serializer = JsonSerializer.CreateDefault();
 
-    protected override void Write<T>(T item, TextWriter writer)
+    protected override void Write(object? item, TextWriter writer)
     {
         using var jsonWriter = new JsonTextWriter(writer);
         try
@@ -20,14 +20,15 @@ public class JsonCodec2 : AbstractTextCodec2
         }
     }
 
-    protected override T Read<T>(TextReader reader)
+    protected override object? Read(TextReader reader, Type type)
     {
         using var jsonReader = new JsonTextReader(reader);
-        return Serializer.Deserialize<T>(jsonReader)!;
+        return Serializer.Deserialize(jsonReader, type);
     }
 
-    public void AddConverter(JsonConverter converter)
+    public JsonCodec2 AddConverter(JsonConverter converter)
     {
         Serializer.Converters.Add(converter);
+        return this;
     }
 }

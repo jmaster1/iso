@@ -13,7 +13,7 @@ public class LoggingCodec2 : LogAware, ICodec2
         Logger = logger;
     }
     
-    public void Write<T>(T item, Stream target)
+    public void Write(object? item, Stream target)
     {
         using var ms = new MemoryStream();
         _codec.Write(item, ms);
@@ -24,7 +24,7 @@ public class LoggingCodec2 : LogAware, ICodec2
         target.Flush();
     }
 
-    public T Read<T>(Stream source)
+    public object? Read(Stream source, Type type)
     {
         using var ms = new MemoryStream();
         source.CopyTo(ms);
@@ -32,6 +32,6 @@ public class LoggingCodec2 : LogAware, ICodec2
         var bytes = ms.ToArray();
         var str = Encoding.UTF8.GetString(bytes);
         Logger?.LogInformation("Read: {str}", str);
-        return _codec.Read<T>(ms);
+        return _codec.Read(ms, type);
     }
 }

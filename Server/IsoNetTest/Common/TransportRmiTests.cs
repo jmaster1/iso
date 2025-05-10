@@ -35,7 +35,7 @@ public class TransportRmiTests : AbstractTests
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
         
-        var rmiSrv = new TransportRmi(transportSrv, MethodCallJsonConverter.Codec.WrapLogging(Logger), )
+        //var rmiSrv = new TransportRmi(transportSrv, MethodCallJsonConverter.Codec.WrapLogging(Logger), )
         
         
         var codec = MethodCallJsonConverter.Codec.WrapLogging(Logger);
