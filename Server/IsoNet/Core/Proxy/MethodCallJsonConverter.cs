@@ -6,6 +6,8 @@ namespace IsoNet.Core.Proxy;
 
 public class MethodCallJsonConverter : JsonConverter
 {
+    public static readonly MethodCallJsonConverter Instance = new();
+
     public static JsonCodec<MethodCall> Codec { get; } = CreateCodec();
     
     public static JsonCodec<MethodCall> CreateCodec(Action<JsonSerializerSettings>? settingsConfigurer = null)

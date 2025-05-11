@@ -1,3 +1,4 @@
+using Common.Lang.Observable;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
@@ -16,57 +17,54 @@ public class TransportRmiTests : AbstractTests
         [Query]
         string RequestMethod();
     }
+    
+    private enum TestApiEvent
+    {
+        CallMethodInv,
+        RequestMethodInv
+    }
 
     private class TestApiImpl : ITestApi
     {
+        public Events<TestApiEvent, ITestApi> Events = new();
+        
         public void CallMethod()
         {
-            
+            Events.Fire(TestApiEvent.CallMethodInv, this);
         }
 
         public string RequestMethod()
         {
+            Events.Fire(TestApiEvent.RequestMethodInv, this);
             return "result";
         }
     }
     
     [Test]
-    public void Test()
+    public async Task Test()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
+        var codec = new JsonCodec2().AddConverter(MethodCallJsonConverter.Instance);
         
-        //var rmiSrv = new TransportRmi(transportSrv, MethodCallJsonConverter.Codec.WrapLogging(Logger), )
-        
-        
-        var codec = MethodCallJsonConverter.Codec.WrapLogging(Logger);
-
-        var apiImpl = new TestApiImpl();
-        var invoker = new MethodInvoker();
-        invoker.Register<ITestApi>(apiImpl);
-        
-        var (api, _) = Proxy.Create<ITestApi>(call =>
-        {
-            using var stream = new MemoryStream();
-            codec.Write(call, stream);
-            stream.Position = 0;
-            var result = codec.Read(stream);
-            return Task.FromResult(invoker.Invoke(result));
-        });
-        
-        // api.Method1();
-        // var calls = apiImpl.GetCalls(nameof(ITestApi.Method1))!;
-        // Assert.That(calls, Has.Count.EqualTo(1));
-        // var args = calls[0].Args!;
-        // Assert.That(args.Length, Is.EqualTo(0));
         //
-        // api.Method2(123, "123", true, 'c');
-        // calls = apiImpl.GetCalls(nameof(ITestApi.Method2))!;
-        // Assert.That(calls, Has.Count.EqualTo(1));
-        // args = calls[0].Args!;
-        // Assert.That(args.Length, Is.EqualTo(4));
-        // Assert.That(args[0], Is.EqualTo(123));
-        // Assert.That(args[1], Is.EqualTo("123"));
-        // Assert.That(args[2], Is.EqualTo(true));
-        // Assert.That(args[3], Is.EqualTo('c'));
+        // server
+        var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")));
+        var apiSrv = new TestApiImpl();
+        rmiSrv.RegisterLocal<ITestApi>(apiSrv);
+        
+        //
+        // client
+        var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
+        var apiCln = rmiCln.CreateRemote<ITestApi>();
+        
+        //
+        // CallMethod
+        var callMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.CallMethodInv);
+        apiCln.CallMethod();
+        await AwaitResult(callMethodInvoked);
+        Assert.That(transportCln.MessageCountSent, Is.EqualTo(1));
+        Assert.That(transportCln.MessageCountReceived, Is.EqualTo(0));
+        Assert.That(transportSrv.MessageCountSent, Is.EqualTo(0));
+        Assert.That(transportSrv.MessageCountReceived, Is.EqualTo(1));
     }
 }

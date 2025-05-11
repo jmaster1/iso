@@ -42,11 +42,9 @@ public abstract class AbstractTransport : LogAware
 
     public void SendMessage<T>(T msg, ICodec<T> codec)
     {
-        DoWithOutput(stream =>
+        SendMessage(stream =>
         {
             codec.Write(msg, stream);
-            MessageCountSent++;
-            if(LogMessagesOut) Logger?.LogInformation(">> {msg}", msg);
         });
     }
     
@@ -63,8 +61,16 @@ public abstract class AbstractTransport : LogAware
     {
         DoWithOutput(stream =>
         {
-            messageWriter(stream);
-            MessageCountSent++;
+            try
+            {
+                messageWriter(stream);
+                MessageCountSent++;
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(ex, "Error sending message");
+                throw;
+            }
         });
     }
 

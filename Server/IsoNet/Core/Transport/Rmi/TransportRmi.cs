@@ -6,22 +6,20 @@ using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
 
 namespace IsoNet.Core.Transport.Rmi;
 
-public class TransportRmi(
-    AbstractTransport transport, 
-    ICodec2 codec,
-    MethodInvoker invoker)
-{
+public class TransportRmi {
+    
     private int _requestIdSeq;
-    
     private readonly ConcurrentDictionary<int, TaskCompletionSource<object?>> _pendingRequests = new();
+    private readonly AbstractTransport _transport;
+    private readonly ICodec2 _codec;
+    private readonly MethodInvoker _invoker;
 
-    private int NextRequestId()
+    public TransportRmi(AbstractTransport transport, ICodec2 codec, MethodInvoker? invoker = null)
     {
-        return Interlocked.Increment(ref _requestIdSeq);
-    }
-    
-    public TransportRmi Init()
-    {
+        _transport = transport;
+        _codec = codec;
+        _invoker = invoker ?? new MethodInvoker();
+        
         transport.SetMessageHandler(stream =>
         {
             var reader = new BinaryReader(stream);
@@ -31,8 +29,8 @@ public class TransportRmi(
             {
                 case MessageType.Request:
                     var requestId = reader.ReadInt32();
-                    var methodCall = codec.Read<MethodCall>(stream);
-                    var result = invoker.Invoke(methodCall);
+                    var methodCall = codec.Read<MethodCall>(stream)!;
+                    var result = _invoker.Invoke(methodCall);
                     transport.SendMessage(responseStream =>
                     {
                         var writer = new BinaryWriter(stream);
@@ -50,12 +48,19 @@ public class TransportRmi(
                     }
                     break;
                 case MessageType.Call:
+                    requestId = reader.ReadInt32();
+                    methodCall = codec.Read<MethodCall>(stream)!;
+                    _invoker.Invoke(methodCall);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         });
-        return this;
+    }
+
+    private int NextRequestId()
+    {
+        return Interlocked.Increment(ref _requestIdSeq);
     }
     
     public T CreateRemote<T>() where T : class
@@ -63,7 +68,7 @@ public class TransportRmi(
         var (remoteApi, _) = Proxy.Proxy.Create<T>(async call =>
         {
             TaskCompletionSource<object?>? tcs = null;
-            transport.SendMessage(stream =>
+            _transport.SendMessage(stream =>
             {
                 var writer = new BinaryWriter(stream);
                 var messageType = ResolveMessageType(call.MethodInfo);
@@ -75,7 +80,7 @@ public class TransportRmi(
                 }
                 writer.Write((byte)messageType);
                 writer.Write(requestId);
-                codec.Write(call, stream);
+                _codec.Write(call, stream);
             });
             return tcs == null ? null : await tcs.Task;
         });
@@ -89,6 +94,10 @@ public class TransportRmi(
         if(methodInfo.DeclaringType!.GetCustomAttribute<QueryAttribute>() != null) return MessageType.Request;
         if(methodInfo.DeclaringType!.GetCustomAttribute<CallAttribute>() != null) return MessageType.Call;
         return MessageType.Request;
+    }
 
+    public void RegisterLocal<T>(T api)
+    {
+        _invoker.Register<T>(api);
     }
 }
