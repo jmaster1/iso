@@ -52,8 +52,16 @@ public abstract class AbstractTransport : LogAware
     {
         MessageReceived = stream =>
         {
-            messageReader(stream);
-            MessageCountReceived++;
+            try
+            {
+                messageReader(stream);
+                MessageCountReceived++;
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(ex, "Error reading message");
+                throw;
+            }
         };
     }
     
@@ -68,7 +76,7 @@ public abstract class AbstractTransport : LogAware
             }
             catch (Exception ex)
             {
-                Logger?.LogError(ex, "Error sending message");
+                Logger?.LogError(ex, "Error writing message");
                 throw;
             }
         });

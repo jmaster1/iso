@@ -20,7 +20,7 @@ public class TransportRmi {
         _codec = codec;
         _invoker = invoker ?? new MethodInvoker();
         
-        transport.SetMessageHandler(stream =>
+        transport.SetMessageHandler(async stream =>
         {
             var reader = new BinaryReader(stream);
             var messageType = (MessageType)reader.ReadByte();
@@ -31,6 +31,11 @@ public class TransportRmi {
                     var requestId = reader.ReadInt32();
                     var methodCall = codec.Read<MethodCall>(stream)!;
                     var result = _invoker.Invoke(methodCall);
+                    if (result is Task task)
+                    {
+                        await task.ConfigureAwait(false);
+                    }
+
                     transport.SendMessage(responseStream =>
                     {
                         var writer = new BinaryWriter(stream);
@@ -82,7 +87,28 @@ public class TransportRmi {
                 writer.Write(requestId);
                 _codec.Write(call, stream);
             });
-            return tcs == null ? null : await tcs.Task;
+            if (tcs == null)
+            {
+                return null;
+            }
+            
+            var result = await tcs.Task;
+
+            var returnType = call.MethodInfo.ReturnType;
+            var isTask = returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>);
+            var resultType = isTask ? returnType.GetGenericArguments()[0] : null;
+            if (isTask && resultType != null)
+            {
+                var casted = Convert.ChangeType(result, resultType);
+                var taskResult = typeof(Task)
+                    .GetMethod(nameof(Task.FromResult))!
+                    .MakeGenericMethod(resultType)
+                    .Invoke(null, new[] { casted });
+
+                return taskResult!;
+            }
+
+            return result;
         });
         return remoteApi;
     }

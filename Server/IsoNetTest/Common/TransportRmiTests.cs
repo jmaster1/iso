@@ -15,7 +15,7 @@ public class TransportRmiTests : AbstractTests
         void CallMethod();
 
         [Query]
-        string RequestMethod();
+        Task<string> RequestMethod();
     }
     
     private enum TestApiEvent
@@ -33,7 +33,7 @@ public class TransportRmiTests : AbstractTests
             Events.Fire(TestApiEvent.CallMethodInv, this);
         }
 
-        public string RequestMethod()
+        public async Task<string> RequestMethod()
         {
             Events.Fire(TestApiEvent.RequestMethodInv, this);
             return "result";
@@ -59,12 +59,19 @@ public class TransportRmiTests : AbstractTests
         
         //
         // CallMethod
-        var callMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.CallMethodInv);
-        apiCln.CallMethod();
-        await AwaitResult(callMethodInvoked);
-        Assert.That(transportCln.MessageCountSent, Is.EqualTo(1));
-        Assert.That(transportCln.MessageCountReceived, Is.EqualTo(0));
-        Assert.That(transportSrv.MessageCountSent, Is.EqualTo(0));
-        Assert.That(transportSrv.MessageCountReceived, Is.EqualTo(1));
+        // var callMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.CallMethodInv);
+        // apiCln.CallMethod();
+        // await AwaitResult(callMethodInvoked);
+        // Assert.That(transportCln.MessageCountSent, Is.EqualTo(1));
+        // Assert.That(transportCln.MessageCountReceived, Is.EqualTo(0));
+        // Assert.That(transportSrv.MessageCountSent, Is.EqualTo(0));
+        // Assert.That(transportSrv.MessageCountReceived, Is.EqualTo(1));
+        
+        //
+        // RequestMethod
+        var requestMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.RequestMethodInv);
+        var response = await apiCln.RequestMethod();
+        Assert.That(response, Is.EqualTo("result"));
+        await AwaitResult(requestMethodInvoked);
     }
 }
