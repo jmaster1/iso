@@ -1,31 +1,28 @@
+using Common.IO.Serialize.Newtonsoft.Json.Converter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace IsoNet.Core.Proxy;
 
-public class MethodCallJsonConverter : JsonConverter
+public class MethodCallJsonConverter : JsonConverterGeneric<MethodCall>
 {
     public static readonly MethodCallJsonConverter Instance = new();
     
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    protected override void WriteJson(JsonWriter writer, MethodCall value, JsonSerializer serializer)
     {
-        if (value is not MethodCall custom)
-        {
-            throw new JsonSerializationException("value is not MethodCall");
-        }
         writer.WriteStartObject();
         writer.WritePropertyName("type");
-        writer.WriteValue(custom.MethodInfo.ReflectedType!.AssemblyQualifiedName);
+        writer.WriteValue(value.MethodInfo.ReflectedType!.AssemblyQualifiedName);
         writer.WritePropertyName("method");
-        writer.WriteValue(custom.MethodInfo.Name);
+        writer.WriteValue(value.MethodInfo.Name);
         writer.WritePropertyName("args");
-        serializer.Serialize(writer, custom.Args);
+        serializer.Serialize(writer, value.Args);
         writer.WritePropertyName("attrs");
-        serializer.Serialize(writer, custom.Attrs);
+        serializer.Serialize(writer, value.Attrs);
         writer.WriteEndObject();
     }
 
-    public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    protected override MethodCall? ReadJson(JsonReader reader, MethodCall? value, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
             return null;
@@ -36,7 +33,6 @@ public class MethodCallJsonConverter : JsonConverter
         var argsToken = jo["args"];
         var attrsToken = jo["attrs"];
         
-
         if (typeName == null || methodName == null || argsToken == null)
             throw new JsonSerializationException("Missing fields in MethodCall JSON.");
 
@@ -69,10 +65,5 @@ public class MethodCallJsonConverter : JsonConverter
                 
         };
         return mc;
-    }
-
-    public override bool CanConvert(Type objectType)
-    {
-        return objectType.IsAssignableFrom(typeof(MethodCall));
     }
 }

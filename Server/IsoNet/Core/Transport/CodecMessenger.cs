@@ -11,8 +11,8 @@ public class CodecMessenger<T>(
     {
         transport.SetMessageHandler(stream =>
         {
-            //var message = codec.Read(stream);
-            ////handler(message);
+            var message = codec.Read<T>(stream);
+            handler(message!);
         });
         return this;
     }

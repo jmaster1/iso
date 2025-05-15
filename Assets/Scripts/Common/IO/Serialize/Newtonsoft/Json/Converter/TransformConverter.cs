@@ -27,7 +27,7 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
             serializer.Serialize(writer, obj);
         }
 
-        protected override TSource ReadJson(JsonReader reader, TSource value, JsonSerializer serializer)
+        protected override TSource ReadJson(JsonReader reader, TSource? value, JsonSerializer serializer)
         {
             var target = serializer.Deserialize<TTarget>(reader);
             return inverseTransform(target);

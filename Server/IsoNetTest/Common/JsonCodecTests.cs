@@ -1,4 +1,5 @@
 using System.Text;
+using Common.IO.Serialize.Newtonsoft.Json.Converter;
 using IsoNet.Core.IO.Codec;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
@@ -31,32 +32,27 @@ public class JsonCodecTests : AbstractTests
         }
     }
 
-    private class CustomClassJsonConverter : JsonConverter
+    private class CustomClassJsonConverter : JsonConverterGeneric<CustomClass>
     {
         public int WriteCount, ReadCount;
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-        {
-            if (value is not CustomClass custom)
-            {
-                writer.WriteNull();
-                return;
-            }
 
-            var val = custom.N + "_" + custom.Str;
+        protected override void WriteJson(JsonWriter writer, CustomClass value, JsonSerializer serializer)
+        {
+            var val = value.N + "_" + value.Str;
             writer.WriteValue(val);
             WriteCount++;
         }
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        protected override CustomClass? ReadJson(JsonReader reader, CustomClass? value, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
                 return null;
 
-            var value = reader.Value?.ToString();
-            if (string.IsNullOrEmpty(value))
+            var str = reader.Value?.ToString();
+            if (string.IsNullOrEmpty(str))
                 return null;
 
-            var parts = value.Split('_', 2);
+            var parts = str.Split('_', 2);
             if (parts.Length < 2 || !int.TryParse(parts[0], out var n))
                 throw new JsonSerializationException("Invalid format for CustomClass. Expected 'n_str'.");
 
@@ -66,11 +62,6 @@ public class JsonCodecTests : AbstractTests
                 N = n,
                 Str = parts[1]
             };
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType.IsAssignableFrom(typeof(CustomClass));
         }
     }
         

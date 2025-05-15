@@ -37,7 +37,7 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
             serializer.Serialize(writer, id);
         }
 
-        protected override T ReadJson(JsonReader reader, T value, JsonSerializer serializer)
+        protected override T ReadJson(JsonReader reader, T? value, JsonSerializer serializer)
         {
             var id = serializer.Deserialize<TKey>(reader);
             var info = InfoSet.FindById(id);

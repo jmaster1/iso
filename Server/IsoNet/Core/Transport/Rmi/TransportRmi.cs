@@ -70,7 +70,7 @@ public class TransportRmi {
     
     public T CreateRemote<T>() where T : class
     {
-        var (remoteApi, _) = Proxy.Proxy.Create<T>(async call =>
+        var (remoteApi, _) = Proxy.Proxy.Create<T>(call =>
         {
             TaskCompletionSource<object?>? tcs = null;
             _transport.SendMessage(stream =>

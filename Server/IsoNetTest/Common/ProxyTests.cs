@@ -57,21 +57,20 @@ public class ProxyTests : AbstractTests
     [Test]
     public void Test()
     {
-        var codec = new JsonCodec();//MethodCallJsonConverter.Codec.WrapLogging(Logger);
+        ICodec codec = new JsonCodec().AddConverter(MethodCallJsonConverter.Instance).WrapLogging(Logger);
 
         var apiImpl = new TestApiImpl();
         var invoker = new MethodInvoker();
         invoker.Register<ITestApi>(apiImpl);
         
-        var (api, _) = Proxy.Create<ITestApi>((async call =>
+        var (api, _) = Proxy.Create<ITestApi>(call =>
         {
             using var stream = new MemoryStream();
             codec.Write(call, stream);
             stream.Position = 0;
-            // var result = codec.Read(stream);
-            // return invoker.Invoke(result);
-            return null;
-        }));
+            var result = codec.Read<MethodCall>(stream);
+            return invoker.Invoke(result!);
+        });
         
         api.Method1();
         var calls = apiImpl.GetCalls(nameof(ITestApi.Method1))!;

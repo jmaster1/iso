@@ -11,20 +11,27 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
     /// </summary>
     public abstract class JsonConverterGeneric<T> : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            var t = (T) value;
-            WriteJson(writer, t, serializer);
+            if (value == null)
+            {
+                writer.WriteNull();
+            }
+            else
+            {
+                var t = (T) value;
+                WriteJson(writer, t, serializer);    
+            }
         }
 
         protected abstract void WriteJson(JsonWriter writer, T value, JsonSerializer serializer);
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
-            return ReadJson(reader, (T)existingValue, serializer);
+            return ReadJson(reader, (T)existingValue!, serializer);
         }
 
-        protected abstract T ReadJson(JsonReader reader, T value, JsonSerializer serializer);
+        protected abstract T? ReadJson(JsonReader reader, T? value, JsonSerializer serializer);
 
         public override bool CanConvert(Type objectType)
         {
@@ -39,8 +46,11 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
         /// <param name="serializer"></param>
         /// <param name="filter">optional filter that should accept element for serializing</param>
         /// <typeparam name="TE"></typeparam>
-        protected void WriteObsListMap<TE>(JsonWriter writer, ObsListMapString<TE> value, JsonSerializer serializer,
-            Func<TE, bool> filter = null) where TE : IIdAware<string>
+        protected void WriteObsListMap<TE>(
+            JsonWriter writer, 
+            ObsListMapString<TE> value, 
+            JsonSerializer serializer,
+            Func<TE, bool>? filter = null) where TE : IIdAware<string>
         {
             writer.WriteStartArray();
             foreach (var e in value)
@@ -64,11 +74,12 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
         /// <param name="elementFactory"></param>
         /// <typeparam name="TE"></typeparam>
         /// <returns></returns>
-        protected ObsListMapString<TE> ReadObsListMap<TE>(JsonReader reader, 
+        protected ObsListMapString<TE> ReadObsListMap<TE>(
+            JsonReader reader, 
             ObsListMapString<TE> value, 
             JsonSerializer serializer, 
-            Action<TE> elementCallback = null,
-            Func<string, int, TE> elementFactory = null) where TE : IIdAware<string>
+            Action<TE>? elementCallback = null,
+            Func<string, int, TE>? elementFactory = null) where TE : IIdAware<string>
         {
             LangHelper.Validate(reader.IsStartArray());
             for (var i = 0;; i++)
@@ -83,7 +94,7 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
                     e = elementFactory(id, i);
                 }
                 reader.ReadStartObject();
-                serializer.Populate(reader, e);
+                serializer.Populate(reader, e!);
                 reader.ReadEndObject();
                 elementCallback?.Invoke(e);
             }

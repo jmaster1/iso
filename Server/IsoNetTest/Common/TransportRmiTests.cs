@@ -59,13 +59,13 @@ public class TransportRmiTests : AbstractTests
         
         //
         // CallMethod
-        // var callMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.CallMethodInv);
-        // apiCln.CallMethod();
-        // await AwaitResult(callMethodInvoked);
-        // Assert.That(transportCln.MessageCountSent, Is.EqualTo(1));
-        // Assert.That(transportCln.MessageCountReceived, Is.EqualTo(0));
-        // Assert.That(transportSrv.MessageCountSent, Is.EqualTo(0));
-        // Assert.That(transportSrv.MessageCountReceived, Is.EqualTo(1));
+        var callMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.CallMethodInv);
+        apiCln.CallMethod();
+        await AwaitResult(callMethodInvoked);
+        Assert.That(transportCln.MessageCountSent, Is.EqualTo(1));
+        Assert.That(transportCln.MessageCountReceived, Is.EqualTo(0));
+        Assert.That(transportSrv.MessageCountSent, Is.EqualTo(0));
+        Assert.That(transportSrv.MessageCountReceived, Is.EqualTo(1));
         
         //
         // RequestMethod

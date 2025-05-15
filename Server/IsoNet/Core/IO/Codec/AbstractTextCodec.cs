@@ -17,4 +17,9 @@ public abstract class AbstractTextCodec : ICodec
         using var reader = new StreamReader(source, leaveOpen: true);
         return Read(reader, type);
     }
+
+    public T? Read<T>(Stream source)
+    {
+        return (T?) Read(source, typeof(T));
+    }
 }
