@@ -7,21 +7,13 @@ using Newtonsoft.Json;
 
 namespace IsoNet.Iso.Common.Json;
 
-public class IsoJsonCodecFactory
+public static class IsoJsonCodecFactory
 {
-    public static IList<JsonConverter> AddConverters(IsoPlayer player, IList<JsonConverter>? list = null)
+    public static ICodec CreateCodec(IsoPlayer player)
     {
-        list ??= new List<JsonConverter>();
-        list.Add(new CellConverter(player.Cells));
-        return list;
-    }
-
-    public static JsonCodec<MethodCall> CreateCodec(IsoPlayer player)
-    {
-        return MethodCallJsonConverter.CreateCodec(settings =>
-        {
-            AddConverters(player, settings.Converters);
-        });
+        return new JsonCodec()
+            .AddConverter(MethodCallJsonConverter.Instance)
+            .AddConverter(new CellConverter(player.Cells));
     }
 }
 

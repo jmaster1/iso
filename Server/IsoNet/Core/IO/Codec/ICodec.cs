@@ -1,8 +1,13 @@
 namespace IsoNet.Core.IO.Codec;
 
-public interface ICodec<T>
+public interface ICodec
 {
-    void Write(T item, Stream target);
+    void Write(object? item, Stream target);
+
+    T? Read<T>(Stream source)
+    {
+        return (T?) Read(source, typeof(T));
+    }
     
-    T Read(Stream source); 
+    object? Read(Stream source, Type type);
 }

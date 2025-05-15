@@ -44,7 +44,7 @@ public class TransportRmiTests : AbstractTests
     public async Task Test()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
-        var codec = new JsonCodec2().AddConverter(MethodCallJsonConverter.Instance);
+        var codec = new JsonCodec().AddConverter(MethodCallJsonConverter.Instance);
         
         //
         // server

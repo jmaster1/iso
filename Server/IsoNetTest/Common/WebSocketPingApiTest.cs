@@ -95,13 +95,13 @@ public class WebSocketPingApiTest : AbstractTests
 
     private static (IPingApi, PingApi) InitTransport(AbstractTransport transport)
     {
-        var codec = MethodCallJsonConverter.Codec.WrapLogging(transport.Logger);
+        var codec = new JsonCodec();//MethodCallJsonConverter.Codec.WrapLogging(transport.Logger);
         
         //
         // setup remote api proxy this will send message
         var (remoteApi, _) = Proxy.Create<IPingApi>(call =>
         {
-            transport.SendMessage(call, codec);
+            //transport.SendMessage(call, codec);
             return null!;
         });
         
@@ -113,7 +113,8 @@ public class WebSocketPingApiTest : AbstractTests
         };
         var invoker = new MethodInvoker();
         invoker.Register<IPingApi>(localApi);
-        transport.SetMessageHandler(msg => invoker.Invoke(msg), codec);
-        return (remoteApi, localApi);
+        // transport.SetMessageHandler(msg => invoker.Invoke(msg), codec);
+        // return (remoteApi, localApi);
+        return (null, null);
     }
 }

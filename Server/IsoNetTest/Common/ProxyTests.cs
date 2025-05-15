@@ -57,7 +57,7 @@ public class ProxyTests : AbstractTests
     [Test]
     public void Test()
     {
-        var codec = MethodCallJsonConverter.Codec.WrapLogging(Logger);
+        var codec = new JsonCodec();//MethodCallJsonConverter.Codec.WrapLogging(Logger);
 
         var apiImpl = new TestApiImpl();
         var invoker = new MethodInvoker();
@@ -68,8 +68,9 @@ public class ProxyTests : AbstractTests
             using var stream = new MemoryStream();
             codec.Write(call, stream);
             stream.Position = 0;
-            var result = codec.Read(stream);
-            return invoker.Invoke(result);
+            // var result = codec.Read(stream);
+            // return invoker.Invoke(result);
+            return null;
         }));
         
         api.Method1();

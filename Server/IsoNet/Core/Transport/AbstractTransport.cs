@@ -1,4 +1,3 @@
-using IsoNet.Core.IO.Codec;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Core.Transport;
@@ -15,10 +14,6 @@ public abstract class AbstractTransport : LogAware
     public int MessageCountSent { get; private set; }
     
     public int MessageCountReceived { get; private set; }
-
-    public bool LogMessagesIn;
-    
-    public bool LogMessagesOut;
     
     /// <summary>
     /// should be invoked by subclasses when transport is closed
@@ -27,25 +22,6 @@ public abstract class AbstractTransport : LogAware
     {
         Logger?.LogInformation("Closed");
         OnClose?.Invoke();
-    }
-
-    public void SetMessageHandler<T>(Action<T> handler, ICodec<T> codec)
-    {
-        MessageReceived = stream =>
-        {
-            var msg = codec.Read(stream);
-            MessageCountReceived++;
-            if(LogMessagesIn) Logger?.LogInformation("<< {msg}", msg);
-            handler(msg);
-        };
-    }
-
-    public void SendMessage<T>(T msg, ICodec<T> codec)
-    {
-        SendMessage(stream =>
-        {
-            codec.Write(msg, stream);
-        });
     }
     
     public void SetMessageHandler(Action<Stream> messageReader)

@@ -1,4 +1,3 @@
-using IsoNet.Core.IO.Codec;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -7,26 +6,6 @@ namespace IsoNet.Core.Proxy;
 public class MethodCallJsonConverter : JsonConverter
 {
     public static readonly MethodCallJsonConverter Instance = new();
-
-    public static JsonCodec<MethodCall> Codec { get; } = CreateCodec();
-    
-    public static JsonCodec<MethodCall> CreateCodec(Action<JsonSerializerSettings>? settingsConfigurer = null)
-    {
-        var settings = new JsonSerializerSettings
-        {
-            Converters = new List<JsonConverter>
-            {
-                new MethodCallJsonConverter()
-            },
-            Formatting = Formatting.None,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-        };
-        settingsConfigurer?.Invoke(settings);
-        return new JsonCodec<MethodCall>
-        {
-            Serializer = JsonSerializer.CreateDefault(settings)
-        };
-    }
     
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {

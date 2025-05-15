@@ -3,17 +3,17 @@ using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Core.IO.Codec;
 
-public class LoggingCodec<T> : LogAware, ICodec<T>
+public class LoggingCodec : LogAware, ICodec
 {
-    private readonly ICodec<T> _codec;
+    private readonly ICodec _codec;
     
-    public LoggingCodec(ICodec<T> codec, ILogger? logger = null)
+    public LoggingCodec(ICodec codec, ILogger? logger = null)
     {
         _codec = codec;
         Logger = logger;
     }
     
-    public void Write(T item, Stream target)
+    public void Write(object? item, Stream target)
     {
         using var ms = new MemoryStream();
         _codec.Write(item, ms);
@@ -24,7 +24,7 @@ public class LoggingCodec<T> : LogAware, ICodec<T>
         target.Flush();
     }
 
-    public T Read(Stream source)
+    public object? Read(Stream source, Type type)
     {
         using var ms = new MemoryStream();
         source.CopyTo(ms);
@@ -32,6 +32,6 @@ public class LoggingCodec<T> : LogAware, ICodec<T>
         var bytes = ms.ToArray();
         var str = Encoding.UTF8.GetString(bytes);
         Logger?.LogInformation("Read: {str}", str);
-        return _codec.Read(ms);
+        return _codec.Read(ms, type);
     }
 }

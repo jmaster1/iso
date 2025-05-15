@@ -11,10 +11,10 @@ public class TransportRmi {
     private int _requestIdSeq;
     private readonly ConcurrentDictionary<int, TaskCompletionSource<object?>> _pendingRequests = new();
     private readonly AbstractTransport _transport;
-    private readonly ICodec2 _codec;
+    private readonly ICodec _codec;
     private readonly MethodInvoker _invoker;
 
-    public TransportRmi(AbstractTransport transport, ICodec2 codec, MethodInvoker? invoker = null)
+    public TransportRmi(AbstractTransport transport, ICodec codec, MethodInvoker? invoker = null)
     {
         _transport = transport;
         _codec = codec;

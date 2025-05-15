@@ -12,7 +12,7 @@ namespace IsoNet.Iso.Server;
 public class IsoRemoteClient(
     IsoServer server,
     AbstractTransport transport, 
-    ICodec<MethodCall> codec, 
+    ICodec codec, 
     IsoPlayer player) : IIsoServerApi
 {
     public IsoPlayer Player => player;

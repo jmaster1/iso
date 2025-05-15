@@ -1,13 +1,13 @@
 namespace IsoNet.Core.IO.Codec;
 
-public class StringCodec : AbstractTextCodec<string>
+public class StringCodec : AbstractTextCodec
 {
-    protected override void Write(string item, TextWriter writer)
+    protected override void Write(object? item, TextWriter writer)
     {
         writer.Write(item);
     }
 
-    protected override string Read(TextReader reader)
+    protected override object? Read(TextReader reader, Type type)
     {
         return reader.ReadToEnd();
     }

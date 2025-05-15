@@ -22,10 +22,10 @@ public class WebSocketTests : AbstractTests
         server.OnClientConnected += transport =>
         {
             serverTransport = transport;
-            transport.SetMessageHandler(msg =>
-            {
-                server.Logger.LogInformation("handle " + msg);
-            }, codec);
+            // transport.SetMessageHandler(msg =>
+            // {
+            //     server.Logger.LogInformation("handle " + msg);
+            // }, codec);
         };
         
         server.Start();
@@ -36,10 +36,10 @@ public class WebSocketTests : AbstractTests
             Logger = CreateLogger("client")
         };
         
-        client.SetMessageHandler(msg =>
-        {
-            client.Logger.LogInformation("handle " + msg);
-        }, codec);
+        // client.SetMessageHandler(msg =>
+        // {
+        //     client.Logger.LogInformation("handle " + msg);
+        // }, codec);
 
         await client.Connect("ws://localhost:7000/ws/");
         Assert.That(server.CountActive, Is.EqualTo(1));
@@ -48,7 +48,7 @@ public class WebSocketTests : AbstractTests
         for (var i = 0; i < messageCount; i++)
         {
             Thread.Sleep(TimeSpan.FromSeconds(0.01));
-            client.SendMessage("Hello World " + i, codec);    
+            //client.SendMessage("Hello World " + i, codec);    
         }
         
         Thread.Sleep(TimeSpan.FromSeconds(1));

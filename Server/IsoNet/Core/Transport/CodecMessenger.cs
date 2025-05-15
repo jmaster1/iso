@@ -4,15 +4,15 @@ namespace IsoNet.Core.Transport;
 
 public class CodecMessenger<T>(
     AbstractTransport transport,
-    ICodec<T> codec, 
+    ICodec codec, 
     Action<T> handler)
 {
     public CodecMessenger<T> Init()
     {
         transport.SetMessageHandler(stream =>
         {
-            var message = codec.Read(stream);
-            handler(message);
+            //var message = codec.Read(stream);
+            ////handler(message);
         });
         return this;
     }

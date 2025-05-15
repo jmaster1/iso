@@ -12,7 +12,7 @@ namespace IsoNet.Iso.Client;
 public class IsoClient(
     IsoPlayer player, 
     AbstractTransport transport, 
-    ICodec<MethodCall> codec, 
+    ICodec codec, 
     Time? time = null) : LogAware
 {
     public IsoPlayer Player => player;
