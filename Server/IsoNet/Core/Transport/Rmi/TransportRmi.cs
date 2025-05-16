@@ -28,49 +28,77 @@ public class TransportRmi {
             switch (messageType)
             {
                 case MessageType.Request:
-                    var requestId = reader.ReadInt32();
-                    var methodCall = codec.Read<MethodCall>(stream)!;
-                    var result = _invoker.Invoke(methodCall);
-                    if (result is Task task)
-                    {
-                        await task.ConfigureAwait(false);
-                        
-                        var taskType = task.GetType();
-                        if (taskType.IsGenericType && taskType.GetGenericTypeDefinition() == typeof(Task<>))
-                        {
-                            var resultProperty = taskType.GetProperty("Result");
-                            result = resultProperty?.GetValue(task);
-                        }
-                        else
-                        {
-                            result = null;
-                        }
-                    }
-
-                    transport.SendMessage(responseStream =>
-                    {
-                        var writer = new BinaryWriter(responseStream);
-                        writer.Write((byte)MessageType.Response);
-                        writer.Write(requestId);
-                        codec.Write(result, responseStream);
-                    });
+                    await ReadRequest(reader);
                     break;
                 case MessageType.Response:
-                    requestId = reader.ReadInt32();
-                    result = codec.Read<object>(stream);
-                    if (_pendingRequests.TryRemove(requestId, out var tcs))
-                    {
-                        tcs.SetResult(result);
-                    }
+                    ReadResponse(reader);
                     break;
                 case MessageType.Call:
-                    requestId = reader.ReadInt32();
-                    methodCall = codec.Read<MethodCall>(stream)!;
-                    _invoker.Invoke(methodCall);
+                    ReadCall(reader);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        });
+    }
+
+    private void ReadCall(BinaryReader reader)
+    {
+        var requestId = reader.ReadInt32();
+        var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
+        _invoker.Invoke(methodCall);
+    }
+
+    private void ReadResponse(BinaryReader reader)
+    {
+        var requestId = reader.ReadInt32();
+        var result = _codec.Read<InvocationResult>(reader.BaseStream)!;
+        if (!_pendingRequests.TryRemove(requestId, out var tcs)) return;
+        if (result.Exception != null)
+        {
+            tcs.SetException(result.Exception!);    
+        }
+        else
+        {
+            tcs.SetResult(result.Result);  
+        }
+    }
+
+    private async Task ReadRequest(BinaryReader reader)
+    {
+        var requestId = reader.ReadInt32();
+        var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
+        var result = new InvocationResult();
+        try
+        {
+            result.Result = _invoker.Invoke(methodCall);
+        }
+        catch (TargetInvocationException e)
+        {
+            result.Exception = e.InnerException;
+        }
+        if (result.Result is Task task)
+        {
+            await task.ConfigureAwait(false);
+                        
+            var taskType = task.GetType();
+            if (taskType.IsGenericType && taskType.GetGenericTypeDefinition() == typeof(Task<>))
+            {
+                var resultProperty = taskType.GetProperty("Result");
+                result.Result = resultProperty?.GetValue(task);
+            }
+            else
+            {
+                result.Result = null;
+            }
+        }
+
+        _transport.SendMessage(responseStream =>
+        {
+            var writer = new BinaryWriter(responseStream);
+            writer.Write((byte)MessageType.Response);
+            writer.Write(requestId);
+            _codec.Write(result, responseStream);
         });
     }
 
@@ -147,7 +175,7 @@ public class TransportRmi {
             .GetMethod(nameof(ReturnAsyncGeneric), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(resultType);
 
-        return method.Invoke(null, new object[] { task })!;
+        return method.Invoke(null, [task])!;
     }
 
     private static async Task<T> ReturnAsyncGeneric<T>(Task<object?> task)
