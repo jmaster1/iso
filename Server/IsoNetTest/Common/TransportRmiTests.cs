@@ -12,31 +12,35 @@ public class TransportRmiTests : AbstractTests
     private interface ITestApi
     {
         [Call]
-        void CallMethod();
+        void CallVoid();
 
         [Query]
-        Task<string> RequestMethod();
+        Task<string> QueryStringAsync();
     }
     
     private enum TestApiEvent
     {
-        CallMethodInv,
-        RequestMethodInv
+        Inv
     }
 
     private class TestApiImpl : ITestApi
     {
-        public Events<TestApiEvent, ITestApi> Events = new();
-        
-        public void CallMethod()
+        public Events<TestApiEvent, string> Events = new();
+
+        private void Fire(string name)
         {
-            Events.Fire(TestApiEvent.CallMethodInv, this);
+            Events.Fire(TestApiEvent.Inv, name);
+        }
+        
+        public void CallVoid()
+        {
+            Fire(nameof(CallVoid));
         }
 
-        public async Task<string> RequestMethod()
+        public Task<string> QueryStringAsync()
         {
-            Events.Fire(TestApiEvent.RequestMethodInv, this);
-            return "result";
+            Fire(nameof(QueryStringAsync));
+            return Task.FromResult(nameof(QueryStringAsync));
         }
     }
     
@@ -59,8 +63,9 @@ public class TransportRmiTests : AbstractTests
         
         //
         // CallMethod
-        var callMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.CallMethodInv);
-        apiCln.CallMethod();
+        var callMethodInvoked = CreateTaskCompletionSource(
+            apiSrv.Events, TestApiEvent.Inv, nameof(ITestApi.CallVoid));
+        apiCln.CallVoid();
         await AwaitResult(callMethodInvoked);
         Assert.That(transportCln.MessageCountSent, Is.EqualTo(1));
         Assert.That(transportCln.MessageCountReceived, Is.EqualTo(0));
@@ -69,9 +74,10 @@ public class TransportRmiTests : AbstractTests
         
         //
         // RequestMethod
-        var requestMethodInvoked = CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.RequestMethodInv);
-        var response = await apiCln.RequestMethod();
-        Assert.That(response, Is.EqualTo("result"));
+        var requestMethodInvoked = CreateTaskCompletionSource(
+            apiSrv.Events, TestApiEvent.Inv, nameof(ITestApi.QueryStringAsync));
+        var response = await apiCln.QueryStringAsync();
+        Assert.That(response, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
         await AwaitResult(requestMethodInvoked);
     }
 }

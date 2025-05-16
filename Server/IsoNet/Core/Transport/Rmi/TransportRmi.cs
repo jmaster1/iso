@@ -34,11 +34,22 @@ public class TransportRmi {
                     if (result is Task task)
                     {
                         await task.ConfigureAwait(false);
+                        
+                        var taskType = task.GetType();
+                        if (taskType.IsGenericType && taskType.GetGenericTypeDefinition() == typeof(Task<>))
+                        {
+                            var resultProperty = taskType.GetProperty("Result");
+                            result = resultProperty?.GetValue(task);
+                        }
+                        else
+                        {
+                            result = null;
+                        }
                     }
 
                     transport.SendMessage(responseStream =>
                     {
-                        var writer = new BinaryWriter(stream);
+                        var writer = new BinaryWriter(responseStream);
                         writer.Write((byte)MessageType.Response);
                         writer.Write(requestId);
                         codec.Write(result, responseStream);
@@ -72,43 +83,45 @@ public class TransportRmi {
     {
         var (remoteApi, _) = Proxy.Proxy.Create<T>(call =>
         {
+            var messageType = ResolveMessageType(call.MethodInfo);
             TaskCompletionSource<object?>? tcs = null;
+            var requestId = NextRequestId();
+            if (messageType == MessageType.Request)
+            {
+                tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+                _pendingRequests[requestId] = tcs;
+            }
+            
             _transport.SendMessage(stream =>
             {
                 var writer = new BinaryWriter(stream);
-                var messageType = ResolveMessageType(call.MethodInfo);
-                var requestId = NextRequestId();
-                if (messageType == MessageType.Request)
-                {
-                    tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-                    _pendingRequests[requestId] = tcs;
-                }
                 writer.Write((byte)messageType);
                 writer.Write(requestId);
                 _codec.Write(call, stream);
             });
+            
             if (tcs == null)
             {
                 return null;
             }
             
-            var result = await tcs.Task;
-
             var returnType = call.MethodInfo.ReturnType;
-            var isTask = returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>);
-            var resultType = isTask ? returnType.GetGenericArguments()[0] : null;
-            if (isTask && resultType != null)
+            if (typeof(Task).IsAssignableFrom(returnType))
             {
-                var casted = Convert.ChangeType(result, resultType);
-                var taskResult = typeof(Task)
-                    .GetMethod(nameof(Task.FromResult))!
-                    .MakeGenericMethod(resultType)
-                    .Invoke(null, new[] { casted });
+                if (returnType == typeof(Task))
+                {
+                    return tcs.Task;
+                }
 
-                return taskResult!;
+                if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
+                {
+                    var resultType = returnType.GetGenericArguments()[0];
+                    return ReturnAsync(resultType, tcs!.Task);
+                }
             }
 
-            return result;
+            tcs.Task.Wait();
+            return Convert.ChangeType(tcs.Task.Result, returnType);
         });
         return remoteApi;
     }
@@ -124,6 +137,22 @@ public class TransportRmi {
 
     public void RegisterLocal<T>(T api)
     {
-        _invoker.Register<T>(api);
+        _invoker.Register(api);
+    }
+    
+    private static object ReturnAsync(Type resultType, Task<object?> task)
+    {
+        // Generic method -> Task<T>
+        var method = typeof(TransportRmi)
+            .GetMethod(nameof(ReturnAsyncGeneric), BindingFlags.NonPublic | BindingFlags.Static)!
+            .MakeGenericMethod(resultType);
+
+        return method.Invoke(null, new object[] { task })!;
+    }
+
+    private static async Task<T> ReturnAsyncGeneric<T>(Task<object?> task)
+    {
+        var result = await task.ConfigureAwait(false);
+        return (T)Convert.ChangeType(result, typeof(T))!;
     }
 }

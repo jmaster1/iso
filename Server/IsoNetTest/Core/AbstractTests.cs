@@ -47,12 +47,12 @@ public abstract class AbstractTests
     }
     
     protected static TaskCompletionSource<TPayload> CreateTaskCompletionSource<TEvent, TPayload>(
-        Events<TEvent, TPayload> events, TEvent expectedEvent) where TEvent : Enum
+        Events<TEvent, TPayload> events, TEvent expectedEvent, TPayload? expectedPayload = default) where TEvent : Enum
     {
         var taskCompletionSource = new TaskCompletionSource<TPayload>();
         events.AddListener((eventType, payload) =>
         {
-            if(eventType.Equals(expectedEvent))
+            if(eventType.Equals(expectedEvent) && (expectedPayload == null || payload!.Equals(expectedPayload)))
             {
                 taskCompletionSource.TrySetResult(payload);
             }
