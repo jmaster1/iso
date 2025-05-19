@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
-using Microsoft.Extensions.Logging;
 using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
 
 namespace IsoNet.Core.Transport.Rmi;
@@ -94,10 +93,15 @@ public class TransportRmi {
             }
         }
 
+        WriteMessage(MessageType.Response, requestId, result);
+    }
+
+    private void WriteMessage(MessageType messageType, int requestId, object result)
+    {
         _transport.SendMessage(responseStream =>
         {
             var writer = new BinaryWriter(responseStream);
-            writer.Write((byte)MessageType.Response);
+            writer.Write((byte)messageType);
             writer.Write(requestId);
             _codec.Write(result, responseStream);
         });
@@ -121,13 +125,7 @@ public class TransportRmi {
                 _pendingRequests[requestId] = tcs;
             }
             
-            _transport.SendMessage(stream =>
-            {
-                var writer = new BinaryWriter(stream);
-                writer.Write((byte)messageType);
-                writer.Write(requestId);
-                _codec.Write(call, stream);
-            });
+            WriteMessage(messageType, requestId, call);
             
             if (tcs == null)
             {
@@ -145,7 +143,7 @@ public class TransportRmi {
                 if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
                 {
                     var resultType = returnType.GetGenericArguments()[0];
-                    return ReturnAsync(resultType, tcs!.Task);
+                    return ReturnAsync(resultType, tcs.Task);
                 }
             }
 
@@ -179,7 +177,6 @@ public class TransportRmi {
     
     private static object ReturnAsync(Type resultType, Task<object?> task)
     {
-        // Generic method -> Task<T>
         var method = typeof(TransportRmi)
             .GetMethod(nameof(ReturnAsyncGeneric), BindingFlags.NonPublic | BindingFlags.Static)!
             .MakeGenericMethod(resultType);

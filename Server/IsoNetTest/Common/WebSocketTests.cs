@@ -9,6 +9,8 @@ namespace IsoNetTest.Common;
 
 public class WebSocketTests : AbstractTests
 {
+    private static StringCodec Codec => StringCodec.Instance;
+    
     [Test]
     public async Task TestWebSocketClientServer()
     {
@@ -22,10 +24,11 @@ public class WebSocketTests : AbstractTests
         server.OnClientConnected += transport =>
         {
             serverTransport = transport;
-            // transport.SetMessageHandler(msg =>
-            // {
-            //     server.Logger.LogInformation("handle " + msg);
-            // }, codec);
+            transport.SetMessageHandler(stream =>
+            {
+                var msg = Codec.Read<string>(stream);
+                server.Logger.LogInformation("handle " + msg);
+            });
         };
         
         server.Start();
@@ -48,7 +51,7 @@ public class WebSocketTests : AbstractTests
         for (var i = 0; i < messageCount; i++)
         {
             Thread.Sleep(TimeSpan.FromSeconds(0.01));
-            //client.SendMessage("Hello World " + i, codec);    
+            client.SendMessage(stream => codec.Write("Hello World " + i, stream));    
         }
         
         Thread.Sleep(TimeSpan.FromSeconds(1));

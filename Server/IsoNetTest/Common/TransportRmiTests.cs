@@ -4,7 +4,6 @@ using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNetTest.Core;
-using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Common;
 
