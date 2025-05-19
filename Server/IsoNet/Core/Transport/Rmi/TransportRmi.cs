@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
+using Microsoft.Extensions.Logging;
 using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
 
 namespace IsoNet.Core.Transport.Rmi;
@@ -148,7 +149,15 @@ public class TransportRmi {
                 }
             }
 
-            tcs.Task.Wait();
+            try
+            {
+                tcs.Task.Wait();
+            }
+            catch (AggregateException ae)
+            {
+                throw ae.InnerException!;
+            }
+
             return Convert.ChangeType(tcs.Task.Result, returnType);
         });
         return remoteApi;

@@ -4,6 +4,7 @@ using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNetTest.Core;
+using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Common;
 
@@ -66,7 +67,8 @@ public class TransportRmiTests : AbstractTests
     public async Task Test()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
-        var codec = new JsonCodec().AddConverter(MethodCallJsonConverter.Instance);
+        var codec = new JsonCodec().AddConverter(MethodCallJsonConverter.Instance)
+            .AddConverter(new ExceptionJsonConverter());
         
         //
         // server
@@ -89,7 +91,6 @@ public class TransportRmiTests : AbstractTests
         }
         catch (NotImplementedException)
         {
-            
         }
         await AwaitResult(queryThrowsInvoked);
 
