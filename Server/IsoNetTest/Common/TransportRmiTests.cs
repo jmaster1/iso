@@ -66,7 +66,8 @@ public class TransportRmiTests : AbstractTests
     public async Task Test()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
-        var codec = new JsonCodec().AddConverter(MethodCallJsonConverter.Instance)
+        var codec = new JsonCodec()
+            .AddConverter(MethodCallJsonConverter.Instance)
             .AddConverter(new ExceptionJsonConverter());
         
         //
@@ -74,6 +75,8 @@ public class TransportRmiTests : AbstractTests
         var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")));
         var apiSrv = new TestApiImpl();
         rmiSrv.RegisterLocal<ITestApi>(apiSrv);
+        TaskCompletionSource<string> ServerMethodInvoked(string name) => 
+            CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.Inv, name);
         
         //
         // client
@@ -112,9 +115,5 @@ public class TransportRmiTests : AbstractTests
         var queryStringAsyncResult = await apiCln.QueryStringAsync();
         Assert.That(queryStringAsyncResult, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
         await AwaitResult(queryStringAsyncInvoked);
-        return;
-
-        TaskCompletionSource<string> ServerMethodInvoked(string name) => 
-            CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.Inv, name);
     }
 }

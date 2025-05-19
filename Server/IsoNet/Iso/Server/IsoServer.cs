@@ -33,7 +33,7 @@ public class IsoServer(AbstractServer server)
     internal IsoPlayer CreateWorld()
     {
         var world = new IsoPlayer(Guid.NewGuid().ToString());
-        _worlds[world.Guid] = world;
+        _worlds[world.Id] = world;
         OnWorldCreated?.Invoke(world);
         return world;
     }

@@ -1,11 +1,11 @@
+using Common.Lang.Observable;
 using Common.TimeNS;
 using Iso.Player;
 using IsoNet.Core;
 using IsoNet.Core.IO.Codec;
-using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
+using IsoNet.Core.Transport.Rmi;
 using IsoNet.Iso.Common;
-using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Iso.Client;
 
@@ -21,11 +21,14 @@ public class IsoClient(
 
     public IIsoApi RemoteApi { get; private set; } = null!;
     
-    public IIsoServerApi ServerApi { get; private set; } = null!;
+    private IIsoServerApi ServerApi;
 
-    private TransportInvoker _invoker = null!;
     
     private Time? _time = time;
+    
+    private TransportRmi _transportRmi = null!;
+    
+    public readonly StringHolder WorldId = new();
 
     public IsoClient Init()
     {
@@ -36,6 +39,7 @@ public class IsoClient(
         }
         _runOnTime.FrameSupplier = () => Player.TimeGame.Frame;
         _runOnTime.Bind(_time);
+        /*
         _invoker = new TransportInvoker(transport, codec).Init(call =>
         {
             var frame = call.GetAttr(IsoCommon.AttrFrame, Time.FrameUndefined);
@@ -50,9 +54,18 @@ public class IsoClient(
                 _runOnTime.AddAction(frame, () => _invoker.Invoke(call));    
             }
         });
-        RemoteApi = _invoker.CreateRemote<IIsoApi>();
-        ServerApi = _invoker.CreateRemote<IIsoServerApi>();
-        _invoker.RegisterLocal<IIsoApi>(new IsoApi("client", player, _time));
+        */
+        
+        _transportRmi = new TransportRmi(transport, codec);
+        RemoteApi = _transportRmi.CreateRemote<IIsoApi>();
+        ServerApi = _transportRmi.CreateRemote<IIsoServerApi>();
+        _transportRmi.RegisterLocal<IIsoApi>(new IsoApi("client", player, _time));
         return this;
+    }
+
+    public void CreateWorld()
+    {
+        var id = ServerApi.CreateWorld();
+        WorldId.Set(id);
     }
 }

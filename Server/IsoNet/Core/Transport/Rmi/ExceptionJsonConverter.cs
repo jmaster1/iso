@@ -6,6 +6,8 @@ using Newtonsoft.Json.Linq;
 
 public class ExceptionJsonConverter : JsonConverter<Exception>
 {
+    public static readonly ExceptionJsonConverter Instance = new();
+    
     public override void WriteJson(JsonWriter writer, Exception? value, JsonSerializer serializer)
     {
         writer.WriteStartObject();

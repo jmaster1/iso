@@ -70,6 +70,16 @@ public abstract class AbstractTests
         return taskCompletionSource;
     }
     
+    protected static TaskCompletionSource<TValue> CreateTaskCompletionSource<TValue>(Holder<TValue> holder)
+    {
+        var taskCompletionSource = new TaskCompletionSource<TValue>();
+        holder.AddListener((_, newVal, _) =>
+        {
+            taskCompletionSource.TrySetResult(newVal);
+        });
+        return taskCompletionSource;
+    }
+    
     protected static async Task<T> AwaitResult<T>(TaskCompletionSource<T> tcs, float timeoutSec = 1)
     {
         /* this code doesnt work with debug breakpoints

@@ -9,7 +9,6 @@ namespace Iso.Player
     public class IsoPlayer : AbstractPlayer
     {
         //public readonly PlayerInfo PlayerInfo = Context.GetInfo<PlayerInfo>();
-        public readonly string Guid;
 
         public readonly Cells.Cells Cells = new();
         
@@ -19,7 +18,7 @@ namespace Iso.Player
 
         public IsoPlayer(string guid = null!)
         {
-            Guid = guid;
+            Id = guid;
         }
 
         protected override IEnumerable<AbstractFeature> InitFeatures()

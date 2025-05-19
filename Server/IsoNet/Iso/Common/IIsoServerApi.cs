@@ -2,7 +2,7 @@ namespace IsoNet.Iso.Common;
 
 public interface IIsoServerApi
 {
-    void CreateWorld();
+    string CreateWorld();
     
     void JoinWorld(string worldId);
 }

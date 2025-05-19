@@ -76,13 +76,12 @@ public class IsoPlayerTests : AbstractTests
         {
             server.OnWorldCreated += world => tcs.TrySetResult(world);
         });
-        var clientWorldCreated = CreateTaskCompletionSource<IsoPlayer>((tcs) =>
-        {
-            server.OnWorldCreated += world => tcs.TrySetResult(world);
-        });
-        client.ServerApi.CreateWorld();
+        var clientWorldCreated = CreateTaskCompletionSource(client.WorldId);
+        client.CreateWorld();
         var serverWorld = await AwaitResult(serverWorldCreated);
-        var clientWorld = await AwaitResult(clientWorldCreated);
+        var clientWorldId = await AwaitResult(clientWorldCreated);
+        Assert.That(serverWorld.Id, Is.EqualTo(clientWorldId));
+        
         /*
         //
         // create cells

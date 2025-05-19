@@ -3,6 +3,7 @@ using Iso.Cells;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
+using IsoNet.Core.Transport.Rmi;
 using Newtonsoft.Json;
 
 namespace IsoNet.Iso.Common.Json;
@@ -13,6 +14,7 @@ public static class IsoJsonCodecFactory
     {
         return new JsonCodec()
             .AddConverter(MethodCallJsonConverter.Instance)
+            .AddConverter(ExceptionJsonConverter.Instance)
             .AddConverter(new CellConverter(player.Cells));
     }
 }
