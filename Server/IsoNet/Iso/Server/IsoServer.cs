@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using Common.Lang.Observable;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
@@ -12,9 +11,9 @@ public class IsoServer(AbstractServer server)
 {
     public event Action<IsoRemoteClient>? OnClientConnected;
     
-    public event Action<IsoWorld>? OnWorldCreated;
+    public event Action<WorldPlayers>? OnWorldCreated;
 
-    private ConcurrentDictionary<string, IsoWorld> _worlds = new();
+    private ConcurrentDictionary<string, WorldPlayers> _worlds = new();
         
     public IsoServer Init()
     {
@@ -24,18 +23,22 @@ public class IsoServer(AbstractServer server)
 
     private void InitTransport(AbstractTransport transport)
     {
-        var player = new IsoWorld(null!);
-        var codec = IsoJsonCodecFactory.CreateCodec(player).WrapLogging(transport.Logger);
-        var client = new IsoRemoteClient(this, transport, codec, player).Init();
+        var codec = IsoJsonCodecFactory.CreateCodec().WrapLogging(transport.Logger);
+        var client = new IsoRemoteClient(this, transport, codec).Init();
         OnClientConnected?.Invoke(client);
     }
 
-    internal IsoWorld CreateWorld(int width, int height)
+    internal WorldPlayers CreateWorld(int width, int height, IsoRemoteClient client)
     {
         var world = new IsoWorld(Guid.NewGuid().ToString());
         world.Cells.Create(width, height);
-        _worlds[world.Id] = world;
-        OnWorldCreated?.Invoke(world);
-        return world;
+        var worldPlayers = new WorldPlayers()
+        {
+            World = world,
+        };
+        worldPlayers.Clients.Add(client);
+        _worlds[world.Id] = worldPlayers;
+        OnWorldCreated?.Invoke(worldPlayers);
+        return worldPlayers;
     }
 }

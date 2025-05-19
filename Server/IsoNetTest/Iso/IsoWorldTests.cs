@@ -63,29 +63,28 @@ public class IsoWorldTests : AbstractTests
             Logger = CreateLogger("client")
         };
         var clientPlayer = new IsoWorld();
-        var clientCodec = IsoJsonCodecFactory.CreateCodec(clientPlayer).WrapLogging(clientTransport.Logger);
+        var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
         var remoteClient = await AwaitResult(remoteClientCreated);
-        
-        var cs2 = new MultiSource<IsoWorld>(client.World, remoteClient.World);
         
         //
         // create world
         const int width = 11;
         const int height = 12;
-        var serverWorldCreated = CreateTaskCompletionSource<IsoWorld>(tcs =>
+        var serverWorldCreated = CreateTaskCompletionSource<WorldPlayers>(tcs =>
         {
-            server.OnWorldCreated += world => tcs.TrySetResult(world);
+            server.OnWorldCreated += worldPlayers => tcs.TrySetResult(worldPlayers);
         });
         var clientWorldCreated = CreateTaskCompletionSource(client.WorldId);
         client.CreateWorld(width, height);
-        var serverWorld = await AwaitResult(serverWorldCreated);
+        var serverWorldPlayers = await AwaitResult(serverWorldCreated);
         var clientWorldId = await AwaitResult(clientWorldCreated);
-        Assert.That(serverWorld.Id, Is.EqualTo(clientWorldId));
+        Assert.That(serverWorldPlayers.World.Id, Is.EqualTo(clientWorldId));
         
         //
         // start
+        var cs2 = new MultiSource<IsoWorld>(client.World, remoteClient.World);
         var playerStarted = cs2.CreateTaskCompletionSource(CreateTaskCompletionSource);
         client.RemoteApi.Start();
         await playerStarted.AwaitResults();

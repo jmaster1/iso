@@ -59,7 +59,7 @@ public class IsoClient(
         _transportRmi = new TransportRmi(transport, codec);
         RemoteApi = _transportRmi.CreateRemote<IIsoApi>();
         ServerApi = _transportRmi.CreateRemote<IIsoServerApi>();
-        _transportRmi.RegisterLocal<IIsoApi>(new IsoApi("client", world, _time));
+        _transportRmi.RegisterLocal<IIsoApi>(new IsoApi(world, _time));
         return this;
     }
 

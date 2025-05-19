@@ -5,7 +5,7 @@ using Iso.Player;
 
 namespace IsoNet.Iso.Common;
 
-public class IsoApi(string id, IsoWorld world, Time time) : IIsoApi
+public class IsoApi(IsoWorld world, Time time) : IIsoApi
 {
     public IsoWorld World => world;
     

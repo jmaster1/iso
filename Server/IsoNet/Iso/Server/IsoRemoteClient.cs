@@ -11,12 +11,11 @@ namespace IsoNet.Iso.Server;
 public class IsoRemoteClient(
     IsoServer server,
     AbstractTransport transport, 
-    ICodec codec, 
-    IsoWorld world) : IIsoServerApi
+    ICodec codec) : IIsoServerApi
 {
-    public IsoWorld World => world;
+    public IsoWorld World => _worldPlayers.World;
     
-    public Time Time => world.TimeGame;
+    public Time Time => World.TimeGame;
     
     private readonly Time _time = new();
     
@@ -32,14 +31,15 @@ public class IsoRemoteClient(
     
     private IIsoClientApi _clientApi = null!;
 
-    private IsoWorld _world;
+    private WorldPlayers _worldPlayers = null!;
 
     internal IsoRemoteClient Init()
     {
+        _invoker = new TransportRmi(transport, codec);
         _timeTimer.Start(_time, IsoCommon.Delta);
         _runOnTime.Bind(_time);
-        var local = new IsoApi("server", world, _time);
-        _invoker = new TransportRmi(transport, codec);
+        //var local = new IsoApi(world, _time);
+        
             /*.Init(call =>
         {
             _runOnTime.AddAction(() =>
@@ -52,7 +52,6 @@ public class IsoRemoteClient(
             });
         });
         */
-        _invoker.RegisterLocal<IIsoApi>(local);
         _invoker.RegisterLocal<IIsoServerApi>(this);
         _remoteApi = _invoker.CreateRemote<IIsoApi>();
         /*call =>
@@ -67,10 +66,10 @@ public class IsoRemoteClient(
 
     public WorldInfo CreateWorld(int width, int height)
     {
-        _world = server.CreateWorld(width, height);
-        return new WorldInfo()
+        _worldPlayers = server.CreateWorld(width, height, this);
+        return new WorldInfo
         {
-            Id = _world.Id,
+            Id = World.Id,
             Width = width,
             Height = height
         };
@@ -78,7 +77,8 @@ public class IsoRemoteClient(
 
     public void StartWorld()
     {
-        throw new NotImplementedException();
+        var local = new IsoApi(World, _time);
+        _invoker.RegisterLocal<IIsoApi>(local);
     }
 
     public void JoinWorld(string worldId)
