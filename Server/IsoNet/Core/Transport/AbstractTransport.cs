@@ -18,7 +18,7 @@ public abstract class AbstractTransport : LogAware
     /// <summary>
     /// should be invoked by subclasses when transport is closed
     /// </summary>
-    protected void Closed()
+    private void Closed()
     {
         Logger?.LogInformation("Closed");
         OnClose?.Invoke();
