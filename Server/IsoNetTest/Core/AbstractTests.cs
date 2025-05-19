@@ -145,4 +145,28 @@ public abstract class AbstractTests
             }
         }
     }
+    
+    protected void TestNotImplemented(Action func)
+    {
+        try
+        {
+            func();
+            Assert.Fail("Expected NotImplementedException");
+        }
+        catch (NotImplementedException)
+        {
+        }
+    }
+    
+    protected async Task TestNotImplementedAsync(Func<Task> func)
+    {
+        try
+        {
+            await func();
+            Assert.Fail("Expected NotImplementedException");
+        }
+        catch (NotImplementedException)
+        {
+        }
+    }
 }

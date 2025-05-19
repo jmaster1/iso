@@ -113,92 +113,93 @@ public class TransportRmiTests : AbstractTests
         }
     }
     
-    [Test]
-    public async Task Test()
+    private ITestApi apiCln;
+    
+    private TestApiImpl apiSrv;
+    
+    private Func<string, TaskCompletionSource<string>> ServerMethodInvoked;
+
+    [SetUp]
+    public void Setup()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
+
         var codec = new JsonCodec()
             .AddConverter(MethodCallJsonConverter.Instance)
             .AddConverter(new ExceptionJsonConverter());
-        
-        //
-        // server
-        var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")));
-        var apiSrv = new TestApiImpl();
-        rmiSrv.RegisterLocal<ITestApi>(apiSrv);
-        TaskCompletionSource<string> ServerMethodInvoked(string name) => 
-            CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.Inv, name);
-        
-        //
-        // client
-        var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
-        var apiCln = rmiCln.CreateRemote<ITestApi>();
-        
-        //
-        // QuerySimpleBeanAsyncThrows
-        try
-        {
-            await apiCln.QuerySimpleBeanAsyncThrows("123", 321);
-            Assert.Fail();
-        }
-        catch (NotImplementedException)
-        {
-        }
-        
-        //
-        // QueryStringAsync
-        var queryStringAsyncInvoked = ServerMethodInvoked(nameof(ITestApi.QueryStringAsync));
-        var queryStringAsyncResult = await apiCln.QueryStringAsync();
-        Assert.That(queryStringAsyncResult, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
-        await AwaitResult(queryStringAsyncInvoked);
-        
-        //
-        // QuerySimpleBean
-        var simpleBean = apiCln.QuerySimpleBean("123", 321);
-        Assert.That(simpleBean.ValueString, Is.EqualTo("123"));
-        Assert.That(simpleBean.ValueInt, Is.EqualTo(321));
-        
-        //
-        // QuerySimpleBeanAsync
-        var simpleBeanAsync = await apiCln.QuerySimpleBeanAsync("123", 321);
-        Assert.That(simpleBeanAsync.ValueString, Is.EqualTo("123"));
-        Assert.That(simpleBeanAsync.ValueInt, Is.EqualTo(321));
-        
-        //
-        // QuerySimpleBeanThrows
-        try
-        {
-            apiCln.QuerySimpleBeanThrows("123", 321);
-            Assert.Fail();
-        }
-        catch (NotImplementedException)
-        {
-        }
-        
-        //
-        // QueryThrows
-        var queryThrowsInvoked = ServerMethodInvoked(nameof(ITestApi.QueryThrows));
-        try
-        {
-            apiCln.QueryThrows();
-            Assert.Fail();
-        }
-        catch (NotImplementedException)
-        {
-        }
-        await AwaitResult(queryThrowsInvoked);
 
-        //
-        // CallVoid
-        var callVoidInvoked = ServerMethodInvoked(nameof(ITestApi.CallVoid));
+        var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")));
+        apiSrv = new TestApiImpl();
+        rmiSrv.RegisterLocal<ITestApi>(apiSrv);
+
+        var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
+        apiCln = rmiCln.CreateRemote<ITestApi>();
+
+        ServerMethodInvoked = name => CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.Inv, name);
+    }
+    
+    [TearDown]
+    public void Teardown()
+    {
+    }
+    
+    [Test]
+    public async Task QuerySimpleBeanAsyncThrows_ThrowsNotImplemented()
+    {
+        await TestNotImplementedAsync(() => apiCln.QuerySimpleBeanAsyncThrows("123", 321));
+    }
+
+    [Test]
+    public async Task QueryStringAsync_ReturnsExpectedValue()
+    {
+        var invoked = ServerMethodInvoked(nameof(ITestApi.QueryStringAsync));
+        var result = await apiCln.QueryStringAsync();
+        Assert.That(result, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
+        await AwaitResult(invoked);
+    }
+
+    [Test]
+    public void QuerySimpleBean_ReturnsCorrectValues()
+    {
+        var result = apiCln.QuerySimpleBean("123", 321);
+        Assert.That(result.ValueString, Is.EqualTo("123"));
+        Assert.That(result.ValueInt, Is.EqualTo(321));
+    }
+
+    [Test]
+    public async Task QuerySimpleBeanAsync_ReturnsCorrectValues()
+    {
+        var result = await apiCln.QuerySimpleBeanAsync("123", 321);
+        Assert.That(result.ValueString, Is.EqualTo("123"));
+        Assert.That(result.ValueInt, Is.EqualTo(321));
+    }
+
+    [Test]
+    public void QuerySimpleBeanThrows_ThrowsNotImplemented()
+    {
+        TestNotImplemented(() => apiCln.QuerySimpleBeanThrows("123", 321));
+    }
+
+    [Test]
+    public void QueryThrows_ThrowsNotImplementedAndIsInvoked()
+    {
+        TestNotImplemented(() => apiCln.QueryThrows());
+    }
+
+    [Test]
+    public async Task CallVoid_IsInvoked()
+    {
+        var invoked = ServerMethodInvoked(nameof(ITestApi.CallVoid));
         apiCln.CallVoid();
-        await AwaitResult(callVoidInvoked);
-        
-        //
-        // QueryString
-        var queryStringInvoked = ServerMethodInvoked(nameof(ITestApi.QueryString));
-        var queryStringResult = apiCln.QueryString();
-        Assert.That(queryStringResult, Is.EqualTo(nameof(ITestApi.QueryString)));
-        await AwaitResult(queryStringInvoked);
+        await AwaitResult(invoked);
+    }
+
+    [Test]
+    public async Task QueryString_ReturnsExpectedValueAndIsInvoked()
+    {
+        var invoked = ServerMethodInvoked(nameof(ITestApi.QueryString));
+        var result = apiCln.QueryString();
+        Assert.That(result, Is.EqualTo(nameof(ITestApi.QueryString)));
+        await AwaitResult(invoked);
     }
 }
