@@ -30,9 +30,10 @@ public class IsoServer(AbstractServer server)
         OnClientConnected?.Invoke(client);
     }
 
-    internal IsoPlayer CreateWorld()
+    internal IsoPlayer CreateWorld(int width, int height)
     {
         var world = new IsoPlayer(Guid.NewGuid().ToString());
+        world.Cells.Create(width, height);
         _worlds[world.Id] = world;
         OnWorldCreated?.Invoke(world);
         return world;

@@ -72,29 +72,17 @@ public class IsoPlayerTests : AbstractTests
         
         //
         // create world
+        const int width = 11;
+        const int height = 12;
         var serverWorldCreated = CreateTaskCompletionSource<IsoPlayer>(tcs =>
         {
             server.OnWorldCreated += world => tcs.TrySetResult(world);
         });
         var clientWorldCreated = CreateTaskCompletionSource(client.WorldId);
-        client.CreateWorld();
+        client.CreateWorld(width, height);
         var serverWorld = await AwaitResult(serverWorldCreated);
         var clientWorldId = await AwaitResult(clientWorldCreated);
         Assert.That(serverWorld.Id, Is.EqualTo(clientWorldId));
-        
-        /*
-        //
-        // create cells
-        const int width = 11;
-        const int height = 12;
-        var cellsCreated2 = cs2.CreateTaskCompletionSource(player => 
-            CreateTaskCompletionSource(player.Cells.Events, CellEvent.CellsCreated));
-        client.RemoteApi.CreateCells(width, height);
-        await cellsCreated2.AwaitResults((player, _) =>
-        {
-            Assert.That(player.Cells.Width, Is.EqualTo(width));
-            Assert.That(player.Cells.Heigth, Is.EqualTo(height));    
-        });
         
         //
         // start
@@ -120,7 +108,7 @@ public class IsoPlayerTests : AbstractTests
             Assert.That(building.X, Is.EqualTo(buildingX));
             Assert.That(building.Y, Is.EqualTo(buildingY));    
         });
-        */
+
         //
         // dispose
         await clientTransport.Disconnect();

@@ -63,9 +63,11 @@ public class IsoClient(
         return this;
     }
 
-    public void CreateWorld()
+    public void CreateWorld(int width, int height)
     {
-        var id = ServerApi.CreateWorld();
-        WorldId.Set(id);
+        var info = ServerApi.CreateWorld(width, height);
+        player.Id = info.Id;
+        player.Cells.Create(info.Width, info.Height);
+        WorldId.Set(info.Id);
     }
 }

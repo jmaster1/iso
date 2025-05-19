@@ -65,10 +65,20 @@ public class IsoRemoteClient(
         return this;
     }
 
-    public string CreateWorld()
+    public WorldInfo CreateWorld(int width, int height)
     {
-        _world = server.CreateWorld();
-        return _world.Id;
+        _world = server.CreateWorld(width, height);
+        return new WorldInfo()
+        {
+            Id = _world.Id,
+            Width = width,
+            Height = height
+        };
+    }
+
+    public void StartWorld()
+    {
+        throw new NotImplementedException();
     }
 
     public void JoinWorld(string worldId)
