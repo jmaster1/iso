@@ -32,6 +32,15 @@ public class TransportRmiTests : AbstractTests
         
         [Query]
         SimpleBean QuerySimpleBean(string stringValue, int intValue);
+        
+        [Query]
+        Task<SimpleBean> QuerySimpleBeanAsync(string stringValue, int intValue);
+        
+        [Query]
+        SimpleBean QuerySimpleBeanThrows(string stringValue, int intValue);
+        
+        [Query]
+        Task<SimpleBean> QuerySimpleBeanAsyncThrows(string stringValue, int intValue);
     }
     
     private enum TestApiEvent
@@ -73,11 +82,34 @@ public class TransportRmiTests : AbstractTests
 
         public SimpleBean QuerySimpleBean(string stringValue, int intValue)
         {
+            Fire(nameof(QuerySimpleBean));
             return new SimpleBean
             {
                 ValueString = stringValue,
                 ValueInt = intValue
             };
+        }
+
+        public Task<SimpleBean> QuerySimpleBeanAsync(string stringValue, int intValue)
+        {
+            Fire(nameof(QuerySimpleBeanAsync));
+            return Task.FromResult(new SimpleBean
+            {
+                ValueString = stringValue,
+                ValueInt = intValue
+            });
+        }
+
+        public SimpleBean QuerySimpleBeanThrows(string stringValue, int intValue)
+        {
+            Fire(nameof(QuerySimpleBeanThrows));
+            throw new NotImplementedException();
+        }
+
+        public Task<SimpleBean> QuerySimpleBeanAsyncThrows(string stringValue, int intValue)
+        {
+            Fire(nameof(QuerySimpleBeanAsyncThrows));
+            throw new NotImplementedException();
         }
     }
     
@@ -102,7 +134,17 @@ public class TransportRmiTests : AbstractTests
         var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
         var apiCln = rmiCln.CreateRemote<ITestApi>();
         
-                
+        //
+        // QuerySimpleBeanAsyncThrows
+        try
+        {
+            await apiCln.QuerySimpleBeanAsyncThrows("123", 321);
+            Assert.Fail();
+        }
+        catch (NotImplementedException)
+        {
+        }
+        
         //
         // QueryStringAsync
         var queryStringAsyncInvoked = ServerMethodInvoked(nameof(ITestApi.QueryStringAsync));
@@ -116,6 +158,22 @@ public class TransportRmiTests : AbstractTests
         Assert.That(simpleBean.ValueString, Is.EqualTo("123"));
         Assert.That(simpleBean.ValueInt, Is.EqualTo(321));
         
+        //
+        // QuerySimpleBeanAsync
+        var simpleBeanAsync = await apiCln.QuerySimpleBeanAsync("123", 321);
+        Assert.That(simpleBeanAsync.ValueString, Is.EqualTo("123"));
+        Assert.That(simpleBeanAsync.ValueInt, Is.EqualTo(321));
+        
+        //
+        // QuerySimpleBeanThrows
+        try
+        {
+            apiCln.QuerySimpleBeanThrows("123", 321);
+            Assert.Fail();
+        }
+        catch (NotImplementedException)
+        {
+        }
         
         //
         // QueryThrows
@@ -142,6 +200,5 @@ public class TransportRmiTests : AbstractTests
         var queryStringResult = apiCln.QueryString();
         Assert.That(queryStringResult, Is.EqualTo(nameof(ITestApi.QueryString)));
         await AwaitResult(queryStringInvoked);
-
     }
 }
