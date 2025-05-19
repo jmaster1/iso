@@ -9,6 +9,13 @@ namespace IsoNetTest.Common;
 
 public class TransportRmiTests : AbstractTests
 {
+    private class SimpleBean
+    {
+        public string? ValueString;
+        
+        public int ValueInt;
+    }
+        
     private interface ITestApi
     {
         [Call]
@@ -22,6 +29,9 @@ public class TransportRmiTests : AbstractTests
         
         [Query]
         void QueryThrows();
+        
+        [Query]
+        SimpleBean QuerySimpleBean(string stringValue, int intValue);
     }
     
     private enum TestApiEvent
@@ -60,6 +70,15 @@ public class TransportRmiTests : AbstractTests
             Fire(nameof(QueryThrows));
             throw new NotImplementedException();
         }
+
+        public SimpleBean QuerySimpleBean(string stringValue, int intValue)
+        {
+            return new SimpleBean
+            {
+                ValueString = stringValue,
+                ValueInt = intValue
+            };
+        }
     }
     
     [Test]
@@ -83,8 +102,23 @@ public class TransportRmiTests : AbstractTests
         var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
         var apiCln = rmiCln.CreateRemote<ITestApi>();
         
+                
         //
-        // QueryString
+        // QueryStringAsync
+        var queryStringAsyncInvoked = ServerMethodInvoked(nameof(ITestApi.QueryStringAsync));
+        var queryStringAsyncResult = await apiCln.QueryStringAsync();
+        Assert.That(queryStringAsyncResult, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
+        await AwaitResult(queryStringAsyncInvoked);
+        
+        //
+        // QuerySimpleBean
+        var simpleBean = apiCln.QuerySimpleBean("123", 321);
+        Assert.That(simpleBean.ValueString, Is.EqualTo("123"));
+        Assert.That(simpleBean.ValueInt, Is.EqualTo(321));
+        
+        
+        //
+        // QueryThrows
         var queryThrowsInvoked = ServerMethodInvoked(nameof(ITestApi.QueryThrows));
         try
         {
@@ -108,12 +142,6 @@ public class TransportRmiTests : AbstractTests
         var queryStringResult = apiCln.QueryString();
         Assert.That(queryStringResult, Is.EqualTo(nameof(ITestApi.QueryString)));
         await AwaitResult(queryStringInvoked);
-        
-        //
-        // QueryStringAsync
-        var queryStringAsyncInvoked = ServerMethodInvoked(nameof(ITestApi.QueryStringAsync));
-        var queryStringAsyncResult = await apiCln.QueryStringAsync();
-        Assert.That(queryStringAsyncResult, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
-        await AwaitResult(queryStringAsyncInvoked);
+
     }
 }

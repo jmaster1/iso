@@ -9,7 +9,7 @@ namespace IsoNet.Core.Transport.Rmi;
 public class TransportRmi {
     
     private int _requestIdSeq;
-    private readonly ConcurrentDictionary<int, TaskCompletionSource<object?>> _pendingRequests = new();
+    private readonly ConcurrentDictionary<int, Query> _pendingRequests = new();
     private readonly AbstractTransport _transport;
     private readonly ICodec _codec;
     private readonly MethodInvoker _invoker;
@@ -52,15 +52,22 @@ public class TransportRmi {
     private void ReadResponse(BinaryReader reader)
     {
         var requestId = reader.ReadInt32();
-        var result = _codec.Read<InvocationResult>(reader.BaseStream)!;
-        if (!_pendingRequests.TryRemove(requestId, out var tcs)) return;
-        if (result.Exception != null)
+        if (!_pendingRequests.TryRemove(requestId, out var query)) return;
+        var exceptionOccured = reader.ReadBoolean();
+        if (exceptionOccured)
         {
-            tcs.SetException(result.Exception!);    
+            var exception = _codec.Read<Exception>(reader.BaseStream);
+            query.TaskCompletionSource.SetException(exception!);
         }
         else
         {
-            tcs.SetResult(result.Result);  
+            var resultType = query.Call.MethodInfo.ReturnType;
+            if (IsGenericTask(resultType, out var taskGenericType))
+            {
+                resultType = taskGenericType;
+            }
+            var result = _codec.Read(reader.BaseStream, resultType);
+            query.TaskCompletionSource.SetResult(result);  
         }
     }
 
@@ -68,16 +75,17 @@ public class TransportRmi {
     {
         var requestId = reader.ReadInt32();
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
-        var result = new InvocationResult();
+        object? result = null;
+        Exception? exception = null;
         try
         {
-            result.Result = _invoker.Invoke(methodCall);
+            result = _invoker.Invoke(methodCall);
         }
         catch (TargetInvocationException e)
         {
-            result.Exception = e.InnerException;
+            exception = e.InnerException;
         }
-        if (result.Result is Task task)
+        if (result is Task task)
         {
             await task.ConfigureAwait(false);
                         
@@ -85,24 +93,27 @@ public class TransportRmi {
             if (taskType.IsGenericType && taskType.GetGenericTypeDefinition() == typeof(Task<>))
             {
                 var resultProperty = taskType.GetProperty("Result");
-                result.Result = resultProperty?.GetValue(task);
+                result = resultProperty?.GetValue(task);
             }
             else
             {
-                result.Result = null;
+                result = null;
             }
         }
-
-        WriteMessage(MessageType.Response, requestId, result);
+        var exceptionOccured = exception is not null;
+        WriteMessage(MessageType.Response, requestId, exceptionOccured ? exception : result,
+            writer => writer.Write(exceptionOccured));
     }
 
-    private void WriteMessage(MessageType messageType, int requestId, object result)
+    private void WriteMessage(MessageType messageType, int requestId, object? result,
+        Action<BinaryWriter>? writeBeforeResult = null)
     {
         _transport.SendMessage(responseStream =>
         {
             var writer = new BinaryWriter(responseStream);
             writer.Write((byte)messageType);
             writer.Write(requestId);
+            writeBeforeResult?.Invoke(writer);
             _codec.Write(result, responseStream);
         });
     }
@@ -117,17 +128,20 @@ public class TransportRmi {
         var (remoteApi, _) = Proxy.Proxy.Create<T>(call =>
         {
             var messageType = ResolveMessageType(call.MethodInfo);
-            TaskCompletionSource<object?>? tcs = null;
+            Query? query = null;
             var requestId = NextRequestId();
             if (messageType == MessageType.Request)
             {
-                tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-                _pendingRequests[requestId] = tcs;
+                query = _pendingRequests[requestId] = new Query
+                {
+                    RequestId = requestId,
+                    Call = call
+                };
             }
             
             WriteMessage(messageType, requestId, call);
             
-            if (tcs == null)
+            if (query == null)
             {
                 return null;
             }
@@ -137,26 +151,26 @@ public class TransportRmi {
             {
                 if (returnType == typeof(Task))
                 {
-                    return tcs.Task;
+                    return query.Task;
                 }
 
                 if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
                 {
                     var resultType = returnType.GetGenericArguments()[0];
-                    return ReturnAsync(resultType, tcs.Task);
+                    return ReturnAsync(resultType, query.Task);
                 }
             }
 
             try
             {
-                tcs.Task.Wait();
+                query.Task.Wait();
             }
             catch (AggregateException ae)
             {
                 throw ae.InnerException!;
             }
 
-            return Convert.ChangeType(tcs.Task.Result, returnType);
+            return Convert.ChangeType(query.Task.Result, returnType);
         });
         return remoteApi;
     }
@@ -188,5 +202,18 @@ public class TransportRmi {
     {
         var result = await task.ConfigureAwait(false);
         return (T)Convert.ChangeType(result, typeof(T))!;
+    }
+    
+    static bool IsGenericTask(Type type, out Type genericArgument)
+    {
+        genericArgument = null;
+
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
+        {
+            genericArgument = type.GetGenericArguments()[0];
+            return true;
+        }
+
+        return false;
     }
 }
