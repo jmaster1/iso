@@ -13,10 +13,6 @@ public class MethodInvoker
     {
         var type = call.MethodInfo.ReflectedType;
         var target = _targets[type!];
-        if (target is null)
-        {
-            throw new Exception("Target is null for type: " + type!.FullName);
-        }
         return call.MethodInfo.Invoke(target, call.Args);
     }
 }

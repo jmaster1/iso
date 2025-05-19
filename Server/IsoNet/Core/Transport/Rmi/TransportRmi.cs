@@ -2,11 +2,12 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
+using Microsoft.Extensions.Logging;
 using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
 
 namespace IsoNet.Core.Transport.Rmi;
 
-public class TransportRmi {
+public class TransportRmi : LogAware {
     
     private int _requestIdSeq;
     private readonly ConcurrentDictionary<int, Query> _pendingRequests = new();
@@ -52,11 +53,17 @@ public class TransportRmi {
     private void ReadResponse(BinaryReader reader)
     {
         var requestId = reader.ReadInt32();
-        if (!_pendingRequests.TryRemove(requestId, out var query)) return;
+        if (!_pendingRequests.TryRemove(requestId, out var query))
+        {
+            Logger?.LogWarning($"Received response with id {requestId} not found");
+            return;
+        }
+        Logger?.LogInformation("Received response for request, query={query}", query);
         var exceptionOccured = reader.ReadBoolean();
         if (exceptionOccured)
         {
             var exception = _codec.Read<Exception>(reader.BaseStream);
+            Logger?.LogInformation("exception={exception}", exception);
             query.TaskCompletionSource.SetException(exception!);
         }
         else
@@ -67,6 +74,7 @@ public class TransportRmi {
                 resultType = taskGenericType;
             }
             var result = _codec.Read(reader.BaseStream, resultType);
+            Logger?.LogInformation("result={result}", result);
             query.TaskCompletionSource.SetResult(result);  
         }
     }
@@ -75,6 +83,7 @@ public class TransportRmi {
     {
         var requestId = reader.ReadInt32();
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
+        Logger?.LogInformation("Received request with id {requestId}, call={call}", requestId, methodCall);
         object? result = null;
         Exception? exception = null;
         try
@@ -84,9 +93,12 @@ public class TransportRmi {
         catch (TargetInvocationException e)
         {
             exception = e.InnerException;
+            Logger?.LogInformation("Exception processing request, id={requestId}, call={call}, exception={exception}", 
+                requestId, methodCall, exception);
         }
         if (result is Task task)
         {
+            Logger?.LogInformation("Awaiting request result, id={requestId}", requestId);
             await task.ConfigureAwait(false);
                         
             var taskType = task.GetType();
@@ -99,6 +111,8 @@ public class TransportRmi {
             {
                 result = null;
             }
+            Logger?.LogInformation("Got request result, id={requestId}, result={result}",
+                requestId, result);
         }
         var exceptionOccured = exception is not null;
         WriteMessage(MessageType.Response, requestId, exceptionOccured ? exception : result,
@@ -125,54 +139,64 @@ public class TransportRmi {
     
     public T CreateRemote<T>() where T : class
     {
-        var (remoteApi, _) = Proxy.Proxy.Create<T>(call =>
-        {
-            var messageType = ResolveMessageType(call.MethodInfo);
-            Query? query = null;
-            var requestId = NextRequestId();
-            if (messageType == MessageType.Request)
-            {
-                query = _pendingRequests[requestId] = new Query
-                {
-                    RequestId = requestId,
-                    Call = call
-                };
-            }
-            
-            WriteMessage(messageType, requestId, call);
-            
-            if (query == null)
-            {
-                return null;
-            }
-            
-            var returnType = call.MethodInfo.ReturnType;
-            if (typeof(Task).IsAssignableFrom(returnType))
-            {
-                if (returnType == typeof(Task))
-                {
-                    return query.Task;
-                }
-
-                if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
-                {
-                    var resultType = returnType.GetGenericArguments()[0];
-                    return ReturnAsync(resultType, query.Task);
-                }
-            }
-
-            try
-            {
-                query.Task.Wait();
-            }
-            catch (AggregateException ae)
-            {
-                throw ae.InnerException!;
-            }
-
-            return Convert.ChangeType(query.Task.Result, returnType);
-        });
+        var (remoteApi, _) = Proxy.Proxy.Create<T>(ProcessRemoteCall);
         return remoteApi;
+    }
+
+    private object? ProcessRemoteCall(MethodCall call)
+    {
+        Logger?.LogInformation("ProcessRemoteCall begin: {call}", call);
+        var messageType = ResolveMessageType(call.MethodInfo);
+        Query? query = null;
+        var requestId = NextRequestId();
+        if (messageType == MessageType.Request)
+        {
+            query = _pendingRequests[requestId] = new Query
+            {
+                RequestId = requestId,
+                Call = call
+            };
+            Logger?.LogInformation("_pendingRequests added: {query}", query);
+        }
+            
+        WriteMessage(messageType, requestId, call);
+            
+        if (query == null)
+        {
+            return null;
+        }
+            
+        var returnType = call.MethodInfo.ReturnType;
+        if (typeof(Task).IsAssignableFrom(returnType))
+        {
+            if (returnType == typeof(Task))
+            {
+                return query.Task;
+            }
+
+            if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
+            {
+                var resultType = returnType.GetGenericArguments()[0];
+                return ReturnAsync(resultType, query.Task);
+            }
+        }
+
+        try
+        {
+            Logger?.LogInformation("Waiting for query result: {query}", query);
+            query.Task.Wait();
+        }
+        catch (AggregateException ae)
+        {
+            Logger?.LogInformation("Query await error, query={query}, error={error}", 
+                query, ae.InnerException);
+            throw ae.InnerException!;
+        }
+
+        var result = Convert.ChangeType(query.Task.Result, returnType);
+        Logger?.LogInformation("Query result, query={query}, result={result}", 
+            query, result);
+        return result;
     }
 
     private MessageType ResolveMessageType(MethodInfo methodInfo)
@@ -186,6 +210,7 @@ public class TransportRmi {
 
     public void RegisterLocal<T>(T api)
     {
+        Logger?.LogInformation("RegisterLocal<{type}>({api})", typeof(T).Name, api);
         _invoker.Register(api);
     }
     
@@ -206,14 +231,9 @@ public class TransportRmi {
     
     static bool IsGenericTask(Type type, out Type genericArgument)
     {
-        genericArgument = null;
-
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
-        {
-            genericArgument = type.GetGenericArguments()[0];
-            return true;
-        }
-
-        return false;
+        genericArgument = null!;
+        if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(Task<>)) return false;
+        genericArgument = type.GetGenericArguments()[0];
+        return true;
     }
 }

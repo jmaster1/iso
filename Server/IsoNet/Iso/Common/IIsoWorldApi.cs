@@ -3,13 +3,8 @@ using Iso.Cells;
 
 namespace IsoNet.Iso.Common;
 
-public interface IIsoApi
+public interface IIsoWorldApi
 {
-    [Replay]
-    void CreateCells(int width, int height);
-    
-    void Start();
-    
     void Build(BuildingInfo buildingInfo, Cell cell, bool flip = false);
 }
 

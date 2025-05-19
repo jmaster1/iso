@@ -1,14 +1,14 @@
-﻿using Common.TimeNS;
-using Iso.Buildings;
+﻿using Iso.Buildings;
 using Iso.Cells;
 using Iso.Player;
 
 namespace IsoNet.Iso.Common;
 
-public class IsoApi(IsoWorld world, Time time) : IIsoApi
+public class IsoWorldApi(IsoWorld world) : IIsoWorldApi
 {
     public IsoWorld World => world;
     
+    /*
     public void CreateCells(int width, int height)
     {
         World.Cells.Create(width, height, () =>
@@ -16,11 +16,7 @@ public class IsoApi(IsoWorld world, Time time) : IIsoApi
             World.Cells.ForEachPos((x, y) => World.Cells.Set(x, y, CellType.Buildable));    
         });
     }
-
-    public void Start()
-    {
-        world.Bind(time);
-    }
+    */
 
     public void Build(BuildingInfo buildingInfo, Cell cell, bool flip = false)
     {

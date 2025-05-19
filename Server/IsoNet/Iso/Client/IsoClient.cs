@@ -13,20 +13,19 @@ public class IsoClient(
     IsoWorld world, 
     AbstractTransport transport, 
     ICodec codec, 
-    Time? time = null) : LogAware
+    Time? time = null) : LogAware, IIsoClientApi
 {
     public IsoWorld World => world;
     
     private readonly RunOnTime _runOnTime = new();
 
-    public IIsoApi RemoteApi { get; private set; } = null!;
+    public IIsoWorldApi RemoteWorldApi { get; private set; } = null!;
     
     private IIsoServerApi ServerApi;
-
     
     private Time? _time = time;
     
-    private TransportRmi _transportRmi = null!;
+    public TransportRmi Rmi = null!;
     
     public readonly StringHolder WorldId = new();
 
@@ -56,10 +55,11 @@ public class IsoClient(
         });
         */
         
-        _transportRmi = new TransportRmi(transport, codec);
-        RemoteApi = _transportRmi.CreateRemote<IIsoApi>();
-        ServerApi = _transportRmi.CreateRemote<IIsoServerApi>();
-        _transportRmi.RegisterLocal<IIsoApi>(new IsoApi(world, _time));
+        Rmi = new TransportRmi(transport, codec);
+        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
+        ServerApi = Rmi.CreateRemote<IIsoServerApi>();
+        Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
+        Rmi.RegisterLocal<IIsoClientApi>(this);
         return this;
     }
 
@@ -69,5 +69,15 @@ public class IsoClient(
         world.Id = info.Id;
         world.Cells.Create(info.Width, info.Height);
         WorldId.Set(info.Id);
+    }
+
+    public void Start()
+    {
+        ServerApi.StartWorld();
+    }
+
+    public void WorldStarted()
+    {
+        world.Bind(_time);
     }
 }

@@ -17,15 +17,9 @@ public class IsoRemoteClient(
     
     public Time Time => World.TimeGame;
     
-    private readonly Time _time = new();
-    
-    private readonly TimeTimer _timeTimer = new();
-    
-    private readonly RunOnTime _runOnTime = new();
-    
-    private IIsoApi _remoteApi = null!;
+    private IIsoWorldApi _remoteWorldApi = null!;
 
-    private TransportRmi _invoker = null!;
+    public TransportRmi Rmi = null!;
 
     private readonly MethodInvoker _remoteInvoker = new();
     
@@ -35,9 +29,9 @@ public class IsoRemoteClient(
 
     internal IsoRemoteClient Init()
     {
-        _invoker = new TransportRmi(transport, codec);
-        _timeTimer.Start(_time, IsoCommon.Delta);
-        _runOnTime.Bind(_time);
+        Rmi = new TransportRmi(transport, codec);
+        
+        
         //var local = new IsoApi(world, _time);
         
             /*.Init(call =>
@@ -52,15 +46,15 @@ public class IsoRemoteClient(
             });
         });
         */
-        _invoker.RegisterLocal<IIsoServerApi>(this);
-        _remoteApi = _invoker.CreateRemote<IIsoApi>();
+        Rmi.RegisterLocal<IIsoServerApi>(this);
+        _remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
         /*call =>
         {
             call.SetAttr(IsoCommon.AttrFrame, Time.Frame);
         });
         */
-        _clientApi = _invoker.CreateRemote<IIsoClientApi>();
-        _remoteInvoker.Register(_remoteApi);
+        _clientApi = Rmi.CreateRemote<IIsoClientApi>();
+        _remoteInvoker.Register(_remoteWorldApi);
         return this;
     }
 
@@ -77,8 +71,14 @@ public class IsoRemoteClient(
 
     public void StartWorld()
     {
-        var local = new IsoApi(World, _time);
-        _invoker.RegisterLocal<IIsoApi>(local);
+        server.StartWorld(_worldPlayers, this);
+    }
+
+    internal void WorldStarted()
+    {
+        var local = new IsoWorldApi(World);
+        Rmi.RegisterLocal<IIsoWorldApi>(local);
+        _clientApi.WorldStarted();
     }
 
     public void JoinWorld(string worldId)

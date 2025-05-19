@@ -12,4 +12,9 @@ public class Query
     public Task<object?> Task => TaskCompletionSource.Task;
 
     public MethodCall Call;
+
+    public override string ToString()
+    {
+        return "requestId=" + RequestId + ", Call=" + Call;
+    }
 }

@@ -22,4 +22,9 @@ public class MethodCall
     {
         return (T?)(AttrGetter == null ? Attrs?[name] : AttrGetter(name, typeof(T), defaultValue));
     }
+
+    public override string ToString()
+    {
+        return MethodInfo.DeclaringType.Name + "." + MethodInfo.Name + "()";
+    }
 }

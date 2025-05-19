@@ -41,4 +41,13 @@ public class IsoServer(AbstractServer server)
         OnWorldCreated?.Invoke(worldPlayers);
         return worldPlayers;
     }
+
+    public void StartWorld(WorldPlayers worldPlayers, IsoRemoteClient client)
+    {
+        worldPlayers.Start();
+        foreach (var cln in worldPlayers.Clients)
+        {
+            cln.WorldStarted();
+        }
+    }
 }

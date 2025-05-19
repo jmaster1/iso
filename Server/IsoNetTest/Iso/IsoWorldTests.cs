@@ -53,6 +53,7 @@ public class IsoWorldTests : AbstractTests
         var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
         server.OnClientConnected += client =>
         {
+            client.Rmi.Logger = CreateLogger("serverRmi");
             remoteClientCreated.TrySetResult(client);
         };
 
@@ -65,6 +66,7 @@ public class IsoWorldTests : AbstractTests
         var clientPlayer = new IsoWorld();
         var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
+        client.Rmi.Logger = CreateLogger("clientRmi");
         await clientTransport.Connect("ws://localhost:7000/ws/");
         var remoteClient = await AwaitResult(remoteClientCreated);
         
@@ -86,7 +88,7 @@ public class IsoWorldTests : AbstractTests
         // start
         var cs2 = new MultiSource<IsoWorld>(client.World, remoteClient.World);
         var playerStarted = cs2.CreateTaskCompletionSource(CreateTaskCompletionSource);
-        client.RemoteApi.Start();
+        client.Start();
         await playerStarted.AwaitResults();
         
         //
@@ -101,7 +103,7 @@ public class IsoWorldTests : AbstractTests
         };
         const int buildingX = 1;
         const int buildingY = 2;
-        client.RemoteApi.Build(buildingInfo, client.World.Cells.Get(buildingX, buildingY));
+        client.RemoteWorldApi.Build(buildingInfo, client.World.Cells.Get(buildingX, buildingY));
         await buildingCreated.AwaitResults((_, building) =>
         {
             Assert.That(building.X, Is.EqualTo(buildingX));
