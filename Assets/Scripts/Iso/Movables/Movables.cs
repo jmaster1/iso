@@ -7,7 +7,7 @@ namespace Iso.Movables
 {
     public class Movables : AbstractIsoFeature<MovableEvent, Movable>
     {
-        public Cells.Cells Cells => Player.Cells;
+        public Cells.Cells Cells => World.Cells;
         
         /// <summary>
         /// list of existing buildings

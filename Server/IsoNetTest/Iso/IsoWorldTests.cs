@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Iso;
 
-public class IsoPlayerTests : AbstractTests
+public class IsoWorldTests : AbstractTests
 {
     [Test]
     public void Test()
@@ -62,19 +62,19 @@ public class IsoPlayerTests : AbstractTests
         {
             Logger = CreateLogger("client")
         };
-        var clientPlayer = new IsoPlayer();
+        var clientPlayer = new IsoWorld();
         var clientCodec = IsoJsonCodecFactory.CreateCodec(clientPlayer).WrapLogging(clientTransport.Logger);
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         await clientTransport.Connect("ws://localhost:7000/ws/");
         var remoteClient = await AwaitResult(remoteClientCreated);
         
-        var cs2 = new MultiSource<IsoPlayer>(client.Player, remoteClient.Player);
+        var cs2 = new MultiSource<IsoWorld>(client.World, remoteClient.World);
         
         //
         // create world
         const int width = 11;
         const int height = 12;
-        var serverWorldCreated = CreateTaskCompletionSource<IsoPlayer>(tcs =>
+        var serverWorldCreated = CreateTaskCompletionSource<IsoWorld>(tcs =>
         {
             server.OnWorldCreated += world => tcs.TrySetResult(world);
         });
@@ -102,7 +102,7 @@ public class IsoPlayerTests : AbstractTests
         };
         const int buildingX = 1;
         const int buildingY = 2;
-        client.RemoteApi.Build(buildingInfo, client.Player.Cells.Get(buildingX, buildingY));
+        client.RemoteApi.Build(buildingInfo, client.World.Cells.Get(buildingX, buildingY));
         await buildingCreated.AwaitResults((_, building) =>
         {
             Assert.That(building.X, Is.EqualTo(buildingX));

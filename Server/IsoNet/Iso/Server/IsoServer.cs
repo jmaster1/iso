@@ -12,9 +12,9 @@ public class IsoServer(AbstractServer server)
 {
     public event Action<IsoRemoteClient>? OnClientConnected;
     
-    public event Action<IsoPlayer>? OnWorldCreated;
+    public event Action<IsoWorld>? OnWorldCreated;
 
-    private ConcurrentDictionary<string, IsoPlayer> _worlds = new();
+    private ConcurrentDictionary<string, IsoWorld> _worlds = new();
         
     public IsoServer Init()
     {
@@ -24,15 +24,15 @@ public class IsoServer(AbstractServer server)
 
     private void InitTransport(AbstractTransport transport)
     {
-        var player = new IsoPlayer(null!);
+        var player = new IsoWorld(null!);
         var codec = IsoJsonCodecFactory.CreateCodec(player).WrapLogging(transport.Logger);
         var client = new IsoRemoteClient(this, transport, codec, player).Init();
         OnClientConnected?.Invoke(client);
     }
 
-    internal IsoPlayer CreateWorld(int width, int height)
+    internal IsoWorld CreateWorld(int width, int height)
     {
-        var world = new IsoPlayer(Guid.NewGuid().ToString());
+        var world = new IsoWorld(Guid.NewGuid().ToString());
         world.Cells.Create(width, height);
         _worlds[world.Id] = world;
         OnWorldCreated?.Invoke(world);

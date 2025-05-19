@@ -10,12 +10,12 @@ namespace IsoNet.Iso.Common.Json;
 
 public static class IsoJsonCodecFactory
 {
-    public static ICodec CreateCodec(IsoPlayer player)
+    public static ICodec CreateCodec(IsoWorld world)
     {
         return new JsonCodec()
             .AddConverter(MethodCallJsonConverter.Instance)
             .AddConverter(ExceptionJsonConverter.Instance)
-            .AddConverter(new CellConverter(player.Cells));
+            .AddConverter(new CellConverter(world.Cells));
     }
 }
 

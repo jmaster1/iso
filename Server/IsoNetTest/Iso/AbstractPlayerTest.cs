@@ -5,15 +5,15 @@ namespace IsoNetTest.Iso;
 
 public class AbstractPlayerTest
 {
-    public readonly IsoPlayer Player = new();
-    public global::Iso.Cells.Cells Cells => Player.Cells;
-    public global::Iso.Buildings.Buildings Buildings => Player.Buildings;
-    public global::Iso.Movables.Movables Movables => Player.Movables;
+    public readonly IsoWorld World = new();
+    public global::Iso.Cells.Cells Cells => World.Cells;
+    public global::Iso.Buildings.Buildings Buildings => World.Buildings;
+    public global::Iso.Movables.Movables Movables => World.Movables;
         
     protected void UpdateTime(float seconds)
     {
         var t = new Time();
-        Player.Bind(t);
+        World.Bind(t);
             
         var span = TimeSpan.FromSeconds(seconds);
         var dt = TimeSpan.FromMilliseconds(50);

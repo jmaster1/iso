@@ -12,7 +12,7 @@ namespace Iso.Unity.World
 {
 
     [DisallowMultipleComponent]
-    public class IsoPlayerView : BindableMono<IsoPlayer>
+    public class IsoPlayerView : BindableMono<IsoWorld>
     {
         public CellsView cellsView;
         public BuildingsView buildingsView;

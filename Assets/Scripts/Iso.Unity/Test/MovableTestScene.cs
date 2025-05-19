@@ -20,10 +20,10 @@ namespace Iso.Unity.Test
         
         public int blockedCells = 20;
 
-        public readonly IsoPlayer Player = new();
-        public Cells.Cells cells => Player.Cells;
-        public Buildings.Buildings buildings => Player.Buildings;
-        public Movables.Movables movables => Player.Movables;
+        public readonly IsoWorld World = new();
+        public Cells.Cells cells => World.Cells;
+        public Buildings.Buildings buildings => World.Buildings;
+        public Movables.Movables movables => World.Movables;
             
         private Movable movable;
 

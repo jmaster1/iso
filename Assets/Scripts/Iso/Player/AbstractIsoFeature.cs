@@ -6,7 +6,7 @@ namespace Iso.Player
 {
     public abstract class AbstractIsoFeature<TEvent, TEntity> : AbstractFeature where TEvent : Enum
     {
-        public IsoPlayer Player => (IsoPlayer) AbstractPlayer;
+        public IsoWorld World => (IsoWorld) AbstractPlayer;
 
         //public PlayerInfo PlayerInfo => Player.PlayerInfo;
         

@@ -6,7 +6,7 @@ namespace Iso.Player
     /// <summary>
     /// AbstractPlayer extension for iso game
     /// </summary>
-    public class IsoPlayer : AbstractPlayer
+    public class IsoWorld : AbstractPlayer
     {
         //public readonly PlayerInfo PlayerInfo = Context.GetInfo<PlayerInfo>();
 
@@ -16,7 +16,7 @@ namespace Iso.Player
         
         public readonly Movables.Movables Movables = new();
 
-        public IsoPlayer(string guid = null!)
+        public IsoWorld(string guid = null!)
         {
             Id = guid;
         }

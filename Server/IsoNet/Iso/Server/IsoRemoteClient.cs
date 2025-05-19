@@ -12,11 +12,11 @@ public class IsoRemoteClient(
     IsoServer server,
     AbstractTransport transport, 
     ICodec codec, 
-    IsoPlayer player) : IIsoServerApi
+    IsoWorld world) : IIsoServerApi
 {
-    public IsoPlayer Player => player;
+    public IsoWorld World => world;
     
-    public Time Time => player.TimeGame;
+    public Time Time => world.TimeGame;
     
     private readonly Time _time = new();
     
@@ -32,13 +32,13 @@ public class IsoRemoteClient(
     
     private IIsoClientApi _clientApi = null!;
 
-    private IsoPlayer _world;
+    private IsoWorld _world;
 
     internal IsoRemoteClient Init()
     {
         _timeTimer.Start(_time, IsoCommon.Delta);
         _runOnTime.Bind(_time);
-        var local = new IsoApi("server", player, _time);
+        var local = new IsoApi("server", world, _time);
         _invoker = new TransportRmi(transport, codec);
             /*.Init(call =>
         {

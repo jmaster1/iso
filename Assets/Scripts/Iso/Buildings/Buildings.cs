@@ -6,7 +6,7 @@ namespace Iso.Buildings
 {
     public class Buildings : AbstractIsoFeature<BuildingEvent, Building>
     {
-        public Cells.Cells Cells => Player.Cells;
+        public Cells.Cells Cells => World.Cells;
         
         /// <summary>
         /// list of existing buildings

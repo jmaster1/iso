@@ -5,25 +5,25 @@ using Iso.Player;
 
 namespace IsoNet.Iso.Common;
 
-public class IsoApi(string id, IsoPlayer player, Time time) : IIsoApi
+public class IsoApi(string id, IsoWorld world, Time time) : IIsoApi
 {
-    public IsoPlayer Player => player;
+    public IsoWorld World => world;
     
     public void CreateCells(int width, int height)
     {
-        Player.Cells.Create(width, height, () =>
+        World.Cells.Create(width, height, () =>
         {
-            Player.Cells.ForEachPos((x, y) => Player.Cells.Set(x, y, CellType.Buildable));    
+            World.Cells.ForEachPos((x, y) => World.Cells.Set(x, y, CellType.Buildable));    
         });
     }
 
     public void Start()
     {
-        player.Bind(time);
+        world.Bind(time);
     }
 
     public void Build(BuildingInfo buildingInfo, Cell cell, bool flip = false)
     {
-        player.Buildings.Build(buildingInfo, cell, flip);
+        world.Buildings.Build(buildingInfo, cell, flip);
     }
 }

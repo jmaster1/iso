@@ -10,12 +10,12 @@ using IsoNet.Iso.Common;
 namespace IsoNet.Iso.Client;
 
 public class IsoClient(
-    IsoPlayer player, 
+    IsoWorld world, 
     AbstractTransport transport, 
     ICodec codec, 
     Time? time = null) : LogAware
 {
-    public IsoPlayer Player => player;
+    public IsoWorld World => world;
     
     private readonly RunOnTime _runOnTime = new();
 
@@ -37,7 +37,7 @@ public class IsoClient(
             _time = new Time();
             new TimeTimer().Start(_time, IsoCommon.Delta);
         }
-        _runOnTime.FrameSupplier = () => Player.TimeGame.Frame;
+        _runOnTime.FrameSupplier = () => World.TimeGame.Frame;
         _runOnTime.Bind(_time);
         /*
         _invoker = new TransportInvoker(transport, codec).Init(call =>
@@ -59,15 +59,15 @@ public class IsoClient(
         _transportRmi = new TransportRmi(transport, codec);
         RemoteApi = _transportRmi.CreateRemote<IIsoApi>();
         ServerApi = _transportRmi.CreateRemote<IIsoServerApi>();
-        _transportRmi.RegisterLocal<IIsoApi>(new IsoApi("client", player, _time));
+        _transportRmi.RegisterLocal<IIsoApi>(new IsoApi("client", world, _time));
         return this;
     }
 
     public void CreateWorld(int width, int height)
     {
         var info = ServerApi.CreateWorld(width, height);
-        player.Id = info.Id;
-        player.Cells.Create(info.Width, info.Height);
+        world.Id = info.Id;
+        world.Cells.Create(info.Width, info.Height);
         WorldId.Set(info.Id);
     }
 }

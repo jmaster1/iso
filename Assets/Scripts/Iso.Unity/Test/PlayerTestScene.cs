@@ -9,17 +9,17 @@ namespace Iso.Unity.Test
 {
     public class PlayerTestScene : MonoBehaviour
     {
-        public IsoPlayer Player = new();
+        public IsoWorld World = new();
         
         public IsoPlayerView PlayerView;
         BuildingInfo bi = new();
-        Cells.Cells Cells => Player.Cells;
-        Buildings.Buildings Buildings => Player.Buildings;
-        Movables.Movables Movables => Player.Movables;
+        Cells.Cells Cells => World.Cells;
+        Buildings.Buildings Buildings => World.Buildings;
+        Movables.Movables Movables => World.Movables;
         
         private void Awake()
         {
-            var cells = Player.Cells;
+            var cells = World.Cells;
             var w = 20;
             var h = 20;
             cells.Create(w, h);
@@ -42,7 +42,7 @@ namespace Iso.Unity.Test
             // }
             // Buildings.Build(bi, 0, 0);
             // Buildings.Build(bi, 1, 1, true);
-            PlayerView.Bind(Player);
+            PlayerView.Bind(World);
             PlayerView.BindPlayerTime();
         }
         
