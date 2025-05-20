@@ -6,8 +6,7 @@ public class TestContextLogger(string category) : AbstractLogger
 {
     public static readonly ILoggerProvider Provider = new LoggerProvider(
         category => new TestContextLogger(category));
-        
-    private static readonly object FileLock = new();
+    
     private static readonly string LogFilePath = Path.Combine(Directory.GetCurrentDirectory(), "test-log.txt");
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, 
@@ -20,10 +19,7 @@ public class TestContextLogger(string category) : AbstractLogger
                   $"{formatter(state, exception)}";
         TestContext.Progress.WriteLine(msg);
         TestContext.Progress.Flush();
-        
-        lock (FileLock)
-        {
-            File.AppendAllText(LogFilePath, msg + Environment.NewLine);
-        }
+
+        FileAppender.Append(LogFilePath, msg + Environment.NewLine);
     }
 }
