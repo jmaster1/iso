@@ -1,5 +1,6 @@
 using Common.Bind;
 using Common.Lang.Observable;
+using IsoNetTest.Core.Log;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Core;
@@ -17,7 +18,8 @@ public abstract class AbstractTests
         {
             builder
                 .SetMinimumLevel(LogLevel.Debug)
-                .AddProvider(new TestContextLoggerProvider());
+                .AddProvider(TestContextLogger.Provider)
+                .AddProvider(HtmlLogger.Provider);
         });
         Logger = CreateLogger(this);
     }

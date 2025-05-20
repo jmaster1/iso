@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Iso\Iso.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Core\Log\" />
+    </ItemGroup>
+
 </Project>
