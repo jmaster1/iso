@@ -14,11 +14,7 @@ public class TransportRmiHtmlLogger(string category) : AbstractLogger
     private static readonly ConcurrentDictionary<int, DateTime> RequestTime = new();
     
     private static readonly string LogFilePath = FileAppender.LogFilePath("rmi-log.html", HtmlStart);
-
-    public List<TableColumn> TableColumns = new()
-    {
-        new TableColumn("Time", writer => writer.td($"{DateTime.Now:HH:mm:ss.fff}"))
-    };
+    
     private static string HtmlStart()
     {
         return HtmlWriter.BuildString(w =>

@@ -14,6 +14,7 @@ public class TransportRmi : LogAware {
     public const string NameWriteMessage = "WriteMessage";
     
     private int _requestIdSeq;
+    public int RequestIdOffset = 0;
     private readonly ConcurrentDictionary<int, Query> _pendingRequests = new();
     private readonly AbstractTransport _transport;
     private readonly ICodec _codec;
@@ -25,7 +26,7 @@ public class TransportRmi : LogAware {
         _codec = codec;
         _invoker = invoker ?? new MethodInvoker();
         
-        transport.SetMessageHandler(async stream =>
+        transport.SetMessageHandler(stream =>
         {
             ReadMessage(stream);
         });
@@ -148,7 +149,7 @@ public class TransportRmi : LogAware {
 
     private int NextRequestId()
     {
-        return Interlocked.Increment(ref _requestIdSeq);
+        return Interlocked.Increment(ref _requestIdSeq) + RequestIdOffset;
     }
     
     public T CreateRemote<T>() where T : class

@@ -99,7 +99,3 @@ public class HtmlLogger(string category) : AbstractLogger
         FileAppender.Append(LogFilePath, html);
     }
 }
-
-public class TableColumn(string name, Action<HtmlWriter> cellWriter)
-{
-}

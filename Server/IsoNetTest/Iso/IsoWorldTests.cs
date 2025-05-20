@@ -73,6 +73,7 @@ public class IsoWorldTests : AbstractTests
         var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
         var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
         client.Rmi.Logger = CreateLogger("clientRmi");
+        client.Rmi.RequestIdOffset = 1000;
         await clientTransport.Connect("ws://localhost:7000/ws/");
         var remoteClient = await AwaitResult(remoteClientCreated);
         
