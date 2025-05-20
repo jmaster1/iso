@@ -10,6 +10,16 @@ public abstract class AbstractLogger : ILogger
     public bool IsEnabled(LogLevel logLevel) => true;
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+    
+    public static T? ExtractParam<T, TState>(TState state, string key)
+    {
+        if (state is not IReadOnlyList<KeyValuePair<string, object>> kvps) return default;
+        var match = kvps.FirstOrDefault(kv => kv.Key == key);
+        if (match.Value is T typedValue)
+            return typedValue;
+
+        return default;
+    }
 }
 
 public class LoggerProvider(Func<string, ILogger> factory) : ILoggerProvider

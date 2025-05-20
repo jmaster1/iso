@@ -4,6 +4,8 @@ using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNetTest.Core;
+using IsoNetTest.Core.Log;
+using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Common;
 
@@ -118,9 +120,14 @@ public class TransportRmiTests : AbstractTests
     private TestApiImpl apiSrv;
     
     private Func<string, TaskCompletionSource<string>> ServerMethodInvoked;
+    
+    protected override void ConfigureLoggingBuilder(ILoggingBuilder builder)
+    {
+        builder.AddProvider(TransportRmiHtmlLogger.Provider);
+    }
 
-    [SetUp]
-    public void Setup()
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
 
@@ -129,10 +136,12 @@ public class TransportRmiTests : AbstractTests
             .AddConverter(new ExceptionJsonConverter());
 
         var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")));
+        rmiSrv.Logger = CreateLogger("rmiSrv");
         apiSrv = new TestApiImpl();
         rmiSrv.RegisterLocal<ITestApi>(apiSrv);
 
         var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
+        rmiCln.Logger = CreateLogger("rmiCln");
         apiCln = rmiCln.CreateRemote<ITestApi>();
 
         ServerMethodInvoked = name => CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.Inv, name);

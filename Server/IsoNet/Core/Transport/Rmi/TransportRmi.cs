@@ -9,6 +9,10 @@ namespace IsoNet.Core.Transport.Rmi;
 
 public class TransportRmi : LogAware {
     
+    public const string NameInvokeRemote = "InvokeRemote";
+    public const string NameReadMessage = "ReadMessage";
+    public const string NameWriteMessage = "WriteMessage";
+    
     private int _requestIdSeq;
     private readonly ConcurrentDictionary<int, Query> _pendingRequests = new();
     private readonly AbstractTransport _transport;
@@ -31,33 +35,35 @@ public class TransportRmi : LogAware {
     {
         var reader = new BinaryReader(stream);
         var messageType = (MessageType)reader.ReadByte();
-
+        var requestId = reader.ReadInt32();
+        Logger?.LogInformation(new EventId(requestId, NameReadMessage), 
+            "messageType={messageType}, " +
+            "requestId={requestId}", 
+            messageType, requestId);
         switch (messageType)
         {
             case MessageType.Request:
-                await ReadRequest(reader);
+                await ReadRequest(reader, requestId);
                 break;
             case MessageType.Response:
-                ReadResponse(reader);
+                ReadResponse(reader, requestId);
                 break;
             case MessageType.Call:
-                ReadCall(reader);
+                ReadCall(reader, requestId);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void ReadCall(BinaryReader reader)
+    private void ReadCall(BinaryReader reader, int requestId)
     {
-        var requestId = reader.ReadInt32();
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
         _invoker.Invoke(methodCall);
     }
 
-    private void ReadResponse(BinaryReader reader)
+    private void ReadResponse(BinaryReader reader, int requestId)
     {
-        var requestId = reader.ReadInt32();
         if (!_pendingRequests.TryRemove(requestId, out var query))
         {
             Logger?.LogWarning($"Received response with id {requestId} not found");
@@ -84,9 +90,8 @@ public class TransportRmi : LogAware {
         }
     }
 
-    private async Task ReadRequest(BinaryReader reader)
+    private async Task ReadRequest(BinaryReader reader, int requestId)
     {
-        var requestId = reader.ReadInt32();
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
         Logger?.LogInformation("Received request with id {requestId}, call={call}", requestId, methodCall);
         object? result = null;
@@ -127,6 +132,10 @@ public class TransportRmi : LogAware {
     private void WriteMessage(MessageType messageType, int requestId, object? result,
         Action<BinaryWriter>? writeBeforeResult = null)
     {
+        Logger?.LogInformation(new EventId(requestId, NameWriteMessage), 
+            "messageType={messageType}, " +
+            "requestId={requestId}", 
+            messageType, requestId);
         _transport.SendMessage(responseStream =>
         {
             var writer = new BinaryWriter(responseStream);
@@ -144,13 +153,12 @@ public class TransportRmi : LogAware {
     
     public T CreateRemote<T>() where T : class
     {
-        var (remoteApi, _) = Proxy.Proxy.Create<T>(ProcessRemoteCall);
+        var (remoteApi, _) = Proxy.Proxy.Create<T>(InvokeRemote);
         return remoteApi;
     }
 
-    private object? ProcessRemoteCall(MethodCall call)
+    private object? InvokeRemote(MethodCall call)
     {
-        Logger?.LogInformation("ProcessRemoteCall begin: {call}", call);
         var messageType = ResolveMessageType(call.MethodInfo);
         Query? query = null;
         var requestId = NextRequestId();
@@ -161,8 +169,13 @@ public class TransportRmi : LogAware {
                 RequestId = requestId,
                 Call = call
             };
-            Logger?.LogInformation("_pendingRequests added: {query}", query);
         }
+        
+        Logger?.LogInformation(new EventId(requestId, NameInvokeRemote), 
+            "messageType={messageType}, " +
+            "requestId={requestId}, " +
+            "call={call}", 
+            messageType, requestId, call);
             
         WriteMessage(messageType, requestId, call);
             

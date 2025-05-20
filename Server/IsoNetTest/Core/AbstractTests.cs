@@ -11,8 +11,8 @@ public abstract class AbstractTests
 
     protected ILogger Logger;
     
-    [SetUp]
-    public void Setup()
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
     {
         TestLoggerFactory = LoggerFactory.Create(builder =>
         {
@@ -20,14 +20,19 @@ public abstract class AbstractTests
                 .SetMinimumLevel(LogLevel.Debug)
                 .AddProvider(TestContextLogger.Provider)
                 .AddProvider(HtmlLogger.Provider);
+            ConfigureLoggingBuilder(builder);
         });
         Logger = CreateLogger(this);
     }
 
-    [TearDown]
-    public void Dispose()
+    protected virtual void ConfigureLoggingBuilder(ILoggingBuilder builder)
     {
-        TestLoggerFactory?.Dispose();
+    }
+
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
+        TestLoggerFactory.Dispose();
     }
 
     protected ILogger CreateLogger(string category)
