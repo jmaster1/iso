@@ -10,11 +10,25 @@ public static class FileAppender
     {
         var fileLock = FileLocks.TryGetValue(filePath, out var existing) 
             ? existing 
-            : FileLocks[filePath] = new object();
+            : FileLocks[filePath] = CreateFileLock(filePath);
 
         lock (fileLock)
         {
             File.AppendAllText(filePath, text);
         }
+    }
+
+    private static object CreateFileLock(string filePath)
+    {
+        
+        return new object();
+    }
+
+    public static string LogFilePath(string fileName, Func<string>? contentProvider = null)
+    {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        File.WriteAllText(filePath, contentProvider == null ? 
+            string.Empty : contentProvider());
+        return filePath;
     }
 }

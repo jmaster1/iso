@@ -910,5 +910,13 @@ namespace Common.IO.Streams
         {
             return (HtmlWriter) base.attr(name, value);
         }
+
+        public static string BuildString(Action<HtmlWriter> htmlProducer)
+        {
+            var stringWriter = new StringWriter();
+            var w = new HtmlWriter(stringWriter);
+            htmlProducer(w);
+            return stringWriter.ToString();
+        }
     }
 }

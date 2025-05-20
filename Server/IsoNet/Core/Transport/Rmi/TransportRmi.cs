@@ -23,24 +23,29 @@ public class TransportRmi : LogAware {
         
         transport.SetMessageHandler(async stream =>
         {
-            var reader = new BinaryReader(stream);
-            var messageType = (MessageType)reader.ReadByte();
-
-            switch (messageType)
-            {
-                case MessageType.Request:
-                    await ReadRequest(reader);
-                    break;
-                case MessageType.Response:
-                    ReadResponse(reader);
-                    break;
-                case MessageType.Call:
-                    ReadCall(reader);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            ReadMessage(stream);
         });
+    }
+
+    private async Task ReadMessage(Stream stream)
+    {
+        var reader = new BinaryReader(stream);
+        var messageType = (MessageType)reader.ReadByte();
+
+        switch (messageType)
+        {
+            case MessageType.Request:
+                await ReadRequest(reader);
+                break;
+            case MessageType.Response:
+                ReadResponse(reader);
+                break;
+            case MessageType.Call:
+                ReadCall(reader);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void ReadCall(BinaryReader reader)

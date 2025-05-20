@@ -6,8 +6,8 @@ public class TestContextLogger(string category) : AbstractLogger
 {
     public static readonly ILoggerProvider Provider = new LoggerProvider(
         category => new TestContextLogger(category));
-    
-    private static readonly string LogFilePath = Path.Combine(Directory.GetCurrentDirectory(), "test-log.txt");
+
+    private static readonly string LogFilePath = FileAppender.LogFilePath("test-log.txt");
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, 
         Func<TState, Exception?, string> formatter)
