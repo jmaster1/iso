@@ -4,8 +4,6 @@ namespace IsoNetTest.Core.Log;
 
 public static class FileAppender
 {
-    private static readonly object FileLock = new();
-    
     private static readonly ConcurrentDictionary<string, object> FileLocks = new();
     
     public static void Append(string filePath, string text)
