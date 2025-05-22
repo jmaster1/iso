@@ -115,9 +115,13 @@ public class TransportRmiTests : AbstractTests
         }
     }
     
-    private ITestApi apiCln;
+    private ITestApi apiClnRemote;
     
-    private TestApiImpl apiSrv;
+    private ITestApi apiSrvRemote;
+    
+    private TestApiImpl apiSrvLocal;
+    
+    private TestApiImpl apiClnLocal;
     
     private Func<string, TaskCompletionSource<string>> ServerMethodInvoked;
     
@@ -135,16 +139,24 @@ public class TransportRmiTests : AbstractTests
             .AddConverter(MethodCallJsonConverter.Instance)
             .AddConverter(new ExceptionJsonConverter());
 
-        var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")));
-        rmiSrv.Logger = CreateLogger("rmiSrv");
-        apiSrv = new TestApiImpl();
-        rmiSrv.RegisterLocal<ITestApi>(apiSrv);
+        var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")))
+        {
+            Logger = CreateLogger("rmiSrv")
+        };
+        apiSrvRemote = rmiSrv.CreateRemote<ITestApi>();
+        apiSrvLocal = new TestApiImpl();
+        rmiSrv.RegisterLocal<ITestApi>(apiSrvLocal);
 
-        var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")));
-        rmiCln.Logger = CreateLogger("rmiCln");
-        apiCln = rmiCln.CreateRemote<ITestApi>();
+        var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")))
+        {
+            Logger = CreateLogger("rmiCln"),
+            RequestIdOffset = 1000
+        };
+        apiClnRemote = rmiCln.CreateRemote<ITestApi>();
+        apiClnLocal = new TestApiImpl();
+        rmiCln.RegisterLocal<ITestApi>(apiClnLocal);
 
-        ServerMethodInvoked = name => CreateTaskCompletionSource(apiSrv.Events, TestApiEvent.Inv, name);
+        ServerMethodInvoked = name => CreateTaskCompletionSource(apiSrvLocal.Events, TestApiEvent.Inv, name);
     }
     
     [TearDown]
@@ -153,16 +165,26 @@ public class TransportRmiTests : AbstractTests
     }
     
     [Test]
+    public async Task Test2()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            apiClnRemote.QueryString();
+            apiSrvRemote.QueryString();    
+        }
+    }
+    
+    [Test]
     public async Task QuerySimpleBeanAsyncThrows_ThrowsNotImplemented()
     {
-        await TestNotImplementedAsync(() => apiCln.QuerySimpleBeanAsyncThrows("123", 321));
+        await TestNotImplementedAsync(() => apiClnRemote.QuerySimpleBeanAsyncThrows("123", 321));
     }
 
     [Test]
     public async Task QueryStringAsync_ReturnsExpectedValue()
     {
         var invoked = ServerMethodInvoked(nameof(ITestApi.QueryStringAsync));
-        var result = await apiCln.QueryStringAsync();
+        var result = await apiClnRemote.QueryStringAsync();
         Assert.That(result, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
         await AwaitResult(invoked);
     }
@@ -170,7 +192,7 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public void QuerySimpleBean_ReturnsCorrectValues()
     {
-        var result = apiCln.QuerySimpleBean("123", 321);
+        var result = apiClnRemote.QuerySimpleBean("123", 321);
         Assert.That(result.ValueString, Is.EqualTo("123"));
         Assert.That(result.ValueInt, Is.EqualTo(321));
     }
@@ -178,7 +200,7 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public async Task QuerySimpleBeanAsync_ReturnsCorrectValues()
     {
-        var result = await apiCln.QuerySimpleBeanAsync("123", 321);
+        var result = await apiClnRemote.QuerySimpleBeanAsync("123", 321);
         Assert.That(result.ValueString, Is.EqualTo("123"));
         Assert.That(result.ValueInt, Is.EqualTo(321));
     }
@@ -186,20 +208,20 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public void QuerySimpleBeanThrows_ThrowsNotImplemented()
     {
-        TestNotImplemented(() => apiCln.QuerySimpleBeanThrows("123", 321));
+        TestNotImplemented(() => apiClnRemote.QuerySimpleBeanThrows("123", 321));
     }
 
     [Test]
     public void QueryThrows_ThrowsNotImplementedAndIsInvoked()
     {
-        TestNotImplemented(() => apiCln.QueryThrows());
+        TestNotImplemented(() => apiClnRemote.QueryThrows());
     }
 
     [Test]
     public async Task CallVoid_IsInvoked()
     {
         var invoked = ServerMethodInvoked(nameof(ITestApi.CallVoid));
-        apiCln.CallVoid();
+        apiClnRemote.CallVoid();
         await AwaitResult(invoked);
     }
 
@@ -207,7 +229,7 @@ public class TransportRmiTests : AbstractTests
     public async Task QueryString_ReturnsExpectedValueAndIsInvoked()
     {
         var invoked = ServerMethodInvoked(nameof(ITestApi.QueryString));
-        var result = apiCln.QueryString();
+        var result = apiClnRemote.QueryString();
         Assert.That(result, Is.EqualTo(nameof(ITestApi.QueryString)));
         await AwaitResult(invoked);
     }
