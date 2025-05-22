@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 
 namespace IsoNet.Core.Proxy;
 
@@ -25,6 +26,23 @@ public class MethodCall
 
     public override string ToString()
     {
-        return MethodInfo.DeclaringType.Name + "." + MethodInfo.Name + "()";
+        var sb = new StringBuilder();
+        sb.Append(MethodInfo.DeclaringType?.Name)
+            .Append('.')
+            .Append(MethodInfo.Name)
+            .Append('(');
+        if (Args is { Length: > 0 })
+        {
+            for (var i = 0; i < Args.Length; i++)
+            {
+                if (i > 0)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(Args[i]);                
+            }
+        }
+        sb.Append(')');
+        return sb.ToString();
     }
 }

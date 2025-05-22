@@ -164,25 +164,13 @@ public class TransportRmiTests : AbstractTests
     }
     
     [Test]
-    public Task Test2()
-    {
-        for (var i = 0; i < 10; i++)
-        {
-            _apiClnRemote.QueryString();
-            _apiSrvRemote.QueryString();    
-        }
-
-        return Task.CompletedTask;
-    }
-    
-    [Test]
-    public async Task QuerySimpleBeanAsyncThrows_ThrowsNotImplemented()
+    public async Task QuerySimpleBeanAsyncThrows()
     {
         await TestNotImplementedAsync(() => _apiClnRemote.QuerySimpleBeanAsyncThrows("123", 321));
     }
 
     [Test]
-    public async Task QueryStringAsync_ReturnsExpectedValue()
+    public async Task QueryStringAsynce()
     {
         var invoked = _serverMethodInvoked(nameof(ITestApi.QueryStringAsync));
         var result = await _apiClnRemote.QueryStringAsync();
@@ -191,7 +179,7 @@ public class TransportRmiTests : AbstractTests
     }
 
     [Test]
-    public void QuerySimpleBean_ReturnsCorrectValues()
+    public void QuerySimpleBeans()
     {
         var result = _apiClnRemote.QuerySimpleBean("123", 321);
         Assert.That(result.ValueString, Is.EqualTo("123"));
@@ -199,7 +187,7 @@ public class TransportRmiTests : AbstractTests
     }
 
     [Test]
-    public async Task QuerySimpleBeanAsync_ReturnsCorrectValues()
+    public async Task QuerySimpleBeanAsync()
     {
         var result = await _apiClnRemote.QuerySimpleBeanAsync("123", 321);
         Assert.That(result.ValueString, Is.EqualTo("123"));
@@ -207,19 +195,19 @@ public class TransportRmiTests : AbstractTests
     }
 
     [Test]
-    public void QuerySimpleBeanThrows_ThrowsNotImplemented()
+    public void QuerySimpleBeanThrows()
     {
         TestNotImplemented(() => _apiClnRemote.QuerySimpleBeanThrows("123", 321));
     }
 
     [Test]
-    public void QueryThrows_ThrowsNotImplementedAndIsInvoked()
+    public void QueryThrows()
     {
         TestNotImplemented(() => _apiClnRemote.QueryThrows());
     }
 
     [Test]
-    public async Task CallVoid_IsInvoked()
+    public async Task CallVoid()
     {
         var invoked = _serverMethodInvoked(nameof(ITestApi.CallVoid));
         _apiClnRemote.CallVoid();
@@ -227,7 +215,7 @@ public class TransportRmiTests : AbstractTests
     }
 
     [Test]
-    public async Task QueryString_ReturnsExpectedValueAndIsInvoked()
+    public async Task QueryString()
     {
         var invoked = _serverMethodInvoked(nameof(ITestApi.QueryString));
         var result = _apiClnRemote.QueryString();

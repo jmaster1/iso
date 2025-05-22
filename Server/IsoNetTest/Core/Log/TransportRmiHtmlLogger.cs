@@ -39,7 +39,7 @@ public class TransportRmiHtmlLogger : AbstractLogger
                 .th("Req>>")
                 .th(">>Req")
                 .th("Resp>>")
-                .th("<<Resp")
+                .th(">>Resp")
                 .endTr();
         }));
     }
