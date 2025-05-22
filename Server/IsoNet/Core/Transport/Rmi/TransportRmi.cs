@@ -43,14 +43,14 @@ public class TransportRmi : LogAware {
             messageType, requestId);
         switch (messageType)
         {
+            case MessageType.Call:
+                ReadCall(reader, requestId);
+                break;
             case MessageType.Request:
-                await ReadRequest(reader, requestId);
+                ReadRequest(reader, requestId);
                 break;
             case MessageType.Response:
                 ReadResponse(reader, requestId);
-                break;
-            case MessageType.Call:
-                ReadCall(reader, requestId);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -60,7 +60,52 @@ public class TransportRmi : LogAware {
     private void ReadCall(BinaryReader reader, int requestId)
     {
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
-        _invoker.Invoke(methodCall);
+        Task.Run(() => _invoker.Invoke(methodCall));
+    }
+    
+    private void ReadRequest(BinaryReader reader, int requestId)
+    {
+        var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
+        Task.Run(async () =>
+        {
+            object? result = null;
+            Exception? exception = null;
+            try
+            {
+                result = _invoker.Invoke(methodCall);
+            }
+            catch (TargetInvocationException e)
+            {
+                exception = e.InnerException;
+                Logger?.LogInformation(
+                    "Exception processing request, id={requestId}, call={call}, exception={exception}",
+                    requestId, methodCall, exception);
+            }
+
+            if (result is Task task)
+            {
+                Logger?.LogInformation("Awaiting request result, id={requestId}", requestId);
+                await task.ConfigureAwait(false);
+
+                var taskType = task.GetType();
+                if (taskType.IsGenericType && taskType.GetGenericTypeDefinition() == typeof(Task<>))
+                {
+                    var resultProperty = taskType.GetProperty("Result");
+                    result = resultProperty?.GetValue(task);
+                }
+                else
+                {
+                    result = null;
+                }
+
+                Logger?.LogInformation("Got request result, id={requestId}, result={result}",
+                    requestId, result);
+            }
+
+            var exceptionOccured = exception is not null;
+            WriteMessage(MessageType.Response, requestId, exceptionOccured ? exception : result,
+                writer => writer.Write(exceptionOccured));
+        });
     }
 
     private void ReadResponse(BinaryReader reader, int requestId)
@@ -89,45 +134,6 @@ public class TransportRmi : LogAware {
             Logger?.LogInformation("result={result}", result);
             query.TaskCompletionSource.SetResult(result);  
         }
-    }
-
-    private async Task ReadRequest(BinaryReader reader, int requestId)
-    {
-        var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
-        Logger?.LogInformation("Received request with id {requestId}, call={call}", requestId, methodCall);
-        object? result = null;
-        Exception? exception = null;
-        try
-        {
-            result = _invoker.Invoke(methodCall);
-        }
-        catch (TargetInvocationException e)
-        {
-            exception = e.InnerException;
-            Logger?.LogInformation("Exception processing request, id={requestId}, call={call}, exception={exception}", 
-                requestId, methodCall, exception);
-        }
-        if (result is Task task)
-        {
-            Logger?.LogInformation("Awaiting request result, id={requestId}", requestId);
-            await task.ConfigureAwait(false);
-                        
-            var taskType = task.GetType();
-            if (taskType.IsGenericType && taskType.GetGenericTypeDefinition() == typeof(Task<>))
-            {
-                var resultProperty = taskType.GetProperty("Result");
-                result = resultProperty?.GetValue(task);
-            }
-            else
-            {
-                result = null;
-            }
-            Logger?.LogInformation("Got request result, id={requestId}, result={result}",
-                requestId, result);
-        }
-        var exceptionOccured = exception is not null;
-        WriteMessage(MessageType.Response, requestId, exceptionOccured ? exception : result,
-            writer => writer.Write(exceptionOccured));
     }
 
     private void WriteMessage(MessageType messageType, int requestId, object? result,

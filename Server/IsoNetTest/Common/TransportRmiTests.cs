@@ -120,12 +120,15 @@ public class TransportRmiTests : AbstractTests
         
         public int QueryNested(int depth)
         {
+            Fire(nameof(QueryNested));
             return depth == 0 ? 0 : QueryNestedDelegate.QueryNested(depth - 1);
         }
     }
 
     class Endpoint
     {
+        public TransportRmi Rmi;
+        
         public ITestApi ApiRemote;
     
         public TestApiImpl ApiLocal;
@@ -134,13 +137,13 @@ public class TransportRmiTests : AbstractTests
 
         public Endpoint(string name, AbstractTransport transport, ICodec codec)
         {
-            var rmiSrv = new TransportRmi(transport, codec.WrapLogging(CreateLogger(name)))
+            Rmi = new TransportRmi(transport, codec.WrapLogging(CreateLogger(name)))
             {
                 Logger = CreateLogger("rmi-" + name)
             };
-            ApiRemote = rmiSrv.CreateRemote<ITestApi>();
+            ApiRemote = Rmi.CreateRemote<ITestApi>();
             ApiLocal = new TestApiImpl();
-            rmiSrv.RegisterLocal<ITestApi>(ApiLocal);
+            Rmi.RegisterLocal<ITestApi>(ApiLocal);
             ApiLocal.QueryNestedDelegate = ApiRemote;
             LocalMethodInvoked = methodName => CreateTaskCompletionSource(
                 ApiLocal.Events, TestApiEvent.Inv, methodName);
@@ -167,6 +170,7 @@ public class TransportRmiTests : AbstractTests
 
         _srv = new Endpoint("srv", transportSrv, codec);
         _cln = new Endpoint("cln", transportCln, codec);
+        _cln.Rmi.RequestIdOffset = 1000;
     }
     
     [TearDown]
@@ -237,9 +241,11 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public async Task QueryNested()
     {
-        var invoked = _srv.LocalMethodInvoked(nameof(ITestApi.QueryNested));
+        var invokedSrv = _srv.LocalMethodInvoked(nameof(ITestApi.QueryNested));
+        var invokedCln = _cln.LocalMethodInvoked(nameof(ITestApi.QueryNested));
         var result = _cln.ApiRemote.QueryNested(1);
         Assert.That(result, Is.EqualTo(0));
-        await AwaitResult(invoked);
+        await AwaitResult(invokedSrv);
+        await AwaitResult(invokedCln);
     }
 }
