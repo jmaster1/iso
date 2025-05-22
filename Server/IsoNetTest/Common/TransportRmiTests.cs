@@ -42,6 +42,9 @@ public class TransportRmiTests : AbstractTests
         
         [Query]
         Task<SimpleBean> QuerySimpleBeanAsyncThrows(string stringValue, int intValue);
+        
+        [Query]
+        int QueryNested(int depth);
     }
     
     private enum TestApiEvent
@@ -112,17 +115,41 @@ public class TransportRmiTests : AbstractTests
             Fire(nameof(QuerySimpleBeanAsyncThrows));
             throw new NotImplementedException();
         }
+
+        public ITestApi QueryNestedDelegate;
+        
+        public int QueryNested(int depth)
+        {
+            return depth == 0 ? 0 : QueryNestedDelegate.QueryNested(depth - 1);
+        }
     }
+
+    class Endpoint
+    {
+        public ITestApi ApiRemote;
     
-    private ITestApi _apiClnRemote;
+        public TestApiImpl ApiLocal;
+        
+        public Func<string, TaskCompletionSource<string>> LocalMethodInvoked;
+
+        public Endpoint(string name, AbstractTransport transport, ICodec codec)
+        {
+            var rmiSrv = new TransportRmi(transport, codec.WrapLogging(CreateLogger(name)))
+            {
+                Logger = CreateLogger("rmi-" + name)
+            };
+            ApiRemote = rmiSrv.CreateRemote<ITestApi>();
+            ApiLocal = new TestApiImpl();
+            rmiSrv.RegisterLocal<ITestApi>(ApiLocal);
+            ApiLocal.QueryNestedDelegate = ApiRemote;
+            LocalMethodInvoked = methodName => CreateTaskCompletionSource(
+                ApiLocal.Events, TestApiEvent.Inv, methodName);
+        }
+    }
+
+    private Endpoint _srv;
     
-    private ITestApi _apiSrvRemote;
-    
-    private TestApiImpl _apiSrvLocal;
-    
-    private TestApiImpl _apiClnLocal;
-    
-    private Func<string, TaskCompletionSource<string>> _serverMethodInvoked;
+    private Endpoint _cln;
     
     protected override void ConfigureLoggingBuilder(ILoggingBuilder builder)
     {
@@ -138,24 +165,8 @@ public class TransportRmiTests : AbstractTests
             .AddConverter(MethodCallJsonConverter.Instance)
             .AddConverter(ExceptionJsonConverter.Instance);
 
-        var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")))
-        {
-            Logger = CreateLogger("rmiSrv")
-        };
-        _apiSrvRemote = rmiSrv.CreateRemote<ITestApi>();
-        _apiSrvLocal = new TestApiImpl();
-        rmiSrv.RegisterLocal<ITestApi>(_apiSrvLocal);
-
-        var rmiCln = new TransportRmi(transportCln, codec.WrapLogging(CreateLogger("cln")))
-        {
-            Logger = CreateLogger("rmiCln"),
-            RequestIdOffset = 1000
-        };
-        _apiClnRemote = rmiCln.CreateRemote<ITestApi>();
-        _apiClnLocal = new TestApiImpl();
-        rmiCln.RegisterLocal<ITestApi>(_apiClnLocal);
-
-        _serverMethodInvoked = name => CreateTaskCompletionSource(_apiSrvLocal.Events, TestApiEvent.Inv, name);
+        _srv = new Endpoint("srv", transportSrv, codec);
+        _cln = new Endpoint("cln", transportCln, codec);
     }
     
     [TearDown]
@@ -166,22 +177,22 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public async Task QuerySimpleBeanAsyncThrows()
     {
-        await TestNotImplementedAsync(() => _apiClnRemote.QuerySimpleBeanAsyncThrows("123", 321));
+        await TestNotImplementedAsync(() => _cln.ApiRemote.QuerySimpleBeanAsyncThrows("123", 321));
     }
-
+    
     [Test]
     public async Task QueryStringAsynce()
     {
-        var invoked = _serverMethodInvoked(nameof(ITestApi.QueryStringAsync));
-        var result = await _apiClnRemote.QueryStringAsync();
+        var invoked = _srv.LocalMethodInvoked(nameof(ITestApi.QueryStringAsync));
+        var result = await _cln.ApiRemote.QueryStringAsync();
         Assert.That(result, Is.EqualTo(nameof(ITestApi.QueryStringAsync)));
         await AwaitResult(invoked);
     }
 
     [Test]
-    public void QuerySimpleBeans()
+    public void QuerySimpleBean()
     {
-        var result = _apiClnRemote.QuerySimpleBean("123", 321);
+        var result = _cln.ApiRemote.QuerySimpleBean("123", 321);
         Assert.That(result.ValueString, Is.EqualTo("123"));
         Assert.That(result.ValueInt, Is.EqualTo(321));
     }
@@ -189,7 +200,7 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public async Task QuerySimpleBeanAsync()
     {
-        var result = await _apiClnRemote.QuerySimpleBeanAsync("123", 321);
+        var result = await _cln.ApiRemote.QuerySimpleBeanAsync("123", 321);
         Assert.That(result.ValueString, Is.EqualTo("123"));
         Assert.That(result.ValueInt, Is.EqualTo(321));
     }
@@ -197,29 +208,38 @@ public class TransportRmiTests : AbstractTests
     [Test]
     public void QuerySimpleBeanThrows()
     {
-        TestNotImplemented(() => _apiClnRemote.QuerySimpleBeanThrows("123", 321));
+        TestNotImplemented(() => _cln.ApiRemote.QuerySimpleBeanThrows("123", 321));
     }
 
     [Test]
     public void QueryThrows()
     {
-        TestNotImplemented(() => _apiClnRemote.QueryThrows());
+        TestNotImplemented(() => _cln.ApiRemote.QueryThrows());
     }
 
     [Test]
     public async Task CallVoid()
     {
-        var invoked = _serverMethodInvoked(nameof(ITestApi.CallVoid));
-        _apiClnRemote.CallVoid();
+        var invoked = _srv.LocalMethodInvoked(nameof(ITestApi.CallVoid));
+        _cln.ApiRemote.CallVoid();
         await AwaitResult(invoked);
     }
 
     [Test]
     public async Task QueryString()
     {
-        var invoked = _serverMethodInvoked(nameof(ITestApi.QueryString));
-        var result = _apiClnRemote.QueryString();
+        var invoked = _srv.LocalMethodInvoked(nameof(ITestApi.QueryString));
+        var result = _cln.ApiRemote.QueryString();
         Assert.That(result, Is.EqualTo(nameof(ITestApi.QueryString)));
+        await AwaitResult(invoked);
+    }
+    
+    [Test]
+    public async Task QueryNested()
+    {
+        var invoked = _srv.LocalMethodInvoked(nameof(ITestApi.QueryNested));
+        var result = _cln.ApiRemote.QueryNested(1);
+        Assert.That(result, Is.EqualTo(0));
         await AwaitResult(invoked);
     }
 }

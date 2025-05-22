@@ -7,7 +7,7 @@ namespace IsoNetTest.Core;
 
 public abstract class AbstractTests
 {
-    private ILoggerFactory _loggerFactory;
+    private static ILoggerFactory _loggerFactory;
 
     protected ILogger Logger;
     
@@ -44,7 +44,7 @@ public abstract class AbstractTests
         _loggerFactory.Dispose();
     }
 
-    protected ILogger CreateLogger(string category)
+    protected static ILogger CreateLogger(string category)
     {
         return _loggerFactory.CreateLogger(category);
     }
