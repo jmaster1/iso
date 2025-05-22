@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Common.TimeNS;
 using Iso.Buildings;
-using Iso.Cells;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport.Server.WebSocket;
@@ -10,7 +9,6 @@ using IsoNet.Iso.Client;
 using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
 using IsoNetTest.Core;
-using IsoNetTest.Core.Log;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Iso;
@@ -19,7 +17,7 @@ public class IsoWorldTests : AbstractTests
 {
     protected override void ConfigureLoggingBuilder(ILoggingBuilder builder)
     {
-        builder.AddProvider(TransportRmiHtmlLogger.Provider);
+        AddTransportRmiHtmlLogger(builder);
     }
 
     [Test]

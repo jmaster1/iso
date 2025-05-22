@@ -4,7 +4,6 @@ using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNetTest.Core;
-using IsoNetTest.Core.Log;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Common;
@@ -127,17 +126,17 @@ public class TransportRmiTests : AbstractTests
     
     protected override void ConfigureLoggingBuilder(ILoggingBuilder builder)
     {
-        builder.AddProvider(TransportRmiHtmlLogger.Provider);
+        AddTransportRmiHtmlLogger(builder);
     }
 
     [OneTimeSetUp]
-    public void OneTimeSetUp()
+    public new void OneTimeSetUp()
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
 
         var codec = new JsonCodec()
             .AddConverter(MethodCallJsonConverter.Instance)
-            .AddConverter(new ExceptionJsonConverter());
+            .AddConverter(ExceptionJsonConverter.Instance);
 
         var rmiSrv = new TransportRmi(transportSrv, codec.WrapLogging(CreateLogger("srv")))
         {
@@ -165,13 +164,15 @@ public class TransportRmiTests : AbstractTests
     }
     
     [Test]
-    public async Task Test2()
+    public Task Test2()
     {
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             apiClnRemote.QueryString();
             apiSrvRemote.QueryString();    
         }
+
+        return Task.CompletedTask;
     }
     
     [Test]

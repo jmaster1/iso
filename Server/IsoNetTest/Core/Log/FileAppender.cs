@@ -2,33 +2,31 @@ using System.Collections.Concurrent;
 
 namespace IsoNetTest.Core.Log;
 
-public static class FileAppender
+public class FileAppender(string filePath, object fileLock) : IAppender
 {
-    private static readonly ConcurrentDictionary<string, object> FileLocks = new();
+    private static readonly ConcurrentDictionary<string, FileAppender> Appenders = new();
     
-    public static void Append(string filePath, string text)
-    {
-        var fileLock = FileLocks.TryGetValue(filePath, out var existing) 
-            ? existing 
-            : FileLocks[filePath] = CreateFileLock(filePath);
+    public static IAppender? AnnounceAppender;
 
+    public void Append(string text)
+    {
         lock (fileLock)
         {
             File.AppendAllText(filePath, text);
         }
     }
 
-    private static object CreateFileLock(string filePath)
+    public static IAppender Create(object instance, string suffix = ".log", Action<IAppender>? initializer = null)
     {
-        
-        return new object();
-    }
-
-    public static string LogFilePath(string fileName, Func<string>? contentProvider = null)
-    {
+        var fileName = instance.GetType().Name + suffix;
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-        File.WriteAllText(filePath, contentProvider == null ? 
-            string.Empty : contentProvider());
-        return filePath;
+        var appender = Appenders.TryGetValue(filePath, out var existing) 
+            ? existing 
+            : Appenders[filePath] = new FileAppender(filePath, new object());
+        if (existing is not null) return appender;
+        AnnounceAppender?.Append("Writing to file: " + filePath);
+        File.WriteAllText(filePath, string.Empty);
+        initializer?.Invoke(appender);
+        return appender;
     }
 }

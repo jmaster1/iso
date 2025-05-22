@@ -1,17 +1,22 @@
+using Common.Util.Reflect;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Core.Log;
 
 public abstract class AbstractLogger : ILogger
 {
+    public IAppender? Appender;
+    
+    public string? Category;
+    
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
         Func<TState, Exception?, string> formatter);
     
     public bool IsEnabled(LogLevel logLevel) => true;
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
-    
-    public static T? ExtractParam<T, TState>(TState state, string key)
+
+    protected static T? ExtractParam<T, TState>(TState state, string key)
     {
         if (state is not IReadOnlyList<KeyValuePair<string, object>> kvps) return default;
         var match = kvps.FirstOrDefault(kv => kv.Key == key);
@@ -20,16 +25,26 @@ public abstract class AbstractLogger : ILogger
 
         return default;
     }
+    
+    protected void Append(string text) => Appender?.Append(text);
+    
+    public static ILoggerProvider LoggerProvider<T>(IAppender appender) where T : AbstractLogger
+    {
+        return new GenericLoggerProvider<T>(appender);
+    }
 }
 
-public class LoggerProvider(Func<string, ILogger> factory) : ILoggerProvider
+internal class GenericLoggerProvider<T>(IAppender appender) : ILoggerProvider where T : AbstractLogger
 {
     public void Dispose()
     {
     }
 
-    public ILogger CreateLogger(string category)
+    public ILogger CreateLogger(string categoryName)
     {
-        return factory(category);
+        var logger = ReflectHelper.NewInstance<T>();
+        logger.Appender = appender;
+        logger.Category = categoryName;
+        return logger;
     }
 }

@@ -3,11 +3,8 @@ using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Core.Log;
 
-public class HtmlLogger(string category) : AbstractLogger
+public class HtmlLogger : AbstractLogger
 {
-    public static readonly ILoggerProvider Provider = new LoggerProvider(
-        category => new HtmlLogger(category));
-
     public const string Css = """
                               <style>
                               html *
@@ -61,11 +58,9 @@ public class HtmlLogger(string category) : AbstractLogger
                               </style>
                               """;
 
-    private static readonly string LogFilePath = FileAppender.LogFilePath("test-log.html", HtmlStart);
-
-    private static string HtmlStart()
+    public static void HtmlStart(IAppender appender)
     {
-        return HtmlWriter.BuildString(w =>
+        appender.Append(HtmlWriter.BuildString(w =>
         {
             w.plain(Css);
             w.table().tr()
@@ -75,7 +70,7 @@ public class HtmlLogger(string category) : AbstractLogger
                 .th("Thread")
                 .th("Message")
                 .endTr();
-        });
+        }));
     }
 
     public override void Log<TState>(
@@ -91,11 +86,11 @@ public class HtmlLogger(string category) : AbstractLogger
             w.tr().attrClass("log-" + logLevel.ToString().ToLower())
                 .td($"{DateTime.Now:HH:mm:ss.fff}")
                 .td(logLevel)
-                .td(category)
+                .td(Category!)
                 .td($"{Thread.CurrentThread.Name} @ {Environment.CurrentManagedThreadId}")
                 .td(msg)
                 .endTr();
         });
-        FileAppender.Append(LogFilePath, html);
+        Append(html);
     }
 }

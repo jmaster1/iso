@@ -7,37 +7,46 @@ namespace IsoNetTest.Core;
 
 public abstract class AbstractTests
 {
-    public ILoggerFactory TestLoggerFactory { get; set; }
+    private ILoggerFactory _loggerFactory;
 
     protected ILogger Logger;
     
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-        TestLoggerFactory = LoggerFactory.Create(builder =>
+        _loggerFactory = LoggerFactory.Create(builder =>
         {
+            FileAppender.AnnounceAppender = TestContextAppender.Instance;
             builder
                 .SetMinimumLevel(LogLevel.Debug)
-                .AddProvider(TestContextLogger.Provider)
-                .AddProvider(HtmlLogger.Provider);
+                .AddProvider(AbstractLogger.LoggerProvider<DefaultLogger>(
+                    TestContextAppender.Instance))
+                .AddProvider(AbstractLogger.LoggerProvider<HtmlLogger>(
+                    FileAppender.Create(this, ".html", HtmlLogger.HtmlStart)));
             ConfigureLoggingBuilder(builder);
         });
         Logger = CreateLogger(this);
     }
-
+    
     protected virtual void ConfigureLoggingBuilder(ILoggingBuilder builder)
     {
+    }
+    
+    protected void AddTransportRmiHtmlLogger(ILoggingBuilder builder)
+    {
+        builder.AddProvider(AbstractLogger.LoggerProvider<TransportRmiHtmlLogger>(
+            FileAppender.Create(this, "-rmi.html", TransportRmiHtmlLogger.HtmlStart)));
     }
 
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
-        TestLoggerFactory.Dispose();
+        _loggerFactory.Dispose();
     }
 
     protected ILogger CreateLogger(string category)
     {
-        return TestLoggerFactory.CreateLogger(category);
+        return _loggerFactory.CreateLogger(category);
     }
     
     protected ILogger CreateLogger(object instance)
@@ -124,8 +133,8 @@ public abstract class AbstractTests
             timer.Dispose();
         }
     }
-    
-    public class MultiSource<TSource>(params TSource[] sources)
+
+    protected class MultiSource<TSource>(params TSource[] sources)
     {
         public MultiTaskCompletionSource<TSource, TResult> CreateTaskCompletionSource<TResult>(
             Func<TSource, TaskCompletionSource<TResult>> func)
@@ -140,7 +149,7 @@ public abstract class AbstractTests
         }
     }
 
-    public class MultiTaskCompletionSource<TSource, TResult>(
+    protected class MultiTaskCompletionSource<TSource, TResult>(
         List<Tuple<TSource, TaskCompletionSource<TResult>>> sourceTasks)
     {
         public async Task AwaitResults(Action<TSource, TResult>? action = null)
@@ -153,7 +162,7 @@ public abstract class AbstractTests
         }
     }
     
-    protected void TestNotImplemented(Action func)
+    protected static void TestNotImplemented(Action func)
     {
         try
         {
@@ -165,7 +174,7 @@ public abstract class AbstractTests
         }
     }
     
-    protected async Task TestNotImplementedAsync(Func<Task> func)
+    protected static async Task TestNotImplementedAsync(Func<Task> func)
     {
         try
         {
