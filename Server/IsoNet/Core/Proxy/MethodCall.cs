@@ -31,17 +31,26 @@ public class MethodCall
             .Append('.')
             .Append(MethodInfo.Name)
             .Append('(');
-        if (Args is { Length: > 0 })
+        
+        var parameters = MethodInfo.GetParameters();
+        if (parameters.Length > 0)
         {
-            for (var i = 0; i < Args.Length; i++)
+            for(var i = 0; i < parameters.Length; i++)
             {
                 if (i > 0)
-                {
                     sb.Append(", ");
-                }
-                sb.Append(Args[i]);                
+
+                var param = parameters[i];
+                var argValue = Args != null && i < Args.Length ? Args[i] : "null";
+
+                sb.Append(param.ParameterType.Name)
+                    .Append(' ')
+                    .Append(param.Name)
+                    .Append('=')
+                    .Append(argValue ?? "null");
             }
         }
+        
         sb.Append(')');
         return sb.ToString();
     }

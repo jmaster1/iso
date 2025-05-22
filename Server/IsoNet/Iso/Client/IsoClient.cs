@@ -1,5 +1,6 @@
 using Common.Lang.Observable;
 using Common.TimeNS;
+using Iso.Cells;
 using Iso.Player;
 using IsoNet.Core;
 using IsoNet.Core.IO.Codec;
@@ -65,15 +66,22 @@ public class IsoClient(
 
     public void CreateWorld(int width, int height)
     {
-        var info = ServerApi.CreateWorld(width, height);
-        world.Id = info.Id;
-        world.Cells.Create(info.Width, info.Height);
-        WorldId.Set(info.Id);
+        ServerApi.CreateWorld(width, height);
     }
 
     public void Start()
     {
         ServerApi.StartWorld();
+    }
+
+    public void WorldСreated(WorldInfo info)
+    {
+        world.Id = info.Id;
+        world.Cells.Create(info.Width, info.Height, () =>
+        {
+            world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
+        });
+        WorldId.Set(info.Id);
     }
 
     public void WorldStarted()

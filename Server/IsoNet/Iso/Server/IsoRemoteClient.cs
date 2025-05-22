@@ -23,7 +23,7 @@ public class IsoRemoteClient(
 
     private readonly MethodInvoker _remoteInvoker = new();
     
-    private IIsoClientApi _clientApi = null!;
+    public IIsoClientApi _clientApi = null!;
 
     private WorldPlayers _worldPlayers = null!;
 
@@ -58,15 +58,9 @@ public class IsoRemoteClient(
         return this;
     }
 
-    public WorldInfo CreateWorld(int width, int height)
+    public void CreateWorld(int width, int height)
     {
         _worldPlayers = server.CreateWorld(width, height, this);
-        return new WorldInfo
-        {
-            Id = World.Id,
-            Width = width,
-            Height = height
-        };
     }
 
     public void StartWorld()

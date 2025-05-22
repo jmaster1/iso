@@ -22,4 +22,12 @@ public class WorldPlayers
         _timeTimer.Start(_time, IsoCommon.Delta);
         World.Bind(_time);
     }
+
+    public void ForEachClient(Action<IsoRemoteClient> action)
+    {
+        foreach (var cln in Clients)
+        {
+            action(cln);
+        }
+    }
 }
