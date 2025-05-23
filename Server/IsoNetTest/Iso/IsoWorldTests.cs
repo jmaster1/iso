@@ -3,6 +3,8 @@ using Common.TimeNS;
 using Iso.Buildings;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
+using IsoNet.Core.Transport;
+using IsoNet.Core.Transport.Server;
 using IsoNet.Core.Transport.Server.WebSocket;
 using IsoNet.Core.Transport.WebSocket;
 using IsoNet.Iso.Client;
@@ -42,37 +44,63 @@ public class IsoWorldTests : AbstractTests
         Logger.LogInformation("Updates: {updates}, time: {time} ms", time.Frame, stopwatch.Elapsed.TotalMilliseconds.ToString("0.000"));
     }
 
-    [Test]
-    public async Task TestClientServer()
+    private (IsoServer, IsoClient, Action) CreateClientServer(
+        AbstractServer server, AbstractTransport clientTransport, Action starter)
     {
-        //
-        // server
-        var serverTransport = new WebSocketServer("http://localhost:7000/ws/")
+        var isoServer = new IsoServer(server).Init();
+        isoServer.OnClientConnected += client =>
+        {
+            client.Rmi.Logger = CreateLogger("serverRmi");
+        };
+        
+        var isoWorld = new IsoWorld();
+        var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
+        var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec).Init();
+        isoClient.Rmi.Logger = CreateLogger("clientRmi");
+        isoClient.Rmi.RequestIdOffset = 1000;
+        
+        return (isoServer, isoClient, starter);
+    }
+    
+    private (IsoServer, IsoClient, Action) CreateClientServerWebsocket()
+    {
+        var server = new WebSocketServer("http://localhost:7000/ws/")
         {
             Logger = CreateLogger("server")
         };
-        serverTransport.Start();
-        var server = new IsoServer(serverTransport).Init();
-
-        var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
-        server.OnClientConnected += client =>
-        {
-            client.Rmi.Logger = CreateLogger("serverRmi");
-            remoteClientCreated.TrySetResult(client);
-        };
-
-        //
-        // client
+        
         var clientTransport = new WebSocketClient
         {
             Logger = CreateLogger("client")
         };
-        var clientPlayer = new IsoWorld();
-        var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
-        var client = new IsoClient(clientPlayer, clientTransport, clientCodec).Init();
-        client.Rmi.Logger = CreateLogger("clientRmi");
-        client.Rmi.RequestIdOffset = 1000;
-        await clientTransport.Connect("ws://localhost:7000/ws/");
+        
+        return CreateClientServer(server, clientTransport, () =>
+        {
+            server.Start();
+            clientTransport.Connect("ws://localhost:7000/ws/");
+        });
+    }
+
+    private (IsoServer, IsoClient, Action) CreateClientServerLocal()
+    {
+        var (transportCln, transportSrv) = LocalTransport.CreatePair();
+        var server = LocalTransport.CreateServer(transportSrv);
+        return CreateClientServer(server, transportCln, () => server.Start());
+    }
+
+    [Test]
+    public async Task TestClientServer()
+    { 
+        var (isoServer, client, start) = 
+            CreateClientServerLocal();
+            //CreateClientServerWebsocket();
+
+        var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
+        isoServer.OnClientConnected += client =>
+        {
+            remoteClientCreated.TrySetResult(client);
+        };
+        start();
         var remoteClient = await AwaitResult(remoteClientCreated);
         
         //
@@ -81,7 +109,7 @@ public class IsoWorldTests : AbstractTests
         const int height = 12;
         var serverWorldCreated = CreateTaskCompletionSource<WorldPlayers>(tcs =>
         {
-            server.OnWorldCreated += worldPlayers => tcs.TrySetResult(worldPlayers);
+            isoServer.OnWorldCreated += worldPlayers => tcs.TrySetResult(worldPlayers);
         });
         var clientWorldCreated = CreateTaskCompletionSource(client.WorldId);
         client.CreateWorld(width, height);
@@ -117,7 +145,7 @@ public class IsoWorldTests : AbstractTests
 
         //
         // dispose
-        await clientTransport.Disconnect();
-        serverTransport.Stop();
+        // await clientTransport.Disconnect();
+        // serverTransport.Stop();
     }
 }

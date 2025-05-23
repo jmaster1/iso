@@ -1,3 +1,5 @@
+using IsoNet.Core.Transport.Server;
+
 namespace IsoNet.Core.Transport;
 
 using System.Threading.Channels;
@@ -20,6 +22,11 @@ public class LocalTransport : AbstractTransport
         b.StartReceiving();
 
         return (a, b);
+    }
+
+    public static LocalServerTransport CreateServer(LocalTransport transport)
+    {
+        return new LocalServerTransport(transport);
     }
 
     private void StartReceiving()
@@ -60,4 +67,22 @@ public class LocalTransport : AbstractTransport
     }
 
     public override bool IsConnected() => _connected;
+}
+
+public class LocalServerTransport(LocalTransport clientTransport) : AbstractServer
+{
+    private bool _running;
+
+    protected override void StartInternal()
+    {
+        _running = true;
+        ClientConnected(clientTransport);
+    }
+
+    protected override void StopInternal()
+    {
+        _running = false;
+    }
+
+    public override bool IsRunning() => _running;
 }
