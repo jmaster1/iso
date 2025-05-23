@@ -118,28 +118,32 @@ public class TransportRmi : LogAware {
             return;
         }
         Logger?.LogInformation("Received response for request, query={query}", query);
-        var exceptionOccured = reader.ReadBoolean();
-        if (exceptionOccured)
+        try
         {
-            var exception = _codec.Read<Exception>(reader.BaseStream);
-            Logger?.LogInformation("exception={exception}", exception);
-            query.TaskCompletionSource.SetException(exception!);
-        }
-        else
-        {
-            var resultType = query.Call.MethodInfo.ReturnType;
-            if (IsGenericTask(resultType, out var taskGenericType))
+            var exceptionOccured = reader.ReadBoolean();
+            if (exceptionOccured)
             {
-                resultType = taskGenericType;
+                var exception = _codec.Read<Exception>(reader.BaseStream);
+                Logger?.LogInformation("exception={exception}", exception);
+                query.TaskCompletionSource.SetException(exception!);
             }
+            else
+            {
+                var resultType = query.Call.MethodInfo.ReturnType;
+                if (IsGenericTask(resultType, out var taskGenericType))
+                {
+                    resultType = taskGenericType;
+                }
 
-            // try
-            // {
-            //     
-            // }
-            var result = _codec.Read(reader.BaseStream, resultType);
-            Logger?.LogInformation("result={result}", result);
-            query.TaskCompletionSource.SetResult(result);  
+                var result = _codec.Read(reader.BaseStream, resultType);
+                Logger?.LogInformation("result={result}", result);
+                query.TaskCompletionSource.SetResult(result);
+            }
+        }
+        catch (Exception ex)
+        {
+            query.TaskCompletionSource.SetException(ex);
+            throw;
         }
     }
 

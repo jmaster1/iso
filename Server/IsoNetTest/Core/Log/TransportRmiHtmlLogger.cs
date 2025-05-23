@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Text.Json;
 using Common.IO.Streams;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
@@ -90,8 +91,18 @@ public class TransportRmiHtmlLogger : AbstractLogger
             case LoggingCodec.EventNameWrite:
                 var transportRmiEventId = TransportRmiLogContext.GetCurrent();
                 var message = ExtractParam<string, TState>(state, "str");
-                id = Id(transportRmiEventId.EventId.Name, transportRmiEventId.MessageType, transportRmiEventId.EventId.Id);
+                id = Id(transportRmiEventId.EventId.Name, transportRmiEventId.MessageType, 
+                    transportRmiEventId.EventId.Id);
                 Append($"<script>addHtml('{id}', '{message}')</script>");
+                break;
+            case LoggingCodec.EventNameReadError:
+            case LoggingCodec.EventNameWriteError:
+                transportRmiEventId = TransportRmiLogContext.GetCurrent();
+                var ex = ExtractParam<Exception, TState>(state, "ex");
+                id = Id(transportRmiEventId.EventId.Name, transportRmiEventId.MessageType, 
+                    transportRmiEventId.EventId.Id);
+                var msgEscaped = JsonSerializer.Serialize(ex.Message).Trim('"');
+                Append($"<script>addHtml('{id}', '<div class=\"error\">{msgEscaped}</div>')</script>");
                 break;
         }
     }

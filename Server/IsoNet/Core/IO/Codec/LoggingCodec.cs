@@ -6,10 +6,14 @@ namespace IsoNet.Core.IO.Codec;
 public class LoggingCodec : LogAware, ICodec
 {
     public const string EventNameWrite = "LoggingCodec.Write";
+    public const string EventNameWriteError = "LoggingCodec.WriteError";
     public const string EventNameRead = "LoggingCodec.Read";
+    public const string EventNameReadError = "LoggingCodec.ReadError";
 
-    public static readonly EventId EventIdWrite = new(0, EventNameWrite);
-    public static readonly EventId EventIdRead = new(1, EventNameRead);
+    public static readonly EventId EventIdWrite = new(1, EventNameWrite);
+    public static readonly EventId EventIdRead = new(2, EventNameRead);
+    public static readonly EventId EventIdReadError = new(3, EventNameReadError);
+    public static readonly EventId EventIdWriteError = new(4, EventNameWriteError);
     
     private readonly ICodec _codec;
     
@@ -22,7 +26,16 @@ public class LoggingCodec : LogAware, ICodec
     public void Write(object? item, Stream target)
     {
         using var ms = new MemoryStream();
-        _codec.Write(item, ms);
+        try
+        {
+            _codec.Write(item, ms);    
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogError(EventIdWriteError, "ReadError: ex={ex}", ex);
+            throw;
+        }
+        
         var bytes = ms.ToArray();
         var str = Encoding.UTF8.GetString(bytes);
         Logger?.LogInformation(EventIdWrite, "Write: {str}", str);
@@ -38,6 +51,14 @@ public class LoggingCodec : LogAware, ICodec
         var bytes = ms.ToArray();
         var str = Encoding.UTF8.GetString(bytes);
         Logger?.LogInformation(EventIdRead, "Read: {type}={str}", type, str);
-        return _codec.Read(ms, type);
+        try
+        {
+            return _codec.Read(ms, type);
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogError(EventIdReadError, "ReadError: {type}={str}, ex={ex}", type, str, ex);
+            throw;
+        }
     }
 }

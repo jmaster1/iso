@@ -55,7 +55,13 @@ public class HtmlLogger : AbstractLogger
                                 font-weight: bold;
                                 border-left: 4px solid #b71c1c;
                               }
-
+                              
+                              div.error {
+                                background-color: #fcc;
+                                border: solid 1px red;
+                                padding: 2px;
+                              }
+                              
                               </style>
                               """;
 
