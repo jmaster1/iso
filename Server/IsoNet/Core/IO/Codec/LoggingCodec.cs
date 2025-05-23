@@ -32,7 +32,7 @@ public class LoggingCodec : LogAware, ICodec
         }
         catch (Exception ex)
         {
-            Logger?.LogError(EventIdWriteError, "ReadError: ex={ex}", ex);
+            Logger?.LogError(EventIdWriteError, "WriteError: ex={ex}", ex);
             throw;
         }
         
