@@ -47,6 +47,9 @@ public class IsoWorldTests : AbstractTests
     private (IsoServer, IsoClient, Action) CreateClientServer(
         AbstractServer server, AbstractTransport clientTransport, Action starter)
     {
+        server.Logger = CreateLogger("server");
+        clientTransport.Logger = CreateLogger("client");
+        
         var isoServer = new IsoServer(server).Init();
         isoServer.OnClientConnected += client =>
         {

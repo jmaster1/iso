@@ -16,6 +16,7 @@ public class HtmlLogger : AbstractLogger
                               table, th, td {
                                 border: 1px solid #ccc;
                                 border-collapse: collapse;
+                                vertical-align: top;
                               }
 
                               th, td {

@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using Common.IO.Streams;
+using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport.Rmi;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ public class TransportRmiHtmlLogger : AbstractLogger
                     }
                     function addHtml(elId, html) {
                     	let el = document.getElementById(elId);
-                    	el.innerHTML += html;
+                    	el.innerHTML += html + '<hr>';
                     }
                     </script>
                     """);
@@ -83,7 +84,14 @@ public class TransportRmiHtmlLogger : AbstractLogger
                 var requestTime = RequestTime[requestId];
                 var timeSpan = DateTime.Now.Subtract(requestTime);
                 var id = Id(eventId.Name, messageType, requestId);
-                Append($"<script>addHtml('{id}', '{timeSpan.TotalMilliseconds:0}')</script>");
+                Append($"<script>addHtml('{id}', '{timeSpan.TotalMilliseconds:0} ms')</script>");
+                break;
+            case LoggingCodec.EventNameRead:
+            case LoggingCodec.EventNameWrite:
+                var transportRmiEventId = TransportRmiLogContext.GetCurrent();
+                var message = ExtractParam<string, TState>(state, "str");
+                id = Id(transportRmiEventId.EventId.Name, transportRmiEventId.MessageType, transportRmiEventId.EventId.Id);
+                Append($"<script>addHtml('{id}', '{message}')</script>");
                 break;
         }
     }

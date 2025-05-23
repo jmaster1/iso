@@ -5,6 +5,12 @@ namespace IsoNet.Core.IO.Codec;
 
 public class LoggingCodec : LogAware, ICodec
 {
+    public const string EventNameWrite = "LoggingCodec.Write";
+    public const string EventNameRead = "LoggingCodec.Read";
+
+    public static readonly EventId EventIdWrite = new(0, EventNameWrite);
+    public static readonly EventId EventIdRead = new(1, EventNameRead);
+    
     private readonly ICodec _codec;
     
     public LoggingCodec(ICodec codec, ILogger? logger = null)
@@ -19,7 +25,7 @@ public class LoggingCodec : LogAware, ICodec
         _codec.Write(item, ms);
         var bytes = ms.ToArray();
         var str = Encoding.UTF8.GetString(bytes);
-        Logger?.LogInformation("Write: {str}", str);
+        Logger?.LogInformation(EventIdWrite, "Write: {str}", str);
         target.Write(bytes, 0, bytes.Length);
         target.Flush();
     }
@@ -31,7 +37,7 @@ public class LoggingCodec : LogAware, ICodec
         ms.Position = 0;
         var bytes = ms.ToArray();
         var str = Encoding.UTF8.GetString(bytes);
-        Logger?.LogInformation("Read: {str}", str);
+        Logger?.LogInformation(EventIdRead, "Read: {type}={str}", type, str);
         return _codec.Read(ms, type);
     }
 }

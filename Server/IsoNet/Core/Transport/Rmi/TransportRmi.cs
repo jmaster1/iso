@@ -37,23 +37,25 @@ public class TransportRmi : LogAware {
         var reader = new BinaryReader(stream);
         var messageType = (MessageType)reader.ReadByte();
         var requestId = reader.ReadInt32();
-        Logger?.LogInformation(new EventId(requestId, NameReadMessage), 
-            "messageType={messageType}, " +
-            "requestId={requestId}", 
-            messageType, requestId);
-        switch (messageType)
+        using (TransportRmiLogContext.Push(messageType, requestId, NameReadMessage))
         {
-            case MessageType.Call:
-                ReadCall(reader, requestId);
-                break;
-            case MessageType.Request:
-                ReadRequest(reader, requestId);
-                break;
-            case MessageType.Response:
-                ReadResponse(reader, requestId);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            Logger?.LogInformation(TransportRmiLogContext.GetCurrentEvent(),
+                "messageType={messageType}, requestId={requestId}",
+                messageType, requestId);
+            switch (messageType)
+            {
+                case MessageType.Call:
+                    ReadCall(reader, requestId);
+                    break;
+                case MessageType.Request:
+                    ReadRequest(reader, requestId);
+                    break;
+                case MessageType.Response:
+                    ReadResponse(reader, requestId);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
@@ -130,6 +132,11 @@ public class TransportRmi : LogAware {
             {
                 resultType = taskGenericType;
             }
+
+            // try
+            // {
+            //     
+            // }
             var result = _codec.Read(reader.BaseStream, resultType);
             Logger?.LogInformation("result={result}", result);
             query.TaskCompletionSource.SetResult(result);  
@@ -139,18 +146,20 @@ public class TransportRmi : LogAware {
     private void WriteMessage(MessageType messageType, int requestId, object? result,
         Action<BinaryWriter>? writeBeforeResult = null)
     {
-        Logger?.LogInformation(new EventId(requestId, NameWriteMessage), 
-            "messageType={messageType}, " +
-            "requestId={requestId}", 
-            messageType, requestId);
-        _transport.SendMessage(responseStream =>
+        using (TransportRmiLogContext.Push(messageType, requestId, NameWriteMessage))
         {
-            var writer = new BinaryWriter(responseStream);
-            writer.Write((byte)messageType);
-            writer.Write(requestId);
-            writeBeforeResult?.Invoke(writer);
-            _codec.Write(result, responseStream);
-        });
+            Logger?.LogInformation(TransportRmiLogContext.GetCurrentEvent(), 
+                "messageType={messageType}, requestId={requestId}", 
+                messageType, requestId);
+            _transport.SendMessage(responseStream =>
+            {
+                var writer = new BinaryWriter(responseStream);
+                writer.Write((byte)messageType);
+                writer.Write(requestId);
+                writeBeforeResult?.Invoke(writer);
+                _codec.Write(result, responseStream);
+            });   
+        }
     }
 
     private int NextRequestId()
@@ -178,12 +187,10 @@ public class TransportRmi : LogAware {
             };
         }
         
-        Logger?.LogInformation(new EventId(requestId, NameInvokeRemote), 
-            "messageType={messageType}, " +
-            "requestId={requestId}, " +
-            "call={call}", 
+        Logger?.LogInformation(new EventId(requestId, NameInvokeRemote),
+            "messageType={messageType}, requestId={requestId}, call={call}",
             messageType, requestId, call);
-            
+
         WriteMessage(messageType, requestId, call);
             
         if (query == null)
