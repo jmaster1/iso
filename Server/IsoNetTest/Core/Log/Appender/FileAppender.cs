@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace IsoNetTest.Core.Log;
+namespace IsoNetTest.Core.Log.Appender;
 
 public class FileAppender(string filePath, object fileLock) : IAppender
 {

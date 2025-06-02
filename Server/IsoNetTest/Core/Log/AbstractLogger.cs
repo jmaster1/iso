@@ -1,4 +1,5 @@
 using Common.Util.Reflect;
+using IsoNetTest.Core.Log.Appender;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Core.Log;

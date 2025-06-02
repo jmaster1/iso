@@ -1,6 +1,7 @@
 using Common.Bind;
 using Common.Lang.Observable;
 using IsoNetTest.Core.Log;
+using IsoNetTest.Core.Log.Appender;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Core;
