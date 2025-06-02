@@ -1,8 +1,7 @@
-namespace IsoNet.Core.Transport.Rmi;
-
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+namespace IsoNet.Core.Transport.Rmi.Json;
 
 public class ExceptionJsonConverter : JsonConverter<Exception>
 {

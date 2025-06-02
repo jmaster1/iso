@@ -229,7 +229,7 @@ public class TransportRmi : LogAware {
             throw ae.InnerException!;
         }
 
-        var result = Convert.ChangeType(query.Task.Result, returnType);
+        var result = returnType == typeof(void) ? null : Convert.ChangeType(query.Task.Result, returnType);
         Logger?.LogInformation("Query result, query={query}, result={result}", 
             query, result);
         return result;
@@ -237,10 +237,14 @@ public class TransportRmi : LogAware {
 
     private MessageType ResolveMessageType(MethodInfo methodInfo)
     {
-        if(methodInfo.GetCustomAttribute<QueryAttribute>() != null) return MessageType.Request;
-        if(methodInfo.GetCustomAttribute<CallAttribute>() != null) return MessageType.Call;
-        if(methodInfo.DeclaringType!.GetCustomAttribute<QueryAttribute>() != null) return MessageType.Request;
-        if(methodInfo.DeclaringType!.GetCustomAttribute<CallAttribute>() != null) return MessageType.Call;
+        if(methodInfo.GetCustomAttribute<QueryAttribute>() != null) 
+            return MessageType.Request;
+        if(methodInfo.GetCustomAttribute<CallAttribute>() != null) 
+            return MessageType.Call;
+        if(methodInfo.DeclaringType!.GetCustomAttribute<QueryAttribute>() != null) 
+            return MessageType.Request;
+        if(methodInfo.DeclaringType!.GetCustomAttribute<CallAttribute>() != null) 
+            return MessageType.Call;
         return MessageType.Request;
     }
 

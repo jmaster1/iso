@@ -1,8 +1,9 @@
 using Common.IO.Serialize.Newtonsoft.Json.Converter;
+using IsoNet.Core.Proxy;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace IsoNet.Core.Proxy;
+namespace IsoNet.Core.Transport.Rmi.Json;
 
 public class MethodCallJsonConverter : JsonConverterGeneric<MethodCall>
 {

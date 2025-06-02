@@ -1,8 +1,8 @@
 using Common.Lang.Observable;
 using IsoNet.Core.IO.Codec;
-using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
+using IsoNet.Core.Transport.Rmi.Json;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +24,9 @@ public class TransportRmiTests : AbstractTests
 
         [Query]
         Task<string> QueryStringAsync();
+
+        [Query]
+        void QueryVoid();
         
         [Query]
         string QueryString();
@@ -70,6 +73,11 @@ public class TransportRmiTests : AbstractTests
         {
             Fire(nameof(QueryStringAsync));
             return Task.FromResult(nameof(QueryStringAsync));
+        }
+        
+        public void QueryVoid()
+        {
+            Fire(nameof(QueryVoid));
         }
 
         public string QueryString()
@@ -164,9 +172,7 @@ public class TransportRmiTests : AbstractTests
     {
         var (transportCln, transportSrv) = LocalTransport.CreatePair();
 
-        var codec = new JsonCodec()
-            .AddConverter(MethodCallJsonConverter.Instance)
-            .AddConverter(ExceptionJsonConverter.Instance);
+        var codec = TransportRmiJsonCodecFactory.Codec;
 
         _srv = new Endpoint("srv", transportSrv, codec);
         _cln = new Endpoint("cln", transportCln, codec);
@@ -229,6 +235,14 @@ public class TransportRmiTests : AbstractTests
         await AwaitResult(invoked);
     }
 
+    [Test]
+    public async Task QueryVoid()
+    {
+        var invoked = _srv.LocalMethodInvoked(nameof(ITestApi.QueryVoid));
+        _cln.ApiRemote.QueryVoid();
+        await AwaitResult(invoked);
+    }
+    
     [Test]
     public async Task QueryString()
     {
