@@ -11,8 +11,11 @@ public static class IsoJsonCodecFactory
 {
     public static JsonCodec CreateCodec()
     {
-        var c = TransportRmiJsonCodecFactory.CreateCodec();
-        return TransportRmiJsonCodecFactory.CreateCodec();
+        return TransportRmiJsonCodecFactory.CreateCodec(
+            typeof(IIsoClientApi), 
+            typeof(IIsoServerApi),
+            typeof(IIsoWorldApi)
+        );
     }
 
     public static JsonCodec AddWorldConverters(JsonCodec codec, IsoWorld world)

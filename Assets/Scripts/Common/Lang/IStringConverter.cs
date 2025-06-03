@@ -4,7 +4,7 @@
     /// responsible for converting object to string and back
     /// </summary>
     /// <typeparam name="T">object type</typeparam>
-    public interface IStringConverter<T>
+    public interface IStringConverter<T>//TODO : IConverter<T, string>
     {
         string ToString(T val);
 

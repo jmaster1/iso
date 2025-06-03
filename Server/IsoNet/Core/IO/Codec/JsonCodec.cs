@@ -1,3 +1,4 @@
+using IsoNet.Core.Transport.Rmi.Json;
 using Newtonsoft.Json;
 
 namespace IsoNet.Core.IO.Codec;
@@ -29,6 +30,12 @@ public class JsonCodec : AbstractTextCodec
     public JsonCodec AddConverter(JsonConverter converter)
     {
         Serializer.Converters.Add(converter);
+        return this;
+    }
+
+    public JsonCodec RemoveConverter(JsonConverter converter)
+    {
+        Serializer.Converters.Remove(converter);
         return this;
     }
 }

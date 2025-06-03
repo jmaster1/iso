@@ -1,4 +1,5 @@
 using Common.IO.Serialize.Newtonsoft.Json.Converter;
+using Common.Lang;
 using IsoNet.Core.Proxy;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -9,11 +10,13 @@ public class MethodCallJsonConverter : JsonConverterGeneric<MethodCall>
 {
     public static readonly MethodCallJsonConverter Instance = new();
     
+    public IConverter<Type, string> TypeStringConverter = Json.TypeStringConverter.Instance;
+    
     protected override void WriteJson(JsonWriter writer, MethodCall value, JsonSerializer serializer)
     {
         writer.WriteStartObject();
         writer.WritePropertyName("type");
-        writer.WriteValue(value.MethodInfo.ReflectedType!.AssemblyQualifiedName);
+        writer.WriteValue(TypeStringConverter.Convert(value.MethodInfo.ReflectedType!));
         writer.WritePropertyName("method");
         writer.WriteValue(value.MethodInfo.Name);
         writer.WritePropertyName("args");
@@ -37,8 +40,8 @@ public class MethodCallJsonConverter : JsonConverterGeneric<MethodCall>
         if (typeName == null || methodName == null || argsToken == null)
             throw new JsonSerializationException("Missing fields in MethodCall JSON.");
 
-        var targetType = Type.GetType(typeName)
-                         ?? throw new JsonSerializationException($"Type '{typeName}' not found");
+        var targetType = TypeStringConverter.Revert(typeName)
+            ?? throw new JsonSerializationException($"Type '{typeName}' not found");
         
         var method = targetType.GetMethod(methodName);
         if (method == null)
