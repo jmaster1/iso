@@ -1,3 +1,4 @@
+using Common.Api.Info;
 using Common.Lang.Observable;
 using Iso.Cells;
 using Iso.Player;
@@ -6,12 +7,12 @@ namespace Iso.Buildings
 {
     public class Buildings : AbstractIsoFeature<BuildingEvent, Building>
     {
-        public Cells.Cells Cells => World.Cells;
-        
         /// <summary>
         /// list of existing buildings
         /// </summary>
         public readonly PooledObsList<Building> List = new();
+        
+        public InfoSetIdString<BuildingInfo> BuildingInfoSet = GetInfoSetIdString<BuildingInfo>("buildings");
         
         public bool IsBuildable(BuildingInfo info, Cell? cell, bool flip = false)
         {

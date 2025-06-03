@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using Common.Api.Info;
+using Common.ContextNS;
 using Common.TimeNS;
 using Iso.Buildings;
 using Iso.Player;
@@ -93,7 +95,9 @@ public class IsoWorldTests : AbstractTests
 
     [Test]
     public async Task TestClientServer()
-    { 
+    {
+        InitContext();
+        
         var (isoServer, client, start) = 
             CreateClientServerLocal();
             //CreateClientServerWebsocket();
@@ -139,7 +143,7 @@ public class IsoWorldTests : AbstractTests
         };
         const int buildingX = 1;
         const int buildingY = 2;
-        client.RemoteWorldApi.Build(buildingInfo, client.World.Cells.Get(buildingX, buildingY));
+        client.RemoteWorldApi.Build(buildingInfo.Id, (buildingX, buildingY));
         await buildingCreated.AwaitResults((_, building) =>
         {
             Assert.That(building.X, Is.EqualTo(buildingX));
@@ -150,5 +154,25 @@ public class IsoWorldTests : AbstractTests
         // dispose
         // await clientTransport.Disconnect();
         // serverTransport.Stop();
+    }
+
+    private static void InitContext()
+    {
+        var infoApi = Context.Get<InfoApi>();
+        infoApi.loaders.Add((_, type) =>
+        {
+            if (type == typeof(List<BuildingInfo>))
+            {
+                return new List<BuildingInfo> { 
+                    new()
+                    {
+                        Id = "b0",
+                        width = 2,
+                        height = 2
+                    }
+                };
+            }
+            throw new NotImplementedException();
+        });
     }
 }
