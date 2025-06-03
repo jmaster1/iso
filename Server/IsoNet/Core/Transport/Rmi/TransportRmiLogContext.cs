@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Core.Transport.Rmi;
 
-public class TransportRmiLogContext
+public static class TransportRmiLogContext
 {
     private static readonly AsyncLocal<RmiLogContext?> Current = new();
 

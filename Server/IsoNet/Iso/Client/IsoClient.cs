@@ -22,7 +22,7 @@ public class IsoClient(
 
     public IIsoWorldApi RemoteWorldApi { get; private set; } = null!;
     
-    private IIsoServerApi ServerApi;
+    private IIsoServerApi _serverApi;
     
     private Time? _time = time;
     
@@ -58,7 +58,7 @@ public class IsoClient(
         
         Rmi = new TransportRmi(transport, codec);
         RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
-        ServerApi = Rmi.CreateRemote<IIsoServerApi>();
+        _serverApi = Rmi.CreateRemote<IIsoServerApi>();
         Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
         Rmi.RegisterLocal<IIsoClientApi>(this);
         return this;
@@ -66,12 +66,12 @@ public class IsoClient(
 
     public void CreateWorld(int width, int height)
     {
-        ServerApi.CreateWorld(width, height);
+        _serverApi.CreateWorld(width, height);
     }
 
     public void Start()
     {
-        ServerApi.StartWorld();
+        _serverApi.StartWorld();
     }
 
     public void WorldСreated(WorldInfo info)

@@ -9,8 +9,9 @@ namespace IsoNet.Iso.Common.Json;
 
 public static class IsoJsonCodecFactory
 {
-    public static ICodec CreateCodec()
+    public static JsonCodec CreateCodec()
     {
+        var c = TransportRmiJsonCodecFactory.CreateCodec();
         return TransportRmiJsonCodecFactory.CreateCodec();
     }
 

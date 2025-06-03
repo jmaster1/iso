@@ -103,9 +103,9 @@ public class IsoWorldTests : AbstractTests
             //CreateClientServerWebsocket();
 
         var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
-        isoServer.OnClientConnected += client =>
+        isoServer.OnClientConnected += remoteClient =>
         {
-            remoteClientCreated.TrySetResult(client);
+            remoteClientCreated.TrySetResult(remoteClient);
         };
         start();
         var remoteClient = await AwaitResult(remoteClientCreated);
@@ -137,7 +137,7 @@ public class IsoWorldTests : AbstractTests
             CreateTaskCompletionSource(player.Buildings.Events, BuildingEvent.BuildingCreated));
         const int buildingX = 1;
         const int buildingY = 2;
-        client.RemoteWorldApi.Build(BuildingId, (buildingX, buildingY));
+        client.RemoteWorldApi.Build(BuildingId, buildingX, buildingY);
         await buildingCreated.AwaitResults((_, building) =>
         {
             Assert.That(building!.X, Is.EqualTo(buildingX));
@@ -146,8 +146,8 @@ public class IsoWorldTests : AbstractTests
 
         //
         // dispose
-        // await clientTransport.Disconnect();
-        // serverTransport.Stop();
+        // await client.Start().Disconnect();
+        // server.Stop();
     }
 
     const string BuildingId = "b0";
