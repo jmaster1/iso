@@ -34,7 +34,10 @@ public class IsoRemoteClient(
     {
         Rmi.RegisterLocal<IIsoServerApi>(this);
         
-        var remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
+        var remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(bean =>
+        {
+            bean.OnInvokeBefore = call => call.SetAttr(IsoCommon.AttrFrame, Frame);
+        });
         RemoteInvoker.Register(remoteWorldApi);
         
         ClientApi = Rmi.CreateRemote<IIsoClientApi>();
@@ -54,24 +57,20 @@ public class IsoRemoteClient(
     internal void WorldStarted()
     {
         local = new IsoWorldApi(World);
-        var (localProxy, localProxyBean) = Proxy.Create<IIsoWorldApi>(
-            HandleIsoWorldApiCall);
-        localProxyBean.OnInvokeBefore = call => call.SetAttr(IsoCommon.AttrFrame, Frame);
+        var (localProxy, _) = Proxy.Create<IIsoWorldApi>(call =>
+        {
+            _serverWorld.RunOnTime(() =>
+            {
+                var result = call.MethodInfo.Invoke(local, call.Args);
+                foreach (var isoRemoteClient in _serverWorld.Clients)
+                {
+                    isoRemoteClient.RemoteInvoker.Invoke(call);
+                }
+            });
+            return null;
+        });
         Rmi.RegisterLocal(localProxy);
         ClientApi.WorldStarted();
-    }
-
-    private object? HandleIsoWorldApiCall(MethodCall call)
-    {
-        _serverWorld.RunOnTime(() =>
-        {
-            var result = call.MethodInfo.Invoke(local, call.Args);
-            foreach (var isoRemoteClient in _serverWorld.Clients)
-            {
-                isoRemoteClient.RemoteInvoker.Invoke(call);
-            }
-        });
-        return null;
     }
 
     public void JoinWorld(string worldId)

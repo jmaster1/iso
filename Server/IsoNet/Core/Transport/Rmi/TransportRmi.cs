@@ -171,9 +171,10 @@ public class TransportRmi : LogAware {
         return Interlocked.Increment(ref _requestIdSeq) + RequestIdOffset;
     }
     
-    public T CreateRemote<T>() where T : class
+    public T CreateRemote<T>(Action<ProxyBean<T>>? proxyBeanConsumer = null) where T : class
     {
-        var (remoteApi, _) = Proxy.Proxy.Create<T>(InvokeRemote);
+        var (remoteApi, remoteProxyBean) = Proxy.Proxy.Create<T>(InvokeRemote);
+        proxyBeanConsumer?.Invoke(remoteProxyBean);
         return remoteApi;
     }
 
