@@ -15,6 +15,7 @@ public abstract class AbstractServer : LogAware
     protected void ClientConnected(AbstractTransport transport)
     {
         ConnectCount++;
+        transport.Logger = Logger;
         Logger?.LogInformation("client connected {transport}", transport);
         OnClientConnected?.Invoke(transport);
         transport.OnClose += () =>

@@ -135,18 +135,12 @@ public class IsoWorldTests : AbstractTests
         // build
         var buildingCreated = cs2.CreateTaskCompletionSource(player => 
             CreateTaskCompletionSource(player.Buildings.Events, BuildingEvent.BuildingCreated));
-        var buildingInfo = new BuildingInfo
-        {
-            Id = "b0",
-            width = 2,
-            height = 2
-        };
         const int buildingX = 1;
         const int buildingY = 2;
-        client.RemoteWorldApi.Build(buildingInfo.Id, (buildingX, buildingY));
+        client.RemoteWorldApi.Build(BuildingId, (buildingX, buildingY));
         await buildingCreated.AwaitResults((_, building) =>
         {
-            Assert.That(building.X, Is.EqualTo(buildingX));
+            Assert.That(building!.X, Is.EqualTo(buildingX));
             Assert.That(building.Y, Is.EqualTo(buildingY));    
         });
 
@@ -156,6 +150,8 @@ public class IsoWorldTests : AbstractTests
         // serverTransport.Stop();
     }
 
+    const string BuildingId = "b0";
+    
     private static void InitContext()
     {
         var infoApi = Context.Get<InfoApi>();
@@ -166,7 +162,7 @@ public class IsoWorldTests : AbstractTests
                 return new List<BuildingInfo> { 
                     new()
                     {
-                        Id = "b0",
+                        Id = BuildingId,
                         width = 2,
                         height = 2
                     }

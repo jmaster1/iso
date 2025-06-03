@@ -37,8 +37,6 @@ public class TransportRmiHtmlLogger : AbstractLogger
                 .th("MessageType")
                 .th("RequestId")
                 .th("Method")
-                .th("Call>>")
-                .th(">>Call")
                 .th("Req>>")
                 .th(">>Req")
                 .th("Resp>>")
@@ -71,12 +69,10 @@ public class TransportRmiHtmlLogger : AbstractLogger
                         .td(messageType)
                         .td(requestId)
                         .td(call!)
-                        .td().attrId(Id(TransportRmi.NameWriteMessage, MessageType.Call, requestId)).endTd()
-                        .td().attrId(Id(TransportRmi.NameReadMessage, MessageType.Call, requestId)).endTd()
-                        .td().attrId(Id(TransportRmi.NameWriteMessage, MessageType.Request, requestId)).endTd()
-                        .td().attrId(Id(TransportRmi.NameReadMessage, MessageType.Request, requestId)).endTd()
-                        .td().attrId(Id(TransportRmi.NameWriteMessage, MessageType.Response, requestId)).endTd()
-                        .td().attrId(Id(TransportRmi.NameReadMessage, MessageType.Response, requestId)).endTd()
+                        .td().attrId(TdId(TransportRmi.NameWriteMessage, MessageType.Request, requestId)).endTd()
+                        .td().attrId(TdId(TransportRmi.NameReadMessage, MessageType.Request, requestId)).endTd()
+                        .td().attrId(TdId(TransportRmi.NameWriteMessage, MessageType.Response, requestId)).endTd()
+                        .td().attrId(TdId(TransportRmi.NameReadMessage, MessageType.Response, requestId)).endTd()
                         .endTr();
                 });
                 Append(html);
@@ -85,14 +81,14 @@ public class TransportRmiHtmlLogger : AbstractLogger
             case TransportRmi.NameWriteMessage:
                 var requestTime = RequestTime[requestId];
                 var timeSpan = DateTime.Now.Subtract(requestTime);
-                var id = Id(eventId.Name, messageType, requestId);
+                var id = TdId(eventId.Name, messageType, requestId);
                 Append($"<script>addHtml('{id}', '{timeSpan.TotalMilliseconds:0} ms')</script>");
                 break;
             case LoggingCodec.EventNameRead:
             case LoggingCodec.EventNameWrite:
                 var transportRmiEventId = TransportRmiLogContext.GetCurrent();
                 var message = ExtractParam<string, TState>(state, "str");
-                id = Id(transportRmiEventId.EventId.Name, transportRmiEventId.MessageType, 
+                id = TdId(transportRmiEventId.EventId.Name!, transportRmiEventId.MessageType, 
                     transportRmiEventId.EventId.Id);
                 Append($"<script>addHtml('{id}', '{message}')</script>");
                 break;
@@ -100,16 +96,20 @@ public class TransportRmiHtmlLogger : AbstractLogger
             case LoggingCodec.EventNameWriteError:
                 transportRmiEventId = TransportRmiLogContext.GetCurrent();
                 var ex = ExtractParam<Exception, TState>(state, "ex");
-                id = Id(transportRmiEventId.EventId.Name, transportRmiEventId.MessageType, 
+                id = TdId(transportRmiEventId.EventId.Name!, transportRmiEventId.MessageType, 
                     transportRmiEventId.EventId.Id);
-                var msgEscaped = JsonSerializer.Serialize(ex.Message).Trim('"');
+                var msgEscaped = JsonSerializer.Serialize(ex!.Message).Trim('"');
                 Append($"<script>addHtml('{id}', '<div class=\"error\">{msgEscaped}</div>')</script>");
                 break;
         }
     }
 
-    private string Id(string operationName, MessageType messageType, int requestId)
+    private static string TdId(string operationName, MessageType messageType, int requestId)
     {
+        if (messageType == MessageType.Call)
+        {
+            messageType = MessageType.Request;
+        }
         return $"{operationName}_{messageType}_{requestId}";
     }
 }
