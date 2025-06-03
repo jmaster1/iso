@@ -13,10 +13,10 @@ public class MethodCall
     
     public Func<string, Type, object?, object?>? AttrGetter;
 
-    public void SetAttr(string name, int timeFrame)
+    public void SetAttr(string name, object value)
     {
         Attrs ??= new Dictionary<string, object>();
-        Attrs[name] = timeFrame;
+        Attrs[name] = value;
     }
 
     public T? GetAttr<T>(string name, T defaultValue = default!)

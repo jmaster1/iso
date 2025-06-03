@@ -17,6 +17,8 @@ public class IsoRemoteClient(
     public IsoWorld World => _serverWorld.World;
     
     public Time Time => World.TimeGame;
+    
+    public int Frame => Time.Frame;
 
     public readonly TransportRmi Rmi = new(transport, codec);
 
@@ -25,6 +27,8 @@ public class IsoRemoteClient(
     public IIsoClientApi ClientApi = null!;
 
     private ServerWorld _serverWorld = null!;
+    
+    private IsoWorldApi local;
 
     internal IsoRemoteClient Init()
     {
@@ -49,11 +53,25 @@ public class IsoRemoteClient(
 
     internal void WorldStarted()
     {
-        var local = new IsoWorldApi(World);
-        var (localProxy, localProxyBean) = Proxy.Create<IIsoWorldApi>(local);
-        localProxyBean.OnInvokeAfter = _serverWorld.OnIsoWorldApiCallAfter;
+        local = new IsoWorldApi(World);
+        var (localProxy, localProxyBean) = Proxy.Create<IIsoWorldApi>(
+            HandleIsoWorldApiCall);
+        localProxyBean.OnInvokeBefore = call => call.SetAttr(IsoCommon.AttrFrame, Frame);
         Rmi.RegisterLocal(localProxy);
         ClientApi.WorldStarted();
+    }
+
+    private object? HandleIsoWorldApiCall(MethodCall call)
+    {
+        _serverWorld.RunOnTime(() =>
+        {
+            var result = call.MethodInfo.Invoke(local, call.Args);
+            foreach (var isoRemoteClient in _serverWorld.Clients)
+            {
+                isoRemoteClient.RemoteInvoker.Invoke(call);
+            }
+        });
+        return null;
     }
 
     public void JoinWorld(string worldId)

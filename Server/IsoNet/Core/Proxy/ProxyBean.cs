@@ -50,7 +50,9 @@ public class ProxyBean<T> : DispatchProxy where T : class
 
 public static class Proxy
 {
-    public static (T Proxy, ProxyBean<T> Bean) Create<T>(Func<MethodCall, object?>? handler = null, T? target = null) where T : class
+    public static (T Proxy, ProxyBean<T> Bean) Create<T>(
+        Func<MethodCall, object?>? handler = null, 
+        T? target = null) where T : class
     {
         if (!typeof(T).IsInterface)
             throw new InvalidOperationException($"{typeof(T).Name} must be an interface");

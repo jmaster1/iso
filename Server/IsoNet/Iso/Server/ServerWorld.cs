@@ -1,6 +1,5 @@
 using Common.TimeNS;
 using Iso.Player;
-using IsoNet.Core.Proxy;
 using IsoNet.Iso.Common;
 
 namespace IsoNet.Iso.Server;
@@ -32,12 +31,8 @@ public class ServerWorld(IsoWorld world)
         }
     }
 
-    public void OnIsoWorldApiCallAfter(MethodCall call, object? result, Exception? error)
+    public void RunOnTime(Action action)
     {
-        if (error != null) return;
-        foreach (var isoRemoteClient in Clients)
-        {
-            isoRemoteClient.RemoteInvoker.Invoke(call);
-        }
+        _runOnTime.AddAction(action);
     }
 }
