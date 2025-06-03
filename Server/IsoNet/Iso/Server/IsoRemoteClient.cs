@@ -1,6 +1,7 @@
 using Common.TimeNS;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
+using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNet.Iso.Common;
@@ -13,66 +14,46 @@ public class IsoRemoteClient(
     AbstractTransport transport, 
     ICodec codec) : IIsoServerApi
 {
-    public IsoWorld World => _worldPlayers.World;
+    public IsoWorld World => _serverWorld.World;
     
     public Time Time => World.TimeGame;
+
+    public readonly TransportRmi Rmi = new(transport, codec);
+
+    internal readonly MethodInvoker RemoteInvoker = new();
     
-    private IIsoWorldApi _remoteWorldApi = null!;
+    public IIsoClientApi ClientApi = null!;
 
-    public TransportRmi Rmi = null!;
-
-    private readonly MethodInvoker _remoteInvoker = new();
-    
-    public IIsoClientApi _clientApi = null!;
-
-    private WorldPlayers _worldPlayers = null!;
+    private ServerWorld _serverWorld = null!;
 
     internal IsoRemoteClient Init()
     {
-        Rmi = new TransportRmi(transport, codec);
-        
-        
-        //var local = new IsoApi(world, _time);
-        
-            /*.Init(call =>
-        {
-            _runOnTime.AddAction(() =>
-            {
-                _invoker.Invoke(call);
-                if (call.MethodInfo.GetCustomAttribute<ReplayAttribute>() != null)
-                {
-                    _remoteInvoker.Invoke(call);
-                }
-            });
-        });
-        */
         Rmi.RegisterLocal<IIsoServerApi>(this);
-        _remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
-        /*call =>
-        {
-            call.SetAttr(IsoCommon.AttrFrame, Time.Frame);
-        });
-        */
-        _clientApi = Rmi.CreateRemote<IIsoClientApi>();
-        _remoteInvoker.Register(_remoteWorldApi);
+        
+        var remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
+        RemoteInvoker.Register(remoteWorldApi);
+        
+        ClientApi = Rmi.CreateRemote<IIsoClientApi>();
         return this;
     }
 
     public void CreateWorld(int width, int height)
     {
-        _worldPlayers = server.CreateWorld(width, height, this);
+        _serverWorld = server.CreateWorld(width, height, this);
     }
 
     public void StartWorld()
     {
-        server.StartWorld(_worldPlayers, this);
+        server.StartWorld(_serverWorld, this);
     }
 
     internal void WorldStarted()
     {
         var local = new IsoWorldApi(World);
-        Rmi.RegisterLocal<IIsoWorldApi>(local);
-        _clientApi.WorldStarted();
+        var (localProxy, localProxyBean) = Proxy.Create<IIsoWorldApi>(local);
+        localProxyBean.OnInvokeAfter = _serverWorld.OnIsoWorldApiCallAfter;
+        Rmi.RegisterLocal(localProxy);
+        ClientApi.WorldStarted();
     }
 
     public void JoinWorld(string worldId)

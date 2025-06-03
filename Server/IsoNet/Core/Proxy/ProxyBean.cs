@@ -6,26 +6,45 @@ public class ProxyBean<T> : DispatchProxy where T : class
 {
     public Func<MethodCall, object?>? OnInvoke;
     
+    public Action<MethodCall, object?, Exception?>? OnInvokeAfter;
+    
+    public Action<MethodCall>? OnInvokeBefore;
+    
     public T? Target { get; set; }
     
     protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
     {
-        if (OnInvoke != null)
+        var methodCall = new MethodCall
         {
-            var methodCall = new MethodCall
+            MethodInfo = targetMethod!,
+            Args = args
+        };
+
+        object? result = null;
+        OnInvokeBefore?.Invoke(methodCall);
+        Exception? error = null;
+        try
+        {
+            if (OnInvoke != null)
             {
-                MethodInfo = targetMethod!,
-                Args = args
-            };
-            return OnInvoke.Invoke(methodCall);
-        }
+                result = OnInvoke.Invoke(methodCall);
+            }
 
-        if (Target != null)
+            if (Target != null)
+            {
+                result = targetMethod!.Invoke(Target, args);
+            }
+        }
+        catch (Exception ex)
         {
-            return targetMethod!.Invoke(Target, args);
+            error = ex;
+            throw;
         }
-
-        return null;
+        finally
+        {
+            OnInvokeAfter?.Invoke(methodCall, result, error);    
+        }
+        return result;
     }
 }
 
@@ -45,4 +64,8 @@ public static class Proxy
         }
         return (proxy, bean);
     }
+    
+    public static (T Proxy, ProxyBean<T> Bean) Create<T>(T target)
+        where T : class =>
+        Create(null, target);
 }

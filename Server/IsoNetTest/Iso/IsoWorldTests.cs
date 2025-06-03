@@ -114,7 +114,7 @@ public class IsoWorldTests : AbstractTests
         // create world
         const int width = 11;
         const int height = 12;
-        var serverWorldCreated = CreateTaskCompletionSource<WorldPlayers>(tcs =>
+        var serverWorldCreated = CreateTaskCompletionSource<ServerWorld>(tcs =>
         {
             isoServer.OnWorldCreated += worldPlayers => tcs.TrySetResult(worldPlayers);
         });

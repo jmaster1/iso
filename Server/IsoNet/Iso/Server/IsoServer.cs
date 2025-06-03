@@ -13,9 +13,9 @@ public class IsoServer(AbstractServer server)
 {
     public event Action<IsoRemoteClient>? OnClientConnected;
     
-    public event Action<WorldPlayers>? OnWorldCreated;
+    public event Action<ServerWorld>? OnWorldCreated;
 
-    private ConcurrentDictionary<string, WorldPlayers> _worlds = new();
+    private readonly ConcurrentDictionary<string, ServerWorld> _worlds = new();
         
     public IsoServer Init()
     {
@@ -30,20 +30,17 @@ public class IsoServer(AbstractServer server)
         OnClientConnected?.Invoke(client);
     }
 
-    internal WorldPlayers CreateWorld(int width, int height, IsoRemoteClient client)
+    internal ServerWorld CreateWorld(int width, int height, IsoRemoteClient client)
     {
         var world = new IsoWorld(Guid.NewGuid().ToString());
         world.Cells.Create(width, height, () =>
         {
             world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
         });
-        var worldPlayers = new WorldPlayers()
-        {
-            World = world,
-        };
-        worldPlayers.Clients.Add(client);
-        _worlds[world.Id] = worldPlayers;
-        OnWorldCreated?.Invoke(worldPlayers);
+        var serverWorld = new ServerWorld(world);
+        serverWorld.Clients.Add(client);
+        _worlds[world.Id] = serverWorld;
+        OnWorldCreated?.Invoke(serverWorld);
 
 
         var worldInfo = new WorldInfo() 
@@ -52,13 +49,13 @@ public class IsoServer(AbstractServer server)
             Width = width,
             Height = height
         };
-        worldPlayers.ForEachClient(cln => cln._clientApi.WorldСreated(worldInfo));
-        return worldPlayers;
+        serverWorld.ForEachClient(cln => cln.ClientApi.WorldСreated(worldInfo));
+        return serverWorld;
     }
 
-    public void StartWorld(WorldPlayers worldPlayers, IsoRemoteClient client)
+    public void StartWorld(ServerWorld serverWorld, IsoRemoteClient client)
     {
-        worldPlayers.Start();
-        worldPlayers.ForEachClient(cln => cln.WorldStarted());
+        serverWorld.Start();
+        serverWorld.ForEachClient(cln => cln.WorldStarted());
     }
 }
