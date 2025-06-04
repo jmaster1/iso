@@ -26,7 +26,7 @@ public class LocalTransport : AbstractTransport
 
     public static LocalServerTransport CreateServer(LocalTransport transport)
     {
-        return new LocalServerTransport(transport);
+        return new LocalServerTransport();
     }
 
     private void StartReceiving()
@@ -69,14 +69,14 @@ public class LocalTransport : AbstractTransport
     public override bool IsConnected() => _connected;
 }
 
-public class LocalServerTransport(LocalTransport clientTransport) : AbstractServer
+public class LocalServerTransport() : AbstractServer
 {
     private bool _running;
 
     protected override void StartInternal()
     {
         _running = true;
-        ClientConnected(clientTransport);
+        
     }
 
     protected override void StopInternal()
@@ -85,4 +85,11 @@ public class LocalServerTransport(LocalTransport clientTransport) : AbstractServ
     }
 
     public override bool IsRunning() => _running;
+
+    public LocalTransport AddClient()
+    {
+        var (transportCln, transportSrv) = LocalTransport.CreatePair();
+        ClientConnected(transportSrv);
+        return transportCln;
+    }
 }

@@ -46,51 +46,64 @@ public class IsoWorldTests : AbstractTests
         Logger.LogInformation("Updates: {updates}, time: {time} ms", time.Frame, stopwatch.Elapsed.TotalMilliseconds.ToString("0.000"));
     }
 
-    private (IsoServer, IsoClient, Action) CreateClientServer(
-        AbstractServer server, AbstractTransport clientTransport, Action starter)
+    private IsoServer CreateServer(AbstractServer server)
     {
         server.Logger = CreateLogger("server");
-        clientTransport.Logger = CreateLogger("client");
-        
         var isoServer = new IsoServer(server).Init();
         isoServer.OnClientConnected += client =>
         {
             client.Rmi.Logger = CreateLogger("serverRmi");
         };
-        
+        return isoServer;
+    }
+    
+    private IsoClient CreateClient(AbstractTransport clientTransport)
+    {
+        clientTransport.Logger = CreateLogger("client");
+        var isoWorld = new IsoWorld();
+        var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
+        var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec).Init();
+        isoClient.Rmi.Logger = CreateLogger("clientRmi");
+        isoClient.Rmi.RequestIdOffset = 1000;
+        return isoClient;
+    }
+    
+    private (IsoServer, IsoClient, Action) CreateClientServer(
+        AbstractServer server, AbstractTransport clientTransport, Action starter)
+    {
+        clientTransport.Logger = CreateLogger("client");
         var isoWorld = new IsoWorld();
         var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
         var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec).Init();
         isoClient.Rmi.Logger = CreateLogger("clientRmi");
         isoClient.Rmi.RequestIdOffset = 1000;
         
-        return (isoServer, isoClient, starter);
+        return (CreateServer(server), CreateClient(clientTransport), starter);
     }
     
-    private (IsoServer, IsoClient, Action) CreateClientServerWebsocket()
+    private (IsoServer, Func<IsoClient>) CreateServerWebsocket()
     {
         var server = new WebSocketServer("http://localhost:7000/ws/")
         {
             Logger = CreateLogger("server")
         };
-        
-        var clientTransport = new WebSocketClient
+        var isoServer = CreateServer(server);
+        return (isoServer, () =>
         {
-            Logger = CreateLogger("client")
-        };
-        
-        return CreateClientServer(server, clientTransport, () =>
-        {
-            server.Start();
+            var clientTransport = new WebSocketClient
+            {
+                Logger = CreateLogger("client")
+            };
             clientTransport.Connect("ws://localhost:7000/ws/");
+            return CreateClient(clientTransport);
         });
     }
-
-    private (IsoServer, IsoClient, Action) CreateClientServerLocal()
+    
+    private (IsoServer, Func<IsoClient>) CreateServerLocal()
     {
-        var (transportCln, transportSrv) = LocalTransport.CreatePair();
-        var server = LocalTransport.CreateServer(transportSrv);
-        return CreateClientServer(server, transportCln, () => server.Start());
+        var server = new LocalServerTransport();
+        var isoServer = CreateServer(server);
+        return (isoServer, () => CreateClient(server.AddClient()));
     }
 
     [Test]
@@ -98,16 +111,17 @@ public class IsoWorldTests : AbstractTests
     {
         InitContext();
         
-        var (isoServer, client, start) = 
-            CreateClientServerLocal();
-            //CreateClientServerWebsocket();
+        var (isoServer, clientFactory) = 
+            CreateServerWebsocket();
+            //CreateServerLocal();
 
         var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
         isoServer.OnClientConnected += remoteClient =>
         {
             remoteClientCreated.TrySetResult(remoteClient);
         };
-        start();
+
+        var client = clientFactory();
         var remoteClient = await AwaitResult(remoteClientCreated);
         
         //
