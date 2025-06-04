@@ -21,6 +21,7 @@ public class ServerWorld(IsoWorld world)
         _runOnTime.Bind(_time);
         TimeTimer.Start(_time, IsoCommon.Delta);
         World.Bind(_time);
+        ForEachClient(cln => cln.WorldStarted());
     }
 
     public void ForEachClient(Action<IsoRemoteClient> action)

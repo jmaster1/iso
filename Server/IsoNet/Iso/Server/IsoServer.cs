@@ -43,7 +43,7 @@ public class IsoServer(AbstractServer server)
         OnWorldCreated?.Invoke(serverWorld);
 
 
-        var worldInfo = new WorldInfo() 
+        var worldInfo = new WorldInfo
         {
             Id = world.Id,
             Width = width,
@@ -51,11 +51,5 @@ public class IsoServer(AbstractServer server)
         };
         serverWorld.ForEachClient(cln => cln.ClientApi.WorldСreated(worldInfo));
         return serverWorld;
-    }
-
-    public void StartWorld(ServerWorld serverWorld, IsoRemoteClient client)
-    {
-        serverWorld.Start();
-        serverWorld.ForEachClient(cln => cln.WorldStarted());
     }
 }

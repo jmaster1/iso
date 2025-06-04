@@ -51,7 +51,7 @@ public class IsoRemoteClient(
 
     public void StartWorld()
     {
-        server.StartWorld(_serverWorld, this);
+        _serverWorld.Start();
     }
 
     internal void WorldStarted()
