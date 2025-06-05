@@ -4,26 +4,13 @@ using Common.ContextNS;
 using Common.TimeNS;
 using Iso.Buildings;
 using Iso.Player;
-using IsoNet.Core.IO.Codec;
-using IsoNet.Core.Transport;
-using IsoNet.Core.Transport.Server;
-using IsoNet.Core.Transport.Server.WebSocket;
-using IsoNet.Core.Transport.WebSocket;
-using IsoNet.Iso.Client;
-using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
-using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest.Iso;
+namespace IsoNetTest.Iso.Net;
 
-public class IsoWorldTests : AbstractTests
+public class IsoWorldTests : AbstractIsoNetTests
 {
-    protected override void ConfigureLoggingBuilder(ILoggingBuilder builder)
-    {
-        AddTransportRmiHtmlLogger(builder);
-    }
-
     [Test]
     public void Test()
     {
@@ -45,49 +32,29 @@ public class IsoWorldTests : AbstractTests
         stopwatch.Stop();
         Logger.LogInformation("Updates: {updates}, time: {time} ms", time.Frame, stopwatch.Elapsed.TotalMilliseconds.ToString("0.000"));
     }
-
-    private IsoServer CreateServer(AbstractServer server)
-    {
-        server.Logger = CreateLogger("server");
-        var isoServer = new IsoServer(server).Init();
-        isoServer.OnClientConnected += client =>
-        {
-            client.Rmi.Logger = CreateLogger("serverRmi");
-        };
-        return isoServer;
-    }
     
-    private IsoClient CreateClient(AbstractTransport clientTransport)
-    {
-        clientTransport.Logger = CreateLogger("client");
-        var isoWorld = new IsoWorld();
-        var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
-        var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec).Init();
-        isoClient.Rmi.Logger = CreateLogger("clientRmi");
-        isoClient.Rmi.RequestIdOffset = 1000;
-        return isoClient;
-    }
+    const string BuildingId = "b0";
     
-    private (IsoServer, Func<IsoClient>) CreateServerWebsocket()
+    private static void InitContext()
     {
-        var server = new WebSocketServer("http://localhost:7000/ws/");
-        server.Start();
-        var isoServer = CreateServer(server);
-        return (isoServer, () =>
+        var infoApi = Context.Get<InfoApi>();
+        infoApi.loaders.Add((_, type) =>
         {
-            var clientTransport = new WebSocketClient();
-            clientTransport.Connect("ws://localhost:7000/ws/").Wait();
-            return CreateClient(clientTransport);
+            if (type == typeof(List<BuildingInfo>))
+            {
+                return new List<BuildingInfo> { 
+                    new()
+                    {
+                        Id = BuildingId,
+                        width = 2,
+                        height = 2
+                    }
+                };
+            }
+            throw new NotImplementedException();
         });
     }
     
-    private (IsoServer, Func<IsoClient>) CreateServerLocal()
-    {
-        var server = new LocalServerTransport();
-        var isoServer = CreateServer(server);
-        return (isoServer, () => CreateClient(server.AddClient()));
-    }
-
     [Test]
     public async Task TestClientServer()
     {
@@ -144,27 +111,5 @@ public class IsoWorldTests : AbstractTests
         // dispose
         // await client.Start().Disconnect();
         // server.Stop();
-    }
-
-    const string BuildingId = "b0";
-    
-    private static void InitContext()
-    {
-        var infoApi = Context.Get<InfoApi>();
-        infoApi.loaders.Add((_, type) =>
-        {
-            if (type == typeof(List<BuildingInfo>))
-            {
-                return new List<BuildingInfo> { 
-                    new()
-                    {
-                        Id = BuildingId,
-                        width = 2,
-                        height = 2
-                    }
-                };
-            }
-            throw new NotImplementedException();
-        });
     }
 }
