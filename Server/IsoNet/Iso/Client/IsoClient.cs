@@ -15,9 +15,10 @@ public class IsoClient(
     IsoWorld world, 
     AbstractTransport transport, 
     ICodec codec, 
-    Time? time = null) : LogAware, IIsoClientApi
+    Time time) : LogAware, IIsoClientApi
 {
     public IsoWorld World => world;
+    public Time WorldTime => world.TimeGame;
     
     private readonly RunOnTime _runOnTime = new();
 
@@ -25,21 +26,17 @@ public class IsoClient(
     
     private IIsoServerApi _serverApi;
     
-    private Time? _time = time;
-    
     public TransportRmi Rmi = null!;
     
     public readonly StringHolder WorldId = new();
 
+    private int _lastFrameReported;
+
     public IsoClient Init()
     {
-        if (_time == null)
-        {
-            _time = new Time();
-            new TimeTimer().Start(_time, IsoCommon.Delta);
-        }
         _runOnTime.FrameSupplier = () => World.TimeGame.Frame;
-        _runOnTime.Bind(_time);
+        _runOnTime.Bind(time);
+        time.AddListener(OnTimeUpdate);
         /*
         _invoker = new TransportInvoker(transport, codec).Init(call =>
         {
@@ -58,11 +55,29 @@ public class IsoClient(
         */
         
         Rmi = new TransportRmi(transport, codec);
-        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
+        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(proxyBean =>
+        {
+            proxyBean.OnInvokeBefore = call =>
+            {
+                call.SetAttr(IsoCommon.AttrFrame, World.TimeGame.Frame);
+            };
+        });
         _serverApi = Rmi.CreateRemote<IIsoServerApi>();
         Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
         Rmi.RegisterLocal<IIsoClientApi>(this);
         return this;
+    }
+
+    private void OnTimeUpdate(Time _)
+    {
+        var updateLock = WorldTime.UpdateLock;
+        if (!updateLock.Value && WorldTime.Frame >= _lastFrameReported)
+        {
+            updateLock.AddLock(this);
+        } else if (updateLock.Value && WorldTime.Frame < _lastFrameReported)
+        {
+            updateLock.RemoveLock(this);
+        }
     }
 
     public void CreateWorld(int width, int height)
@@ -87,11 +102,12 @@ public class IsoClient(
 
     public void WorldStarted()
     {
-        world.Bind(_time);
+        world.Bind(time);
     }
 
     public void WorldFrameReport(int frame)
     {
+        _lastFrameReported = frame;
         Logger?.LogInformation("WorldFrameReport: {frame}", frame);
     }
 }

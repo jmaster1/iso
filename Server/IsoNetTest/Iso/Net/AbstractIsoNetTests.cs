@@ -1,3 +1,4 @@
+using Common.TimeNS;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
@@ -5,6 +6,7 @@ using IsoNet.Core.Transport.Server;
 using IsoNet.Core.Transport.Server.WebSocket;
 using IsoNet.Core.Transport.WebSocket;
 using IsoNet.Iso.Client;
+using IsoNet.Iso.Common;
 using IsoNet.Iso.Common.Json;
 using IsoNet.Iso.Server;
 using IsoNetTest.Core;
@@ -35,7 +37,9 @@ public abstract class AbstractIsoNetTests : AbstractTests
         clientTransport.Logger = CreateLogger("client");
         var isoWorld = new IsoWorld();
         var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
-        var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec).Init();
+        var time = new Time();
+        new TimeTimer().Start(time, IsoCommon.Delta);
+        var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec, time).Init();
         isoClient.Rmi.Logger = CreateLogger("clientRmi");
         isoClient.Rmi.RequestIdOffset = 1000;
         return isoClient;

@@ -10,10 +10,16 @@ namespace Common.TimeNS
     public class Time : BindableBean<Time>
     {
         public const int FrameUndefined = -1;
+        
         /// <summary>
         /// time listeners
         /// </summary>
         private readonly Listeners<Action<Time>> _listeners = new();
+        
+        /// <summary>
+        /// update lock
+        /// </summary>
+        public readonly BoolHolderLock UpdateLock = new();
 
         /// <summary>
         /// current value (ms)
@@ -82,6 +88,7 @@ namespace Common.TimeNS
         
         public void Update(TimeSpan delta)
         {
+            if (UpdateLock.Value) return;
             Frame++;
             Delta = delta;
             Value += delta;

@@ -41,12 +41,12 @@ namespace Common.Lang.Observable
         
         public Action AwaitLocked(Action onComplete, bool cancelOnComplete = true)
         {
-            return AwaitTrue( onComplete, cancelOnComplete);
+            return AwaitTrue(onComplete, cancelOnComplete);
         }
         
         public Action AwaitUnlocked(Action onComplete, bool cancelOnComplete = true)
         {
-            return AwaitFalse( onComplete, cancelOnComplete);
+            return AwaitFalse(onComplete, cancelOnComplete);
         }
     }
 }
