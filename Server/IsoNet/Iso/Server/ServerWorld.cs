@@ -6,6 +6,8 @@ namespace IsoNet.Iso.Server;
 
 public class ServerWorld(IsoWorld world)
 {
+    private const int WorldFrameReportPeriod = 10;
+    
     public IsoWorld World => world;
 
     private readonly Time _time = new();
@@ -15,13 +17,25 @@ public class ServerWorld(IsoWorld world)
     private readonly RunOnTime _runOnTime = new();
     
     public readonly List<IsoRemoteClient> Clients = [];
+    
+    private int _nextReportFrame = 0;
 
     public void Start()
     {
         _runOnTime.Bind(_time);
         TimeTimer.Start(_time, IsoCommon.Delta);
         World.Bind(_time);
+        _time.AddListener(OnTimeUpdate);
         ForEachClient(cln => cln.WorldStarted());
+    }
+
+    private void OnTimeUpdate(Time time)
+    {
+        if (time.Frame >= _nextReportFrame)
+        {
+            _nextReportFrame += WorldFrameReportPeriod;
+            ForEachClient(cln => cln.ClientApi.WorldFrameReport(time.Frame));
+        }
     }
 
     public void ForEachClient(Action<IsoRemoteClient> action)

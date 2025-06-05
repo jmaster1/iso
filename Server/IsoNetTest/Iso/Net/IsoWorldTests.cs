@@ -107,6 +107,7 @@ public class IsoWorldTests : AbstractIsoNetTests
             Assert.That(building.Y, Is.EqualTo(buildingY));    
         });
 
+        Thread.Sleep(TimeSpan.FromSeconds(1));
         //
         // dispose
         // await client.Start().Disconnect();

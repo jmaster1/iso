@@ -7,6 +7,7 @@ using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNet.Iso.Common;
+using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Iso.Client;
 
@@ -87,5 +88,10 @@ public class IsoClient(
     public void WorldStarted()
     {
         world.Bind(_time);
+    }
+
+    public void WorldFrameReport(int frame)
+    {
+        Logger?.LogInformation("WorldFrameReport: {frame}", frame);
     }
 }
