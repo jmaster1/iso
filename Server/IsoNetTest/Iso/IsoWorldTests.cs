@@ -68,33 +68,15 @@ public class IsoWorldTests : AbstractTests
         return isoClient;
     }
     
-    private (IsoServer, IsoClient, Action) CreateClientServer(
-        AbstractServer server, AbstractTransport clientTransport, Action starter)
-    {
-        clientTransport.Logger = CreateLogger("client");
-        var isoWorld = new IsoWorld();
-        var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
-        var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec).Init();
-        isoClient.Rmi.Logger = CreateLogger("clientRmi");
-        isoClient.Rmi.RequestIdOffset = 1000;
-        
-        return (CreateServer(server), CreateClient(clientTransport), starter);
-    }
-    
     private (IsoServer, Func<IsoClient>) CreateServerWebsocket()
     {
-        var server = new WebSocketServer("http://localhost:7000/ws/")
-        {
-            Logger = CreateLogger("server")
-        };
+        var server = new WebSocketServer("http://localhost:7000/ws/");
+        server.Start();
         var isoServer = CreateServer(server);
         return (isoServer, () =>
         {
-            var clientTransport = new WebSocketClient
-            {
-                Logger = CreateLogger("client")
-            };
-            clientTransport.Connect("ws://localhost:7000/ws/");
+            var clientTransport = new WebSocketClient();
+            clientTransport.Connect("ws://localhost:7000/ws/").Wait();
             return CreateClient(clientTransport);
         });
     }
