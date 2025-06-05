@@ -13,6 +13,6 @@ public class MethodInvoker
     {
         var type = call.MethodInfo.ReflectedType;
         var target = _targets[type!];
-        return call.MethodInfo.Invoke(target, call.Args);
+        return call.Invoke(target);
     }
 }

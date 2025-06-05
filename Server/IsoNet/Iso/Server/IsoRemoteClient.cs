@@ -36,7 +36,7 @@ public class IsoRemoteClient(
         
         var remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(bean =>
         {
-            bean.OnInvokeBefore = call => call.SetAttr(IsoCommon.AttrFrame, Frame);
+            bean.OnInvokeBefore = call => call.SetFrame(Frame);
         });
         RemoteInvoker.Register(remoteWorldApi);
         
@@ -61,7 +61,7 @@ public class IsoRemoteClient(
         {
             _serverWorld.RunOnTime(() =>
             {
-                var result = call.MethodInfo.Invoke(local, call.Args);
+                call.Invoke(local);
                 foreach (var isoRemoteClient in _serverWorld.Clients)
                 {
                     isoRemoteClient.RemoteInvoker.Invoke(call);

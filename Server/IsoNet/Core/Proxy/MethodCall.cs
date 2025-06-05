@@ -54,4 +54,9 @@ public class MethodCall
         sb.Append(')');
         return sb.ToString();
     }
+
+    public object? Invoke(object target)
+    {
+        return MethodInfo.Invoke(target, Args);
+    }
 }

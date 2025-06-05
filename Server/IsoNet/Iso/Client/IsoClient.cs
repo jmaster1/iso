@@ -37,33 +37,30 @@ public class IsoClient(
         _runOnTime.FrameSupplier = () => World.TimeGame.Frame;
         _runOnTime.Bind(time);
         time.AddListener(OnTimeUpdate);
-        /*
-        _invoker = new TransportInvoker(transport, codec).Init(call =>
-        {
-            var frame = call.GetAttr(IsoCommon.AttrFrame, Time.FrameUndefined);
-            if (frame == Time.FrameUndefined)
-            {
-                _runOnTime.AddAction(() => _invoker.Invoke(call));
-            }
-            else
-            {
-                Logger?.LogInformation("Add call, frame={frame}, currentFrame={currentFrame}", 
-                    frame, _runOnTime.Model.Frame);
-                _runOnTime.AddAction(frame, () => _invoker.Invoke(call));    
-            }
-        });
-        */
         
-        Rmi = new TransportRmi(transport, codec);
-        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(proxyBean =>
+        Rmi = new TransportRmi(transport, codec)
         {
-            proxyBean.OnInvokeBefore = call =>
+            CallRunner = (call, action) =>
             {
-                call.SetAttr(IsoCommon.AttrFrame, World.TimeGame.Frame);
-            };
-        });
+                var frame = call.GetFrame();
+                if (frame == Time.FrameUndefined)
+                {
+                    _runOnTime.AddAction(action);    
+                }
+                else
+                {
+                    _runOnTime.AddAction(frame, action);    
+                }
+            }
+        };
+
+        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(
+            proxyBean => proxyBean.OnInvokeBefore = 
+                call => call.SetFrame(World.TimeGame.Frame));
         _serverApi = Rmi.CreateRemote<IIsoServerApi>();
-        Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
+
+        var worldApi = new IsoWorldApi(world);
+        Rmi.RegisterLocal<IIsoWorldApi>(worldApi);
         Rmi.RegisterLocal<IIsoClientApi>(this);
         return this;
     }
