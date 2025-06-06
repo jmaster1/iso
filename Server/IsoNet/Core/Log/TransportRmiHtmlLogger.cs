@@ -2,12 +2,12 @@ using System.Collections.Concurrent;
 using System.Text.Json;
 using Common.IO.Streams;
 using IsoNet.Core.IO.Codec;
+using IsoNet.Core.Log.Appender;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport.Rmi;
-using IsoNetTest.Core.Log.Appender;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest.Core.Log;
+namespace IsoNet.Core.Log;
 
 public class TransportRmiHtmlLogger : AbstractLogger
 {

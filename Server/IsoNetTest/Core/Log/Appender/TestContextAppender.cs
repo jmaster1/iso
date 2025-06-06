@@ -1,3 +1,5 @@
+using IsoNet.Core.Log.Appender;
+
 namespace IsoNetTest.Core.Log.Appender;
 
 public class TestContextAppender : IAppender

@@ -1,8 +1,8 @@
 using Common.Util.Reflect;
-using IsoNetTest.Core.Log.Appender;
+using IsoNet.Core.Log.Appender;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest.Core.Log;
+namespace IsoNet.Core.Log;
 
 public abstract class AbstractLogger : ILogger
 {

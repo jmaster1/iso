@@ -1,4 +1,4 @@
-namespace IsoNetTest.Core.Log.Appender;
+namespace IsoNet.Core.Log.Appender;
 
 public interface IAppender
 {

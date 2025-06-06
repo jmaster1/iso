@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace IsoNetTest.Core.Log;
+namespace IsoNet.Core.Log;
 
 public class DefaultLogger : AbstractLogger
 {
