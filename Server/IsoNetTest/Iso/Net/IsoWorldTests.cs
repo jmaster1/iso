@@ -108,9 +108,10 @@ public class IsoWorldTests : AbstractIsoNetTests
         });
 
         Thread.Sleep(TimeSpan.FromSeconds(1));
+        
         //
         // dispose
-        // await client.Start().Disconnect();
-        // server.Stop();
+        await client.Disconnect();
+        isoServer.Stop();
     }
 }

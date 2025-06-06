@@ -41,8 +41,7 @@ public class IsoServer(AbstractServer server)
         serverWorld.Clients.Add(client);
         _worlds[world.Id] = serverWorld;
         OnWorldCreated?.Invoke(serverWorld);
-
-
+        
         var worldInfo = new WorldInfo
         {
             Id = world.Id,
@@ -51,5 +50,10 @@ public class IsoServer(AbstractServer server)
         };
         serverWorld.ForEachClient(cln => cln.ClientApi.WorldСreated(worldInfo));
         return serverWorld;
+    }
+
+    public void Stop()
+    {
+        server.Stop();
     }
 }

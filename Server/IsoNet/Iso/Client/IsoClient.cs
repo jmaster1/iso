@@ -107,4 +107,9 @@ public class IsoClient(
         _lastFrameReported = frame;
         Logger?.LogInformation("WorldFrameReport: {frame}", frame);
     }
+
+    public async Task Disconnect()
+    {
+        await transport.Disconnect();
+    }
 }
