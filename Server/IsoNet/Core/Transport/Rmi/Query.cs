@@ -2,7 +2,7 @@ using IsoNet.Core.Proxy;
 
 namespace IsoNet.Core.Transport.Rmi;
 
-public class Query
+internal class Query
 {
     public int RequestId;
     
