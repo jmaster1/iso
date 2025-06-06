@@ -5,6 +5,7 @@ using Iso.Buildings;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
+using IsoNet.Core.Transport.Rmi;
 using IsoNet.Core.Transport.Server;
 using IsoNet.Core.Transport.Server.WebSocket;
 using IsoNet.Core.Transport.WebSocket;
@@ -19,6 +20,8 @@ namespace IsoNetTest.Iso.Net;
 
 public abstract class AbstractIsoNetTests : AbstractTests
 {
+    protected static IntSequence RequestIdSequence = new();
+    
     protected override void ConfigureLoggingBuilder(ILoggingBuilder builder)
     {
         AddTransportRmiHtmlLogger(builder);
@@ -53,11 +56,10 @@ public abstract class AbstractIsoNetTests : AbstractTests
         isoServer.OnClientConnected += client =>
         {
             client.Rmi.Logger = CreateLogger("serverRmi");
+            client.Rmi.RequestIdSeq = RequestIdSequence.NextVal;
         };
         return isoServer;
     }
-
-    private static int _requestIdOffset = 1000;
     
     private static IsoClient CreateClient(AbstractTransport clientTransport)
     {
@@ -68,8 +70,7 @@ public abstract class AbstractIsoNetTests : AbstractTests
         new TimeTimer().Start(time, IsoCommon.Delta);
         var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec, time).Init();
         isoClient.Rmi.Logger = CreateLogger("clientRmi");
-        isoClient.Rmi.RequestIdOffset = _requestIdOffset;
-        _requestIdOffset += 1000;
+        isoClient.Rmi.RequestIdSeq = RequestIdSequence.NextVal;
         return isoClient;
     }
     

@@ -13,8 +13,7 @@ public class TransportRmi : LogAware {
     public const string NameReadMessage = "ReadMessage";
     public const string NameWriteMessage = "WriteMessage";
     
-    private int _requestIdSeq;
-    public int RequestIdOffset = 0;
+    public Func<int> RequestIdSeq = new IntSequence().NextVal;
     private readonly ConcurrentDictionary<int, Query> _pendingRequests = new();
     private readonly AbstractTransport _transport;
     private readonly ICodec _codec;
@@ -167,11 +166,6 @@ public class TransportRmi : LogAware {
         }
     }
 
-    private int NextRequestId()
-    {
-        return Interlocked.Increment(ref _requestIdSeq) + RequestIdOffset;
-    }
-    
     public T CreateRemote<T>(Action<ProxyBean<T>>? proxyBeanConsumer = null) where T : class
     {
         var (remoteApi, remoteProxyBean) = Proxy.Proxy.Create<T>(InvokeRemote);
@@ -183,7 +177,7 @@ public class TransportRmi : LogAware {
     {
         var messageType = ResolveMessageType(call.MethodInfo);
         Query? query = null;
-        var requestId = NextRequestId();
+        var requestId = RequestIdSeq.Invoke();
         if (messageType == MessageType.Request)
         {
             query = _pendingRequests[requestId] = new Query

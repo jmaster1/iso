@@ -176,7 +176,7 @@ public class TransportRmiTests : AbstractTests
 
         _srv = new Endpoint("srv", transportSrv, codec);
         _cln = new Endpoint("cln", transportCln, codec);
-        _cln.Rmi.RequestIdOffset = 1000;
+        _cln.Rmi.RequestIdSeq = new IntSequence(1000).NextVal;
     }
     
     [TearDown]
