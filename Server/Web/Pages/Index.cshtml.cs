@@ -1,3 +1,4 @@
+using IsoNet.Iso.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -5,9 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Web2.Pages;
 
 public class IndexModel(
-    // IConfigRepository configRepository, 
-    // IGameRepository gameRepository, 
-    // IPlayerTokenRepository playerTokenRepository
+    IsoServer isoServer
     ) : PageModel
 {
     public SelectList ConfigSelectList { get; set; } = default!;
@@ -15,24 +14,14 @@ public class IndexModel(
     [BindProperty]
     public string ConfigId { get; set; } = null!;
     
-    // public PlayerToken? XPlayerToken { get; set; }
-    //
-    // public PlayerToken? OPlayerToken { get; set; }
+    public IsoServer IsoServer => isoServer;
     
     [BindProperty]
     public string GameSnapshotJson { get; set; } = null!;
-
-    private void Load()
-    {
-        // var selectListData = configRepository.GetConfigurationNames()
-        //     .Select(name => new {id = name, value = name})
-        //     .ToList();
-        // ConfigSelectList = new SelectList(selectListData, "id", "value");
-    }
     
     public void OnGet()
     {
-        Load();
+        Console.WriteLine(isoServer);
     }
     
 }

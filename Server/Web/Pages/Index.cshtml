@@ -1,7 +1,23 @@
 ﻿@page
 @model IndexModel
-@{
-    ViewData["Title"] = "Tic-Tac-Two";
-}
 
-<h1>hello</h1>
+<p>Server running: @Model.IsoServer.Server.IsRunning()</p>
+
+<h3>Worlds</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Created</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var entry in Model.IsoServer.Worlds)
+    {
+        <tr>
+            <td>@entry.Key</td>
+            <td>@entry.Value.Created</td>
+        </tr>
+    }
+    </tbody>
+</table>

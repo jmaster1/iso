@@ -12,6 +12,8 @@ public class ServerWorld(IsoWorld world)
     
     public string Id => world.Id;
 
+    public readonly DateTime Created = new();
+
     private readonly Time _time = new();
     
     public readonly TimeTimer TimeTimer = new();

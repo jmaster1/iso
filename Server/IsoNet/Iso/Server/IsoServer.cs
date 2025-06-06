@@ -10,11 +10,12 @@ namespace IsoNet.Iso.Server;
 
 public class IsoServer(AbstractServer server)
 {
+    public AbstractServer Server => server;
     public event Action<IsoRemoteClient>? OnClientConnected;
     
     public event Action<ServerWorld>? OnWorldCreated;
 
-    private readonly ConcurrentDictionary<string, ServerWorld> _worlds = new();
+    public readonly ConcurrentDictionary<string, ServerWorld> Worlds = new();
         
     public IsoServer Init()
     {
@@ -34,7 +35,7 @@ public class IsoServer(AbstractServer server)
         var world = new IsoWorld(Guid.NewGuid().ToString());
         IsoCommon.InitWorld(world, width, height);
         var serverWorld = new ServerWorld(world);
-        _worlds[world.Id] = serverWorld;
+        Worlds[world.Id] = serverWorld;
         OnWorldCreated?.Invoke(serverWorld);
         return serverWorld;
     }
@@ -46,6 +47,6 @@ public class IsoServer(AbstractServer server)
 
     public ServerWorld GetWorld(string worldId)
     {
-        return _worlds[worldId];
+        return Worlds[worldId];
     }
 }
