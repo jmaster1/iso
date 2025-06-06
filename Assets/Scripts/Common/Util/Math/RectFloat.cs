@@ -1,6 +1,4 @@
 using System;
-using Common.Util;
-using Common.Util.Math;
 
 /**
  * RectFloat rectangle with float type components
@@ -8,7 +6,7 @@ using Common.Util.Math;
  * @author timur
  */
 
-namespace Math {
+namespace Common.Util.Math {
 	public class RectFloat : Shape2D {
 		public const int PT_LEFT_BOTTOM = 0;
 		public const int PT_RIGHT_BOTTOM = 1;
@@ -20,9 +18,7 @@ namespace Math {
 		 * @return array of points, use PT_?_? constants to access points
 		 */
 		public static Vector2DFloat[] GetRectPoints(float x, float y, float w, float h, Vector2DFloat[] target) {
-			if(target == null) {
-				target = Vector2DFloat.CreatePoints(4);
-			}
+			target ??= Vector2DFloat.CreatePoints(4);
 			target[PT_LEFT_BOTTOM].Set(x, y);
 			target[PT_RIGHT_BOTTOM].Set(x + w, y);
 			target[PT_RIGHT_TOP].Set(x + w, y + h);

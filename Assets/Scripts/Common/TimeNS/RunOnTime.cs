@@ -11,7 +11,7 @@ namespace Common.TimeNS
 
         private readonly SortedSet<FrameAction> _frameActions = new();
 
-        public Func<int>? FrameSupplier = null;
+        public Func<int> FrameSupplier = null;
         
         protected override void OnBind()
         {

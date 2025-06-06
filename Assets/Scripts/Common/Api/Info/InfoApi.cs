@@ -43,7 +43,7 @@ namespace Common.Api.Info
             return null;
         }
 
-        private T Load<T>(String name)
+        private T Load<T>(string name)
         {
             if(Log.IsDebugEnabled) Log.Debug($"Load({name})");
             var type = typeof(T);
@@ -62,7 +62,7 @@ namespace Common.Api.Info
         /// <summary>
         /// retrieve InfoSetId of specified type that should be loaded from named resource
         /// </summary>
-        public InfoSet<T> GetInfoSet<T>(string name)
+        public new InfoSet<T> GetInfoSet<T>(string name)
         {
             if (cache.Find(name, out InfoSet<T> ret)) return ret;
             ret = new InfoSet<T>();
@@ -75,7 +75,7 @@ namespace Common.Api.Info
         /// <summary>
         /// retrieve InfoSetId of specified type that should be loaded from named resource
         /// </summary>
-        public InfoSetIdString<T> GetInfoSetIdString<T>(string name) where T : IIdAware<string>
+        public new InfoSetIdString<T> GetInfoSetIdString<T>(string name) where T : IIdAware<string>
         {
             if (cache.Find(name, out InfoSetIdString<T> ret)) return ret;
             ret = new InfoSetIdString<T>();
@@ -99,7 +99,7 @@ namespace Common.Api.Info
         /// retrieve info descriptor of specified type from named resource,
         /// if name not set, will use type name for that
         /// </summary>
-        public T GetInfo<T>(string name = null) where T: class
+        public new T GetInfo<T>(string name = null) where T: class
         {
             if (name == null)
             {

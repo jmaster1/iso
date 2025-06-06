@@ -1,9 +1,9 @@
 using Common.Util;
+using Common.Util.Math;
 using Iso.Cells;
 using Iso.Movables;
 using Iso.Player;
 using Iso.Unity.World;
-using Math;
 using UnityEngine;
 using Time = Common.TimeNS.Time;
 

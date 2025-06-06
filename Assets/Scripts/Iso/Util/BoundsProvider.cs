@@ -1,4 +1,4 @@
-﻿using Math;
+﻿using Common.Util.Math;
 
 namespace Iso.Util
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Common.Util.Math;
-using Math;
 
 namespace Common.Unity.Util.Math
 {

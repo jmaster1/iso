@@ -1,5 +1,4 @@
 ﻿using Common.Api.Info;
-using Common.Lang;
 using Common.Lang.Entity;
 using Common.Util;
 using Newtonsoft.Json;

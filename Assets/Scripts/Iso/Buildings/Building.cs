@@ -1,7 +1,7 @@
 using System;
+using Common.Util.Math;
 using Iso.Cells;
 using Iso.Util;
-using Math;
 
 namespace Iso.Buildings
 {

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Common.Unity.Bind;
-using Common.Unity.Util.Math;
+using Common.Util.Math;
 using Iso.Buildings;
 using Iso.Movables;
 using Iso.Player;
 using Iso.Util;
-using Math;
 using UnityEngine;
+using IsometricBoundsComparator = Common.Unity.Util.Math.IsometricBoundsComparator;
 
 namespace Iso.Unity.World
 {

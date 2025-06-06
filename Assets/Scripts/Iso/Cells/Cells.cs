@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Common.Lang.Observable;
+using Common.Util.Math;
 using Common.Util.Math.Path.AStar;
 using Iso.Buildings;
 using Iso.Player;
-using Math;
 
 namespace Iso.Cells
 {

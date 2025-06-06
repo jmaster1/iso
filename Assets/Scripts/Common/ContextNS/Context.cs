@@ -19,7 +19,7 @@ namespace Common.ContextNS
         /// <summary>
         /// instantiated singletons
         /// </summary>
-        private readonly Map<Type, object> beans = new Map<Type, object>();
+        private readonly Map<Type, object> beans = new();
 
         public event Action<Type, object> OnBeanCreated; 
         
@@ -29,7 +29,7 @@ namespace Common.ContextNS
         /// <returns></returns>
         public static Context GetCurrent()
         {
-            return instance ?? (instance = new Context());
+            return instance ??= new Context();
         }
         
         /// <summary>
@@ -37,7 +37,7 @@ namespace Common.ContextNS
         /// </summary>
         /// <typeparam name="T">type of bean</typeparam>
         /// <returns></returns>
-        public T GetBean<T>()
+        public new T GetBean<T>()
         {
             return GetBean<T>(typeof(T));
         }
@@ -97,7 +97,7 @@ namespace Common.ContextNS
         /// <summary>
         /// shortcut to InfoApi.GetInfoSetIdString()
         /// </summary>
-        public static InfoSetIdString<T> GetInfoSetIdString<T>(string name) where T : IIdAware<string>
+        public new static InfoSetIdString<T> GetInfoSetIdString<T>(string name) where T : IIdAware<string>
         {
             return Get<InfoApi>().GetInfoSetIdString<T>(name);
         }
@@ -113,7 +113,7 @@ namespace Common.ContextNS
         /// <summary>
         /// shortcut to InfoApi.GetInfo()
         /// </summary>
-        public static T GetInfo<T>(string resource = null) where T: class
+        public new static T GetInfo<T>(string resource = null) where T: class
         {
             return Get<InfoApi>().GetInfo<T>(resource);
         }

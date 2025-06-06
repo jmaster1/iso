@@ -1,5 +1,3 @@
-using Math;
-
 namespace Common.Util.Math
 {
     /**
