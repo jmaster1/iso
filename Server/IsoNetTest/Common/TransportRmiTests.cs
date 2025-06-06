@@ -153,7 +153,7 @@ public class TransportRmiTests : AbstractTests
             ApiLocal = new TestApiImpl();
             Rmi.RegisterLocal<ITestApi>(ApiLocal);
             ApiLocal.QueryNestedDelegate = ApiRemote;
-            LocalMethodInvoked = methodName => CreateTaskCompletionSource(
+            LocalMethodInvoked = methodName => CreateTcsEvents(
                 ApiLocal.Events, TestApiEvent.Inv, methodName);
         }
     }

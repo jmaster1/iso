@@ -1,4 +1,7 @@
+using Common.Api.Info;
+using Common.ContextNS;
 using Common.TimeNS;
+using Iso.Buildings;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
@@ -20,8 +23,30 @@ public abstract class AbstractIsoNetTests : AbstractTests
     {
         AddTransportRmiHtmlLogger(builder);
     }
+    
+    protected const string BuildingId = "b0";
+    
+    protected static void InitContext()
+    {
+        var infoApi = Context.Get<InfoApi>();
+        infoApi.loaders.Add((_, type) =>
+        {
+            if (type == typeof(List<BuildingInfo>))
+            {
+                return new List<BuildingInfo> { 
+                    new()
+                    {
+                        Id = BuildingId,
+                        width = 2,
+                        height = 2
+                    }
+                };
+            }
+            throw new NotImplementedException();
+        });
+    }
 
-    protected IsoServer CreateServer(AbstractServer server)
+    private static IsoServer CreateServer(AbstractServer server)
     {
         server.Logger = CreateLogger("server");
         var isoServer = new IsoServer(server).Init();
@@ -31,8 +56,10 @@ public abstract class AbstractIsoNetTests : AbstractTests
         };
         return isoServer;
     }
+
+    private static int _requestIdOffset = 1000;
     
-    protected IsoClient CreateClient(AbstractTransport clientTransport)
+    private static IsoClient CreateClient(AbstractTransport clientTransport)
     {
         clientTransport.Logger = CreateLogger("client");
         var isoWorld = new IsoWorld();
@@ -41,11 +68,12 @@ public abstract class AbstractIsoNetTests : AbstractTests
         new TimeTimer().Start(time, IsoCommon.Delta);
         var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec, time).Init();
         isoClient.Rmi.Logger = CreateLogger("clientRmi");
-        isoClient.Rmi.RequestIdOffset = 1000;
+        isoClient.Rmi.RequestIdOffset = _requestIdOffset;
+        _requestIdOffset += 1000;
         return isoClient;
     }
     
-    protected (IsoServer, Func<IsoClient>) CreateServerWebsocket()
+    protected static (IsoServer, Func<IsoClient>) CreateServerWebsocket()
     {
         var server = new WebSocketServer("http://localhost:7000/ws/");
         server.Start();
@@ -58,10 +86,55 @@ public abstract class AbstractIsoNetTests : AbstractTests
         });
     }
     
-    protected (IsoServer, Func<IsoClient>) CreateServerLocal()
+    protected static (IsoServer, Func<IsoClient>) CreateServerLocal()
     {
         var server = new LocalServerTransport();
         var isoServer = CreateServer(server);
         return (isoServer, () => CreateClient(server.AddClient()));
+    }
+    
+    protected static async Task<(IsoClient client, IsoRemoteClient remoteClient)> 
+        CreateClient(IsoServer isoServer, Func<IsoClient> clientFactory)
+    {
+        var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
+        isoServer.OnClientConnected += remoteClient =>
+        {
+            remoteClientCreated.TrySetResult(remoteClient);
+        };
+        var client = clientFactory();
+        var remoteClient = await AwaitResult(remoteClientCreated);
+        return (client, remoteClient);
+    }
+    
+    protected static async Task<ServerWorld> CreateWorld(IsoServer isoServer, IsoClient client, int width, int height)
+    {
+        var serverWorldCreated = CreateTcsAction<ServerWorld>(tcs =>
+        {
+            isoServer.OnWorldCreated += worldPlayers => tcs.TrySetResult(worldPlayers);
+        });
+        var worldId = client.CreateWorld(width, height);
+        var serverWorld = await AwaitResult(serverWorldCreated);
+        Assert.That(serverWorld.World.Id, Is.EqualTo(worldId));
+        return serverWorld;
+    }
+    
+    protected static async Task StartWorld(IsoClient client, MultiSource<IsoWorld> worldsSource)
+    {
+        var worldsStarted = worldsSource.CreateTcs(CreateTcsBindable);
+        client.StartWorld();
+        await worldsStarted.AwaitResults();
+    }
+    
+    protected async Task Build(IsoClient client, MultiSource<IsoWorld> worldsSource, 
+        string buildingId, int buildingX, int buildingY)
+    {
+        var buildingCreated = worldsSource.CreateTcs(player => 
+            CreateTcsEvents(player.Buildings.Events, BuildingEvent.BuildingCreated));
+        client.RemoteWorldApi.Build(BuildingId, buildingX, buildingY);
+        await buildingCreated.AwaitResults((_, building) =>
+        {
+            Assert.That(building!.X, Is.EqualTo(buildingX));
+            Assert.That(building.Y, Is.EqualTo(buildingY));    
+        });
     }
 }

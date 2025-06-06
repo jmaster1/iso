@@ -44,9 +44,16 @@ public class IsoRemoteClient(
         return this;
     }
 
-    public void CreateWorld(int width, int height)
+    public string CreateWorld(int width, int height)
     {
-        _serverWorld = server.CreateWorld(width, height, this);
+        var serverWorld = server.CreateWorld(width, height);
+        return serverWorld.Id;
+    }
+    
+    public WorldInfo JoinWorld(string worldId)
+    {
+        _serverWorld = server.GetWorld(worldId);
+        return _serverWorld.Join(this);
     }
 
     public void StartWorld()
@@ -73,8 +80,5 @@ public class IsoRemoteClient(
         ClientApi.WorldStarted();
     }
 
-    public void JoinWorld(string worldId)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

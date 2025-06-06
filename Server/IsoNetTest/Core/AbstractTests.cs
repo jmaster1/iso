@@ -55,7 +55,7 @@ public abstract class AbstractTests
         return CreateLogger(instance.GetType().Name);
     }
 
-    protected static TaskCompletionSource<TPayload> CreateTaskCompletionSource<TPayload>(
+    protected static TaskCompletionSource<TPayload> CreateTcsAction<TPayload>(
         Action<TaskCompletionSource<TPayload>> setTaskCompletionAction)
     {
         var taskCompletionSource = new TaskCompletionSource<TPayload>();
@@ -63,7 +63,7 @@ public abstract class AbstractTests
         return taskCompletionSource;
     }
     
-    protected static TaskCompletionSource<TPayload> CreateTaskCompletionSource<TEvent, TPayload>(
+    protected static TaskCompletionSource<TPayload> CreateTcsEvents<TEvent, TPayload>(
         Events<TEvent, TPayload> events, TEvent expectedEvent, TPayload? expectedPayload = default) where TEvent : Enum
     {
         var taskCompletionSource = new TaskCompletionSource<TPayload>();
@@ -77,7 +77,7 @@ public abstract class AbstractTests
         return taskCompletionSource;
     }
     
-    protected static TaskCompletionSource<TValue> CreateTaskCompletionSource<TValue>(BindableBean<TValue> bindable)
+    protected static TaskCompletionSource<TValue> CreateTcsBindable<TValue>(BindableBean<TValue> bindable)
     {
         var taskCompletionSource = new TaskCompletionSource<TValue>();
         bindable.ModelHolder.AddListener((_, _, newVal) =>
@@ -87,7 +87,7 @@ public abstract class AbstractTests
         return taskCompletionSource;
     }
     
-    protected static TaskCompletionSource<TValue> CreateTaskCompletionSource<TValue>(Holder<TValue> holder)
+    protected static TaskCompletionSource<TValue> CreateTcsHolder<TValue>(Holder<TValue> holder)
     {
         var taskCompletionSource = new TaskCompletionSource<TValue>();
         holder.AddListener((_, newVal, _) =>
@@ -137,7 +137,7 @@ public abstract class AbstractTests
 
     protected class MultiSource<TSource>(params TSource[] sources)
     {
-        public MultiTaskCompletionSource<TSource, TResult> CreateTaskCompletionSource<TResult>(
+        public MultiTaskCompletionSource<TSource, TResult> CreateTcs<TResult>(
             Func<TSource, TaskCompletionSource<TResult>> func)
         {
             var sourceTasks = new List<Tuple<TSource, TaskCompletionSource<TResult>>>();

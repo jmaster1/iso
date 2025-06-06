@@ -9,6 +9,8 @@ public class ServerWorld(IsoWorld world)
     private const int WorldFrameReportPeriod = 10;
     
     public IsoWorld World => world;
+    
+    public string Id => world.Id;
 
     private readonly Time _time = new();
     
@@ -49,5 +51,16 @@ public class ServerWorld(IsoWorld world)
     public void RunOnTime(Action action)
     {
         _runOnTime.AddAction(action);
+    }
+
+    public WorldInfo Join(IsoRemoteClient client)
+    {
+        Clients.Add(client);
+        return new WorldInfo
+        {
+            Id = world.Id,
+            Width = world.Cells.Width,
+            Heigth = world.Cells.Heigth
+        };
     }
 }

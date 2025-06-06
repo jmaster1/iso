@@ -6,5 +6,5 @@ public class WorldInfo
 
     public int Width;
     
-    public int Height;
+    public int Heigth;
 }

@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using Iso.Cells;
 using Iso.Player;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
@@ -30,30 +29,23 @@ public class IsoServer(AbstractServer server)
         OnClientConnected?.Invoke(client);
     }
 
-    internal ServerWorld CreateWorld(int width, int height, IsoRemoteClient client)
+    internal ServerWorld CreateWorld(int width, int height)
     {
         var world = new IsoWorld(Guid.NewGuid().ToString());
-        world.Cells.Create(width, height, () =>
-        {
-            world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
-        });
+        IsoCommon.InitWorld(world, width, height);
         var serverWorld = new ServerWorld(world);
-        serverWorld.Clients.Add(client);
         _worlds[world.Id] = serverWorld;
         OnWorldCreated?.Invoke(serverWorld);
-        
-        var worldInfo = new WorldInfo
-        {
-            Id = world.Id,
-            Width = width,
-            Height = height
-        };
-        serverWorld.ForEachClient(cln => cln.ClientApi.WorldСreated(worldInfo));
         return serverWorld;
     }
 
     public void Stop()
     {
         server.Stop();
+    }
+
+    public ServerWorld GetWorld(string worldId)
+    {
+        return _worlds[worldId];
     }
 }

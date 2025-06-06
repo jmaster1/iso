@@ -1,4 +1,6 @@
 using Common.TimeNS;
+using Iso.Cells;
+using Iso.Player;
 using IsoNet.Core.Proxy;
 
 namespace IsoNet.Iso.Common;
@@ -17,5 +19,13 @@ public static class IsoCommon
     public static void SetFrame(this MethodCall call, int frame)
     {
         call.SetAttr(AttrFrame, frame);
+    }
+
+    public static void InitWorld(IsoWorld world, int width, int height)
+    {
+        world.Cells.Create(width, height, () =>
+        {
+            world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
+        });
     }
 }

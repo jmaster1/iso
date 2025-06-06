@@ -1,10 +1,6 @@
 using System.Diagnostics;
-using Common.Api.Info;
-using Common.ContextNS;
 using Common.TimeNS;
-using Iso.Buildings;
 using Iso.Player;
-using IsoNet.Iso.Server;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNetTest.Iso.Net;
@@ -33,28 +29,6 @@ public class IsoWorldTests : AbstractIsoNetTests
         Logger.LogInformation("Updates: {updates}, time: {time} ms", time.Frame, stopwatch.Elapsed.TotalMilliseconds.ToString("0.000"));
     }
     
-    const string BuildingId = "b0";
-    
-    private static void InitContext()
-    {
-        var infoApi = Context.Get<InfoApi>();
-        infoApi.loaders.Add((_, type) =>
-        {
-            if (type == typeof(List<BuildingInfo>))
-            {
-                return new List<BuildingInfo> { 
-                    new()
-                    {
-                        Id = BuildingId,
-                        width = 2,
-                        height = 2
-                    }
-                };
-            }
-            throw new NotImplementedException();
-        });
-    }
-    
     [Test]
     public async Task TestClientServer()
     {
@@ -64,48 +38,23 @@ public class IsoWorldTests : AbstractIsoNetTests
             CreateServerWebsocket();
             //CreateServerLocal();
 
-        var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
-        isoServer.OnClientConnected += remoteClient =>
-        {
-            remoteClientCreated.TrySetResult(remoteClient);
-        };
-
-        var client = clientFactory();
-        var remoteClient = await AwaitResult(remoteClientCreated);
+        var (client, remoteClient) = await CreateClient(isoServer, clientFactory);
         
         //
         // create world
         const int width = 11;
         const int height = 12;
-        var serverWorldCreated = CreateTaskCompletionSource<ServerWorld>(tcs =>
-        {
-            isoServer.OnWorldCreated += worldPlayers => tcs.TrySetResult(worldPlayers);
-        });
-        var clientWorldCreated = CreateTaskCompletionSource(client.WorldId);
-        client.CreateWorld(width, height);
-        var serverWorldPlayers = await AwaitResult(serverWorldCreated);
-        var clientWorldId = await AwaitResult(clientWorldCreated);
-        Assert.That(serverWorldPlayers.World.Id, Is.EqualTo(clientWorldId));
+        var serverWorld = await CreateWorld(isoServer, client, width, height);
+        client.JoinWorld(serverWorld.Id);
         
         //
         // start
-        var cs2 = new MultiSource<IsoWorld>(client.World, remoteClient.World);
-        var playerStarted = cs2.CreateTaskCompletionSource(CreateTaskCompletionSource);
-        client.Start();
-        await playerStarted.AwaitResults();
+        var worldsSource = new MultiSource<IsoWorld>(serverWorld.World, client.World);
+        await StartWorld(client, worldsSource);
         
         //
         // build
-        var buildingCreated = cs2.CreateTaskCompletionSource(player => 
-            CreateTaskCompletionSource(player.Buildings.Events, BuildingEvent.BuildingCreated));
-        const int buildingX = 1;
-        const int buildingY = 2;
-        client.RemoteWorldApi.Build(BuildingId, buildingX, buildingY);
-        await buildingCreated.AwaitResults((_, building) =>
-        {
-            Assert.That(building!.X, Is.EqualTo(buildingX));
-            Assert.That(building.Y, Is.EqualTo(buildingY));    
-        });
+        await Build(client, worldsSource, BuildingId, 1, 1);
 
         Thread.Sleep(TimeSpan.FromSeconds(1));
         

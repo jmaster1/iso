@@ -1,4 +1,3 @@
-using Common.Lang.Observable;
 using Common.TimeNS;
 using Iso.Cells;
 using Iso.Player;
@@ -15,9 +14,10 @@ public class IsoClient(
     IsoWorld world, 
     AbstractTransport transport, 
     ICodec codec, 
-    Time time) : LogAware, IIsoClientApi
+    Time time) : LogAware
 {
     public IsoWorld World => world;
+    
     public Time WorldTime => world.TimeGame;
     
     private readonly RunOnTime _runOnTime = new();
@@ -26,9 +26,9 @@ public class IsoClient(
     
     private IIsoServerApi _serverApi;
     
-    public TransportRmi Rmi = null!;
+    private IIsoClientApi _clientApi;
     
-    public readonly StringHolder WorldId = new();
+    public TransportRmi Rmi = null!;
 
     private int _lastFrameReported;
 
@@ -61,7 +61,7 @@ public class IsoClient(
 
         var worldApi = new IsoWorldApi(world);
         Rmi.RegisterLocal<IIsoWorldApi>(worldApi);
-        Rmi.RegisterLocal<IIsoClientApi>(this);
+        Rmi.RegisterLocal<IIsoClientApi>(_clientApi = new IsoClientApi(this));
         return this;
     }
 
@@ -77,32 +77,33 @@ public class IsoClient(
         }
     }
 
-    public void CreateWorld(int width, int height)
+    public string CreateWorld(int width, int height)
     {
-        _serverApi.CreateWorld(width, height);
+        return _serverApi.CreateWorld(width, height);
+    }
+    
+    public WorldInfo JoinWorld(string worldId)
+    {
+        var info = _serverApi.JoinWorld(worldId);
+        world.Id = info.Id;
+        world.Cells.Create(info.Width, info.Heigth, () =>
+        {
+            world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
+        });
+        return info;
     }
 
-    public void Start()
+    public void StartWorld()
     {
         _serverApi.StartWorld();
     }
 
-    public void WorldСreated(WorldInfo info)
-    {
-        world.Id = info.Id;
-        world.Cells.Create(info.Width, info.Height, () =>
-        {
-            world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
-        });
-        WorldId.Set(info.Id);
-    }
-
-    public void WorldStarted()
+    internal void WorldStarted()
     {
         world.Bind(time);
     }
 
-    public void WorldFrameReport(int frame)
+    internal void WorldFrameReport(int frame)
     {
         _lastFrameReported = frame;
         Logger?.LogInformation("WorldFrameReport: {frame}", frame);

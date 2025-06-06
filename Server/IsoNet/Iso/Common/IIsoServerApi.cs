@@ -4,10 +4,10 @@ namespace IsoNet.Iso.Common;
 
 public interface IIsoServerApi
 {
-    void CreateWorld(int width, int height);
+    string CreateWorld(int width, int height);
 
+    WorldInfo JoinWorld(string worldId);
+    
     [Call]
     void StartWorld();
-    
-    void JoinWorld(string worldId);
 }
