@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Unity", "Common.Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iso.Unity", "Iso.Unity\Iso.Unity.csproj", "{6AD8AAC9-B445-4B88-A124-2845928369DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iso.Server", "Iso.Server\Iso.Server.csproj", "{B9328A43-29C1-4801-9DE2-C1DE1953B670}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{6AD8AAC9-B445-4B88-A124-2845928369DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AD8AAC9-B445-4B88-A124-2845928369DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AD8AAC9-B445-4B88-A124-2845928369DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9328A43-29C1-4801-9DE2-C1DE1953B670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9328A43-29C1-4801-9DE2-C1DE1953B670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9328A43-29C1-4801-9DE2-C1DE1953B670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9328A43-29C1-4801-9DE2-C1DE1953B670}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
