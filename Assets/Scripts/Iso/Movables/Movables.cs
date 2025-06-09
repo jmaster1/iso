@@ -33,7 +33,7 @@ namespace Iso.Movables
                 obj.Cell = cell;
                 obj.Moving = false;
                 obj.velocity = info.Velocity;
-                obj.pos.Set(cell.CX, cell.CY);
+                obj.pos.Set(cell.Cx, cell.Cy);
             });
         }
 

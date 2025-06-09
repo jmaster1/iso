@@ -34,7 +34,7 @@ namespace Iso.Unity.World
             {
                 CreateView = (cell, _) =>
                 {
-                    var prefab = GetPrefab(cell.cellType);
+                    var prefab = GetPrefab(cell.CellType);
                     var cellView = CellPrefabCloner == null ? Instantiate(prefab, transform) : CellPrefabCloner(cell, prefab);
                     cellView.name = $"{cell.X:000} : {cell.Y:000}";
                     prj.Transform(cellView, cell.X, cell.Y);

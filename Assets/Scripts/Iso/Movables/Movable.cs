@@ -45,7 +45,7 @@ namespace Iso.Movables
         
         public float Y => pos.Y;
         
-        public bool IsCenteredInCell => X == Cell.CX && Y == Cell.CY;
+        public bool IsCenteredInCell => X == Cell.Cx && Y == Cell.Cy;
         
         private void SetProperty<T>(ref T field, T value, MovableEvent eventType)
         {
@@ -166,14 +166,14 @@ namespace Iso.Movables
 			var hz = dir.IsHorz();
 			float v = hz ? dir.X() : dir.Y();
 			var lastCellPos = (int)(hz ? pos.x : pos.y);
-			var togo = hz ? cellTo.CX - pos.X : cellTo.CY - pos.Y;
+			var togo = hz ? cellTo.Cx - pos.X : cellTo.Cy - pos.Y;
 			var d = v * speed * Cell.GetVelocityMultiplier() * dt;
 			//
 			// check if finished cell-to-cell movement
 			var remain = togo - d;
 			var finished = System.Math.Sign(remain) != System.Math.Sign(v);
 			if(finished) {
-				pos.Set(cellTo.CX, cellTo.CY);
+				pos.Set(cellTo.Cx, cellTo.Cy);
 				Cell = cellTo;
 				//
 				// check end of path

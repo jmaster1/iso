@@ -18,24 +18,24 @@ namespace Iso.Cells
         
         public int Y => y;
         
-        public float CX => x + HalfSize;
+        public float Cx => x + HalfSize;
         
-        public float CY => y + HalfSize;
+        public float Cy => y + HalfSize;
 
         public Cells Cells => cells;
 
-        public CellType cellType { get; internal set; }
+        public CellType CellType { get; internal set; }
         
-        public Building Building;
+        public Building? Building;
 
         public bool IsBuildable()
         {
-            return cellType == CellType.Buildable && Building == null;
+            return CellType == CellType.Buildable && Building == null;
         }
         
         public bool IsTraversable()
         {
-            return cellType is CellType.Buildable or CellType.Traversable && Building == null;
+            return CellType is CellType.Buildable or CellType.Traversable && Building == null;
         }
 
         public Cell? FindSibling(Dir dir)
@@ -45,7 +45,7 @@ namespace Iso.Cells
 
         public override string ToString()
         {
-            return "(" + x + ":" + y + ":" + cellType;
+            return "(" + x + ":" + y + ":" + CellType;
         }
 
         public float GetVelocityMultiplier()
@@ -53,12 +53,12 @@ namespace Iso.Cells
             return 1;
         }
 
-        public Cell? Get(int tx, int ty)
+        public Cell Get(int tx, int ty)
         {
             return Cells.Get(tx, ty);
         }
 
-        public Dir DirectionTo(Cell? target)
+        public Dir DirectionTo(Cell target)
         {
             return DirEx.ValueOf(target.X - X, target.Y - Y);
         }

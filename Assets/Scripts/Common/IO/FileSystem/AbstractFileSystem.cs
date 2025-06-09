@@ -27,13 +27,13 @@ namespace Common.IO.FileSystem
         /// <param name="name">name of file</param>
         /// <param name="write">true if requested stream for output</param>
         /// <returns>null if stream for read not exists</returns>
-        public abstract Stream GetStream(string name, bool write);
+        public abstract Stream? GetStream(string name, bool write);
         
         public abstract long GetLength(string name);
 
-        public Stream Read(string name) => GetStream(name, false);
+        public Stream? Read(string name) => GetStream(name, false);
         
-        public TextReader TextReader(string name)
+        public TextReader? TextReader(string name)
         {
             var stream = Read(name);
             return stream == null ? null : new StreamReader(stream);

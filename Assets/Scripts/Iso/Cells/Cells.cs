@@ -77,13 +77,13 @@ namespace Iso.Cells
                 e.cells = this;
                 e.x = x;
                 e.y = y;
-                e.cellType = type;
+                e.CellType = type;
             });
         }
         
         public Cell? Set(Cell? cell, CellType type)
         {
-            cell.cellType = type;
+            cell.CellType = type;
             FireEvent(CellEvent.CellTypeChange, cell);
             return cell;
         }
@@ -96,7 +96,7 @@ namespace Iso.Cells
             _cells![x, y] = null;
             cell.cells = null!;
             cell.Building = null!;
-            cell.cellType = default;
+            cell.CellType = default;
             cell.x = cell.y = 0;
         }
 
