@@ -1,4 +1,6 @@
 using System;
+using Common.IO.Serialize.Newtonsoft.Json.Converter;
+using Common.Lang.Observable;
 using Iso.Buildings;
 using Iso.Cells;
 using Iso.Player;
@@ -28,7 +30,7 @@ namespace Iso.Serialize.Json
             settings.ContractResolver = new OptInOnlyContractResolver();
             settings.Converters.Add(new CellsConverter(player));
             settings.Converters.Add(new CellConverter(player));
-            settings.Converters.Add(new BuildingsConverter());
+            settings.Converters.Add(new NonAddingArrayConverter<PooledObsList<Building>, Building>());
             settings.Converters.Add(new BuildingConverter(player));
             AddInfoConverter(settings, player.Buildings.BuildingInfoSet);
         }
