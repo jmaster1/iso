@@ -14,4 +14,8 @@
 		<Compile Include="../../Assets/Scripts/Iso/**/*.cs" Link="Iso/%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Iso\Cells\" />
+	</ItemGroup>
+
 </Project>

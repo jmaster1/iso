@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.IO.Compression;
 using System.Text;
 
 namespace Common.IO.Streams
@@ -58,5 +60,23 @@ namespace Common.IO.Streams
             var bytes = encoding.GetBytes(str);
             stream.WriteBytes(bytes);
         }
+        
+        public static GZipStream GZip(this Stream stream, CompressionLevel level = CompressionLevel.Optimal) => 
+            new(stream, level);
+        
+        public static GZipStream GUnZip(this Stream stream) => 
+            new(stream,  CompressionMode.Decompress);
+
+        public static BinaryWriter DataWriter(this Stream stream) => new(stream);
+        public static BinaryReader DataReader(this Stream stream) => new(stream);
+        
+        public static string ToBase64String(this MemoryStream stream) =>
+            Convert.ToBase64String(stream.ToArray());
+        
+        public static byte[] FromBase64String(this string str) =>
+            Convert.FromBase64String(str);
+        
+        public static MemoryStream FromBase64StringStream(this string str) => 
+            new(str.FromBase64String());
     }
 }

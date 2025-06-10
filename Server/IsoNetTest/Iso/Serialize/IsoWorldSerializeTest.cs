@@ -1,12 +1,14 @@
+using Common.IO.FileSystem;
 using Iso.Buildings;
 using Iso.Cells;
+using Iso.Serialize.Json;
 
 namespace IsoNetTest.Iso.Serialize;
 
 public class IsoWorldSerializeTest : AbstractPlayerTest
 {
     [Test]
-    public void BuildTest()
+    public void SerializeTest()
     {
         const int s = 4;
         Cells.Create(s, s);
@@ -36,5 +38,13 @@ public class IsoWorldSerializeTest : AbstractPlayerTest
         Assert.AreEqual(b2.Width, bi.height);
         Assert.AreEqual(b2.Height, bi.width);
         b2.ForEachCell(c => Assert.AreEqual(c.Building, b2));
+
+        var ser = new IsoWorldJsonSerializer(World);
+        var fs = ser.SaveAll();
+        var lfs = new LocalFileSystem("C:\\tmp\\x");
+        fs.CopyTo(lfs);
+        
+        ser.Load(fs);
+        Assert.AreEqual(fs.Id, null);
     }
 }

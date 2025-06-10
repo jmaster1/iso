@@ -5,6 +5,7 @@ using Common.Util.Math;
 using Common.Util.Math.Path.AStar;
 using Iso.Buildings;
 using Iso.Player;
+using Newtonsoft.Json;
 
 namespace Iso.Cells
 {
@@ -18,15 +19,16 @@ namespace Iso.Cells
         /// <summary>
         /// list of existing (non-null) cells
         /// </summary>
+        [JsonProperty]
         public readonly PooledObsList<Cell> CellList = new();
         
         private readonly AStarPathFinder<Cell> _pathFinder = new();
         
         private readonly CellsGraph _graph = new();
 
-        public int Width { get; private set; }
+        public int Width { get; internal set; }
 
-        public int Heigth { get; private set; }
+        public int Heigth { get; internal set; }
 
         public void Create(int w, int h, Action? init = null)
         {
@@ -68,7 +70,7 @@ namespace Iso.Cells
             return Find((int) x, (int) y);
         }
         
-        public Cell? Set(int x, int y, CellType type)
+        public Cell Set(int x, int y, CellType type)
         {
             var cell = Find(x, y);
             if (cell != null) return Set(cell, type);
@@ -81,7 +83,7 @@ namespace Iso.Cells
             });
         }
         
-        public Cell? Set(Cell? cell, CellType type)
+        public Cell Set(Cell cell, CellType type)
         {
             cell.CellType = type;
             FireEvent(CellEvent.CellTypeChange, cell);

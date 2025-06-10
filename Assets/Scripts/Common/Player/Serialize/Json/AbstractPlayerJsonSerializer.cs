@@ -20,7 +20,7 @@ namespace Iso.Serialize.Json
     /// </summary>
     public class AbstractPlayerJsonSerializer<T> : GenericBean where T : AbstractPlayer
     {
-        readonly T player;
+        protected readonly T player;
 
         List<AbstractFeature> Adapters => player.Features;
 
@@ -44,16 +44,16 @@ namespace Iso.Serialize.Json
         public AbstractPlayerJsonSerializer(T player)
         {
             this.player = player;
-            ReferenceResolverManager rr = new ReferenceResolverManager();
+            var rr = new ReferenceResolverManager();
             // rr.AddConverter(new PuzzleAdapterReferenceConverter(player));
             // rr.AddConverter(new ShopArticleReferenceConverter(player));
             // rr.AddConverter(new OrderReferenceConverter(player));
             // rr.AddConverter(new CollectionReferenceConverter(player));
             // rr.AddConverter(new CollectionItemReferenceConverter(player));
-            JsonSerializerSettings settings = new JsonSerializerSettings()
+            var settings = new JsonSerializerSettings()
             {
                 ReferenceResolverProvider = () => rr,
-                Converters = new List<JsonConverter>()
+                Converters = new List<JsonConverter>
                 {
                     //
                     // common
@@ -102,11 +102,16 @@ namespace Iso.Serialize.Json
                 },
                 DefaultValueHandling = DefaultValueHandling.Ignore,
             };
+            DecorateSettings(settings);
             serializer = JsonSerializer.CreateDefault(settings);
             //
             // setup transaction on top of filesystem, check
             // Transaction = new FileSystemTransaction(this.localFileSystem);
             // Transaction.Check();
+        }
+
+        protected virtual void DecorateSettings(JsonSerializerSettings settings)
+        {
         }
 
         public string GetFileName(AbstractFeature adapter)
@@ -153,7 +158,7 @@ namespace Iso.Serialize.Json
             foreach (var adapter in Adapters)
             {
                 if (!adapter.IsPersistent || (dirty && !adapter.Dirty)) continue;
-                SaveAdapter(adapter);
+                SaveAdapter(fileSystem, adapter);
                 if (dirty) adapter.DirtyReset();
                 saved++;
             }
@@ -161,22 +166,27 @@ namespace Iso.Serialize.Json
             return saved;
         }
         
-        public void Save(bool dirty)
+        public MemoryFileSystem Save(bool dirty)
         {
             lock (MemoryFileSystem)
             {
                 MemoryFileSystem.Clear();
                 var saved = Save(MemoryFileSystem, dirty);
-                
-
                 //
                 // copy memory > file
-                if (saved > 0)
-                {
-                    if (Log.IsDebugEnabled) Log.DebugFormat("Saved {0} adapters", saved);
-                    Task.Factory.StartNew(FlushSaved);
-                }
+                // if (saved > 0)
+                // {
+                //     if (Log.IsDebugEnabled) Log.DebugFormat("Saved {0} adapters", saved);
+                //     Task.Factory.StartNew(FlushSaved);
+                // }
             }
+
+            return MemoryFileSystem;
+        }
+        
+        public MemoryFileSystem SaveAll()
+        {
+            return Save(false);
         }
 
         /// <summary>
@@ -200,11 +210,11 @@ namespace Iso.Serialize.Json
             }
         }
 
-        void SaveAdapter(AbstractFeature adapter)
+        void SaveAdapter(AbstractFileSystem fileSystem, AbstractFeature adapter)
         {
             string name = GetFileName(adapter);
             if (Log.IsDebugEnabled) Log.DebugFormat("{0} -> {1}", adapter.GetType().Name, name);
-            using (TextWriter textWriter = MemoryFileSystem.TextWriter(name))
+            using (TextWriter textWriter = fileSystem.TextWriter(name))
             {
                 try
                 {
