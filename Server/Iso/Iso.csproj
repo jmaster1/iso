@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Iso\Buildings\" />
 	  <Folder Include="Iso\Cells\" />
 	</ItemGroup>
 

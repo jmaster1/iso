@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+using Common.Api.Info;
 using Common.IO.FileSystem;
 using Common.IO.Serialize;
 using Common.IO.Serialize.Newtonsoft.Json.Converter;
@@ -230,6 +230,12 @@ namespace Iso.Serialize.Json
         public void SaveDirty()
         {
             Save(true);
+        }
+        
+        protected void AddInfoConverter<TE>(JsonSerializerSettings settings,
+            InfoSetIdString<TE> infoSet) where TE : AbstractEntityIdString
+        {
+            settings.Converters.Add(new AbstractEntityIdStringConverter<TE>(infoSet));
         }
     }
 }

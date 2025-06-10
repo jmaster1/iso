@@ -32,7 +32,7 @@ public class IsoWorldTests : AbstractIsoNetTests
     [Test]
     public async Task TestClientServer()
     {
-        InitContext();
+        IsoTestContext.InitContext();
         
         var (isoServer, clientFactory) = 
             CreateServerWebsocket();
@@ -54,7 +54,7 @@ public class IsoWorldTests : AbstractIsoNetTests
         
         //
         // build
-        await Build(client, worldsSource, BuildingId, 1, 1);
+        await Build(client, worldsSource, IsoTestContext.BuildingId, 1, 1);
 
         Thread.Sleep(TimeSpan.FromSeconds(1));
         

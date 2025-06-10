@@ -26,28 +26,6 @@ public abstract class AbstractIsoNetTests : AbstractTests
     {
         AddTransportRmiHtmlLogger(builder);
     }
-    
-    protected const string BuildingId = "b0";
-    
-    protected static void InitContext()
-    {
-        var infoApi = Context.Get<InfoApi>();
-        infoApi.loaders.Add((_, type) =>
-        {
-            if (type == typeof(List<BuildingInfo>))
-            {
-                return new List<BuildingInfo> { 
-                    new()
-                    {
-                        Id = BuildingId,
-                        width = 2,
-                        height = 2
-                    }
-                };
-            }
-            throw new NotImplementedException();
-        });
-    }
 
     private static IsoServer CreateServer(AbstractServer server)
     {
@@ -131,7 +109,7 @@ public abstract class AbstractIsoNetTests : AbstractTests
     {
         var buildingCreated = worldsSource.CreateTcs(player => 
             CreateTcsEvents(player.Buildings.Events, BuildingEvent.BuildingCreated));
-        client.RemoteWorldApi.Build(BuildingId, buildingX, buildingY);
+        client.RemoteWorldApi.Build(IsoTestContext.BuildingId, buildingX, buildingY);
         await buildingCreated.AwaitResults((_, building) =>
         {
             Assert.That(building!.X, Is.EqualTo(buildingX));

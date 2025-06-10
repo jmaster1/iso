@@ -2,6 +2,7 @@
 using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Iso.Player;
+using Newtonsoft.Json;
 
 namespace Iso.Util
 {
@@ -11,8 +12,10 @@ namespace Iso.Util
         where TEvent : Enum
         where TEntity : AbstractManagedEntity<TManager, TEvent, TEntity>
     {
+        [JsonIgnore]
         public TManager Manager;
         
+        [JsonIgnore]
         public Events<TEvent, TEntity> Events => Manager.Events;
         
         protected void FireEvent(TEvent evt)

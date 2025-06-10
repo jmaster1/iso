@@ -8,7 +8,7 @@ public class IsoMultiplayerTests : AbstractIsoNetTests
     [Test]
     public async Task TestClientServer()
     {
-        InitContext();
+        IsoTestContext.InitContext();
         
         var (isoServer, clientFactory) = 
             //CreateServerWebsocket();
@@ -25,7 +25,7 @@ public class IsoMultiplayerTests : AbstractIsoNetTests
             clientA.World, clientB.World);
         await StartWorld(clientA, worldsSource);
         
-        await Build(clientA, worldsSource, BuildingId, 1, 1);
+        await Build(clientA, worldsSource, IsoTestContext.BuildingId, 1, 1);
         
         //
         // dispose

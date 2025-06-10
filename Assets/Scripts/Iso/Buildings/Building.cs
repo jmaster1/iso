@@ -2,17 +2,22 @@ using System;
 using Common.Util.Math;
 using Iso.Cells;
 using Iso.Util;
+using Newtonsoft.Json;
 
 namespace Iso.Buildings
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Building : AbstractManagedEntity<Buildings, BuildingEvent, Building>, IBoundsProvider
     {
         Cells.Cells Cells => Manager.Cells;
         
+        [JsonProperty]
         public BuildingInfo Info;
 
+        [JsonProperty]
         public Cell Cell;
 
+        [JsonProperty]
         public bool Flipped;
 
         public int X => Cell.X;

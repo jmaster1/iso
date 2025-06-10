@@ -1,7 +1,10 @@
+using System.Diagnostics;
+using System.Linq;
 using Common.Api.Info;
 using Common.Lang.Observable;
 using Iso.Cells;
 using Iso.Player;
+using Newtonsoft.Json;
 
 namespace Iso.Buildings
 {
@@ -10,10 +13,19 @@ namespace Iso.Buildings
         /// <summary>
         /// list of existing buildings
         /// </summary>
+        [JsonProperty]
         public readonly PooledObsList<Building> List = new();
+
+        public int Count => List.Count;
         
         public InfoSetIdString<BuildingInfo> BuildingInfoSet = GetInfoSetIdString<BuildingInfo>("buildings");
-        
+
+        public override void Clear()
+        {
+            List.Clear();
+            base.Clear();
+        }
+
         public bool IsBuildable(BuildingInfo info, Cell? cell, bool flip = false)
         {
             return cell != null && 
