@@ -18,7 +18,7 @@ namespace Iso.Movables
         {
             foreach (var movable in List)
             {
-                movable.update(dt);
+                movable.Update(dt);
             }
         }
 

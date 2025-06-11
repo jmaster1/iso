@@ -47,13 +47,6 @@ namespace Iso.Movables
         
         public bool IsCenteredInCell => X == Cell.Cx && Y == Cell.Cy;
         
-        private void SetProperty<T>(ref T field, T value, MovableEvent eventType)
-        {
-	        if (EqualityComparer<T>.Default.Equals(field, value)) return;
-	        field = value;
-	        FireEvent(eventType);
-        }
-        
         /// <summary>
         /// heading direction (primary only: NESW)
         /// </summary>
@@ -77,7 +70,7 @@ namespace Iso.Movables
         }
         
         /// <summary>
-        /// slected flag
+        /// selected flag
         /// </summary>
         private bool selected;
         
@@ -140,7 +133,7 @@ namespace Iso.Movables
 	        return MoveTo(Cells.Find(tx, ty));
         }
 
-        public void update(float dt)
+        internal void Update(float dt)
         {
 	        //assert (int)pos.x == cell.getX();
 			//assert (int)pos.y == cell.getY();
@@ -195,7 +188,7 @@ namespace Iso.Movables
 				//
 				// update more by remain dt
 				var remainDt = dt * System.Math.Abs(remain) / System.Math.Abs(d);
-				update(remainDt);
+				Update(remainDt);
 			} else {
 				//
 				// advance pos

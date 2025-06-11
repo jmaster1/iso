@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Iso.Player;
@@ -22,7 +23,12 @@ namespace Iso.Util
         {
             Manager.FireEvent(evt, (TEntity)this);
         }
+        
+        protected void SetProperty<T>(ref T field, T value, TEvent eventType)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            field = value;
+            FireEvent(eventType);
+        }
     }
-    
-
 }
