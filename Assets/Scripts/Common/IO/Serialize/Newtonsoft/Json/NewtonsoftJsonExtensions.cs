@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Common.Util;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Common.IO.Serialize.Newtonsoft.Json
 {
@@ -8,18 +9,14 @@ namespace Common.IO.Serialize.Newtonsoft.Json
     {    
         public static string ToJson(this JsonSerializer serializer, object value)
         {
-            StringWriter stringWriter = new StringWriter();
+            var stringWriter = new StringWriter();
             serializer.Serialize(stringWriter, value);
-            string json = stringWriter.ToString();
-            return json;
+            return stringWriter.ToString();
         }
 
-        public static T FromJson<T>(this JsonSerializer serializer, string json)
-        {
-            T value = (T) serializer.Deserialize(new StringReader(json), typeof(T));
-            return value;
-        }
-        
+        public static T FromJson<T>(this JsonSerializer serializer, string json) => 
+            (T) serializer.Deserialize(new StringReader(json), typeof(T))!;
+
         public static void Populate(this JsonSerializer serializer, object value, string json)
         {
             TextReader reader = new StringReader(json);
@@ -71,8 +68,7 @@ namespace Common.IO.Serialize.Newtonsoft.Json
         {
             reader.Read();
             LangHelper.Validate(reader.IsPropertyName());
-            string ret = (string) reader.Value;
-            return ret;
+            return (string) reader.Value!;
         }
         
         public static void ReadStartObject(this JsonReader reader)
@@ -86,5 +82,11 @@ namespace Common.IO.Serialize.Newtonsoft.Json
             reader.Read();
             LangHelper.Validate(reader.IsEndObject());
         }
+        
+        public static JObject ReadJObject(this JsonReader reader) => 
+            JObject.Load(reader);
+        
+        public static T To<T>(this JObject jobj, string name) => 
+            jobj[name]!.ToObject<T>()!;
     }
 }

@@ -100,5 +100,16 @@ namespace Common.IO.Serialize.Newtonsoft.Json.Converter
             }
             return value;
         }
+        
+        protected void WriteObjectAndProperties(JsonWriter writer, params object[] namesAndValues)
+        {
+            writer.WriteStartObject();
+            for (var i = 0; i < namesAndValues.Length;)
+            {
+                writer.WritePropertyName((string)namesAndValues[i++]);
+                writer.WriteValue(namesAndValues[i++]);    
+            }
+            writer.WriteEndObject();
+        }
     }
 }
