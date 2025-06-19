@@ -160,5 +160,23 @@ namespace Common.IO.FileSystem
                 Delete(name);
             }
         }
+
+        public Dictionary<string, byte[]> Export()
+        {
+            var result = new Dictionary<string, byte[]>();
+            foreach (var name in List())
+            {
+                result[name] = ReadBytes(name);
+            }
+            return result;
+        }
+
+        public void Import(Dictionary<string, byte[]> data)
+        {
+            foreach (var keyValuePair in data)
+            {
+                WriteBytes(keyValuePair.Key, keyValuePair.Value);
+            }
+        }
     }
 }

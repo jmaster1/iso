@@ -1,5 +1,6 @@
 using Common.TimeNS;
 using Iso.Player;
+using Iso.Serialize.Json;
 using IsoNet.Iso.Common;
 
 namespace IsoNet.Iso.Server;
@@ -7,6 +8,8 @@ namespace IsoNet.Iso.Server;
 public class ServerWorld(IsoWorld world)
 {
     private const int WorldFrameReportPeriod = 10;
+    
+    IsoWorldJsonSerializer _serializer = new(world);
     
     public IsoWorld World => world;
     
@@ -16,7 +19,7 @@ public class ServerWorld(IsoWorld world)
 
     private readonly Time _time = new();
     
-    public readonly TimeTimer TimeTimer = new();
+    private readonly TimeTimer TimeTimer = new();
     
     private readonly RunOnTime _runOnTime = new();
     
@@ -58,11 +61,14 @@ public class ServerWorld(IsoWorld world)
     public WorldInfo Join(IsoRemoteClient client)
     {
         Clients.Add(client);
-        return new WorldInfo
+        lock (world)
         {
-            Id = world.Id,
-            Width = world.Cells.Width,
-            Heigth = world.Cells.Heigth
-        };
+            var fs = _serializer.SaveAll();
+            return new WorldInfo
+            {
+                Id = world.Id,
+                State = fs.Export()
+            };    
+        }
     }
 }

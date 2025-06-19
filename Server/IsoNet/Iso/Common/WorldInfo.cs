@@ -4,7 +4,5 @@ public class WorldInfo
 {
     public string Id;
 
-    public int Width;
-    
-    public int Heigth;
+    public Dictionary<string, byte[]> State;
 }
