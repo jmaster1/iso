@@ -86,10 +86,10 @@ public class IsoClient(
     {
         var info = _serverApi.JoinWorld(worldId);
         world.Id = info.Id;
-        world.Cells.Create(info.Width, info.Heigth, () =>
-        {
-            world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
-        });
+        // world.Cells.Create(info.Width, info.Heigth, () =>
+        // {
+        //     world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
+        // });
         return info;
     }
 

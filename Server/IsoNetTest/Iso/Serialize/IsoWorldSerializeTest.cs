@@ -1,4 +1,5 @@
 using Common.IO.FileSystem;
+using Common.TimeNS;
 using Iso.Cells;
 using Iso.Serialize.Json;
 
@@ -20,6 +21,11 @@ public class IsoWorldSerializeTest : AbstractPlayerTest
         Buildings.Build(bi, 0, 0);
         Buildings.Build(bi, 2, 2, true);
 
+        var t = new Time();
+        World.Bind(t);
+        t.UpdateSec(1);
+        t.UpdateSec(1);
+        
         var ser = new IsoWorldJsonSerializer(World);
         var fs = ser.SaveAll();
         var lfs = new LocalFileSystem("C:\\tmp\\x");

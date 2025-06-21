@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common.Lang.Entity;
 using Common.Lang.Observable;
 using Common.Util;
+using Newtonsoft.Json;
 
 namespace Common.Bind
 {
@@ -10,6 +11,7 @@ namespace Common.Bind
     /// IBindable generic implementation
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class BindableBean<T> : GenericBean, IBindable<T>
     {
         /// <summary>

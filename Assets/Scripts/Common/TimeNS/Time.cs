@@ -1,6 +1,7 @@
 ﻿using System;
 using Common.Bind;
 using Common.Lang.Observable;
+using Newtonsoft.Json;
 
 namespace Common.TimeNS
 {
@@ -24,6 +25,7 @@ namespace Common.TimeNS
         /// <summary>
         /// current value (ms)
         /// </summary>
+        [JsonProperty]
         public DateTime Value { get; protected set; }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace Common.TimeNS
         /// <summary>
         /// number of Update() calls made so far
         /// </summary>
+        [JsonProperty]
         public int Frame { get; private set; } = FrameUndefined;
 
         public void AddListener(Action<Time> e)

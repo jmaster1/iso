@@ -16,6 +16,8 @@ namespace Iso.Player
         
         public readonly Movables.Movables Movables = new();
 
+        public readonly TimeFeature TimeFeature = new();
+
         public IsoWorld(string guid = null!)
         {
             Id = guid;
@@ -27,6 +29,7 @@ namespace Iso.Player
             // the order is important
             return new AbstractFeature[]
             {
+                TimeFeature,
                 Cells,
                 Buildings,
                 Movables
