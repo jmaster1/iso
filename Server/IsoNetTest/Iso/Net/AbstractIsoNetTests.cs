@@ -45,7 +45,7 @@ public abstract class AbstractIsoNetTests : AbstractTests
         var isoWorld = new IsoWorld();
         var clientCodec = IsoJsonCodecFactory.CreateCodec().WrapLogging(clientTransport.Logger);
         var time = new Time();
-        new TimeTimer().Start(time, IsoCommon.Delta);
+        new TimeTimer().Start(IsoCommon.Delta, time);
         var isoClient = new IsoClient(isoWorld, clientTransport, clientCodec, time).Init();
         isoClient.Rmi.Logger = CreateLogger("clientRmi");
         isoClient.Rmi.RequestIdSeq = RequestIdSequence.NextVal;

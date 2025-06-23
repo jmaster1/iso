@@ -30,7 +30,7 @@ public class ServerWorld(IsoWorld world)
     public void Start()
     {
         _runOnTime.Bind(_time);
-        TimeTimer.Start(_time, IsoCommon.Delta);
+        TimeTimer.Start(IsoCommon.Delta, _time);
         World.Bind(_time);
         _time.AddListener(OnTimeUpdate);
         ForEachClient(cln => cln.WorldStarted());

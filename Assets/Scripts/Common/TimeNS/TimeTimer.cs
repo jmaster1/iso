@@ -8,7 +8,7 @@ namespace Common.TimeNS
         private readonly object _lock = new();
         private Timer? _timer;
 
-        public void Start(Time time, TimeSpan delta)
+        public void Start(TimeSpan delta, Action<TimeSpan> update)
         {
             lock (_lock)
             {
@@ -20,13 +20,18 @@ namespace Common.TimeNS
                     {
                         if (_timer is { Enabled: true })
                         {
-                            time.Update(delta);
+                            update(delta);
                         }
                     }
                 };
                 _timer.AutoReset = true;
                 _timer.Enabled = true;
             }
+        }
+
+        public void Start(TimeSpan delta, Time time)
+        {
+            Start(delta, span => time.Update(delta));
         }
 
         public void Stop()

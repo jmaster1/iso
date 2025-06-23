@@ -22,7 +22,7 @@ public class IsoWorldTests : AbstractIsoNetTests
         });
         //player.Bind(time);
         var timer = new TimeTimer();
-        timer.Start(time, TimeSpan.FromMilliseconds(20));
+        timer.Start(TimeSpan.FromMilliseconds(20), time);
         Thread.Sleep(10000);
         timer.Stop();
         stopwatch.Stop();
