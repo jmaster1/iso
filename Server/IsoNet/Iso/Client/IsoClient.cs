@@ -1,6 +1,6 @@
 using Common.TimeNS;
-using Iso.Cells;
 using Iso.Player;
+using Iso.Serialize.Json;
 using IsoNet.Core;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Transport;
@@ -26,11 +26,11 @@ public class IsoClient(
     
     private IIsoServerApi _serverApi;
     
-    private IIsoClientApi _clientApi;
-    
     public TransportRmi Rmi = null!;
 
     private int _lastFrameReported;
+    
+    private readonly IsoWorldJsonSerializer _serializer = new(world);
 
     public IsoClient Init()
     {
@@ -59,9 +59,8 @@ public class IsoClient(
                 call => call.SetFrame(World.TimeGame.Frame));
         _serverApi = Rmi.CreateRemote<IIsoServerApi>();
 
-        var worldApi = new IsoWorldApi(world);
-        Rmi.RegisterLocal<IIsoWorldApi>(worldApi);
-        Rmi.RegisterLocal<IIsoClientApi>(_clientApi = new IsoClientApi(this));
+        Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
+        Rmi.RegisterLocal(new IsoClientApi(this));
         return this;
     }
 
@@ -86,6 +85,7 @@ public class IsoClient(
     {
         var info = _serverApi.JoinWorld(worldId);
         world.Id = info.Id;
+        _serializer.Import(info.State);
         // world.Cells.Create(info.Width, info.Heigth, () =>
         // {
         //     world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    

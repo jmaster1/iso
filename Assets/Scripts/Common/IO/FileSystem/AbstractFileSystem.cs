@@ -171,12 +171,14 @@ namespace Common.IO.FileSystem
             return result;
         }
 
-        public void Import(Dictionary<string, byte[]> data)
+        public AbstractFileSystem Import(Dictionary<string, byte[]> data)
         {
             foreach (var keyValuePair in data)
             {
                 WriteBytes(keyValuePair.Key, keyValuePair.Value);
             }
+
+            return this;
         }
     }
 }

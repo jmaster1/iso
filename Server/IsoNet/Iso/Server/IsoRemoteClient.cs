@@ -28,7 +28,7 @@ public class IsoRemoteClient(
 
     private ServerWorld _serverWorld = null!;
     
-    private IsoWorldApi local;
+    private IsoWorldApi localWorldApi;
 
     internal IsoRemoteClient Init()
     {
@@ -63,12 +63,12 @@ public class IsoRemoteClient(
 
     internal void WorldStarted()
     {
-        local = new IsoWorldApi(World);
+        localWorldApi = new IsoWorldApi(World);
         var (localProxy, _) = Proxy.Create<IIsoWorldApi>(call =>
         {
             _serverWorld.RunOnTime(() =>
             {
-                call.Invoke(local);
+                call.Invoke(localWorldApi);
                 foreach (var isoRemoteClient in _serverWorld.Clients)
                 {
                     isoRemoteClient.RemoteInvoker.Invoke(call);
@@ -79,6 +79,4 @@ public class IsoRemoteClient(
         Rmi.RegisterLocal(localProxy);
         ClientApi.WorldStarted();
     }
-
-    
 }

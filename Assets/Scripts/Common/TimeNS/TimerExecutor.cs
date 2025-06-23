@@ -3,9 +3,10 @@ using Timer = System.Timers.Timer;
 
 namespace Common.TimeNS
 {
-    public class TimeTimer
+    public class TimerExecutor
     {
         private readonly object _lock = new();
+        
         private Timer? _timer;
 
         public void Start(TimeSpan delta, Action<TimeSpan> update)

@@ -9,7 +9,7 @@ public class ServerWorld(IsoWorld world)
 {
     private const int WorldFrameReportPeriod = 10;
     
-    IsoWorldJsonSerializer _serializer = new(world);
+    private readonly IsoWorldJsonSerializer _serializer = new(world);
     
     public IsoWorld World => world;
     
@@ -19,7 +19,7 @@ public class ServerWorld(IsoWorld world)
 
     private readonly Time _time = new();
     
-    private readonly TimeTimer TimeTimer = new();
+    private readonly TimerExecutor timerExecutor = new();
     
     private readonly RunOnTime _runOnTime = new();
     
@@ -30,19 +30,17 @@ public class ServerWorld(IsoWorld world)
     public void Start()
     {
         _runOnTime.Bind(_time);
-        TimeTimer.Start(IsoCommon.Delta, _time);
         World.Bind(_time);
-        _time.AddListener(OnTimeUpdate);
-        ForEachClient(cln => cln.WorldStarted());
-    }
-
-    private void OnTimeUpdate(Time time)
-    {
-        if (time.Frame >= _nextReportFrame)
+        timerExecutor.Start(IsoCommon.Delta, (delta) =>
         {
-            _nextReportFrame += WorldFrameReportPeriod;
-            ForEachClient(cln => cln.ClientApi.WorldFrameReport(time.Frame));
-        }
+            _time.Update(delta);
+            if (_time.Frame >= _nextReportFrame)
+            {
+                _nextReportFrame += WorldFrameReportPeriod;
+                ForEachClient(cln => cln.ClientApi.WorldFrameReport(_time.Frame));
+            }
+        });
+        ForEachClient(cln => cln.WorldStarted());
     }
 
     public void ForEachClient(Action<IsoRemoteClient> action)
@@ -63,11 +61,10 @@ public class ServerWorld(IsoWorld world)
         Clients.Add(client);
         lock (world)
         {
-            var fs = _serializer.SaveAll();
             return new WorldInfo
             {
                 Id = world.Id,
-                State = fs.Export()
+                State = _serializer.Export()
             };    
         }
     }

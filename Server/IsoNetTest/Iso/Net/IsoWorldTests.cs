@@ -21,10 +21,10 @@ public class IsoWorldTests : AbstractIsoNetTests
             lastUpdate = DateTime.Now;
         });
         //player.Bind(time);
-        var timer = new TimeTimer();
-        timer.Start(TimeSpan.FromMilliseconds(20), time);
+        var executor = new TimerExecutor();
+        executor.Start(TimeSpan.FromMilliseconds(20), time);
         Thread.Sleep(10000);
-        timer.Stop();
+        executor.Stop();
         stopwatch.Stop();
         Logger.LogInformation("Updates: {updates}, time: {time} ms", time.Frame, stopwatch.Elapsed.TotalMilliseconds.ToString("0.000"));
     }

@@ -237,5 +237,19 @@ namespace Iso.Serialize.Json
         {
             settings.Converters.Add(new AbstractEntityIdStringConverter<TE>(infoSet));
         }
+        
+        public Dictionary<string, byte[]> Export()
+        {
+            return SaveAll().Export();
+        }
+
+        public void Import(Dictionary<string, byte[]> state)
+        {
+            lock (MemoryFileSystem)
+            {
+                MemoryFileSystem.Clear();
+                Load(MemoryFileSystem.Import(state));
+            }
+        }
     }
 }
