@@ -60,7 +60,7 @@ public class IsoClient(
         _serverApi = Rmi.CreateRemote<IIsoServerApi>();
 
         Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
-        Rmi.RegisterLocal(new IsoClientApi(this));
+        Rmi.RegisterLocal<IIsoClientApi>(new IsoClientApi(this));
         return this;
     }
 
