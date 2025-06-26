@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Text.Json;
+using System.Web;
 using Common.IO.Streams;
 using IsoNet.Core.IO.Codec;
 using IsoNet.Core.Log.Appender;
@@ -19,28 +20,38 @@ public class TransportRmiHtmlLogger : AbstractLogger
         {
             w.plain(HtmlLogger.Css);
             w.plain("""
+                    <style>
+                        .truncate {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 500px;
+                        }
+                    </style>
                     <script>
-                    function setHtml(elId, html) {
-                    	let el = document.getElementById(elId);
-                    	el.innerHTML = html;
-                    }
-                    function addHtml(elId, html) {
-                    	let el = document.getElementById(elId);
-                    	el.innerHTML += html + '<hr>';
-                    }
+                        function setHtml(elId, html) {
+                            let el = document.getElementById(elId);
+                            el.innerHTML = html;
+                        }
+                        
+                        function addHtml(elId, html) {
+                            let el = document.getElementById(elId);
+                            el.innerHTML += html;
+                        }
+                        function toggleOverflow(d) {
+                            d.classList.toggle("truncate")
+                        }
                     </script>
                     """);
             w.table().tr()
                 .th("Time")
                 .th("Initiator")
                 .th("Thread")
-                .th("MessageType")
-                .th("RequestId")
+                .th("M_Type")
+                .th("M_Id")
                 .th("Method")
-                .th("Req>>")
-                .th(">>Req")
-                .th("Resp>>")
-                .th(">>Resp")
+                .th("Req")
+                .th("Resp")
                 .endTr();
         }));
     }
@@ -69,10 +80,24 @@ public class TransportRmiHtmlLogger : AbstractLogger
                         .td(messageType)
                         .td(requestId)
                         .td(call!)
-                        .td().attrId(TdId(TransportRmi.NameWriteMessage, MessageType.Request, requestId)).endTd()
-                        .td().attrId(TdId(TransportRmi.NameReadMessage, MessageType.Request, requestId)).endTd()
-                        .td().attrId(TdId(TransportRmi.NameWriteMessage, MessageType.Response, requestId)).endTd()
-                        .td().attrId(TdId(TransportRmi.NameReadMessage, MessageType.Response, requestId)).endTd()
+                        .td()
+                            .span().attrId(ContainerId(TransportRmi.NameWriteMessage, MessageType.Request, requestId)).endSpan()
+                            .span().attrId(ContainerId(TransportRmi.NameReadMessage, MessageType.Request, requestId)).endSpan()
+                            .div()
+                                .attrId(ContainerId(null, MessageType.Request, requestId))
+                                .attrClass("truncate")
+                                .attrOnClick("toggleOverflow(this)")
+                            .endDiv()
+                        .endTd()
+                        .td()
+                            .span().attrId(ContainerId(TransportRmi.NameWriteMessage, MessageType.Response, requestId)).endSpan()
+                            .span().attrId(ContainerId(TransportRmi.NameReadMessage, MessageType.Response, requestId)).endSpan()
+                            .div()
+                                .attrId(ContainerId(null, MessageType.Response, requestId))
+                                .attrClass("truncate")
+                                .attrOnClick("toggleOverflow(this)")
+                            .endDiv()
+                        .endTd()
                         .endTr();
                 });
                 Append(html);
@@ -81,22 +106,22 @@ public class TransportRmiHtmlLogger : AbstractLogger
             case TransportRmi.NameWriteMessage:
                 var requestTime = RequestTime[requestId];
                 var timeSpan = DateTime.Now.Subtract(requestTime);
-                var id = TdId(eventId.Name, messageType, requestId);
+                var id = ContainerId(eventId.Name, messageType, requestId);
                 Append($"<script>addHtml('{id}', '{timeSpan.TotalMilliseconds:0} ms')</script>");
                 break;
             case LoggingCodec.EventNameRead:
             case LoggingCodec.EventNameWrite:
                 var transportRmiEventId = TransportRmiLogContext.GetCurrent();
                 var message = ExtractParam<string, TState>(state, "str");
-                id = TdId(transportRmiEventId.EventId.Name!, transportRmiEventId.MessageType, 
+                id = ContainerId(null, transportRmiEventId.MessageType, 
                     transportRmiEventId.EventId.Id);
-                Append($"<script>addHtml('{id}', '{message}')</script>");
+                Append($"<script>setHtml('{id}', '{HttpUtility.JavaScriptStringEncode(message)}')</script>");
                 break;
             case LoggingCodec.EventNameReadError:
             case LoggingCodec.EventNameWriteError:
                 transportRmiEventId = TransportRmiLogContext.GetCurrent();
                 var ex = ExtractParam<Exception, TState>(state, "ex");
-                id = TdId(transportRmiEventId.EventId.Name!, transportRmiEventId.MessageType, 
+                id = ContainerId(transportRmiEventId.EventId.Name!, transportRmiEventId.MessageType, 
                     transportRmiEventId.EventId.Id);
                 var msgEscaped = JsonSerializer.Serialize(ex!.Message).Trim('"');
                 Append($"<script>addHtml('{id}', '<div class=\"error\">{msgEscaped}</div>')</script>");
@@ -104,7 +129,7 @@ public class TransportRmiHtmlLogger : AbstractLogger
         }
     }
 
-    private static string TdId(string operationName, MessageType messageType, int requestId)
+    private static string ContainerId(string? operationName, MessageType messageType, int requestId)
     {
         if (messageType == MessageType.Call)
         {
