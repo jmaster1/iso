@@ -71,7 +71,10 @@ public abstract class AbstractIsoNetTests : AbstractTests
     }
     
     protected static async Task<(IsoClient client, IsoRemoteClient remoteClient)> 
-        CreateClient(IsoServer isoServer, Func<IsoClient> clientFactory)
+        CreateClient(
+            IsoServer isoServer, 
+            Func<IsoClient> clientFactory, 
+            string? id = null)
     {
         var remoteClientCreated = new TaskCompletionSource<IsoRemoteClient>();
         isoServer.OnClientConnected += remoteClient =>
@@ -79,7 +82,9 @@ public abstract class AbstractIsoNetTests : AbstractTests
             remoteClientCreated.TrySetResult(remoteClient);
         };
         var client = clientFactory();
+        client.Id = id;
         var remoteClient = await AwaitResult(remoteClientCreated);
+        remoteClient.Id = id;
         return (client, remoteClient);
     }
     

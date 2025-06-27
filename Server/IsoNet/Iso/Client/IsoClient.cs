@@ -3,6 +3,7 @@ using Iso.Player;
 using Iso.Serialize.Json;
 using IsoNet.Core;
 using IsoNet.Core.IO.Codec;
+using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNet.Iso.Common;
@@ -24,6 +25,8 @@ public class IsoClient(
 
     public IIsoWorldApi RemoteWorldApi { get; private set; } = null!;
     
+    public string? Id { get; set; }
+
     private IIsoServerApi _serverApi;
     
     public TransportRmi Rmi = null!;
@@ -40,7 +43,7 @@ public class IsoClient(
         
         Rmi = new TransportRmi(transport, codec)
         {
-            CallRunner = (call, action) =>
+            CallExecutor = (call, action) =>
             {
                 var frame = call.GetFrame();
                 if (frame == Time.FrameUndefined)
@@ -56,12 +59,27 @@ public class IsoClient(
 
         RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(
             proxyBean => proxyBean.OnInvokeBefore = 
-                call => call.SetFrame(World.TimeGame.Frame));
-        _serverApi = Rmi.CreateRemote<IIsoServerApi>();
+                call =>
+                {
+                    DecorateCall(call);
+                    call.SetFrame(World.TimeGame.Frame);
+                });
+        _serverApi = Rmi.CreateRemote<IIsoServerApi>(
+            proxyBean => proxyBean.OnInvokeBefore = 
+                call =>
+                {
+                    DecorateCall(call);
+                });
 
         Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
         Rmi.RegisterLocal<IIsoClientApi>(new IsoClientApi(this));
         return this;
+    }
+
+    private void DecorateCall(MethodCall call)
+    {
+        call.Source = Id;
+        call.Target = "server";
     }
 
     private void OnTimeUpdate(Time _)

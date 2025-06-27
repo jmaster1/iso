@@ -18,7 +18,7 @@ public class TransportRmi : LogAware {
     private readonly AbstractTransport _transport;
     private readonly ICodec _codec;
     private readonly MethodInvoker _invoker;
-    public Action<MethodCall, Action> CallRunner = (_, action) => Task.Run(action);
+    public Action<MethodCall, Action> CallExecutor = (_, action) => Task.Run(action);
 
     public TransportRmi(AbstractTransport transport, ICodec codec, MethodInvoker? invoker = null)
     {
@@ -62,13 +62,13 @@ public class TransportRmi : LogAware {
     private void ReadCall(BinaryReader reader)
     {
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
-        CallRunner(methodCall, () => _invoker.Invoke(methodCall));
+        CallExecutor(methodCall, () => _invoker.Invoke(methodCall));
     }
     
     private void ReadRequest(BinaryReader reader, int requestId)
     {
         var methodCall = _codec.Read<MethodCall>(reader.BaseStream)!;
-        CallRunner(methodCall, async void () =>
+        CallExecutor(methodCall, async void () =>
         {
             object? result = null;
             Exception? exception = null;

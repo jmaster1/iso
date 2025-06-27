@@ -14,6 +14,8 @@ public class IsoRemoteClient(
     AbstractTransport transport, 
     ICodec codec) : IIsoServerApi
 {
+    public string? Id { get; set; }
+    
     public IsoWorld World => _serverWorld.World;
     
     public Time Time => World.TimeGame;
@@ -34,14 +36,25 @@ public class IsoRemoteClient(
     {
         Rmi.RegisterLocal<IIsoServerApi>(this);
         
-        var remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(bean =>
+        var remoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(bean => bean.OnInvokeBefore = call =>
         {
-            bean.OnInvokeBefore = call => call.SetFrame(Frame);
+            DecorateCall(call);
+            call.SetFrame(Frame);
         });
         RemoteInvoker.Register(remoteWorldApi);
-        
-        ClientApi = Rmi.CreateRemote<IIsoClientApi>();
+        ClientApi = Rmi.CreateRemote<IIsoClientApi>(bean => bean.OnInvokeBefore = DecorateCall);
         return this;
+    }
+
+    private void DecorateCall(MethodCall call)
+    {
+        call.Source = "server";
+        call.Target = Id!;
+    }
+
+    public void ClientId(string id)
+    {
+        Id = id;
     }
 
     public string CreateWorld(int width, int height)
@@ -64,7 +77,7 @@ public class IsoRemoteClient(
     internal void WorldStarted()
     {
         localWorldApi = new IsoWorldApi(World);
-        var (localProxy, _) = Proxy.Create<IIsoWorldApi>(call =>
+        var (localProxy, localProxyBean) = Proxy.Create<IIsoWorldApi>(call =>
         {
             _serverWorld.RunOnTime(() =>
             {

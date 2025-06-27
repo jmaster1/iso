@@ -75,7 +75,7 @@ public class TransportRmiHtmlLogger : AbstractLogger
                     RequestTime[requestId] = DateTime.Now;
                     w.tr().attrClass("log-" + logLevel.ToString().ToLower())
                         .td($"{DateTime.Now:HH:mm:ss.fff}")
-                        .td(Category!)
+                        .td(call.Source + ">" + call.Target)
                         .td($"{Thread.CurrentThread.Name} @ {Environment.CurrentManagedThreadId}")
                         .td(messageType)
                         .td(requestId)

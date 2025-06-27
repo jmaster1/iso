@@ -14,8 +14,8 @@ public class IsoMultiplayerTests : AbstractIsoNetTests
             //CreateServerWebsocket();
             CreateServerLocal();
 
-        var (clientA, remoteClientA) = await CreateClient(isoServer, clientFactory);
-        var (clientB, remoteClientB) = await CreateClient(isoServer, clientFactory);
+        var (clientA, remoteClientA) = await CreateClient(isoServer, clientFactory, "clnA");
+        var (clientB, remoteClientB) = await CreateClient(isoServer, clientFactory, "clnB");
 
         var serverWorld = await CreateWorld(isoServer, clientA, 20, 20);
         clientA.JoinWorld(serverWorld.Id);

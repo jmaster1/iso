@@ -12,6 +12,16 @@ public class MethodCall
     public Dictionary<string, object>? Attrs;
     
     public Func<string, Type, object?, object?>? AttrGetter;
+    
+    /// <summary>
+    /// debug/logging purposes
+    /// </summary>
+    public string? Source { get; set; }
+    
+    /// <summary>
+    /// debug/logging purposes
+    /// </summary>
+    public string? Target { get; set; }
 
     public void SetAttr(string name, object value)
     {

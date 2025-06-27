@@ -4,6 +4,8 @@ namespace IsoNet.Iso.Common;
 
 public interface IIsoServerApi
 {
+    void ClientId(string id);
+    
     string CreateWorld(int width, int height);
 
     WorldInfo JoinWorld(string worldId);
