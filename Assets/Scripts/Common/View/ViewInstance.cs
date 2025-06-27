@@ -126,6 +126,10 @@ namespace Common.View
         
         public ViewInstance SetLayerDebug()
         {
+            if (Manager.Layers.FindByKey(ViewManager.LayerDebug) == null)
+            {
+                Manager.AddLayer(ViewManager.LayerDebug);
+            }
             return SetLayer(ViewManager.LayerDebug);
         }
         

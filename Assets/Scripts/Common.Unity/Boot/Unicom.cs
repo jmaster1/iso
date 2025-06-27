@@ -119,7 +119,7 @@ namespace Common.Unity.Boot
             //
             // view
             ViewManager = Context.Get<ViewManager>();
-            playerBootstrap.SetupViewManager(ViewManager);
+            playerBootstrap?.SetupViewManager(ViewManager);
             //
             // debug
             if (IsDebug)
@@ -151,10 +151,10 @@ namespace Common.Unity.Boot
             {
                 Log.Debug("Creating player");
             }
-            playerBootstrap.CreatePlayer();
+            playerBootstrap?.CreatePlayer();
             if (IsDebug)
             {
-                playerBootstrap.SetupDebug(HttpDebugRouter);
+                playerBootstrap?.SetupDebug(HttpDebugRouter);
                 Debug.DebugButton.Show();
             }
             if(Log.IsDebugEnabled) Log.Debug($"{GetType().Name}.{nameof(Awake)}() - end");
