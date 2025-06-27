@@ -4,30 +4,30 @@ namespace IsoNet.Core.Proxy;
 
 public class ProxyBean<T> : DispatchProxy where T : class
 {
-    public Func<MethodCall, object?>? OnInvoke;
+    public Func<MethodCall, object?>? Executor;
     
-    public Action<MethodCall, object?, Exception?>? OnInvokeAfter;
+    public event Action<MethodCall, object?, Exception?>? OnInvokeAfter;
     
-    public Action<MethodCall>? OnInvokeBefore;
+    public event Action<MethodCall>? OnInvokeBefore;
     
     public T? Target { get; set; }
     
     protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
     {
-        var methodCall = new MethodCall
+        var call = new MethodCall
         {
             MethodInfo = targetMethod!,
             Args = args
         };
 
         object? result = null;
-        OnInvokeBefore?.Invoke(methodCall);
+        OnInvokeBefore?.Invoke(call);
         Exception? error = null;
         try
         {
-            if (OnInvoke != null)
+            if (Executor != null)
             {
-                result = OnInvoke.Invoke(methodCall);
+                result = Executor.Invoke(call);
             }
 
             if (Target != null)
@@ -42,7 +42,7 @@ public class ProxyBean<T> : DispatchProxy where T : class
         }
         finally
         {
-            OnInvokeAfter?.Invoke(methodCall, result, error);    
+            OnInvokeAfter?.Invoke(call, result, error);    
         }
         return result;
     }
@@ -51,7 +51,7 @@ public class ProxyBean<T> : DispatchProxy where T : class
 public static class Proxy
 {
     public static (T Proxy, ProxyBean<T> Bean) Create<T>(
-        Func<MethodCall, object?>? handler = null, 
+        Func<MethodCall, object?>? executor = null, 
         T? target = null) where T : class
     {
         if (!typeof(T).IsInterface)
@@ -60,10 +60,7 @@ public static class Proxy
         var proxy = DispatchProxy.Create<T, ProxyBean<T>>();
         var bean = (ProxyBean<T>)(object)proxy;
         bean.Target = target;
-        if (handler != null)
-        {
-            bean.OnInvoke = handler;
-        }
+        bean.Executor = executor;
         return (proxy, bean);
     }
     

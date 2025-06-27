@@ -19,6 +19,7 @@ public class TransportRmi : LogAware {
     private readonly ICodec _codec;
     private readonly MethodInvoker _invoker;
     public Action<MethodCall, Action> CallExecutor = (_, action) => Task.Run(action);
+    public Action<MethodCall>? RemoteCallDecorator { get; set; }
 
     public TransportRmi(AbstractTransport transport, ICodec codec, MethodInvoker? invoker = null)
     {
@@ -170,6 +171,7 @@ public class TransportRmi : LogAware {
     {
         var (remoteApi, remoteProxyBean) = Proxy.Proxy.Create<T>(InvokeRemote);
         proxyBeanConsumer?.Invoke(remoteProxyBean);
+        remoteProxyBean.OnInvokeBefore += RemoteCallDecorator;
         return remoteApi;
     }
 

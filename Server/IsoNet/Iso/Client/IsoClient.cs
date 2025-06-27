@@ -54,22 +54,12 @@ public class IsoClient(
                 {
                     _runOnTime.AddAction(frame, action);    
                 }
-            }
+            },
+            RemoteCallDecorator = DecorateCall
         };
 
-        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>(
-            proxyBean => proxyBean.OnInvokeBefore = 
-                call =>
-                {
-                    DecorateCall(call);
-                    call.SetFrame(World.TimeGame.Frame);
-                });
-        _serverApi = Rmi.CreateRemote<IIsoServerApi>(
-            proxyBean => proxyBean.OnInvokeBefore = 
-                call =>
-                {
-                    DecorateCall(call);
-                });
+        RemoteWorldApi = Rmi.CreateRemote<IIsoWorldApi>();
+        _serverApi = Rmi.CreateRemote<IIsoServerApi>();
 
         Rmi.RegisterLocal<IIsoWorldApi>(new IsoWorldApi(world));
         Rmi.RegisterLocal<IIsoClientApi>(new IsoClientApi(this));
@@ -80,6 +70,10 @@ public class IsoClient(
     {
         call.Source = Id;
         call.Target = "server";
+        if (call.MethodInfo.DeclaringType == typeof(IIsoWorldApi))
+        {
+            call.SetFrame(World.TimeGame.Frame);
+        }
     }
 
     private void OnTimeUpdate(Time _)
