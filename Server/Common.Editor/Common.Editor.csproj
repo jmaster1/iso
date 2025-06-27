@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NPOI" Version="2.7.3" />
     <PackageReference Include="Unity3D.UnityEngine" Version="2018.3.5.1" />
     <PackageReference Include="Unity3D.UnityEngine.UI" Version="2018.3.5.1" />
   </ItemGroup>
