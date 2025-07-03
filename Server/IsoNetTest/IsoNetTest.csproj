@@ -23,7 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Common.Editor\Common.Editor.csproj" />
       <ProjectReference Include="..\IsoNet\IsoNet.csproj" />
       <ProjectReference Include="..\Iso\Iso.csproj" />
     </ItemGroup>

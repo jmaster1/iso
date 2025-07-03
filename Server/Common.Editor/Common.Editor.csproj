@@ -32,4 +32,10 @@
 		<HintPath>../dll/LeanTween.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Reference Include="UnityEditor">
+		<HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.44f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>
