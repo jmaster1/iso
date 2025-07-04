@@ -1,3 +1,4 @@
+using System;
 using Common.Unity.Bind;
 using Common.Unity.Util;
 using Common.Unity.Util.Math;
@@ -31,6 +32,10 @@ namespace Iso.Unity.World
             if (!_isometricProjectorGrid)
             {
                 _isometricProjectorGrid = UnityHelper.FindComponentInScene<IsometricProjectorGrid>();
+                if (!_isometricProjectorGrid)
+                {
+                    throw new Exception("Not found in scene: " + typeof(IsometricProjectorGrid).Name);
+                }
             }
             return _isometricProjectorGrid;
         }
