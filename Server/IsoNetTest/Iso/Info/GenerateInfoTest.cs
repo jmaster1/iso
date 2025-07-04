@@ -1,9 +1,10 @@
 using System.Text;
 using Common.Editor;
+using IsoNetTest.Core;
 
 namespace IsoNetTest.Iso.Info;
 
-public class GenerateInfoTest : AbstractPlayerTest
+public class GenerateInfoTest : AbstractTests
 {
     [Test]
     public void BuildInfoTest()

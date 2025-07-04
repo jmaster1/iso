@@ -1,9 +1,10 @@
 using Common.TimeNS;
 using Iso.Player;
+using IsoNetTest.Core;
 
 namespace IsoNetTest.Iso;
 
-public class AbstractPlayerTest
+public class AbstractPlayerTest : AbstractTests
 {
     public readonly IsoWorld World = new();
     public global::Iso.Cells.Cells Cells => World.Cells;
