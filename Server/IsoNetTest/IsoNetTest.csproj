@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IsoNet\IsoNet.csproj" />
-      <ProjectReference Include="..\Iso\Iso.csproj" />
     </ItemGroup>
 
 </Project>
