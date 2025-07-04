@@ -64,7 +64,7 @@ namespace Common.Util.Http
                 }
                 catch (Exception ex)
                 {
-                    Log.Warn($"port {p} seems to be busy", ex);
+                    Log.Warn(ex, $"port {p} seems to be busy");
                 }
             }
             tasks = new ThreadedTaskQueue(WorkerThreads + 1, "http-");

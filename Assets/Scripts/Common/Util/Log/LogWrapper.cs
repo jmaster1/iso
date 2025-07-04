@@ -8,104 +8,79 @@ namespace Common.Util.Log
     /// LogWrapper allows shrinking of debug and info logs from build
     /// by checking 'DEBUG" conditional (Scripting Define Symbol)
     /// </summary>
-    public class LogWrapper
+    public abstract class LogWrapper
     {
         //private readonly ILog //_log;
+        //public ILogger? Logger;
 
-        public LogWrapper(Type type)
+        public static Func<Type, LogWrapper> Factory;
+
+        public static LogWrapper Create(Type type)
         {
-            //_log = LogManager.GetLogger(type);
+            return Factory(type);
         }
+
+                [Conditional("DEBUG")]
+        public void Debug(string message) => DebugImpl(message);
 
         [Conditional("DEBUG")]
-        public void Debug(object message)
-        {
-            //_log.Debug(message);
-        }
+        public void Debug(Exception exception, string message) => DebugImpl(exception, message);
 
         [Conditional("DEBUG")]
-        public void Debug(object message, Exception exception)
-        {
-            //_log.Debug(message, exception);
-        }
+        public void DebugFormat(string format, params object[] args) => DebugFormatImpl(format, args);
 
         [Conditional("DEBUG")]
-        public void DebugFormat(string format, params object[] args)
-        {
-            //_log.DebugFormat(format, args);
-        }
+        public void Info(string message) => InfoImpl(message);
 
         [Conditional("DEBUG")]
-        public void Info(object message)
-        {
-            //_log.Info(message);
-        }
+        public void Info(Exception exception, string message) => InfoImpl(exception, message);
 
         [Conditional("DEBUG")]
-        public void Info(object message, Exception exception)
-        {
-            //_log.Info(message, exception);
-        }
+        public void InfoFormat(string format, params object[] args) => InfoFormatImpl(format, args);
 
-        [Conditional("DEBUG")]
-        public void InfoFormat(string format, params object[] args)
-        {
-            //_log.InfoFormat(format, args);
-        }
+        public void Warn(string message) => WarnImpl(message);
 
-        public void Warn(object message)
-        {
-            //_log.Warn(message);
-        }
+        public void Warn(Exception exception, string message) => WarnImpl(exception, message);
 
-        public void Warn(object message, Exception exception)
-        {
-            //_log.Warn(message, exception);
-        }
+        public void WarnFormat(string format, params object[] args) => WarnFormatImpl(format, args);
 
-        public void WarnFormat(string format, params object[] args)
-        {
-            //_log.WarnFormat(format, args);
-        }
+        public void Error(string message) => ErrorImpl(message);
 
-        public void Error(object message)
-        {
-            //_log.Error(message);
-        }
+        public void Error(Exception exception, string message = null) => ErrorImpl(exception, message);
 
-        public void Error(object message, Exception exception)
-        {
-            //_log.Error(message, exception);
-        }
+        public void ErrorFormat(string format, params object[] args) => ErrorFormatImpl(format, args);
 
-        public void ErrorFormat(string format, params object[] args)
-        {
-            //_log.ErrorFormat(format, args);
-        }
+        public void Fatal(string message) => FatalImpl(message);
 
-        public void Fatal(object message)
-        {
-            //_log.Fatal(message);
-        }
+        public void Fatal(Exception exception, string message) => FatalImpl(exception, message);
 
-        public void Fatal(object message, Exception exception)
-        {
-            //_log.Fatal(message, exception);
-        }
+        public void FatalFormat(string format, params object[] args) => FatalFormatImpl(format, args);
 
-        public void FatalFormat(string format, params object[] args)
-        {
-            //_log.FatalFormat(format, args);
-        }
+        public abstract bool IsDebugEnabled { get; }
+        public abstract bool IsInfoEnabled { get; }
+        public abstract bool IsWarnEnabled { get; }
+        public abstract bool IsErrorEnabled { get; }
+        public abstract bool IsFatalEnabled { get; }
 
-        public bool IsDebugEnabled => false;//_log.IsDebugEnabled;
+        // Impl hooks
+        protected abstract void DebugImpl(string message);
+        protected abstract void DebugImpl(Exception exception, string message);
+        protected abstract void DebugFormatImpl(string format, params object[] args);
 
-        public bool IsInfoEnabled => false;//_log.IsInfoEnabled;
+        protected abstract void InfoImpl(string message);
+        protected abstract void InfoImpl(Exception exception, string message);
+        protected abstract void InfoFormatImpl(string format, params object[] args);
 
-        public bool IsWarnEnabled => false;//_log.IsWarnEnabled;
+        protected abstract void WarnImpl(string message);
+        protected abstract void WarnImpl(Exception exception, string message);
+        protected abstract void WarnFormatImpl(string format, params object[] args);
 
-        public bool IsErrorEnabled => false;//_log.IsErrorEnabled;
+        protected abstract void ErrorImpl(string message);
+        protected abstract void ErrorImpl(Exception exception, string message);
+        protected abstract void ErrorFormatImpl(string format, params object[] args);
 
-        public bool IsFatalEnabled => false;//_log.IsFatalEnabled;
+        protected abstract void FatalImpl(string message);
+        protected abstract void FatalImpl(Exception exception, string message);
+        protected abstract void FatalFormatImpl(string format, params object[] args);
     }
 }

@@ -14,7 +14,7 @@ namespace Common.Unity.Bind
     {
         private LogWrapper log;
         
-        public LogWrapper Log => log ?? (log = new LogWrapper(GetType()));
+        public LogWrapper Log => log ?? (log = LogWrapper.Create(GetType()));
         
         /// <summary>
         /// animator function

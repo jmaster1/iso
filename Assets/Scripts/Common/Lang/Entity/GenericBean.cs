@@ -16,7 +16,7 @@ namespace Common.Lang.Entity
     {
         private LogWrapper log;
 
-        public LogWrapper Log => log ?? (log = new LogWrapper(GetType()));
+        public LogWrapper Log => log ?? (log = LogWrapper.Create(GetType()));
 
         protected static T GetInfo<T>(string resource) where T: class
         {

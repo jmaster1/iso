@@ -13,7 +13,7 @@ namespace Common.Util
     {
         private LogWrapper log;
         
-        public LogWrapper Log => log ?? (log = new LogWrapper(GetType()));
+        public LogWrapper Log => log ?? (log = LogWrapper.Create(GetType()));
         
         private T instance;
 
@@ -46,7 +46,7 @@ namespace Common.Util
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to instantiate {typeof(T).Name}", ex);
+                Log.Error(ex, $"Failed to instantiate {typeof(T).Name}");
                 Error = ex;
             }
             finally

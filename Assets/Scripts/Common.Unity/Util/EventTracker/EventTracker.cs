@@ -68,7 +68,7 @@ namespace Common.Unity.Util.EventTracker
             }
             catch (Exception ex)
             {
-                Log.Warn("Flush() failed", ex);
+                Log.Warn(ex, "Flush() failed");
             }
             finally
             {
@@ -92,7 +92,7 @@ namespace Common.Unity.Util.EventTracker
             }
             catch (Exception ex)
             {
-                Log.Warn("SendFile() failed", ex);
+                Log.Warn(ex, "SendFile() failed");
             }
         }
 

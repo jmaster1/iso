@@ -25,7 +25,7 @@ namespace Common.Unity.Boot
     {
         private static LogWrapper log;
         
-        public static LogWrapper Log => log ??= new LogWrapper(typeof(Unicom));
+        public static LogWrapper Log => log ??= LogWrapper.Create(typeof(Unicom));
 
         public static Unicom Instance { get; private set; }
         

@@ -63,7 +63,7 @@ namespace Common.Unity.Util.EventTracker
                 }
                 catch (Exception ex)
                 {
-                    Log.Warn("Failed to move {path} > {target}", ex);
+                    Log.Warn(ex, "Failed to move {path} > {target}");
                 }
             });
         }

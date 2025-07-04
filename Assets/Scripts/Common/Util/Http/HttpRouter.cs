@@ -102,7 +102,7 @@ namespace Common.Util.Http
             }
             catch (Exception ex)
             {
-                Log.Error("HandleRequest() Failed", ex);
+                Log.Error(ex, "HandleRequest() Failed");
                 RenderErrorPage(ex, query);
             }
             finally
