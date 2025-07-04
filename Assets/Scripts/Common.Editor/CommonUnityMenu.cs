@@ -9,21 +9,30 @@ namespace Common.Editor {
     /// </summary>
     public static class CommonUnityMenu
     {
+        private static void Init()
+        {
+            CommonUnityTasks.DataPathProvider = () => Application.dataPath;
+            CommonUnityTasks.PostBuildAction = AssetDatabase.Refresh;
+        }
+        
         [MenuItem("Tools/Unicom/Build all")]
         public static void BuildAll()
         {
+            Init();
             CommonUnityTasks.BuildAll();
         }
-        
+
         [MenuItem("Tools/Unicom/Build localization")]
         public static void BuildLocalization()
         {
+            Init();
             CommonUnityTasks.BuildLocalization();
         }
         
         [MenuItem("Tools/Unicom/Build info")]
         public static void BuildInfo()
         {
+            Init();
             CommonUnityTasks.BuildInfo();
         }
 

@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Common.Editor.Excel;
 using Common.Unity.Util;
-using Common.Unity.Util.Log;
-using UnityEditor;
-using UnityEngine;
+//using UnityEditor;
+
+// using Common.Unity.Util;
+// using Common.Unity.Util.Log;
+// using UnityEditor;
+// using UnityEngine;
 
 namespace Common.Editor
 {
@@ -24,9 +27,17 @@ namespace Common.Editor
         /// </summary>
         public static string Resources = "Resources";
 
+        /// <summary>
+        /// this should return assets directory location
+        /// i.e. {path_to_project}/Assets
+        /// </summary>
+        public static Func<string> DataPathProvider;
+
+        public static Action PostBuildAction;
+
         static CommonUnityTasks()
         {
-            UnityLogConfigurator.Configure();
+            //UnityLogConfigurator.Configure();
         }
         
         private static List<AbstractExcelDataParser> GetParsers()
@@ -56,12 +67,13 @@ namespace Common.Editor
         
         public static void Build(AbstractExcelDataParser parser)
         {
-            var root = UnityHelper.GetAssetsDir();
+            var dataPath = DataPathProvider();
+            var root = Path.GetFullPath(dataPath);
             var folderName = parser.GetSourceFolderName();
             var docsPath = Path.Combine(root, Docs, folderName);
-            var outPath = Path.Combine(Application.dataPath, Resources, folderName);
+            var outPath = Path.Combine(dataPath, Resources, folderName);
             Build(parser, docsPath, outPath);
-            AssetDatabase.Refresh();
+            PostBuildAction?.Invoke();
         }
         
         public static void Build(AbstractExcelDataParser parser, string docsPath, string outPath)
@@ -72,24 +84,24 @@ namespace Common.Editor
             parser.Export(outPath);
         }
         
-        public static void Build(List<string> files)
-        {
-            if (files.Count == 0) return;
-            var parsers = GetParsers();
-            foreach (var parser in parsers)
-            {
-                var found = false;
-                var searchPath = Path.Combine( Docs, parser.GetSourceFolderName());
-                foreach (var file in files.Where(file => file.Contains(searchPath)))
-                {
-                    found |= parser.ParseFile(file);
-                }
-                if (!found) continue;
-                var outPath = Path.Combine(Application.dataPath, Resources, parser.GetSourceFolderName());
-                Directory.CreateDirectory(outPath);
-                parser.Export(outPath);
-            }
-            AssetDatabase.Refresh();                 
-        }
+        // public static void Build(List<string> files)
+        // {
+        //     if (files.Count == 0) return;
+        //     var parsers = GetParsers();
+        //     foreach (var parser in parsers)
+        //     {
+        //         var found = false;
+        //         var searchPath = Path.Combine( Docs, parser.GetSourceFolderName());
+        //         foreach (var file in files.Where(file => file.Contains(searchPath)))
+        //         {
+        //             found |= parser.ParseFile(file);
+        //         }
+        //         if (!found) continue;
+        //         var outPath = Path.Combine(Application.dataPath, Resources, parser.GetSourceFolderName());
+        //         Directory.CreateDirectory(outPath);
+        //         parser.Export(outPath);
+        //     }
+        //     AssetDatabase.Refresh();                 
+        // }
     }
 }
