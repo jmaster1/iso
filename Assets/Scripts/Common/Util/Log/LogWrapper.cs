@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-//using log4net;
 
 namespace Common.Util.Log
 {
@@ -10,17 +9,20 @@ namespace Common.Util.Log
     /// </summary>
     public abstract class LogWrapper
     {
-        //private readonly ILog //_log;
-        //public ILogger? Logger;
 
         public static Func<Type, LogWrapper> Factory;
 
         public static LogWrapper Create(Type type)
         {
+            Factory ??= type1 =>
+            {
+                var unityDebugLogger = new UnityDebugLogger(type1.Name);
+                return new MsLoggerWrapper(unityDebugLogger);
+            };
             return Factory(type);
         }
 
-                [Conditional("DEBUG")]
+        [Conditional("DEBUG")]
         public void Debug(string message) => DebugImpl(message);
 
         [Conditional("DEBUG")]
