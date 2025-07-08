@@ -1,5 +1,5 @@
 using System.Net.WebSockets;
-using IsoNet.Core.IO;
+using Common.IO;
 using Microsoft.Extensions.Logging;
 
 namespace IsoNet.Core.Transport.WebSocket;

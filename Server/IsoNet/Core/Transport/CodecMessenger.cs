@@ -1,4 +1,4 @@
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 
 namespace IsoNet.Core.Transport;
 

@@ -1,0 +1,29 @@
+using System;
+using System.IO;
+
+namespace Common.IO.Codec
+{
+    public abstract class AbstractTextCodec : ICodec
+    {
+        protected abstract void Write(object? item, TextWriter writer);
+
+        protected abstract object? Read(TextReader reader, Type type);
+    
+        public void Write(object? item, Stream target)
+        {
+            using var writer = new StreamWriter(target);
+            Write(item, writer);
+        }
+
+        public object? Read(Stream source, Type type)
+        {
+            using var reader = new StreamReader(source);
+            return Read(reader, type);
+        }
+
+        public T? Read<T>(Stream source)
+        {
+            return (T?) Read(source, typeof(T));
+        }
+    }
+}

@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using Iso.Player;
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Server;
 using IsoNet.Iso.Common;

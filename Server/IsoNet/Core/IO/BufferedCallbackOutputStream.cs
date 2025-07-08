@@ -1,4 +1,4 @@
-namespace IsoNet.Core.IO;
+namespace Common.IO;
 
 using System;
 using System.IO;

@@ -1,6 +1,6 @@
 using System.Text;
 using Common.IO.Serialize.Newtonsoft.Json.Converter;
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

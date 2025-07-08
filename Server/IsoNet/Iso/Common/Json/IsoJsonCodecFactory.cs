@@ -1,7 +1,7 @@
 using Common.IO.Serialize.Newtonsoft.Json.Converter;
 using Iso.Cells;
 using Iso.Player;
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Transport.Rmi.Json;
 using Newtonsoft.Json;
 

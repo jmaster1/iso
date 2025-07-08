@@ -1,4 +1,4 @@
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport.Rmi.Json;
 using IsoNetTest.Core;

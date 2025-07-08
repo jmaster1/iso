@@ -1,5 +1,5 @@
 using Common.Lang.Observable;
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Transport;
 using IsoNet.Core.Transport.Rmi;
 using IsoNet.Core.Transport.Rmi.Json;

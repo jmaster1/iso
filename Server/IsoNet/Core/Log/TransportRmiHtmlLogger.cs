@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Web;
 using Common.IO.Streams;
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Log.Appender;
 using IsoNet.Core.Proxy;
 using IsoNet.Core.Transport.Rmi;

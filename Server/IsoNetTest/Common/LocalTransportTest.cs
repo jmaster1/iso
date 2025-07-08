@@ -1,4 +1,4 @@
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Transport;
 using IsoNetTest.Core;
 

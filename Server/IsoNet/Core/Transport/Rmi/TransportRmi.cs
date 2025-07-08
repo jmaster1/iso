@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using System.Reflection;
-using IsoNet.Core.IO.Codec;
+using Common.IO.Codec;
 using IsoNet.Core.Proxy;
 using Microsoft.Extensions.Logging;
 using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
