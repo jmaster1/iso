@@ -46,7 +46,7 @@ namespace Common.ContextNS
         {
             if (beans.TryGetValue(type, out var bean)) return (T) bean;
             if(Log.IsDebugEnabled) Log.Debug($"Creating bean of type {type.Name}");
-            bean = ReflectHelper.NewInstance<T>();
+            bean = ReflectHelper.NewInstance(type);
             beans[type] = bean;
             OnBeanCreated?.Invoke(type, bean);
             return (T)bean;
