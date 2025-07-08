@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 namespace Common.IO.Codec
 {
@@ -11,13 +12,14 @@ namespace Common.IO.Codec
     
         public void Write(object? item, Stream target)
         {
-            using var writer = new StreamWriter(target);
+            using var writer = new StreamWriter(target, Encoding.UTF8, 1024, leaveOpen: true);
             Write(item, writer);
+            writer.Flush();
         }
 
         public object? Read(Stream source, Type type)
         {
-            using var reader = new StreamReader(source);
+            var reader = new StreamReader(source, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true);
             return Read(reader, type);
         }
 

@@ -1,4 +1,5 @@
 using Common.IO;
+using Common.IO.Streams;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 
