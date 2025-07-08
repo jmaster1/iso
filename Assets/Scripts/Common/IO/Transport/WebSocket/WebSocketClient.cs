@@ -22,17 +22,10 @@ namespace Common.IO.Transport.WebSocket
             var cws = new ClientWebSocket();
             WebSocket = cws;
             _cts = new CancellationTokenSource();
-
-            try
-            {
-                await cws.ConnectAsync(serverUri, _cts.Token);
-                Logger?.LogInformation("Connected to {serverUri}", serverUri);
-                _ = ListenForMessages();
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogInformation("Error connecting to server: {error}", ex.Message);
-            }
+            
+            await cws.ConnectAsync(serverUri, _cts.Token);
+            Logger?.LogInformation("Connected to {serverUri}", serverUri);
+            _ = ListenForMessages();
         }
     }
 }

@@ -4,7 +4,6 @@ using Common.Api.Info;
 using Common.Lang;
 using Common.Lang.Collections;
 using Common.Lang.Entity;
-using Common.Util;
 using Common.Util.Reflect;
 
 namespace Common.ContextNS
@@ -19,7 +18,7 @@ namespace Common.ContextNS
         /// <summary>
         /// instantiated singletons
         /// </summary>
-        private readonly Map<Type, object> beans = new();
+        private readonly Map<Type, object> _beans = new();
 
         public event Action<Type, object> OnBeanCreated; 
         
@@ -44,10 +43,10 @@ namespace Common.ContextNS
         
         public T GetBean<T>(Type type)
         {
-            if (beans.TryGetValue(type, out var bean)) return (T) bean;
+            if (_beans.TryGetValue(type, out var bean)) return (T) bean;
             if(Log.IsDebugEnabled) Log.Debug($"Creating bean of type {type.Name}");
             bean = ReflectHelper.NewInstance(type);
-            beans[type] = bean;
+            _beans[type] = bean;
             OnBeanCreated?.Invoke(type, bean);
             return (T)bean;
         }
@@ -67,9 +66,9 @@ namespace Common.ContextNS
         {
             if(Log.IsDebugEnabled) Log.Debug($"PutBean: {derivedObject}");
             var type = typeof(T);
-            if (!beans.ContainsKey(type))
+            if (!_beans.ContainsKey(type))
             {
-                beans.Add(type, derivedObject);
+                _beans.Add(type, derivedObject);
                 return true;
             }
 
@@ -78,7 +77,7 @@ namespace Common.ContextNS
 
         public Dictionary<Type, object>.ValueCollection GetBeans()
         {
-            return beans.Values;
+            return _beans.Values;
         }
         
         public static bool Put<T>(T derivedObject)
