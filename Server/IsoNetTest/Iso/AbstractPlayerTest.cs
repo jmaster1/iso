@@ -6,11 +6,17 @@ namespace IsoNetTest.Iso;
 
 public class AbstractPlayerTest : AbstractTests
 {
-    public readonly IsoWorld World = new();
+    public IsoWorld World = null;
     public global::Iso.Cells.Cells Cells => World.Cells;
     public global::Iso.Buildings.Buildings Buildings => World.Buildings;
     public global::Iso.Movables.Movables Movables => World.Movables;
-        
+
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
+    {
+        World = new();
+    }
+
     protected void UpdateTime(float seconds)
     {
         var t = new Time();

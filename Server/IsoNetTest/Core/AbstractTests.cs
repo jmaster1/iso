@@ -1,5 +1,6 @@
 using Common.Bind;
 using Common.Lang.Observable;
+using Common.Util.Log;
 using IsoNet.Core.Log;
 using IsoNet.Core.Log.Appender;
 using IsoNetTest.Core.Log.Appender;
@@ -27,6 +28,7 @@ public abstract class AbstractTests
                     FileAppender.Create(this, ".html", HtmlLogger.HtmlStart)));
             ConfigureLoggingBuilder(builder);
         });
+        LogWrapper.Factory = type => new MsLoggerWrapper(CreateLogger(type));
         Logger = CreateLogger(this);
     }
     
