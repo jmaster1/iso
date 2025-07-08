@@ -1,6 +1,6 @@
 using System;
 
-namespace IsoNet.Core.Log.Appender
+namespace Common.Util.Log.Ms.Appender
 {
     public class ConsoleAppender : IAppender
     {

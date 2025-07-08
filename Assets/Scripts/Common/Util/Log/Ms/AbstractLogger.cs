@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Util.Log.Ms.Appender;
 using Common.Util.Reflect;
-using IsoNet.Core.Log.Appender;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Core.Log
+namespace Common.Util.Log.Ms
 {
     public abstract class AbstractLogger : ILogger
     {

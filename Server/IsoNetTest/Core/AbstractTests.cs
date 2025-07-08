@@ -1,8 +1,8 @@
 using Common.Bind;
 using Common.Lang.Observable;
 using Common.Util.Log;
-using IsoNet.Core.Log;
-using IsoNet.Core.Log.Appender;
+using Common.Util.Log.Ms;
+using Common.Util.Log.Ms.Appender;
 using IsoNetTest.Core.Log.Appender;
 using Microsoft.Extensions.Logging;
 

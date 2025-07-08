@@ -1,7 +1,7 @@
 using Common.IO.Codec;
-using IsoNet.Core.Transport;
-using IsoNet.Core.Transport.Server.WebSocket;
-using IsoNet.Core.Transport.WebSocket;
+using Common.IO.Transport;
+using Common.IO.Transport.Server.WebSocket;
+using Common.IO.Transport.WebSocket;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 

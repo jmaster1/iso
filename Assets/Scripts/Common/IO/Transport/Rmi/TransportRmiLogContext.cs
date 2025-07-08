@@ -3,7 +3,7 @@ using System.Threading;
 using Common.Util;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Core.Transport.Rmi
+namespace Common.IO.Transport.Rmi
 {
     public static class TransportRmiLogContext
     {

@@ -2,7 +2,7 @@
 using Iso.Cells;
 using Iso.Player;
 
-namespace IsoNet.Iso.Common
+namespace Iso.Net.Common
 {
     public class IsoWorldApi : IIsoWorldApi
     {

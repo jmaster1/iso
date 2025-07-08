@@ -1,10 +1,10 @@
 using System.Collections.Concurrent;
 using Iso.Player;
 using Common.IO.Codec;
-using IsoNet.Core.Transport;
-using IsoNet.Core.Transport.Server;
-using IsoNet.Iso.Common;
-using IsoNet.Iso.Common.Json;
+using Common.IO.Transport;
+using Common.IO.Transport.Server;
+using Iso.Net.Common;
+using Iso.Net.Common.Json;
 
 namespace IsoNet.Iso.Server;
 

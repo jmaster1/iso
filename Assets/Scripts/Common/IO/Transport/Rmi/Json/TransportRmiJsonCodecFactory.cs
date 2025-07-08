@@ -1,7 +1,7 @@
 using System;
 using Common.IO.Codec;
 
-namespace IsoNet.Core.Transport.Rmi.Json
+namespace Common.IO.Transport.Rmi.Json
 {
     public static class TransportRmiJsonCodecFactory
     {

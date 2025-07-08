@@ -1,9 +1,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using IsoNet.Core;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Core.Transport
+namespace Common.IO.Transport
 {
     public abstract class AbstractTransport : LogAware
     {

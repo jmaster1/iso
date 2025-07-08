@@ -4,11 +4,12 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Common.IO.Codec;
-using IsoNet.Core.Proxy;
+using IsoNet.Core;
+using Common.Lang.Proxy;
 using Microsoft.Extensions.Logging;
-using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
+using MethodInvoker = Common.Lang.Proxy.MethodInvoker;
 
-namespace IsoNet.Core.Transport.Rmi
+namespace Common.IO.Transport.Rmi
 {
     public class TransportRmi : LogAware {
     
@@ -172,7 +173,7 @@ namespace IsoNet.Core.Transport.Rmi
 
         public T CreateRemote<T>(Action<ProxyBean<T>>? proxyBeanConsumer = null) where T : class
         {
-            var (remoteApi, remoteProxyBean) = Proxy.Proxy.Create<T>(InvokeRemote);
+            var (remoteApi, remoteProxyBean) = Proxy.Create<T>(InvokeRemote);
             proxyBeanConsumer?.Invoke(remoteProxyBean);
             remoteProxyBean.OnInvokeBefore += RemoteCallDecorator;
             return remoteApi;

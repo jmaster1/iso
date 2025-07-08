@@ -1,5 +1,5 @@
 using Common.IO.Codec;
-using IsoNet.Core.Transport;
+using Common.IO.Transport;
 using IsoNetTest.Core;
 
 namespace IsoNetTest.Common;

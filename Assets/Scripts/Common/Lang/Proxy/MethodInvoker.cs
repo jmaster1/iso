@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IsoNet.Core.Proxy
+namespace Common.Lang.Proxy
 {
     public class MethodInvoker
     {

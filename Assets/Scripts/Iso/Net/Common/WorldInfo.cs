@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace IsoNet.Iso.Common
+namespace Iso.Net.Common
 {
     public class WorldInfo
     {

@@ -5,17 +5,19 @@ using System.Threading;
 using System.Web;
 using Common.IO.Streams;
 using Common.IO.Codec;
-using IsoNet.Core.Log.Appender;
-using IsoNet.Core.Proxy;
-using IsoNet.Core.Transport.Rmi;
+using Common.Util.Log.Ms.Appender;
+using Common.Lang.Proxy;
+using Common.IO.Transport.Rmi;
 using log4net.Appender;
 using Microsoft.Extensions.Logging;
 using UnityEditor;
-using IAppender = IsoNet.Core.Log.Appender.IAppender;
-using MessageType = IsoNet.Core.Transport.Rmi.MessageType;
+using IAppender = Common.Util.Log.Ms.Appender.IAppender;
+using MessageType = Common.IO.Transport.Rmi.MessageType;
 
-namespace IsoNet.Core.Log
+namespace Common.Util.Log.Ms
 {
+    using IAppender = Appender.IAppender;
+
     public class TransportRmiHtmlLogger : AbstractLogger
     {
         private static readonly ConcurrentDictionary<int, DateTime> RequestTime = new();

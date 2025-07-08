@@ -1,4 +1,4 @@
-using IsoNet.Core.Log.Appender;
+using Common.Util.Log.Ms.Appender;
 
 namespace IsoNetTest.Core.Log.Appender;
 

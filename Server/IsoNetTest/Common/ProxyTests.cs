@@ -1,6 +1,6 @@
 using Common.IO.Codec;
-using IsoNet.Core.Proxy;
-using IsoNet.Core.Transport.Rmi.Json;
+using Common.Lang.Proxy;
+using Common.IO.Transport.Rmi.Json;
 using IsoNetTest.Core;
 
 namespace IsoNetTest.Common;

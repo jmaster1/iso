@@ -2,10 +2,10 @@ using System;
 using System.Net;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
-using IsoNet.Core.Transport.WebSocket;
+using Common.IO.Transport.WebSocket;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Core.Transport.Server.WebSocket
+namespace Common.IO.Transport.Server.WebSocket
 {
     public class WebSocketServer : AbstractServer
     {

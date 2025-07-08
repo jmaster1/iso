@@ -1,6 +1,6 @@
-using IsoNet.Core.Transport.Rmi;
+using Common.IO.Transport.Rmi;
 
-namespace IsoNet.Iso.Common
+namespace Iso.Net.Common
 {
     public interface IIsoClientApi
     {

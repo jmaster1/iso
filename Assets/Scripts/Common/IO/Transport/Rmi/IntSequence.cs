@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace IsoNet.Core.Transport.Rmi
+namespace Common.IO.Transport.Rmi
 {
     public class IntSequence
     {

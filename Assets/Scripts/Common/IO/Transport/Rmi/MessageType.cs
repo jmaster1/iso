@@ -1,4 +1,4 @@
-namespace IsoNet.Core.Transport.Rmi
+namespace Common.IO.Transport.Rmi
 {
     public enum MessageType
     {

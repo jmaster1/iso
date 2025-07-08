@@ -1,7 +1,7 @@
 using System;
 using Common.IO.Codec;
 
-namespace IsoNet.Core.Transport
+namespace Common.IO.Transport
 {
     public class CodecMessenger<T>
     {

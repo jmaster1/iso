@@ -1,6 +1,6 @@
-using IsoNet.Iso.Common;
+using Iso.Net.Common;
 
-namespace IsoNet.Iso.Client
+namespace Iso.Net.Client
 {
     internal class IsoClientApi : IIsoClientApi
     {

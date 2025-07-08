@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace Common.Util.Log
+namespace Common.Util.Log.Ms
 {
     public class MsLoggerWrapper : LogWrapper
     {

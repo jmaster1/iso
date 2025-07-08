@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace IsoNet.Core.Proxy
+namespace Common.Lang.Proxy
 {
     public class MethodCall
     {

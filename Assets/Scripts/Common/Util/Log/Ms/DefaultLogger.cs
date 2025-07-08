@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Core.Log
+namespace Common.Util.Log.Ms
 {
     public class DefaultLogger : AbstractLogger
     {

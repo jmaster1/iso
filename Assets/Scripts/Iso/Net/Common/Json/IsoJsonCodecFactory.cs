@@ -2,10 +2,10 @@ using Common.IO.Serialize.Newtonsoft.Json.Converter;
 using Iso.Cells;
 using Iso.Player;
 using Common.IO.Codec;
-using IsoNet.Core.Transport.Rmi.Json;
+using Common.IO.Transport.Rmi.Json;
 using Newtonsoft.Json;
 
-namespace IsoNet.Iso.Common.Json
+namespace Iso.Net.Common.Json
 {
     public static class IsoJsonCodecFactory
     {
@@ -27,9 +27,9 @@ namespace IsoNet.Iso.Common.Json
 
     public class CellConverter : JsonConverterGeneric<Cell>
     {
-        private readonly Cells _cells;
+        private readonly Cells.Cells _cells;
 
-        public CellConverter(Cells cells)
+        public CellConverter(Cells.Cells cells)
         {
             _cells = cells;
         }

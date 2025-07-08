@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using IsoNet.Core.Proxy;
+using Common.Lang.Proxy;
 
-namespace IsoNet.Core.Transport.Rmi
+namespace Common.IO.Transport.Rmi
 {
     internal class Query
     {

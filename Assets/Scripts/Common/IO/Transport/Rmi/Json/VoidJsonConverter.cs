@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace IsoNet.Core.Transport.Rmi.Json
+namespace Common.IO.Transport.Rmi.Json
 {
     public class VoidJsonConverter : JsonConverter
     {

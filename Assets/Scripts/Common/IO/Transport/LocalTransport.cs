@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using IsoNet.Core.Transport.Server;
+using Common.IO.Transport.Server;
 
-namespace IsoNet.Core.Transport
+namespace Common.IO.Transport
 {
     using System.Threading.Channels;
 

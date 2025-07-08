@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Common.Lang;
 
-namespace IsoNet.Core.Transport.Rmi.Json
+namespace Common.IO.Transport.Rmi.Json
 {
     public class FastTypeStringConverter : IConverter<Type, string>
     {

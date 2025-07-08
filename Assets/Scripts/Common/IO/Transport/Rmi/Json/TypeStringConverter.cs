@@ -1,7 +1,7 @@
 using System;
 using Common.Lang;
 
-namespace IsoNet.Core.Transport.Rmi.Json
+namespace Common.IO.Transport.Rmi.Json
 {
     public class TypeStringConverter : IConverter<Type, string>
     {

@@ -1,8 +1,8 @@
 using Common.Lang.Observable;
 using Common.IO.Codec;
-using IsoNet.Core.Transport;
-using IsoNet.Core.Transport.Rmi;
-using IsoNet.Core.Transport.Rmi.Json;
+using Common.IO.Transport;
+using Common.IO.Transport.Rmi;
+using Common.IO.Transport.Rmi.Json;
 using IsoNetTest.Core;
 using Microsoft.Extensions.Logging;
 

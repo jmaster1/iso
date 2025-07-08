@@ -4,13 +4,13 @@ using Iso.Player;
 using Iso.Serialize.Json;
 using IsoNet.Core;
 using Common.IO.Codec;
-using IsoNet.Core.Proxy;
-using IsoNet.Core.Transport;
-using IsoNet.Core.Transport.Rmi;
-using IsoNet.Iso.Common;
+using Common.Lang.Proxy;
+using Common.IO.Transport;
+using Common.IO.Transport.Rmi;
+using Iso.Net.Common;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Iso.Client
+namespace Iso.Net.Client
 {
     public class IsoClient : LogAware
     {

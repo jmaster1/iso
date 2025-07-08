@@ -1,11 +1,11 @@
 using Common.TimeNS;
 using Iso.Player;
 using Common.IO.Codec;
-using IsoNet.Core.Proxy;
-using IsoNet.Core.Transport;
-using IsoNet.Core.Transport.Rmi;
-using IsoNet.Iso.Common;
-using MethodInvoker = IsoNet.Core.Proxy.MethodInvoker;
+using Common.Lang.Proxy;
+using Common.IO.Transport;
+using Common.IO.Transport.Rmi;
+using Iso.Net.Common;
+using MethodInvoker = Common.Lang.Proxy.MethodInvoker;
 
 namespace IsoNet.Iso.Server;
 

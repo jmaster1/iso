@@ -1,11 +1,11 @@
 using System;
 using Common.IO.Serialize.Newtonsoft.Json.Converter;
 using Common.Lang;
-using IsoNet.Core.Proxy;
+using Common.Lang.Proxy;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace IsoNet.Core.Transport.Rmi.Json
+namespace Common.IO.Transport.Rmi.Json
 {
     public class MethodCallJsonConverter : JsonConverterGeneric<MethodCall>
     {

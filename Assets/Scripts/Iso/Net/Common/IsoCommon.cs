@@ -2,9 +2,9 @@ using System;
 using Common.TimeNS;
 using Iso.Cells;
 using Iso.Player;
-using IsoNet.Core.Proxy;
+using Common.Lang.Proxy;
 
-namespace IsoNet.Iso.Common
+namespace Iso.Net.Common
 {
     public static class IsoCommon
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Common.IO.Streams;
 using Microsoft.Extensions.Logging;
 
-namespace IsoNet.Core.Transport.WebSocket
+namespace Common.IO.Transport.WebSocket
 {
     public class WebSocketTransport : AbstractTransport
     {

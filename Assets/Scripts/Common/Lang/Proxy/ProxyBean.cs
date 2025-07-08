@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace IsoNet.Core.Proxy
+namespace Common.Lang.Proxy
 {
     public class ProxyBean<T> : DispatchProxy where T : class
     {
