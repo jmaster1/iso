@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Common.Lang;
 using Common.Lang.Collections;
 
 namespace Common.Util
@@ -18,12 +17,12 @@ namespace Common.Util
         /// <summary>
         /// default instance
         /// </summary>
-        public static TextParser Instance = new TextParser();
+        public static TextParser Instance = new();
         
         /// <summary>
         /// parsers mapped by type
         /// </summary>
-        public Map<Type, Func<string, object>> Parsers = new Map<Type, Func<string, object>>();
+        public Map<Type, Func<string, object>> Parsers = new();
 
         public TextParser()
         {
