@@ -17,6 +17,8 @@
         <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+		<PackageReference Include="System.Text.Json" Version="9.0.6" />
+		<PackageReference Include="System.Threading.Channels" Version="9.0.6" />
     </ItemGroup>
 
     <ItemGroup>
