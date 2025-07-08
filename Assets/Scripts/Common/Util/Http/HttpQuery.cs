@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using Common.IO.Streams;
-using Common.Lang;
 using Common.Lang.Collections;
 
 namespace Common.Util.Http
@@ -20,11 +19,11 @@ namespace Common.Util.Http
         
         public bool Disposed { get; private set; }
             
-        private readonly HttpListenerContext context;
+        private readonly HttpListenerContext _context;
         
-        public HttpListenerRequest Request => context.Request;
+        public HttpListenerRequest Request => _context.Request;
         
-        public HttpListenerResponse Response => context.Response;
+        public HttpListenerResponse Response => _context.Response;
 
         public NameValueCollection RequestHeaders => Request.Headers;
         
@@ -59,13 +58,13 @@ namespace Common.Util.Http
         /// <summary>
         /// html writer
         /// </summary>
-        public HtmlWriter html;
+        public readonly HtmlWriter Html;
         
         public HttpQuery(HttpListenerContext ctx)
         {
-            context = ctx;
+            _context = ctx;
             Writer = new StreamWriter(OutputStream);
-            html = new HtmlWriter(Writer);
+            Html = new HtmlWriter(Writer);
             RequestPath = HttpUtility.UrlDecode(Request.Url.AbsolutePath);
             RequestPathSplit = RequestPath.Split(PathSeparator).Where(e => !e.IsNullOrEmpty()).ToArray();
             ParseRequestParameters();
@@ -110,7 +109,7 @@ namespace Common.Util.Http
         public void Dispose()
         {
             if(Disposed) return;
-            html.Flush();
+            Html.Flush();
             OutputStream.Close();
             Disposed = true;
         }
@@ -118,14 +117,12 @@ namespace Common.Util.Http
         public string GetParameter(string name)
         {
             var val = requestParameters.Find(name);
-            switch (val)
+            return val switch
             {
-                case string s:
-                    return s;
-                case List<string> strings:
-                    return strings[0];
-            }
-            return null;
+                string s => s,
+                List<string> strings => strings[0],
+                _ => null
+            };
         }
         
         public T GetEnum<T>(string name, T def = default) where T : Enum

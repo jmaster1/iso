@@ -11,13 +11,13 @@ namespace Common.Util.Math
     public class IsometricProjector
     {
         /**
-	 * isometric tile half width 
-	 */
+	     * isometric tile half width 
+	     */
         public float halfTileWidth = 0.5f;
 	
         /**
-	 * isometric tile half height 
-	 */
+	     * isometric tile half height 
+	     */
         public float halfTileHeight = 0.5f;
 
         public float m2vx(float x, float y) {

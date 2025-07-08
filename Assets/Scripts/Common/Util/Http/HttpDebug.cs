@@ -9,9 +9,9 @@ namespace Common.Util.Http
     /// </summary>
     public class HttpDebug : BindableBean<Context>
     {
-        public HttpServer Server = new HttpServer();
+        public HttpServer Server = new();
 
-        public HttpRouter Router = new HttpRouter();
+        public HttpRouter Router = new();
 
         protected override void OnBind()
         {
@@ -30,7 +30,7 @@ namespace Common.Util.Http
                 Router.AddHandler(handler);
             }
 
-            Model.OnBeanCreated += (type, bean) =>
+            Model.OnBeanCreated += (_, bean) =>
             {
                 if (bean is IHttpQueryProcessor handler) Router.AddHandler(handler);
             };

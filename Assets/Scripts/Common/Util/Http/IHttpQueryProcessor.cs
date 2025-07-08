@@ -7,7 +7,7 @@ namespace Common.Util.Http
     /// </summary>
     public interface IHttpQueryProcessor
     {
-        void OnHttpRequest(HttpQuery request);
+        void OnHttpRequest(HttpQuery query);
         
         void OnHttpResponse(HttpQuery query, HtmlWriter html);
     }

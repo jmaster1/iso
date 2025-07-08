@@ -15,8 +15,8 @@ namespace Common.Unity.Api.Sprite
     public class SpriteApi : AbstractApi
     {
         public const char PathSeparator = '/';
-        
-        Map<int, UnityEngine.Sprite> cache = new();
+
+        private readonly Map<int, UnityEngine.Sprite> _cache = new();
 
         /// <summary>
         /// texture path resolver for entity type/id,
@@ -37,7 +37,7 @@ namespace Common.Unity.Api.Sprite
         public UnityEngine.Sprite GetSprite(string entityType, string entityId, string suffix = null, bool validate = true)
         {
             var hash = StringHelper.Hash(PathSeparator, entityType, entityId, suffix);
-            var ret = cache.Find(hash);
+            var ret = _cache.Find(hash);
             if (ret != null) return ret;
             
             LangHelper.Validate(PathResolver != null);
@@ -49,7 +49,7 @@ namespace Common.Unity.Api.Sprite
             {
                 if (validate) LangHelper.Throw($"Sprite not found at {path}");
             }
-            cache.Add(hash, ret);
+            _cache.Add(hash, ret);
             return ret;
         }
 
@@ -88,7 +88,7 @@ namespace Common.Unity.Api.Sprite
         public override void OnHttpResponse(HttpQuery query, HtmlWriter html)
         {
             html.tableHeader("#", "name");
-            foreach (var kv in cache)
+            foreach (var kv in _cache)
             {
                 html.tr().tdRowNum().td(kv.Value.name).endTr();
             }

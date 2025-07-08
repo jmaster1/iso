@@ -1,5 +1,4 @@
-﻿using Common.Lang;
-using Common.Lang.Entity;
+﻿using Common.Lang.Entity;
 
 namespace Common.Api
 {

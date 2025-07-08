@@ -95,10 +95,10 @@ namespace Common.Util.Http
                 if (!query.IsContentTypeSet)
                 {
                     query.SetContentTypeHtml();
-                    RenderPageHeader(query.html, handler);
+                    RenderPageHeader(query.Html, handler);
                 }
 
-                handler.OnHttpResponse(query, query.html);
+                handler.OnHttpResponse(query, query.Html);
             }
             catch (Exception ex)
             {
@@ -113,7 +113,7 @@ namespace Common.Util.Http
 
         void RenderErrorPage(Exception ex, HttpQuery query)
         {
-            var html = query.html;
+            var html = query.Html;
             query.SetContentTypeHtml();
             html.h1("Error");
             html.textarea("error", 120, 10).plain(ex.ToString()).end();
@@ -125,7 +125,7 @@ namespace Common.Util.Http
         void RenderHandlers(HttpQuery query)
         {
             query.SetContentTypeHtml();
-            var html = query.html;
+            var html = query.Html;
             var list = handlers.Values.ToList();
             list.Sort();
             string lastGroup = null;

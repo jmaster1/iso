@@ -14,16 +14,16 @@ namespace Common.Util
         /// <summary>
         /// factory for creating values
         /// </summary>
-        public Func<TK, TV> Factory;
+        private readonly Func<TK, TV> _factory;
         
         /// <summary>
         /// cached objects map
         /// </summary>
-        readonly Map<TK, TV> map = new Map<TK, TV>();
+        private readonly Map<TK, TV> _map = new();
 
         public Cache(Func<TK, TV> factory = null)
         {
-            Factory = factory;
+            _factory = factory;
         }
 
         /// <summary>
@@ -31,10 +31,10 @@ namespace Common.Util
         /// </summary>
         public TV Get(TK key)
         {
-            var val = map.Find(key);
+            var val = _map.Find(key);
             if (val != null) return val;
-            val = Factory(key);
-            map.Add(key, val);
+            val = _factory(key);
+            _map.Add(key, val);
             return val;
         }
 
@@ -43,7 +43,7 @@ namespace Common.Util
         /// </summary>
         public void Put(TK key, TV val)
         {
-            map.Add(key, val);
+            _map.Add(key, val);
         }
         
         /// <summary>
@@ -51,18 +51,18 @@ namespace Common.Util
         /// </summary>
         public bool Find<T>(TK key, out T val) where T: class
         {
-            val = map.Find(key) as T;
+            val = _map.Find(key) as T;
             return val != null;
         }
         
         public bool ContainsKey(TK key)
         {
-            return map.ContainsKey(key);
+            return _map.ContainsKey(key);
         }
 
         public override void Clear()
         {
-            map.Clear();
+            _map.Clear();
         }
     }
 }

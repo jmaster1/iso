@@ -19,10 +19,30 @@
         public const int POSITIVE = 1;
         public const int NEGATIVE = -1;
         public const int ZERO = 0;
-        public static readonly Dir[] Primary = {Dir.N, Dir.E, Dir.S, Dir.W};
-        public static readonly Dir[] Secondary = {Dir.NE, Dir.SE, Dir.SW, Dir.NW};
-        public static readonly Dir[] Around = {Dir.N, Dir.NE, Dir.E, Dir.SE, 
-            Dir.S, Dir.SW, Dir.W, Dir.NW};
+        public static readonly Dir[] Primary =
+        {
+            Dir.N, 
+            Dir.E, 
+            Dir.S, 
+            Dir.W
+        };
+        public static readonly Dir[] Secondary =
+        {
+            Dir.NE, 
+            Dir.SE, 
+            Dir.SW, 
+            Dir.NW
+        };
+        public static readonly Dir[] Around = {
+            Dir.N, 
+            Dir.NE, 
+            Dir.E, 
+            Dir.SE, 
+            Dir.S,
+            Dir.SW, 
+            Dir.W, 
+            Dir.NW
+        };
     
         public static int X(this Dir e)
         {
@@ -85,26 +105,22 @@
         {
             var dx = System.Math.Sign(x);
             var dy = System.Math.Sign(y);
-            if(dx == 0 && dy == 0) {
-                return Dir.C;
+            switch (dx)
+            {
+                case 0 when dy == 0:
+                    return Dir.C;
+                case 0:
+                    return dy < 0 ? Dir.S : Dir.N;
             }
-            if(dx == 0) {
-                return dy < 0 ? Dir.S : Dir.N;
-            }
+
             if(dy == 0) {
                 return dx < 0 ? Dir.W : Dir.E;
             }
             if(dx < 0)
             {
-                if(dy < 0) {
-                    return Dir.SW;
-                }
-                return Dir.NW;
+                return dy < 0 ? Dir.SW : Dir.NW;
             }
-            if(dy < 0) {
-                return Dir.SE;
-            }
-            return Dir.NE;
+            return dy < 0 ? Dir.SE : Dir.NE;
         }
 
         /// <summary>
@@ -112,41 +128,28 @@
         /// </summary>
         public static Dir Invert(this Dir dir)
         {
-            switch (dir)
+            return dir switch
             {
-                case Dir.N:
-                    return Dir.S;
-                case Dir.W:
-                    return Dir.E;
-                case Dir.S:
-                    return Dir.N;
-                case Dir.E:
-                    return Dir.W;
-                case Dir.C:
-                    return Dir.C;
-                case Dir.NE:
-                    return Dir.SW;
-                case Dir.NW:
-                    return Dir.SE;
-                case Dir.SE:
-                    return Dir.NW;
-                case Dir.SW:
-                    return Dir.NE;
-            }
-            return default;
+                Dir.N => Dir.S,
+                Dir.W => Dir.E,
+                Dir.S => Dir.N,
+                Dir.E => Dir.W,
+                Dir.C => Dir.C,
+                Dir.NE => Dir.SW,
+                Dir.NW => Dir.SE,
+                Dir.SE => Dir.NW,
+                Dir.SW => Dir.NE,
+                _ => default
+            };
         }
 
         public static bool IsPrimary(this Dir dir)
         {
-            switch (dir)
+            return dir switch
             {
-                case Dir.N:
-                case Dir.W:
-                case Dir.S:
-                case Dir.E:
-                    return true;
-            }
-            return false;
+                Dir.N or Dir.W or Dir.S or Dir.E => true,
+                _ => false
+            };
         }
     
         public static bool IsVert(this Dir dir)
