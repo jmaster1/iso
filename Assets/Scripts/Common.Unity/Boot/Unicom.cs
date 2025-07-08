@@ -267,6 +267,30 @@ namespace Common.Unity.Boot
             return false;
         }
 
+        public static bool RunInMainAndWait(Action action)
+        {
+            if (IsMainThread)
+            {
+                action();
+                return true;
+            }
+
+            var resetEvent = new ManualResetEvent(false);
+            RunNextTime(() =>
+            {
+                try
+                {
+                    action();
+                }
+                finally
+                {
+                    resetEvent.Set();
+                }
+            });
+            resetEvent.WaitOne();
+            return false;
+        }
+
         /// <summary>
         /// reload player form persistence
         /// </summary>
