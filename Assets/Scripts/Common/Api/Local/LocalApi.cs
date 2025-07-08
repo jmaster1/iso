@@ -2,7 +2,6 @@
 using System.Text;
 using Common.Api.Resource;
 using Common.ContextNS;
-using Common.Lang;
 using Common.Lang.Observable;
 using Common.Util;
 using Common.Util.Http;

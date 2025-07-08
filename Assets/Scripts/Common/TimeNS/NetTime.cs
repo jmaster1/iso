@@ -2,7 +2,6 @@
 using Common.Api.System;
 using Common.ContextNS;
 using Common.IO.Streams;
-using Common.Lang;
 using Common.Lang.Observable;
 using Common.Util.Http;
 using Common.Util.Ntp;
@@ -11,12 +10,12 @@ namespace Common.TimeNS
 {
     public class NetTime : Time
     {
-        private SystemApi systemApi = Context.Get<SystemApi>();
+        private SystemApi _systemApi = Context.Get<SystemApi>();
 
         /// <summary>
         /// shows whether time is synchronized
         /// </summary>
-        public readonly BoolHolder Sync = new BoolHolder();
+        public readonly BoolHolder Sync = new();
         
         /// <summary>
         /// sync count
@@ -40,7 +39,7 @@ namespace Common.TimeNS
         
         public override void Update()
         {
-            if (systemApi.IsNetworkConnected())
+            if (_systemApi.IsNetworkConnected())
             {
                 if (!Sync.Get() && !SyncSkip)
                 {

@@ -39,7 +39,10 @@ namespace Iso.Unity.World
 
         private void Update()
         {
-            SortObjs();
+            if (IsBound())
+            {
+                SortObjs();
+            }
         }
         
         // TODO: opt

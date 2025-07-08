@@ -4,7 +4,6 @@ using System.Linq;
 using Common.Bind;
 using Common.ContextNS;
 using Common.IO.Streams;
-using Common.Lang;
 using Common.Lang.Collections;
 
 namespace Common.Util.Http
@@ -17,19 +16,23 @@ namespace Common.Util.Http
         /// <summary>
         /// handlers mapped by path
         /// </summary>
-        readonly Map<string, HttpHandlerDetails> handlers = new Map<string, HttpHandlerDetails>();
+        private readonly Map<string, HttpHandlerDetails> _handlers = new();
         
         /// <summary>
         /// filter to invoke request handling
         /// </summary>
-        public Func<HttpQuery, bool> filter;
+        public Func<HttpQuery, bool> Filter;
         
-        public void AddHandler(IHttpQueryProcessor processor, Type type = null, string name = null, string path = null, string group = null)
+        public void AddHandler(IHttpQueryProcessor processor, 
+            Type type = null, 
+            string name = null, 
+            string path = null, 
+            string group = null)
         {
             Validate(processor != null || type != null);
-            if (type == null) type = processor.GetType();
-            if(name == null) name = type.Name;
-            if(path == null) path = name;
+            type ??= processor!.GetType();
+            name ??= type.Name;
+            path ??= name;
             if (group == null)
             {
                 var ns = type.Namespace;
@@ -52,7 +55,7 @@ namespace Common.Util.Http
                 Name = name,
                 Group = group
             };
-            handlers[path] = details;
+            _handlers[path] = details;
         }
         
         /// <summary>
@@ -65,13 +68,13 @@ namespace Common.Util.Http
         
         public void RemoveHandler(IHttpQueryProcessor handler)
         {
-            handlers.RemoveValues(details => details.Handler == handler);
+            _handlers.RemoveValues(details => details.Handler == handler);
         }
         
         public void HandleQuery(HttpQuery query)
         {
             if (Log.IsDebugEnabled) Log.Debug($"HandleQuery: {query}");
-            if (filter != null && !filter(query))
+            if (Filter != null && !Filter(query))
             {
                 if (Log.IsDebugEnabled) Log.Debug($"Filter rejected: {query}");
                 return;
@@ -79,7 +82,7 @@ namespace Common.Util.Http
             try
             {
                 var split = query.RequestPathSplit;
-                var handlerDetails = split.IsEmpty() ? null : handlers.Find(split[0]);
+                var handlerDetails = split.IsEmpty() ? null : _handlers.Find(split[0]);
                 if (handlerDetails == null)
                 {
                     RenderHandlers(query);
@@ -126,7 +129,7 @@ namespace Common.Util.Http
         {
             query.SetContentTypeHtml();
             var html = query.Html;
-            var list = handlers.Values.ToList();
+            var list = _handlers.Values.ToList();
             list.Sort();
             string lastGroup = null;
             foreach (var e in list)
@@ -159,7 +162,8 @@ namespace Common.Util.Http
             var type = handler.GetType();
             html.table().tr()
                 .td().h1(type.Name).endTd()
-                .td().commandsForm(HttpInvokeHandler.CmdRefresh).endTd().td();
+                .td().commandsForm(HttpInvokeHandler.CmdRefresh).endTd()
+                .td();
             HttpInvokeHandler.RenderHttpInvokeMethods(html, handler);
             html.endTd().endTr().endTable();
         }
@@ -168,7 +172,7 @@ namespace Common.Util.Http
         {
             foreach (var handler in list)
             {
-                AddHandler(handler, @group: group);
+                AddHandler(handler, group: group);
             }
         }
     }

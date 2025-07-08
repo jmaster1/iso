@@ -119,17 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &129264011 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7498964176975989218, guid: ac82f725d34fdfb478ca9a1d0d435dae, type: 3}
-  m_PrefabInstance: {fileID: 3770570371003696372}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7160b4921764ba5a6d057416203dd43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1978737014
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,8 +130,9 @@ GameObject:
   - component: {fileID: 1978737017}
   - component: {fileID: 1978737016}
   - component: {fileID: 1978737015}
-  - component: {fileID: 1978737019}
   - component: {fileID: 1978737020}
+  - component: {fileID: 1978737022}
+  - component: {fileID: 1978737021}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -224,19 +214,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1978737019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978737014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 417de34ec4684eb2a23f23782f13c8fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerView: {fileID: 129264011}
 --- !u!114 &1978737020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +238,35 @@ MonoBehaviour:
   boundMaxX: 50
   boundMinY: -10
   boundMaxY: 50
+--- !u!114 &1978737021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978737014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa2664858c74d748c5d37aaab4c42c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBootstrap: {fileID: 0}
+  targetFrameRate: 60
+  maximumDeltaTime: 0.1
+  uiAnimationTime: 0.4
+  filteredInputModule: {fileID: 0}
+--- !u!114 &1978737022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978737014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4e282d4b69b2945ac021a0d3faff54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3770570371003696372
 PrefabInstance:
   m_ObjectHideFlags: 0

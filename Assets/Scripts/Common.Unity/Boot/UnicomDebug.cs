@@ -26,6 +26,8 @@ namespace Common.Unity.Boot
         /// </summary>
         public HttpDebug HttpDebug { get; private set; }
         
+        public HttpRouter HttpRouter => HttpDebug.Router;
+        
         public readonly ViewManager ViewManager = GetBean<ViewManager>();
         
         /// <summary>

@@ -7,7 +7,9 @@ using Common.IO.Codec;
 using Common.Lang.Proxy;
 using Common.IO.Transport;
 using Common.IO.Transport.Rmi;
+using Common.IO.Transport.WebSocket;
 using Iso.Net.Common;
+using Iso.Net.Common.Json;
 using Microsoft.Extensions.Logging;
 
 namespace Iso.Net.Client
@@ -35,6 +37,14 @@ namespace Iso.Net.Client
         private readonly AbstractTransport _transport;
         private readonly ICodec _codec;
         private readonly Time _time;
+
+        public static async Task<IsoClient> CreateWebsocket(IsoWorld world, Time time)
+        {
+            var transport = new WebSocketClient();
+            await transport.Connect("ws://localhost:7000/ws/");
+            var codec = IsoJsonCodecFactory.CreateCodec().WrapLogging(transport.Logger);
+            return new IsoClient(world, transport, codec, time);
+        }
 
         public IsoClient(IsoWorld world, 
             AbstractTransport transport, 
