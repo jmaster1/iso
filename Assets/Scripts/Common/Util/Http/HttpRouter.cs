@@ -30,7 +30,7 @@ namespace Common.Util.Http
             string group = null)
         {
             Validate(processor != null || type != null);
-            type ??= processor!.GetType();
+            type ??= processor!.GetTargetType();
             name ??= type.Name;
             path ??= name;
             if (group == null)
@@ -77,6 +77,7 @@ namespace Common.Util.Http
             if (Filter != null && !Filter(query))
             {
                 if (Log.IsDebugEnabled) Log.Debug($"Filter rejected: {query}");
+                query.Dispose();
                 return;
             }
             try
@@ -85,7 +86,7 @@ namespace Common.Util.Http
                 var handlerDetails = split.IsEmpty() ? null : _handlers.Find(split[0]);
                 if (handlerDetails == null)
                 {
-                    RenderHandlers(query);
+                    query.DoAndDispose(() => RenderHandlers(query));
                     return;
                 }
                 //
@@ -93,7 +94,7 @@ namespace Common.Util.Http
                 var handler = handlerDetails.Handler ?? (handlerDetails.Handler =
                     Context.GetCurrent().GetBean<IHttpQueryProcessor>(handlerDetails.HandlerType));
 
-                Action<Action> continuation = postHeaderAction =>
+                void Continuation(Action postHeaderAction)
                 {
                     try
                     {
@@ -104,9 +105,10 @@ namespace Common.Util.Http
                             query.SetContentTypeHtml();
                             RenderPageHeader(query.Html, handler);
                             postHeaderAction?.Invoke();
-                            HttpInvokeHandler.RenderHttpInvokeMethods(query, query.Html, handler);
+                            handler.RenderMethods(query);
                         }
-                        handler.OnHttpResponse(query, query.Html);                        
+
+                        handler.OnHttpResponse(query, query.Html);
                     }
                     catch (Exception ex)
                     {
@@ -117,9 +119,9 @@ namespace Common.Util.Http
                     {
                         query.Dispose();
                     }
-                };
-                
-                HttpInvokeHandler.HandleCommand(query, handler, continuation);
+                }
+
+                HttpInvokeHandler.HandleCommand(query, handler, Continuation);
             }
             catch (Exception ex)
             {
@@ -128,7 +130,7 @@ namespace Common.Util.Http
             }
         }
 
-        void RenderErrorPage(Exception ex, HttpQuery query)
+        private void RenderErrorPage(Exception ex, HttpQuery query)
         {
             var html = query.Html;
             query.SetContentTypeHtml();
@@ -139,7 +141,7 @@ namespace Common.Util.Http
         /// <summary>
         /// render handlers directory
         /// </summary>
-        void RenderHandlers(HttpQuery query)
+        private void RenderHandlers(HttpQuery query)
         {
             query.SetContentTypeHtml();
             var html = query.Html;
@@ -171,9 +173,9 @@ namespace Common.Util.Http
         /// <summary>
         /// render html page header in handler context
         /// </summary>
-        void RenderPageHeader(HtmlWriter html, IHttpQueryProcessor handler)
+        private void RenderPageHeader(HtmlWriter html, IHttpQueryProcessor handler)
         {
-            var type = handler.GetType();
+            var type = handler.GetTargetType();
             html.table().tr()
                 .td().h1(type.Name).endTd()
                 .td().commandsForm(HttpInvokeHandler.CmdRefresh).endTd()

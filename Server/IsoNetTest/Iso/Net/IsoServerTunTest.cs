@@ -1,3 +1,8 @@
+using Common.ContextNS;
+using Common.Util.Http;
+using Iso.Net.Client;
+using Iso.Net.Common;
+
 namespace IsoNetTest.Iso.Net;
 
 public class IsoServerRunTests : AbstractIsoNetTests
@@ -10,6 +15,14 @@ public class IsoServerRunTests : AbstractIsoNetTests
         
         var (isoServer, clientFactory) = 
             CreateServerWebsocket();
+
+        var client = clientFactory();
+
+        HttpDebug hd = new();
+        hd.Bind(Context.GetCurrent());
+        hd.Router.AddHandler(new TargetHttpQueryProcessor<IIsoServerApi>(client.ServerApi));
+        hd.Router.AddHandler(new TargetHttpQueryProcessor<IsoClient>(client));
+        
         while (true)
         {
             Thread.Sleep(100);
@@ -17,3 +30,4 @@ public class IsoServerRunTests : AbstractIsoNetTests
         isoServer.Stop();
     }
 }
+

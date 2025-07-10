@@ -29,32 +29,12 @@ namespace Iso.Unity.Test
             //     Connect(null);
             // }
         }
-
-        public void OnHttpRequest(HttpQuery query)
-        {
-        }
-
-        public void OnHttpResponse(HttpQuery query, HtmlWriter html)
-        {
-        }
-
+        
         [HttpInvoke]
         public async Task Connect(string url)
         {
-            _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime, url);
-        }
-        
-        [HttpInvoke]
-        public async Task Connect2(string url)
-        {
             _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime);
-            Unicom.Debug.HttpRouter.AddHandler(this);
-        }
-        
-        [HttpInvoke]
-        public async Task Connect3(string url)
-        {
-            _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime);
+            Unicom.Debug.HttpRouter.AddHandler(new TargetHttpQueryProcessor<IsoClient>(_client));
         }
     }
 }

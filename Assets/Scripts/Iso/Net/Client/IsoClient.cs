@@ -27,6 +27,8 @@ namespace Iso.Net.Client
         public string? Id { get; set; }
 
         private IIsoServerApi _serverApi;
+        
+        public IIsoServerApi ServerApi => _serverApi;
     
         public TransportRmi Rmi = null!;
 
@@ -44,7 +46,9 @@ namespace Iso.Net.Client
             var transport = new WebSocketClient();
             await transport.Connect(url);
             var codec = IsoJsonCodecFactory.CreateCodec().WrapLogging(transport.Logger);
-            return new IsoClient(world, transport, codec, time);
+            var client = new IsoClient(world, transport, codec, time);
+            client.Init();
+            return client;
         }
 
         public IsoClient(IsoWorld world, 
@@ -117,16 +121,11 @@ namespace Iso.Net.Client
             return _serverApi.CreateWorld(width, height);
         }
     
-        public WorldInfo JoinWorld(string worldId)
+        public void JoinWorld(string worldId)
         {
             var info = _serverApi.JoinWorld(worldId);
             _world.Id = info.Id;
             _serializer.Import(info.State);
-            // world.Cells.Create(info.Width, info.Heigth, () =>
-            // {
-            //     world.Cells.ForEachPos((x, y) => world.Cells.Set(x, y, CellType.Buildable));    
-            // });
-            return info;
         }
 
         public void StartWorld()

@@ -18,21 +18,35 @@ namespace Common.Util.Http
         public const string ParamPath = "path";
         public const string CmdRefresh = "Refresh";
 
-        public static void RenderHttpInvokeMethods(HttpQuery query, HtmlWriter html, object bean, object parent = null)
+        public static void RenderMethods(HttpQuery query, HtmlWriter html, 
+            object bean,
+            Func<MethodInfo, bool> methodFilter = null,
+            object parent = null)
         {
+            
             var path = ReflectHelper.ResolvePath(parent, bean);
             var type = bean.GetType();
+            if (bean is IHttpQueryProcessor processor)
+            {
+                type = processor.GetTargetType();
+            }
             var methods = type.GetMethods(MethodBindingFlags);
             foreach (var method in methods)
             {
-                var httpInvoke = method.GetCustomAttribute<HttpInvokeAttribute>();
-                if(httpInvoke == null) continue;
-                RenderHttpInvokeMethod(query, httpInvoke, method, path, html);
+                var proceed = methodFilter == null || methodFilter(method);
+                if(!proceed) continue;
+                RenderMethod(query, method, path, html);
             }
         }
+        
+        public static void RenderHttpInvokeMethods(HttpQuery query, HtmlWriter html, object bean, 
+            object parent = null)
+        {
+            RenderMethods(query, html, bean, method => 
+                method.GetCustomAttribute<HttpInvokeAttribute>() != null);
+        }
 
-        private static void RenderHttpInvokeMethod(HttpQuery query, HttpInvokeAttribute httpInvoke,
-            MethodBase method, string path, HtmlWriter html)
+        private static void RenderMethod(HttpQuery query, MethodBase method, string path, HtmlWriter html)
         {
             html.form()
                 .attrStyle("display:inline; margin:0; padding:0;")
@@ -54,7 +68,7 @@ namespace Common.Util.Http
         /// <summary>
         /// handle request command in handler context
         /// </summary>
-        public static void HandleCommand(HttpQuery query, object target, Action<Action> continuation)
+        public static void HandleCommand(HttpQuery query, IHttpQueryProcessor processor, Action<Action> continuation)
         {
             //
             //
@@ -69,12 +83,14 @@ namespace Common.Util.Http
             var target = ReflectHelper.ResolveObject(parent, path);
             if(target == null) return;
             */
-            var type = target.GetType();
+            
             if (CmdRefresh.Equals(cmd))
             {
                 continuation(null);
                 return;
             }
+            
+            var type = processor.GetTargetType();
             var method = type.GetMethod(cmd, ReflectHelper.DefaultBindingFlags);
             LangHelper.Validate(method != null, () => $"method {cmd} not found for {type.Name}");
             //
@@ -82,6 +98,7 @@ namespace Common.Util.Http
             var args = PrepareMethodArgs(method, query);
             try
             {
+                var target = processor.GetTarget();
                 var result = method.Invoke(target, args);
                 if (result is Task task)
                 {

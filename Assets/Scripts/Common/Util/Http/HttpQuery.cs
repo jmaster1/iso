@@ -164,5 +164,17 @@ namespace Common.Util.Http
         {
             ResponseHeaders[HttpConst.ContentDisposition] = $"inline; filename=\"{fileName}\"";
         }
+
+        public void DoAndDispose(Action action)
+        {
+            try
+            {
+                action();
+            }
+            finally
+            {
+                Dispose();
+            }
+        }
     }
 }
