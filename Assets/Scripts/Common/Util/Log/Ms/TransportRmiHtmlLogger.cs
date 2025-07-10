@@ -5,13 +5,9 @@ using System.Threading;
 using System.Web;
 using Common.IO.Streams;
 using Common.IO.Codec;
-using Common.Util.Log.Ms.Appender;
 using Common.Lang.Proxy;
 using Common.IO.Transport.Rmi;
-using log4net.Appender;
 using Microsoft.Extensions.Logging;
-using UnityEditor;
-using IAppender = Common.Util.Log.Ms.Appender.IAppender;
 using MessageType = Common.IO.Transport.Rmi.MessageType;
 
 namespace Common.Util.Log.Ms
@@ -76,41 +72,11 @@ namespace Common.Util.Log.Ms
             {
                 case TransportRmi.NameInvokeRemote:
                     var call = ExtractParam<MethodCall, TState>(state, "call");
-                    var html = HtmlWriter.BuildString(w =>
-                    {
-                        RequestTime[requestId] = DateTime.Now;
-                        w.tr().attrClass("log-" + logLevel.ToString().ToLower())
-                            .td($"{DateTime.Now:HH:mm:ss.fff}")
-                            .td(call.Source + ">" + call.Target)
-                            .td($"{Thread.CurrentThread.Name} @ {Environment.CurrentManagedThreadId}")
-                            .td(messageType)
-                            .td(requestId)
-                            .td(call!)
-                            .td()
-                            .span().attrId(ContainerId(TransportRmi.NameWriteMessage, MessageType.Request, requestId)).endSpan()
-                            .span().attrId(ContainerId(TransportRmi.NameReadMessage, MessageType.Request, requestId)).endSpan()
-                            .div()
-                            .attrId(ContainerId(null, MessageType.Request, requestId))
-                            .attrClass("truncate")
-                            .attrOnClick("toggleOverflow(this)")
-                            .endDiv()
-                            .endTd()
-                            .td()
-                            .span().attrId(ContainerId(TransportRmi.NameWriteMessage, MessageType.Response, requestId)).endSpan()
-                            .span().attrId(ContainerId(TransportRmi.NameReadMessage, MessageType.Response, requestId)).endSpan()
-                            .div()
-                            .attrId(ContainerId(null, MessageType.Response, requestId))
-                            .attrClass("truncate")
-                            .attrOnClick("toggleOverflow(this)")
-                            .endDiv()
-                            .endTd()
-                            .endTr();
-                    });
-                    Append(html);
+                    GetRequestTime(requestId, logLevel, call, messageType);
                     break;
                 case TransportRmi.NameReadMessage:
                 case TransportRmi.NameWriteMessage:
-                    var requestTime = RequestTime[requestId];
+                    var requestTime = GetRequestTime(requestId, logLevel, null, messageType);
                     var timeSpan = DateTime.Now.Subtract(requestTime);
                     var id = ContainerId(eventId.Name, messageType, requestId);
                     Append($"<script>addHtml('{id}', '{timeSpan.TotalMilliseconds:0} ms')</script>");
@@ -133,6 +99,46 @@ namespace Common.Util.Log.Ms
                     Append($"<script>addHtml('{id}', '<div class=\"error\">{msgEscaped}</div>')</script>");
                     break;
             }
+        }
+
+        private DateTime GetRequestTime(int requestId, LogLevel logLevel, MethodCall call,
+            MessageType messageType)
+        {
+            var exists = RequestTime.ContainsKey(requestId);
+            if (exists) return RequestTime[requestId];
+            RequestTime[requestId] = DateTime.Now;
+            var html = HtmlWriter.BuildString(w =>
+            {
+                RequestTime[requestId] = DateTime.Now;
+                w.tr().attrClass("log-" + logLevel.ToString().ToLower())
+                    .td($"{DateTime.Now:HH:mm:ss.fff}")
+                    .td(call == null ? "?" : call.Source + ">" + call.Target)
+                    .td($"{Thread.CurrentThread.Name} @ {Environment.CurrentManagedThreadId}")
+                    .td(messageType)
+                    .td(requestId)
+                    .td(call!)
+                    .td()
+                    .span().attrId(ContainerId(TransportRmi.NameWriteMessage, MessageType.Request, requestId)).endSpan()
+                    .span().attrId(ContainerId(TransportRmi.NameReadMessage, MessageType.Request, requestId)).endSpan()
+                    .div()
+                    .attrId(ContainerId(null, MessageType.Request, requestId))
+                    .attrClass("truncate")
+                    .attrOnClick("toggleOverflow(this)")
+                    .endDiv()
+                    .endTd()
+                    .td()
+                    .span().attrId(ContainerId(TransportRmi.NameWriteMessage, MessageType.Response, requestId)).endSpan()
+                    .span().attrId(ContainerId(TransportRmi.NameReadMessage, MessageType.Response, requestId)).endSpan()
+                    .div()
+                    .attrId(ContainerId(null, MessageType.Response, requestId))
+                    .attrClass("truncate")
+                    .attrOnClick("toggleOverflow(this)")
+                    .endDiv()
+                    .endTd()
+                    .endTr();
+            });
+            Append(html);
+            return RequestTime[requestId];
         }
 
         private static string ContainerId(string? operationName, MessageType messageType, int requestId)

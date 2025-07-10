@@ -58,6 +58,7 @@ public class ServerWorld(IsoWorld world)
 
     public WorldInfo Join(IsoRemoteClient client)
     {
+        Thread.Sleep(5555);
         Clients.Add(client);
         lock (world)
         {

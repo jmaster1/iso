@@ -16,12 +16,11 @@ public class IsoServerRunTests : AbstractIsoNetTests
         var (isoServer, clientFactory) = 
             CreateServerWebsocket();
 
-        var client = clientFactory();
-
-        HttpDebug hd = new();
-        hd.Bind(Context.GetCurrent());
-        hd.Router.AddHandler(new TargetHttpQueryProcessor<IIsoServerApi>(client.ServerApi));
-        hd.Router.AddHandler(new TargetHttpQueryProcessor<IsoClient>(client));
+        // var client = clientFactory();
+        // HttpDebug hd = new();
+        // hd.Bind(Context.GetCurrent());
+        // hd.Router.AddHandler(new TargetHttpQueryProcessor<IIsoServerApi>(client.ServerApi));
+        // hd.Router.AddHandler(new TargetHttpQueryProcessor<IsoClient>(client));
         
         while (true)
         {
