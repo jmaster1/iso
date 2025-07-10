@@ -38,10 +38,11 @@ namespace Iso.Net.Client
         private readonly ICodec _codec;
         private readonly Time _time;
 
-        public static async Task<IsoClient> CreateWebsocket(IsoWorld world, Time time)
+        public static async Task<IsoClient> CreateWebsocket(IsoWorld world, Time time,
+            string url = "ws://localhost:7000/ws/")
         {
             var transport = new WebSocketClient();
-            await transport.Connect("ws://localhost:7000/ws/");
+            await transport.Connect(url);
             var codec = IsoJsonCodecFactory.CreateCodec().WrapLogging(transport.Logger);
             return new IsoClient(world, transport, codec, time);
         }

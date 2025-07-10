@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Common.IO.Streams;
 using Common.Unity.Boot;
@@ -25,10 +24,10 @@ namespace Iso.Unity.Test
         void Update()
         {
             //throw new Exception("??");
-            if (Time.frameCount % 100 == 0)
-            {
-                Connect(null);
-            }
+            // if (Time.frameCount % 100 == 0)
+            // {
+            //     Connect(null);
+            // }
         }
 
         public void OnHttpRequest(HttpQuery query)
@@ -42,10 +41,20 @@ namespace Iso.Unity.Test
         [HttpInvoke]
         public async Task Connect(string url)
         {
-            
-                _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime);
-            
-            
+            _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime, url);
+        }
+        
+        [HttpInvoke]
+        public async Task Connect2(string url)
+        {
+            _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime);
+            Unicom.Debug.HttpRouter.AddHandler(this);
+        }
+        
+        [HttpInvoke]
+        public async Task Connect3(string url)
+        {
+            _client = await IsoClient.CreateWebsocket(World, Unicom.GameTime);
         }
     }
 }

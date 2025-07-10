@@ -888,7 +888,7 @@ namespace Common.IO.Streams
 
         public HtmlWriter renderInvokeMethods(object bean, object parent = null)
         {
-            HttpInvokeHandler.RenderHttpInvokeMethods(this, bean, parent);
+            HttpInvokeHandler.RenderHttpInvokeMethods(null, this, bean, parent);
             return this;
         }
 

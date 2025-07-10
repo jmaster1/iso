@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
 using Common.IO.Streams;
 using Common.Util.Reflect;
 
@@ -16,7 +18,7 @@ namespace Common.Util.Http
         public const string ParamPath = "path";
         public const string CmdRefresh = "Refresh";
 
-        public static void RenderHttpInvokeMethods(HtmlWriter html, object bean, object parent = null)
+        public static void RenderHttpInvokeMethods(HttpQuery query, HtmlWriter html, object bean, object parent = null)
         {
             var path = ReflectHelper.ResolvePath(parent, bean);
             var type = bean.GetType();
@@ -25,11 +27,11 @@ namespace Common.Util.Http
             {
                 var httpInvoke = method.GetCustomAttribute<HttpInvokeAttribute>();
                 if(httpInvoke == null) continue;
-                RenderHttpInvokeMethod(httpInvoke, method, path, html);
+                RenderHttpInvokeMethod(query, httpInvoke, method, path, html);
             }
         }
 
-        private static void RenderHttpInvokeMethod(HttpInvokeAttribute httpInvoke,
+        private static void RenderHttpInvokeMethod(HttpQuery query, HttpInvokeAttribute httpInvoke,
             MethodBase method, string path, HtmlWriter html)
         {
             html.form()
@@ -43,20 +45,25 @@ namespace Common.Util.Http
                 {
                     continue;
                 }
-                html.inputText(parameter.Name, null, "placeholder", parameter.Name);
+                var value = query?.GetParameter(parameter.Name);
+                html.inputText(parameter.Name, value, "placeholder", parameter.Name);
             }
-            html.submitCmd(method.Name).endForm();
+            html.submitCmd(method.Name).endForm().hr();
         }
 
         /// <summary>
         /// handle request command in handler context
         /// </summary>
-        public static void HandleCommand(HttpQuery query, object target)
+        public static void HandleCommand(HttpQuery query, object target, Action<Action> continuation)
         {
             //
             //
             var cmd = query.GetCmd();
-            if(cmd.IsNullOrEmpty()) return;
+            if (cmd.IsNullOrEmpty())
+            {
+                continuation(null);
+                return;
+            }
             /*
             var path = query.GetParameter(ParamPath);
             var target = ReflectHelper.ResolveObject(parent, path);
@@ -65,6 +72,7 @@ namespace Common.Util.Http
             var type = target.GetType();
             if (CmdRefresh.Equals(cmd))
             {
+                continuation(null);
                 return;
             }
             var method = type.GetMethod(cmd, ReflectHelper.DefaultBindingFlags);
@@ -72,7 +80,26 @@ namespace Common.Util.Http
             //
             // parse args
             var args = PrepareMethodArgs(method, query);
-            method.Invoke(target, args);
+            try
+            {
+                var result = method.Invoke(target, args);
+                if (result is Task task)
+                {
+                    task.ContinueWith((task1, taskResult) =>
+                    {
+                        var renderResult = task.IsFaulted ? task1.Exception.InnerExceptions[0] : result;
+                        continuation(() => query.Html.pre(renderResult));
+                    }, null);
+                }
+                else
+                {
+                    continuation(() => query.Html.pre(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                continuation(() => query.Html.pre(ex));
+            }
         }
 
         /// <summary>

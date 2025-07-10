@@ -92,25 +92,39 @@ namespace Common.Util.Http
                 // instantiate handler on demand
                 var handler = handlerDetails.Handler ?? (handlerDetails.Handler =
                     Context.GetCurrent().GetBean<IHttpQueryProcessor>(handlerDetails.HandlerType));
-                HttpInvokeHandler.HandleCommand(query, handler);
-                if (query.Disposed) return;
-                handler.OnHttpRequest(query);
-                if (!query.IsContentTypeSet)
-                {
-                    query.SetContentTypeHtml();
-                    RenderPageHeader(query.Html, handler);
-                }
 
-                handler.OnHttpResponse(query, query.Html);
+                Action<Action> continuation = postHeaderAction =>
+                {
+                    try
+                    {
+                        handler.OnHttpRequest(query);
+                        if (query.Disposed) return;
+                        if (!query.IsContentTypeSet)
+                        {
+                            query.SetContentTypeHtml();
+                            RenderPageHeader(query.Html, handler);
+                            postHeaderAction?.Invoke();
+                            HttpInvokeHandler.RenderHttpInvokeMethods(query, query.Html, handler);
+                        }
+                        handler.OnHttpResponse(query, query.Html);                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "HandleRequest() Failed");
+                        RenderErrorPage(ex, query);
+                    }
+                    finally
+                    {
+                        query.Dispose();
+                    }
+                };
+                
+                HttpInvokeHandler.HandleCommand(query, handler, continuation);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "HandleRequest() Failed");
                 RenderErrorPage(ex, query);
-            }
-            finally
-            {
-                query.Dispose();
             }
         }
 
@@ -163,9 +177,7 @@ namespace Common.Util.Http
             html.table().tr()
                 .td().h1(type.Name).endTd()
                 .td().commandsForm(HttpInvokeHandler.CmdRefresh).endTd()
-                .td();
-            HttpInvokeHandler.RenderHttpInvokeMethods(html, handler);
-            html.endTd().endTr().endTable();
+                .endTr().endTable();
         }
 
         public void AddHandlers(IEnumerable<IHttpQueryProcessor> list, string group = null)

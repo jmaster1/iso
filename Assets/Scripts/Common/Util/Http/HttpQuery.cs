@@ -41,7 +41,7 @@ namespace Common.Util.Http
         /// <summary>
         /// request parameters mapped by name, value is string either List of string
         /// </summary>
-        private readonly Map<string, object> requestParameters = new Map<string, object>();
+        private readonly Map<string, object> _requestParameters = new();
         
         public WebHeaderCollection ResponseHeaders => Response.Headers;
         
@@ -79,25 +79,25 @@ namespace Common.Util.Http
         {
             var query = Request.Url.Query;
             if (query.IsNullOrEmpty()) return;
-            var keyValues = query.Substring(1).Split('&');
+            var keyValues = query[1..].Split('&');
             foreach (var kv in keyValues)
             {
                 var index = kv.IndexOf('=');
-                var key = kv.Substring(0, index);
+                var key = kv[..index];
                 key = WebUtility.UrlDecode(key);
-                var value = kv.Substring(index + 1);
+                var value = kv[(index + 1)..];
                 value = WebUtility.UrlDecode(value);
-                var existingValue = requestParameters.Find(key);
+                var existingValue = _requestParameters.Find(key);
                 switch (existingValue)
                 {
                     case null:
-                        requestParameters[key] = value;
+                        _requestParameters[key] = value;
                         break;
                     case string str:
                         var list = new List<string>();
                         list.Add(str);
                         list.Add(value);
-                        requestParameters[key] = list;
+                        _requestParameters[key] = list;
                         break;
                     case List<string> strings:
                         strings.Add(value);
@@ -116,7 +116,7 @@ namespace Common.Util.Http
        
         public string GetParameter(string name)
         {
-            var val = requestParameters.Find(name);
+            var val = _requestParameters.Find(name);
             return val switch
             {
                 string s => s,
